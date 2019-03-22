@@ -3,8 +3,42 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { ApolloProvider } from 'react-apollo';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import client from './apollo';
+
+
+import gql from 'graphql-tag';
+const GET_PRODUCTS = gql(`
+  {
+    products(first:2) {
+	    edges {
+	      node {
+	        name
+	        price {
+	          amount
+	        }
+	      }
+	    }
+	  }
+  }
+`);
+
+client.query({
+  query: GET_PRODUCTS,
+}).then(
+  ({ data, loading }) => {
+  	console.log(data, loading);
+  },
+  (err, loading) => {
+  	console.log(err, loading);
+  }
+);
+
+ReactDOM.render(
+	<ApolloProvider client={client}>
+		<App />
+	</ApolloProvider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
