@@ -3,6 +3,6 @@ const loginAs = loggedInUser => ({
   loggedInUser
 });
 
-export {
+export default {
   loginAs,
 }

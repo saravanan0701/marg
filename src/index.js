@@ -9,33 +9,6 @@ import { Provider } from 'react-redux';
 import client from './apollo';
 import store from './redux';
 
-// import gql from 'graphql-tag';
-// const GET_PRODUCTS = gql(`
-//   {
-//     products(first:2) {
-// 	    edges {
-// 	      node {
-// 	        name
-// 	        price {
-// 	          amount
-// 	        }
-// 	      }
-// 	    }
-// 	  }
-//   }
-// `);
-
-// client.query({
-//   query: GET_PRODUCTS,
-// }).then(
-//   ({ data, loading }) => {
-//   	console.log(data, loading);
-//   },
-//   (err, loading) => {
-//   	console.log(err, loading);
-//   }
-// );
-
 ReactDOM.render(
 	<ApolloProvider client={client}>
 		<Provider store={store}>
