@@ -7,52 +7,19 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //     email: '',
-    //     password: ''
-    // };
-
-    // this.handleEmailChange = this.handleEmailChange.bind(this);
-    // this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
-  // handleEmailChange(event) {
-  //   this.setState({ email: event.target.value });
-  // }
-
-  // handlePasswordChange(event) {
-  //   this.setState({ password: event.target.value });
-  // }
-
-  render() {
-    const {
-      name
-    } = this.props;
-    return (
-      <div>
-        <form>
-          <h1>{name ? `Logged in as ${name}` : 'Please login'}</h1>
-          <input type="text" placeholder="email" />
-          <input type="passwowrd" placeholder="password" />
-          <button onClick={this.handleLogin}>LOGIN</button>
-        </form>
-      </div>
-    )
-  }
 
   handleLogin(event) {
-
     event.preventDefault();
-
     const GET_AUTH_TOKEN = gql(`
       mutation {
-        tokenCreate(email:"uday@1stmain.co", password:"test1234") {
+        tokenCreate(email: "${this.$email.value}", password: "${this.$password.value}") {
           token
         }
       }
     `);
-
     client.mutate({
       mutation: GET_AUTH_TOKEN,
     })
@@ -68,7 +35,37 @@ export default class Login extends Component {
         console.log(err, loading);
       }
     );
-
   }
+
+
+  render() {
+    const {
+      name
+    } = this.props;
+    
+    return (
+      <div>
+        <form>
+          <h1>{name ? `Logged in as ${name}` : 'Please login'}</h1>
+          <input
+            type="text"
+            placeholder="email"
+            ref={c => {
+              this.$email = (c);
+            }}
+            />
+          <input
+            type="password"
+            placeholder="password"
+            ref={c => {
+              this.$password = (c);
+            }}
+            />
+          <button onClick={this.handleLogin}>LOGIN</button>
+        </form>
+      </div>
+    )
+  }
+
 
 }
