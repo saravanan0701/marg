@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import client from '../../apollo';
 import gql from 'graphql-tag';
 
 export default class Login extends Component {
@@ -12,6 +11,9 @@ export default class Login extends Component {
 
 
   handleLogin(event) {
+    const {
+      client,
+    } = this.props;
     event.preventDefault();
     const GET_AUTH_TOKEN = gql(`
       mutation {
@@ -66,6 +68,5 @@ export default class Login extends Component {
       </div>
     )
   }
-
 
 }
