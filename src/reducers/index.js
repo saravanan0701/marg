@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
 import { AuthReducers } from './auth'
+import { connectRouter } from 'connected-react-router'
 
-
-export const MargApp = combineReducers({
+export default (history) => combineReducers({
   loggedInUser: AuthReducers,
+  router: connectRouter(history),
 });
