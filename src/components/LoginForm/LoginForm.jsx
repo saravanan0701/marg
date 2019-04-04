@@ -19,6 +19,7 @@ export default class Login extends Component {
     else {
       const { token } = data.tokenCreate;
       localStorage.setItem("authToken", token);
+      localStorage.setItem("userEmail", this.state.email);
       alert('Successfuly logged in!');
     }
   }
