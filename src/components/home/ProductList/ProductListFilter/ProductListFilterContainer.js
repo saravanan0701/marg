@@ -4,12 +4,11 @@ import actions from './../../../../actions/'
 import Component from './ProductListFilterComponent'
 
 const mapStateToProps = ({ productsList: { filters } }, ownProps) => ({
-  ...filters,
+  filters,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-  //   loginAs: (user) => dispatch(actions.loginAs(user)),
   }
 }
 
