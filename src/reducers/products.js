@@ -1,9 +1,19 @@
-export const ProductsListReducers = (state = [], action) => {
+const INITIAL_PRODUCT_LIST_STATE = {
+  products: [],
+  filter : {},
+}
+export const ProductsListReducers = (
+  state = INITIAL_PRODUCT_LIST_STATE,
+  action
+) => {
   switch (action.type) {
     case 'LOAD_PRODUCTS':
       return {
         ...state,
-        ...action.products
+        productsList: {
+          ...state.productsList,
+          products: action.products,
+        }
       };
     default:
       return state

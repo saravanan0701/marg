@@ -5,6 +5,6 @@ import { connectRouter } from 'connected-react-router'
 
 export default (history) => combineReducers({
   loggedInUser: AuthReducers,
-  products: ProductsListReducers,
+  productsList: ProductsListReducers,
   router: connectRouter(history),
 });
