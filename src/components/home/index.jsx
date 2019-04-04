@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Home = props => (
+const Home = props => (
   <div>
     <h1>Home</h1>
     <button onClick={() => {
@@ -8,3 +8,5 @@ export const Home = props => (
     }} href="/login">LOGIN</button>
   </div>
 )
+
+export default Home;

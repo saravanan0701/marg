@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
-import actions from './../../actions/'
-import Component from './component'
+import actions from '../../actions'
+import LoginForm from './LoginForm'
 
 const mapStateToProps = ({loggedInUser}, ownProps) => ({
   ...loggedInUser,
@@ -16,4 +16,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(Component));
+)(withApollo(LoginForm));
