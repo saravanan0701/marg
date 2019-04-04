@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import actions from './../../../../actions/'
-import Component from './ProductListFilterComponent'
+import { ProductListFilter as Component } from './ProductListFilterComponent'
+
 
 const mapStateToProps = ({ productsList: { filters } }, ownProps) => ({
   filters,
