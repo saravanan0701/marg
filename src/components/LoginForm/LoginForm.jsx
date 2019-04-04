@@ -11,8 +11,16 @@ export default class Login extends Component {
   }
 
   handleLogin = async data => {
-    const { token } = data.tokenCreate;
-    localStorage.setItem("authToken", token);
+
+    if (data.tokenCreate.errors.length > 0) {
+      alert('Invalid credentials. Please try again.')
+    }
+
+    else {
+      const { token } = data.tokenCreate;
+      localStorage.setItem("authToken", token);
+      alert('Successfuly logged in!');
+    }
   }
 
   render() {
@@ -41,7 +49,7 @@ export default class Login extends Component {
           onCompleted={(data) => this.handleLogin(data)}
         >
           { tokenCreate => (
-            <a onClick={tokenCreate}>Login</a>
+            <button onClick={tokenCreate}>Login</button>
           )}
         </Mutation>
       </div>
