@@ -1,6 +1,6 @@
 const INITIAL_PRODUCT_LIST_STATE = {
   products: [],
-  filter : {},
+  filters : [],
 }
 export const ProductsListReducers = (
   state = INITIAL_PRODUCT_LIST_STATE,
