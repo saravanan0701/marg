@@ -1,0 +1,20 @@
+.filter-container {
+  padding: 20px;
+  color: gray;
+
+  & > .main-header {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: black;
+  }
+
+  & .filter-item {
+    cursor: pointer;
+    padding: 10px 0px;
+    border-bottom: grey solid 1px;
+
+    & .filter-header {
+      font-size: 20px;
+    }
+  }
+}

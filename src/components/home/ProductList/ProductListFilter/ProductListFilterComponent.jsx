@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
 // import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead';
 
+import './ProductListFilter.scss';
 // const AsyncTypeahead = asyncContainer(Typeahead);
 
 const LOAD_FILTERS = gql`
@@ -115,8 +116,8 @@ class Filter extends Component {
       children
     } = this.props;
     return (
-      <div>
-        <h1 onClick={this.toggleIsOpen}>{ filterName }</h1>
+      <div className="filter-item">
+        <div className="filter-header" onClick={this.toggleIsOpen}>{ filterName }</div>
         <Collapse isOpen={isOpen}>
           {!children && <div>{noFilters? noFilters: 'No Filter found'}</div>}
           {children}
@@ -165,8 +166,8 @@ export const ProductListFilter = ({client}) => (
         // TODO: to be removed.
         const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
 
-        return <div>
-          <h1>All Filters</h1>
+        return <div className="filter-container">
+          <div className="main-header">Filter By</div>
           <Filter isOpen={true} alwaysOpen={true} filterName="All Publications" noFilters="No Types Found">
             <FilterListRepeater filters={productTypes} />
           </Filter>

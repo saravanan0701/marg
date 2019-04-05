@@ -9,9 +9,8 @@ export default class ProductList extends Component {
 
   render() {
     return (
-      <div>
-        <h1>ProductList</h1>
-        <ProductListFilter />
+      <div className="row">
+        <ProductListFilter className="col-3" />
       </div>
     )
   }
