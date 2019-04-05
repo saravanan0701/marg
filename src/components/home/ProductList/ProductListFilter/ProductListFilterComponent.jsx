@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+// import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead';
+
+// const AsyncTypeahead = asyncContainer(Typeahead);
 
 const LOAD_FILTERS = gql`
   query LoadFilters {
@@ -15,7 +18,7 @@ const LOAD_FILTERS = gql`
         }
       }
     }
-    attributes(query: "Category") {
+    attributes(query: "") {
       edges {
         node {
           name
@@ -30,6 +33,59 @@ const LOAD_FILTERS = gql`
     }
   }
 `;
+
+const FILTERS_TO_BE_DISPLAYED = [
+  'Category',
+  'Editor',
+  'Year',
+]
+
+// const SEARCH_ATTRIBUTES = gql`
+//   query SearchAttributes($name:String!){
+//     attributes(query: $name) {
+//       edges {
+//         node {
+//           name
+//           slug
+//           values {
+//             id
+//             name
+//             slug
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
+
+// class AttributeSearch extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       isLoading: false,
+//       arrtibutes: [],
+//     }
+//     this.searchAttributes = this.searchAttributes.bind(this);
+//   }
+
+//   searchAttributes(attributeName) {
+//     this.setState({
+//       isLoading: true,
+//     })
+//     this.props.client.query({
+//       query: SEARCH_ATTRIBUTES,
+//       variables: { name: "a" },
+//     })
+//     console.log(this.props.client);
+//   }
+
+//   render() {
+//     return <AsyncTypeahead
+//       {...this.state}
+//       onSearch={this.searchAttributes}
+//       ></AsyncTypeahead>
+//   }
+// }
 
 class Filter extends Component {
   constructor(props) {
@@ -86,7 +142,7 @@ const FilterListRepeater = ({ filters }) => (
   </div>
 )
 
-export const ProductListFilter = props => (
+export const ProductListFilter = ({client}) => (
   <Query query={LOAD_FILTERS}>
     {
       ({loading, error, data}) => {
@@ -107,7 +163,6 @@ export const ProductListFilter = props => (
         } = data;
         // const categoryEdges = data.attributes.edges;
         // TODO: to be removed.
-        const categories = categoryEdges[0].node.values;
         const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
 
         return <div>
@@ -115,9 +170,14 @@ export const ProductListFilter = props => (
           <Filter isOpen={true} alwaysOpen={true} filterName="All Publications" noFilters="No Types Found">
             <FilterListRepeater filters={productTypes} />
           </Filter>
-          <Filter filterName="Categories" noFilters="No categories Found">
-            <FilterListRepeater filters={categories} />
-          </Filter>
+          {
+            categoryEdges.map((category) => (
+              FILTERS_TO_BE_DISPLAYED.findIndex((it) => (it === category.node.name)) != -1 &&
+              <Filter key={category.node.slug} filterName={`By ${category.node.name}`} noFilters={`No ${category.node.name} Found`}>
+                <FilterListRepeater filters={category.node.values} />
+              </Filter>
+            ))
+          }
         </div>;
       }
     }
