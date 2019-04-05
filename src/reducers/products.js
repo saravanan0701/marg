@@ -2,7 +2,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   products: [],
   filters : [],
 }
-export const ProductsListReducers = (
+export const ProductListReducers = (
   state = INITIAL_PRODUCT_LIST_STATE,
   action
 ) => {
@@ -10,8 +10,8 @@ export const ProductsListReducers = (
     case 'LOAD_PRODUCTS':
       return {
         ...state,
-        productsList: {
-          ...state.productsList,
+        productList: {
+          ...state.productList,
           products: action.products,
         }
       };

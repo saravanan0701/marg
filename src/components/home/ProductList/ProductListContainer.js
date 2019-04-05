@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import actions from './../../../actions/'
 import Component from './ProductListComponent'
 
-const mapStateToProps = ({productsList: { products, filters } }, ownProps) => ({
+const mapStateToProps = ({productList: { products, filters } }, ownProps) => ({
   products,
   filters,
 })
