@@ -15,7 +15,7 @@ const LOAD_FILTERS = gql`
         }
       }
     }
-    attributes(query: "Editor") {
+    attributes(query: "Category") {
       edges {
         node {
           name
@@ -41,6 +41,9 @@ class Filter extends Component {
   }
 
   toggleIsOpen() {
+    if(this.props.alwaysOpen) {
+      return;
+    }
     this.setState({
       isOpen: !this.state.isOpen,
     })
@@ -96,24 +99,24 @@ export const ProductListFilter = props => (
         }
         const {
           attributes: {
-            edges: editorEdges,
+            edges: categoryEdges,
           },
           categories: {
-            edges: categoryEdges,
+            edges: productTypeEdges,
           }
         } = data;
-        // const editorEdges = data.attributes.edges;
+        // const categoryEdges = data.attributes.edges;
         // TODO: to be removed.
-        const editors = editorEdges[0].node.values;
-        const categories = categoryEdges.reduce((acc, it) => (acc.concat([it.node])), [])
+        const categories = categoryEdges[0].node.values;
+        const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
 
         return <div>
           <h1>All Filters</h1>
-          <Filter filterName="Categories" noFilters="No Categories Found">
-            <FilterListRepeater filters={categories} />
+          <Filter isOpen={true} alwaysOpen={true} filterName="All Publications" noFilters="No Types Found">
+            <FilterListRepeater filters={productTypes} />
           </Filter>
-          <Filter filterName="Editors" noFilters="No Editors Found">
-            <FilterListRepeater filters={editors} />
+          <Filter filterName="Categories" noFilters="No categories Found">
+            <FilterListRepeater filters={categories} />
           </Filter>
         </div>;
       }
