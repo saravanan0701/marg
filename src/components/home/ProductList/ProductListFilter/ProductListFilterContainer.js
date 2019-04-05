@@ -4,7 +4,7 @@ import actions from './../../../../actions/'
 import { ProductListFilter as Component } from './ProductListFilterComponent'
 
 
-const mapStateToProps = ({ productsList: { filters } }, ownProps) => ({
+const mapStateToProps = ({ productList: { filters } }, ownProps) => ({
   filters,
 })
 
