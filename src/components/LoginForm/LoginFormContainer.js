@@ -3,13 +3,15 @@ import { withApollo } from 'react-apollo';
 import actions from '../../actions'
 import LoginForm from './LoginForm'
 
-const mapStateToProps = ({loggedInUser}, ownProps) => ({
-  ...loggedInUser,
+const mapStateToProps = ({ auth }, ownProps) => ({
+  ...auth,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loginAs: (user) => dispatch(actions.loginAs(user)),
+    loginAttempt: (user) => dispatch(actions.loginAttempt(user)),
+    loginSuccess: (user) => dispatch(actions.loginSuccess(user)),
+    loginFailure: () => dispatch(actions.loginFailure()),
   }
 }
 

@@ -1,8 +1,24 @@
-const loginAs = loggedInUser => ({
-  type: 'LOGIN_AS_USER',
-  loggedInUser
+const loginAttempt = () => ({
+  type: 'LOGIN_ATTEMPT',
+})
+
+const loginSuccess = user => ({
+  type: 'LOGIN_SUCCESS',
+  user
 });
 
+const loginFailure = user => ({
+  type: 'LOGIN_FAILURE',
+  user
+})
+
+const logout = () => ({
+  type: 'LOGOUT',
+})
+
 export default {
-  loginAs,
+  loginAttempt,
+  loginSuccess,
+  loginFailure,
+  logout
 }

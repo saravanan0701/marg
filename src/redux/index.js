@@ -1,10 +1,15 @@
-import { createStore } from 'redux'
-import MargApp from './../reducers'
+import { createStore } from 'redux';
+import { devToolsEnhancer } from 'redux-devtools-extension';
+import MargApp from './../reducers';
+import { loadState } from '../localStorage';
+
+const persistedState = loadState('state');
 
 export function StoreFactory(history) {
   return createStore(
     MargApp(history),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    persistedState,
+    devToolsEnhancer()
     // Required by dev tools to moniter APP state.
     // TODO: this needs to be added only in case of dev mode.
   )

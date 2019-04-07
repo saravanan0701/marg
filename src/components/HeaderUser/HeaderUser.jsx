@@ -2,13 +2,13 @@ import React from 'react'
 
 const HeaderUser = props => {
 
-  const authToken = localStorage.getItem('authToken');
-  const userEmail = localStorage.getItem('userEmail');
+  const authToken = props.authToken;
+  const userEmail = props.userEmail;
 
-  if (authToken == null) {
+  if (!props.isLoggedIn) {
     return (
       <button onClick={() => {
-        props.history.push('/login')
+        //this.props.history.push('/login')
       }} href="/login">
         LOGIN
       </button>
@@ -19,7 +19,7 @@ const HeaderUser = props => {
     return (
       <div>
         <p>Welcome, {userEmail}</p>
-        <button onClick={() => {localStorage.removeItem('authToken'); localStorage.removeItem('userEmail');}}>Logout</button>
+        <button onClick={() => {props.logout()}}>Logout</button>
       </div>
     )
   }

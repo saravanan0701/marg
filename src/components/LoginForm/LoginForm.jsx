@@ -8,24 +8,24 @@ export default class Login extends Component {
   state = {
     email: '',
     password: '',
-  }
+  } 
 
-  handleLogin = async data => {
+  handleLogin = async (data) => {
 
     if (data.tokenCreate.errors.length > 0) {
-      alert('Invalid credentials. Please try again.')
+      this.props.loginFailure();
     }
 
     else {
       const { token } = data.tokenCreate;
-      localStorage.setItem("authToken", token);
-      localStorage.setItem("userEmail", this.state.email);
-      alert('Successfuly logged in!');
+      this.props.loginSuccess({
+        userEmail: this.state.email,
+        authToken: token
+      });
     }
   }
 
   render() {
-
     const { email, password } = this.state
 
     const GET_AUTH_TOKEN = gql(`
@@ -41,6 +41,7 @@ export default class Login extends Component {
 
     return (
       <div>
+
         <input type="text" placeholder="email" value={email} onChange={e => this.setState({ email: e.target.value })} />
         <input type="password" placeholder="password" value={password} onChange={e => this.setState({ password: e.target.value })} />
 
@@ -49,10 +50,15 @@ export default class Login extends Component {
           variables={{ email, password }}
           onCompleted={(data) => this.handleLogin(data)}
         >
-          { tokenCreate => (
-            <button onClick={tokenCreate}>Login</button>
-          )}
+          { (tokenCreate, { loading }) => {
+            return (
+            <div>
+              <button onClick={tokenCreate}>{ loading ? 'Logging in...' : 'Login'}</button>
+            </div>
+            )
+          }}
         </Mutation>
+
       </div>
     )
   }
