@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 export default class UserMenu extends Component {
 
   render() {
-    const authToken = this.props.authToken;
-    const userEmail = this.props.userEmail;
+
+    const { userEmail } = this.props;
   
     if (!this.props.isLoggedIn) {
       return (
@@ -15,7 +15,6 @@ export default class UserMenu extends Component {
         </button>
       )
     }
-  
     else {
       return (
         <div>
