@@ -20,9 +20,10 @@ export const history = createBrowserHistory()
 const store = StoreFactory(history);
 
 store.subscribe(() => {
-  auth: saveState({
-    auth: store.getState().auth
+  saveState({
+    auth: store.getState().auth,
   });
+
 });
 
 class App extends Component {
