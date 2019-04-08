@@ -14,12 +14,10 @@ export default class Login extends Component {
 
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    //this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
-    console.log("Hello");
   }
 
   handlePasswordChange(event) {
@@ -42,9 +40,6 @@ export default class Login extends Component {
     return (
         <Mutation mutation={GET_AUTH_TOKEN}>
           {(tokenCreate, { data }) => {
-            // if (data) {
-            //   this.props.loginAs(data);
-            // }
             return ( 
             <div>
               <form onSubmit={event => {
