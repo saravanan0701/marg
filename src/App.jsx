@@ -15,13 +15,14 @@ import Home from './components/Home';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
 import { saveState } from './localStorage';
-import { LocalState } from 'apollo-client/core/LocalState';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
 
 store.subscribe(() => {
-  auth: saveState(store.getState('auth'));
+  auth: saveState({
+    auth: store.getState().auth
+  });
 });
 
 class App extends Component {
@@ -32,7 +33,7 @@ class App extends Component {
             <ConnectedRouter history={history}>
               <Header />
               <Switch>
-                <Route exact path="/" component={LoginForm} />
+                <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={LoginForm} />
               </Switch>
             </ConnectedRouter>

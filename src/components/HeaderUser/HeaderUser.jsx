@@ -1,28 +1,32 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const HeaderUser = props => {
+export default class HeaderUser extends Component {
 
-  const authToken = props.authToken;
-  const userEmail = props.userEmail;
+  // componentDidMount() {
+  //   localStorage.getItem
+  // }
 
-  if (!props.isLoggedIn) {
-    return (
-      <button onClick={() => {
-        //this.props.history.push('/login')
-      }} href="/login">
-        LOGIN
-      </button>
-    )
-  }
-
-  else {
-    return (
-      <div>
-        <p>Welcome, {userEmail}</p>
-        <button onClick={() => {props.logout()}}>Logout</button>
-      </div>
-    )
+  render() {
+    const authToken = this.props.authToken;
+    const userEmail = this.props.userEmail;
+  
+    if (!this.props.isLoggedIn) {
+      return (
+        <button onClick={() => {
+          this.props.history.push('/login')
+        }} href="/login">
+          LOGIN
+        </button>
+      )
+    }
+  
+    else {
+      return (
+        <div>
+          <p>Welcome, {userEmail}</p>
+          <button onClick={() => {this.props.logout()}}>Logout</button>
+        </div>
+      )
+    }
   }
 }
-
-export default HeaderUser;
