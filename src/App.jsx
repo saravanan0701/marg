@@ -23,7 +23,6 @@ store.subscribe(() => {
   saveState({
     auth: store.getState().auth,
   });
-
 });
 
 class App extends Component {

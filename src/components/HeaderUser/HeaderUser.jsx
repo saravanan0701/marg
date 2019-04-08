@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 
 export default class HeaderUser extends Component {
 
-  // componentDidMount() {
-  //   localStorage.getItem
-  // }
-
   render() {
     const authToken = this.props.authToken;
     const userEmail = this.props.userEmail;
