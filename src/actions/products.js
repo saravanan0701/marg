@@ -3,6 +3,12 @@ const loadProducts = products => ({
   products
 });
 
+const addFilter = filter => ({
+  type: 'ADD_FILTER',
+  filter,
+})
+
 export default {
   loadProducts,
+  addFilter,
 }

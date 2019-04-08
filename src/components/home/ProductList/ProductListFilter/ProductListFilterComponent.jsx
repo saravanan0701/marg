@@ -127,23 +127,30 @@ class Filter extends Component {
   }
 }
 
-const FilterListRepeater = ({ filters }) => (
+const FilterListRepeater = ({ filters, addFilter, type }) => (
   <div>
     {
       (filters && filters.length > 0) && (
         filters.map((filter) => ( 
-          <div key = {
-            filter.slug
-          } > {
-            filter.name
-          }</div>
+          <div
+            onClick={(e) => {addFilter({
+              type,
+              filter
+            })}}
+            key={filter.slug}
+          >
+            {filter.name}
+          </div>
         ))
       )
     }
   </div>
 )
 
-export const ProductListFilter = ({client}) => (
+export const ProductListFilter = ({
+  client,
+  addFilter
+}) => (
   <Query query={LOAD_FILTERS}>
     {
       ({loading, error, data}) => {
@@ -168,14 +175,31 @@ export const ProductListFilter = ({client}) => (
 
         return <div className="filter-container">
           <div className="main-header">Filter By</div>
-          <Filter isOpen={true} alwaysOpen={true} filterName="All Publications" noFilters="No Types Found">
-            <FilterListRepeater filters={productTypes} />
+          <Filter
+            isOpen={true}
+            alwaysOpen={true}
+            filterName="All Publications"
+            noFilters="No Types Found"
+            >
+            <FilterListRepeater
+              type="Category"
+              addFilter={addFilter}
+              filters={productTypes}
+            />
           </Filter>
           {
             categoryEdges.map((category) => (
               FILTERS_TO_BE_DISPLAYED.findIndex((it) => (it === category.node.name)) != -1 &&
-              <Filter key={category.node.slug} filterName={`By ${category.node.name}`} noFilters={`No ${category.node.name} Found`}>
-                <FilterListRepeater filters={category.node.values} />
+              <Filter
+                key={category.node.slug}
+                filterName={`By ${category.node.name}`}
+                noFilters={`No ${category.node.name} Found`}
+                >
+                <FilterListRepeater
+                  type={category.node.name}
+                  addFilter={addFilter}
+                  filters={category.node.values}
+                />
               </Filter>
             ))
           }

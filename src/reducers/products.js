@@ -15,6 +15,11 @@ export const ProductListReducers = (
           products: action.products,
         }
       };
+    case 'ADD_FILTER':
+      return {
+        ...state,
+        filters: state.filters.concat(action.filter),
+      }
     default:
       return state
   }

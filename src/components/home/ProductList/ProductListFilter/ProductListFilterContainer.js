@@ -10,6 +10,7 @@ const mapStateToProps = ({ productList: { filters } }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    addFilter: (filter) => dispatch(actions.addFilter(filter)),
   }
 }
 
