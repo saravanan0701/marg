@@ -149,7 +149,8 @@ const FilterListRepeater = ({ filters, addFilter, type }) => (
 
 export const ProductListFilter = ({
   client,
-  addFilter
+  addFilter,
+  className
 }) => (
   <Query query={LOAD_FILTERS}>
     {
@@ -173,7 +174,7 @@ export const ProductListFilter = ({
         // TODO: to be removed.
         const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
 
-        return <div className="filter-container">
+        return <div className={`${className} filter-container`}>
           <div className="main-header">Filter By</div>
           <Filter
             isOpen={true}
