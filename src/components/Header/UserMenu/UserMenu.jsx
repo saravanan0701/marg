@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class HeaderUser extends Component {
+export default class UserMenu extends Component {
 
   render() {
     const authToken = this.props.authToken;
