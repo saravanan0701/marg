@@ -1,2 +1,2 @@
-import Container from './ProductListContainer';
-export default Container;
+import { ProductList } from './ProductList';
+export default ProductList;
