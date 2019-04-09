@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
+import { withRouter } from 'react-router';
+
 import actions from '../../../actions';
 import UserMenu from './UserMenu';
 
@@ -16,4 +18,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-) (withApollo(UserMenu))
+) (withApollo(withRouter(UserMenu)))
