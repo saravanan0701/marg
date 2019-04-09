@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import { withRouter } from 'react-router';
 
 import actions from '../../../actions';
-import UserMenu from './UserMenu';
+import { UserMenu } from './UserMenu';
 
 const mapStateToProps = ({ auth }, ownProps) => ({
   ...auth
