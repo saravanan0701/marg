@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 
+import ProductCard from './ProductCard'
+
 const LOAD_PRODUCTS = gql`
   query LoadProducts($query:String) {
     products(query:$query) {
@@ -10,6 +12,19 @@ const LOAD_PRODUCTS = gql`
         node {
           id
           name
+          price {
+            amount
+            currency
+          }
+          thumbnailUrl
+          attributes{
+            attribute{
+              name
+            }
+            value {
+              name
+            }
+          }
         }
       }
 
@@ -55,11 +70,14 @@ export default class ProductListWrapper extends Component {
             if(Object.keys(data).length == 0) {
               return <h1>Nothing</h1>;
             }
-            return data.products.edges.map((product) => (<div>{product.node.name}</div>))
+            return data.products.edges.map(
+              (product) => (
+                <ProductCard className="col-3" {...product.node} />
+              )
+            )
           }
         }
       </Query>
-
     </div>)
   }
 }
