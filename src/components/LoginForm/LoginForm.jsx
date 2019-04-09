@@ -15,7 +15,7 @@ export default class Login extends Component {
     if (data.tokenCreate.errors && data.tokenCreate.errors.length > 0) {
       return this.props.loginFailure();
     }
-    
+
     const { token } = data.tokenCreate;
     this.props.loginSuccess({
       userEmail: this.state.email,
@@ -48,13 +48,13 @@ export default class Login extends Component {
           variables={{ email, password }}
           onCompleted={(data) => this.handleLogin(data)}
         >
-          { (tokenCreate, { loading }) => {
-            return (
-            <div>
-              <button onClick={tokenCreate}>{ loading ? 'Logging in...' : 'Login'}</button>
-            </div>
+          {
+            (tokenCreate, { loading }) => (
+              <div>
+                <button onClick={tokenCreate}>{ loading ? 'Logging in...' : 'Login'}</button>
+              </div>
             )
-          }}
+          }
         </Mutation>
 
       </div>
