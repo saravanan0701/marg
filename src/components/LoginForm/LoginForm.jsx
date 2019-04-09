@@ -12,17 +12,15 @@ export default class Login extends Component {
 
   handleLogin = async (data) => {
 
-    if (data.tokenCreate.errors.length > 0) {
-      this.props.loginFailure();
+    if (data.tokenCreate.errors && data.tokenCreate.errors.length > 0) {
+      return this.props.loginFailure();
     }
-
-    else {
-      const { token } = data.tokenCreate;
-      this.props.loginSuccess({
-        userEmail: this.state.email,
-        authToken: token
-      });
-    }
+    
+    const { token } = data.tokenCreate;
+    this.props.loginSuccess({
+      userEmail: this.state.email,
+      authToken: token
+    });
   }
 
   render() {
