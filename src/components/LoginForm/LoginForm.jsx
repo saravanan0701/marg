@@ -3,6 +3,17 @@ import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
 
+const GET_AUTH_TOKEN = gql(`
+  mutation LoginMutation($email: String!, $password: String!) {
+    tokenCreate(email: $email, password: $password) {
+      token,
+      errors {
+        message 
+      }
+    }
+  }
+`);
+
 export default class Login extends Component {
 
   state = {
@@ -25,17 +36,6 @@ export default class Login extends Component {
 
   render() {
     const { email, password } = this.state
-
-    const GET_AUTH_TOKEN = gql(`
-      mutation LoginMutation($email: String!, $password: String!) {
-        tokenCreate(email: $email, password: $password) {
-          token,
-          errors {
-            message 
-          }
-        }
-      }
-    `);
 
     return (
       <div>
