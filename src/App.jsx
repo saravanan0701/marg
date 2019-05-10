@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'connected-react-router';
 
 import './App.scss';
-import { Home } from './components/Home';
+import { Home } from './components/Home/index.jsx';
 import Auth from './components/auth';
 import client from './apollo';
 import { StoreFactory } from './redux';
