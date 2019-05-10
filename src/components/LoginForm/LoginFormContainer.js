@@ -9,7 +9,6 @@ const mapStateToProps = ({ auth }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loginAttempt: (user) => dispatch(actions.loginAttempt(user)),
     loginSuccess: (user) => dispatch(actions.loginSuccess(user)),
     loginFailure: () => dispatch(actions.loginFailure()),
   }

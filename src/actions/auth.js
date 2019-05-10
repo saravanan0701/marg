@@ -1,7 +1,3 @@
-const loginAttempt = () => ({
-  type: 'LOGIN_ATTEMPT',
-})
-
 const loginSuccess = user => ({
   type: 'LOGIN_SUCCESS',
   user
@@ -17,7 +13,6 @@ const logout = () => ({
 })
 
 export default {
-  loginAttempt,
   loginSuccess,
   loginFailure,
   logout
