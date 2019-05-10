@@ -4,7 +4,6 @@ export const AuthReducers = (state = {}, action) => {
     case 'LOGIN_SUCCESS':
       return {
         ...state,
-        isLoggedIn: true,
         userEmail: action.user.userEmail,
         authToken: action.user.authToken
       }
@@ -12,7 +11,6 @@ export const AuthReducers = (state = {}, action) => {
     case 'LOGOUT':
       return {
         ...state,
-        isLoggedIn: false,
         userEmail: '',
         authToken: ''
       }
