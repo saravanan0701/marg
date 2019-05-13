@@ -60,11 +60,18 @@ export function* sessionPersistanceSaga() {
 
 function* setSessionInCache({ user }) {
   try {
-    console.log(user);
     localStorage.setItem('authToken', user.authToken);
     yield put(actions.persistAuthenticatedUserToState(user));
   } catch(e) {
     console.log("Error: ", e)
     yield put(actions.loginFailure());
   }
+}
+
+export function* logoutUser() {
+  yield takeLatest("LOGOUT", removeUserFromLocalCache);
+}
+
+function removeUserFromLocalCache() {
+  localStorage.removeItem('authToken');  
 }
