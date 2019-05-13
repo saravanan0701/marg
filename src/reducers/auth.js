@@ -1,17 +1,17 @@
 export const AuthReducers = (state = {}, action) => {
   switch (action.type) {
 
-    case 'LOGIN_SUCCESS':
+    case 'PERSIST_AUTHENTICATED_USER_TO_STATE':
       return {
         ...state,
-        userEmail: action.user.userEmail,
+        email: action.user.email,
         authToken: action.user.authToken
       }
 
     case 'LOGOUT':
       return {
         ...state,
-        userEmail: '',
+        email: '',
         authToken: ''
       }
 
