@@ -9,7 +9,7 @@ const mapStateToProps = ({ auth }, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loginSuccess: (user) => dispatch(actions.loginSuccess(user)),
+    loginSuccess: (user) => dispatch(actions.persistAuthenticatedUser(user)),
     loginFailure: () => dispatch(actions.loginFailure()),
   }
 }
