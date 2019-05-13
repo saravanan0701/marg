@@ -29,7 +29,7 @@ export default class Login extends Component {
 
     const { token } = data.tokenCreate;
     this.props.loginSuccess({
-      userEmail: this.state.email,
+      email: this.state.email,
       authToken: token
     });
   }
