@@ -14,18 +14,17 @@ import { createBrowserHistory } from 'history';
 import Home from './components/Home';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
-import { saveState } from './localStorage';
+import actions from './actions';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
 
-store.subscribe(() => {
-  saveState({
-    auth: store.getState().auth,
-  });
-});
-
 class App extends Component {
+  
+  componentDidMount() {
+    store.dispatch(actions.rehyderateStateFromCache(client));
+  }
+
   render() {
     return (
       <ApolloProvider client={client}>
