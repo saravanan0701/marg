@@ -1,16 +1,24 @@
-import { createStore } from 'redux';
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from "redux-saga";
+import { composeWithDevTools } from 'redux-devtools-extension';
 import MargApp from './../reducers';
 import { loadState } from '../localStorage';
+import { stateRehydrateSaga, sessionPersistanceSaga } from "./sagas";
 
-const persistedState = loadState('state');
+const sagaMiddleware = createSagaMiddleware();
 
 export function StoreFactory(history) {
-  return createStore(
+  const store = createStore(
     MargApp(history),
-    persistedState,
-    devToolsEnhancer()
+    // persistedState,
+    composeWithDevTools(
+    	applyMiddleware(sagaMiddleware),
+    )
     // Required by dev tools to moniter APP state.
     // TODO: this needs to be added only in case of dev mode.
-  )
+  );
+	sagaMiddleware.run(stateRehydrateSaga);
+	sagaMiddleware.run(sessionPersistanceSaga);
+	return store;
 };
+
