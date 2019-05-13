@@ -1,12 +1,12 @@
 import React from 'react'
 
-export const UserMenu = ({userEmail, history, logout}) => (
+export const UserMenu = ({email, history, logout}) => (
   <div>
   {
-    userEmail
+    email
       ?
         <div>
-          <p>Welcome, {userEmail}</p>
+          <p>Welcome, {email}</p>
           <button onClick={() => {logout()}}>Logout</button>
         </div>
       :
