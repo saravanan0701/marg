@@ -81,7 +81,7 @@ export const Header = () => (
     </div>
     <div className="right">
       <UserMenu />
-      <FlatButton>
+      <FlatButton type="primary">
         Cart - 0
       </FlatButton>
     </div>

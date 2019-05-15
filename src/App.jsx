@@ -9,13 +9,14 @@ import { StoreFactory } from './redux';
 import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import actions from './actions';
 import { Home } from './components/Home/index.jsx';
 import background from './images/background.png';
+import Theme from './Theme';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
@@ -42,15 +43,17 @@ class App extends Component {
       <ApolloProvider client={client}>
         <Provider store={store}>
             <ConnectedRouter history={history}>
-              <MainContainer>
-                <div>
-                  <Header />
-                  <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/login" component={LoginForm} />
-                  </Switch>
-                </div>
-              </MainContainer>
+              <ThemeProvider theme={Theme}>
+                <MainContainer>
+                  <div>
+                    <Header />
+                    <Switch>
+                      <Route exact path="/" component={Home} />
+                      <Route exact path="/login" component={LoginForm} />
+                    </Switch>
+                  </div>
+                </MainContainer>
+              </ThemeProvider>
             </ConnectedRouter>
         </Provider>
       </ApolloProvider>

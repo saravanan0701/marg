@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 
 const ButtonWrapper = styled.div`
-  color: #ec1d24;
+  color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
   font-family: Lato;
   font-size: 16px;
   font-weight: 700;
@@ -10,8 +10,9 @@ const ButtonWrapper = styled.div`
   text-transform: uppercase;
   cursor: pointer;
 
-  &:hover,&:active {
-    border-bottom: 1px solid #ec1d24;
+  &:hover, &:active {
+    color: ${props => props.theme[props.type? `${props.type}HoverColor`: "primaryHoverColor"]};
+    border-bottom: 1px solid ${props => props.theme[props.type? `${props.type}HoverUnderLineColor`: "primaryHoverUnderLineColor"]};
   }
 `;
 
