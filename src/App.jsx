@@ -17,6 +17,7 @@ import actions from './actions';
 import { Home } from './components/Home/index.jsx';
 import background from './images/background.png';
 import Theme from './Theme';
+import './App.scss';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);

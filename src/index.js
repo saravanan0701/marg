@@ -4,6 +4,7 @@ import './index.css';
 import App from './App.jsx';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'lato-font/css/lato-font.css';
 
 
 ReactDOM.render(

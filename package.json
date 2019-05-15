@@ -11,6 +11,7 @@
     "connected-react-router": "^6.3.2",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
+    "lato-font": "^3.0.0",
     "node-sass": "^4.11.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
