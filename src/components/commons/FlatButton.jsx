@@ -12,7 +12,7 @@ const ButtonWrapper = styled.div`
 
   &:hover, &:active {
     color: ${props => props.theme[props.type? `${props.type}HoverColor`: "primaryHoverColor"]};
-    ${props => props.type == 'primary' && css`
+    ${props => props.theme[`${props.type}HoverUnderLineColor`] !== undefined && css`
       border-bottom: 1px solid ${props => props.theme[props.type? `${props.type}HoverUnderLineColor`: "primaryHoverUnderLineColor"]};
     `}
   }
