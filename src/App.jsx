@@ -27,6 +27,7 @@ const MainContainer = styled.div`
   background-attachment: fixed;
   background-position: center;
   padding: 10vh 2.5vw 25vh;
+  min-height: 100%;
 
   & > div {
     background: white;
