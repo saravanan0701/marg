@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import FontAwesome from 'react-fontawesome';
 import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
@@ -8,8 +9,10 @@ import { FlatButton } from './../commons/FlatButton';
 
 const HeaderContainer = styled.div`
 
-  & > .primary {
+  display: flex;
+  flex-direction: column;
 
+  & > .primary {
     margin: 0px 20px;
     padding-bottom: 20px;
     box-sizing: content-box;
@@ -73,6 +76,64 @@ const HeaderContainer = styled.div`
       }
     }
   }
+
+  & > .secondary {
+    margin: 0px 20px;
+    padding-bottom: 20px;
+    box-sizing: content-box;
+    width: fill-available;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding-top: 20px;
+
+    & > .menu {
+      width: 90%;
+      display: flex;
+      flex-direction: row;
+
+      & > div {
+        color: #000000;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        cursor: pointer;
+        margin-right: 30px;
+      }
+    }
+
+    & > .search {
+      width: 10%;
+      position: relative;
+
+      & > input {
+        width: 100%;
+        border: none;
+        cursor: pointer;
+
+        &::placeholder {
+          color: #000000;
+          font-size: 16px;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+        }
+        &:focus::placeholder {
+          color: grey;
+        }
+      }
+
+      & > span {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        z-index: 1;
+        color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
+      }
+
+    }
+  }
 `
 
 export const Header = () => (
@@ -93,6 +154,21 @@ export const Header = () => (
         <FlatButton type="primary">
           Cart - 0
         </FlatButton>
+      </div>
+    </div>
+    <div className="secondary">
+      <div className="menu">
+        <div>Publications</div>
+        <div>About Marg</div>
+        <div>Blog</div>
+        <div>Advertise</div>
+        <div>Donate</div>
+        <div>Contact</div>
+        <div>More</div>
+      </div>
+      <div className="search">
+        <input type="text" placeholder="Search"/>
+        <FontAwesome name='search' />
       </div>
     </div>
   </HeaderContainer>

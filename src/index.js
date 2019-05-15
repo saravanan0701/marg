@@ -5,6 +5,7 @@ import App from './App.jsx';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'lato-font/css/lato-font.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 
 ReactDOM.render(
