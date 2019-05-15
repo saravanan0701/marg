@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const ButtonWrapper = styled.div`
   color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
@@ -12,7 +12,9 @@ const ButtonWrapper = styled.div`
 
   &:hover, &:active {
     color: ${props => props.theme[props.type? `${props.type}HoverColor`: "primaryHoverColor"]};
-    border-bottom: 1px solid ${props => props.theme[props.type? `${props.type}HoverUnderLineColor`: "primaryHoverUnderLineColor"]};
+    ${props => props.type == 'primary' && css`
+      border-bottom: 1px solid ${props => props.theme[props.type? `${props.type}HoverUnderLineColor`: "primaryHoverUnderLineColor"]};
+    `}
   }
 `;
 
