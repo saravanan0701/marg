@@ -4,6 +4,7 @@ import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
+import { FlatButton } from './../commons/FlatButton';
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -11,16 +12,22 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-content: center;
-  justify-content: space-between;
 
   & > .left {
     display: flex;
     flex-direction: row;
-    align-content: center;
+    align-items: center;
+    justify-content: start;
     padding: 20px;
+    width: 35%;
 
-    & > img {
+    & > .img-container {
       height: 100%;
+      margin-right: 10px;
+      width: fit-content;
+      & > img {
+        height: 100%;
+      }
     }
   }
 
@@ -29,9 +36,11 @@ const HeaderContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 30%;
 
     & > img {
       height: 100%;
+      transform: translateY(-10px);
     }
 
     & > div {
@@ -43,17 +52,38 @@ const HeaderContainer = styled.div`
       text-transform: uppercase;
     }
   }
+
+  & > .right {
+    padding: 20px;
+    width: 35%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    & > div {
+      margin-left: 25px;
+    }
+  }
 `
 
 export const Header = () => (
   <HeaderContainer>
     <div className="left">
+      <div className="img-container">
       <img src={headerImg} />
+      </div>
+      <FlatButton>Subscribe to Marg</FlatButton>
     </div>
     <div className="center">
       <img src={logo} />
       <div>Since 1946</div>
     </div>
-    <UserMenu />
+    <div className="right">
+      <UserMenu />
+      <FlatButton>
+        Cart - 0
+      </FlatButton>
+    </div>
   </HeaderContainer>
 );

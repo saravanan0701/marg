@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { FlatButton } from './../../commons/FlatButton';
+
 export const UserMenu = ({
   email,
   logout,
@@ -19,7 +21,7 @@ export const UserMenu = ({
           <button onClick={() => {logout()}}>Logout</button>
         </div>
       :
-        <button onClick={
+        <FlatButton onClick={
           () => {
             if(pathname.match(/login/)){
               return push(`/login`)
@@ -27,8 +29,8 @@ export const UserMenu = ({
             return push(`/login?returnUrl=${pathname}`)
           }
         } href="/login">
-          LOGIN
-        </button>
+          Sign in
+        </FlatButton>
   }
   </div>
 )
