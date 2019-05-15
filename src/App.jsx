@@ -11,7 +11,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 
-import './App.scss';
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import actions from './actions';
