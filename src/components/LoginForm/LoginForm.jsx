@@ -22,16 +22,40 @@ export default class Login extends Component {
   } 
 
   handleLogin = async (data) => {
-
     if (data.tokenCreate.errors && data.tokenCreate.errors.length > 0) {
       return this.props.loginFailure();
     }
-
     const { token } = data.tokenCreate;
     this.props.loginSuccess({
       email: this.state.email,
       authToken: token
     });
+  }
+
+  componentDidUpdate() {
+    const {
+      email,
+      history: {
+        location: {
+          search,
+        },
+        push,
+      },
+    } = this.props;
+    if(email && search) {
+      //User has loggedin
+      let returnUrl = search
+        .slice(1)
+        .split('&')
+        .map(q => q.split('='))
+        .reduce((retPath, it) => {
+          if(it[0] == "returnUrl") {
+            return it[1];
+          }
+          return retPath;
+        }, null);
+      push(returnUrl == null? "/": returnUrl);
+    }
   }
 
   render() {

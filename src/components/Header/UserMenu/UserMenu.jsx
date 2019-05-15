@@ -1,6 +1,15 @@
 import React from 'react'
 
-export const UserMenu = ({email, history, logout}) => (
+export const UserMenu = ({
+  email,
+  logout,
+  history: {
+    push,
+    location: {
+      pathname,
+    }
+  }
+}) => (
   <div>
   {
     email
@@ -12,7 +21,10 @@ export const UserMenu = ({email, history, logout}) => (
       :
         <button onClick={
           () => {
-            history.push('/login')
+            if(pathname.match(/login/)){
+              return push(`/login`)
+            }
+            return push(`/login?returnUrl=${pathname}`)
           }
         } href="/login">
           LOGIN
