@@ -13,6 +13,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import actions from './actions';
 import { Home } from './components/Home/index.jsx';
 import background from './images/background.png';
@@ -53,6 +54,7 @@ class App extends Component {
                       <Route exact path="/" component={Home} />
                       <Route exact path="/login" component={LoginForm} />
                     </Switch>
+                    <Footer />
                   </div>
                 </MainContainer>
               </ThemeProvider>

@@ -2,3 +2,7 @@ html, body {
   font-family: Lato;
   min-height: 100%;
 }
+
+*:not(.fa) {
+  font-family: Lato;
+}
