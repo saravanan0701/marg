@@ -4,6 +4,7 @@ const Theme = {
   primaryHoverUnderLineColor: "#ec1d24",
   secondaryColor: "#3a3a3a",
   secondaryHoverColor: "#ec1d24",
+  sectionBackground: "#f8f8f8",
 
   '$weight-regular': '400',
   '$weight-semibold': '600',
