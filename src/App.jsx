@@ -10,12 +10,12 @@ import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import styled, { ThemeProvider } from 'styled-components';
-
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import actions from './actions';
 import { Home } from './components/Home/index.jsx';
+import ProductList from './components/ProductList/index.js';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
@@ -52,6 +52,7 @@ class App extends Component {
                     <Header />
                     <Switch>
                       <Route exact path="/" component={Home} />
+                      <Route exact path="/categories" component={ProductList} />
                       <Route exact path="/login" component={LoginForm} />
                     </Switch>
                     <Footer />

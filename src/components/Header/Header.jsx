@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
+import { Link } from 'react-router-dom'
 import FontAwesome from 'react-fontawesome';
 import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
 import { FlatButton } from './../commons/FlatButton';
-
 const HeaderContainer = styled.div`
 
   display: flex;
@@ -91,7 +91,7 @@ const HeaderContainer = styled.div`
       display: flex;
       flex-direction: row;
 
-      & > div {
+      & > div > a {
         color: #000000;
         font-size: ${props => props.theme['$font-size-xxs']};
         font-weight: ${props => props.theme['$weight-medium']};
@@ -157,13 +157,13 @@ export const Header = () => (
     </div>
     <div className="secondary">
       <div className="menu">
-        <div>Publications</div>
-        <div>About Marg</div>
-        <div>Blog</div>
-        <div>Advertise</div>
-        <div>Donate</div>
-        <div>Contact</div>
-        <div>More</div>
+        <div><Link to="/categories">Publications</Link></div>
+        <div><Link to="/categories">About Marg</Link></div>
+        <div><Link to="/categories">Blog</Link></div>
+        <div><Link to="/categories">Advertise</Link></div>
+        <div><Link to="/categories">Donate</Link></div>
+        <div><Link to="/categories">Contact</Link></div>
+        <div><Link to="/categories">More</Link></div>
       </div>
       <div className="search">
         <input type="text" placeholder="Search"/>
