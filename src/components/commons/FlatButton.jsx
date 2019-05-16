@@ -3,7 +3,6 @@ import styled, { css } from 'styled-components';
 
 const ButtonWrapper = styled.div`
   color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
-  font-family: Lato;
   font-size: ${props => props.theme['$font-size-xxs']};
   font-weight: ${props => props.theme['$weight-bold']};
   letter-spacing: 3px;

@@ -55,7 +55,6 @@ const HeaderContainer = styled.div`
 
       & > div {
         color: #37312f;
-        font-family: Lato;
         font-size: ${props => props.theme['$font-size-xxs']};
         font-weight: ${props => props.theme['$weight-regular']};
         letter-spacing: 3.6px;
