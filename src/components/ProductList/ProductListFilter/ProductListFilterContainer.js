@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
-import actions from './../../../../actions/'
+import actions from './../../../actions/'
 import { ProductListFilter as Component } from './ProductListFilterComponent'
 
 
