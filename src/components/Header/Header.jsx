@@ -56,8 +56,8 @@ const HeaderContainer = styled.div`
       & > div {
         color: #37312f;
         font-family: Lato;
-        font-size: 15px;
-        font-weight: 400;
+        font-size: ${props => props.theme['$font-size-xxs']};
+        font-weight: ${props => props.theme['$weight-regular']};
         letter-spacing: 3.6px;
         text-transform: uppercase;
       }
@@ -94,8 +94,8 @@ const HeaderContainer = styled.div`
 
       & > div {
         color: #000000;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: ${props => props.theme['$font-size-xxs']};
+        font-weight: ${props => props.theme['$weight-medium']};
         letter-spacing: 3px;
         text-transform: uppercase;
         cursor: pointer;
@@ -114,8 +114,8 @@ const HeaderContainer = styled.div`
 
         &::placeholder {
           color: #000000;
-          font-size: 16px;
-          font-weight: 700;
+          font-size: ${props => props.theme['$font-size-xxs']};
+          font-weight: ${props => props.theme['$weight-medium']};
           letter-spacing: 3px;
           text-transform: uppercase;
         }

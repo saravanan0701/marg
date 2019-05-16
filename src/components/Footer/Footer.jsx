@@ -65,8 +65,8 @@ const FooterContainer = styled.div`
       & > .heading {
         color: #000000;
         font-family: "Cormorant Garamond Medium";
-        font-size: 42px;
-        font-weight: 500;
+        font-size: ${props => props.theme['$font-size-lg']};
+        font-weight: ${props => props.theme['$weight-regular']};
         letter-spacing: 1px;
         line-height: 57px;
       }
@@ -83,8 +83,8 @@ const FooterContainer = styled.div`
 
           &::placeholder {
             color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
-            font-size: 16px;
-            font-weight: 700;
+            font-size: ${props => props.theme['$font-size-xxs']};
+            font-weight: ${props => props.theme['$weight-bold']};
             letter-spacing: 3px;
             text-transform: uppercase;
           }
@@ -113,7 +113,7 @@ const FooterContainer = styled.div`
       & > .copyright {
         color: #000000;
         font-size: 14px;
-        font-weight: 400;
+        font-weight: ${props => props.theme['$weight-regular']};
         letter-spacing: 0.52px;
         line-height: 21px;
       }

@@ -7,6 +7,8 @@ const ButtonWrapper = styled.div`
   color: white;
   text-transform: uppercase;
   cursor: pointer;
+  font-size: ${props => props.theme['$font-size-xxs']};
+  font-weight: ${props => props.theme['$weight-bold']};
 `;
 
 export const RaisedButton = (props) => (
