@@ -78,7 +78,7 @@ export const ProductCategories = props => (
               .sort((a, b) => a.name > b.name? 1: -1)
               .map(
                 (attribute, id) => (
-                  <Link to="categories" className="link" key={id}>
+                  <Link to={`/categories/?category=${attribute.slug}`} className="link" key={id}>
                     <FlatButton type="secondary">{attribute.name}</FlatButton>
                   </Link>
                 )
