@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { RaisedButton } from './../commons/RaisedButton.jsx';
 import about from './../../images/about.jpg';
+import { ProductsSection } from './ProductsSection.jsx';
 
 const Header = styled.div`
   display: flex;
@@ -116,6 +117,8 @@ export const Home = props => (
           </RaisedButton>
         </div>
       </About>
+      <ProductsSection>
+      </ProductsSection>
     </Body>
   </div>
 )
