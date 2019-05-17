@@ -8,6 +8,7 @@ const ButtonWrapper = styled.div`
   letter-spacing: 3px;
   text-transform: uppercase;
   cursor: pointer;
+  border-bottom: 1px solid transparent;
 
   &:hover, &:active {
     color: ${props => props.theme[props.type? `${props.type}HoverColor`: "primaryHoverColor"]};

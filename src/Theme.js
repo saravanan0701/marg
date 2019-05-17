@@ -2,6 +2,7 @@ const Theme = {
   primaryColor: "#ec1d24",
   primaryHoverColor: "#ec1d24",
   primaryHoverUnderLineColor: "#ec1d24",
+  secondaryHoverUnderLineColor: "transparent",
   secondaryColor: "#3a3a3a",
   secondaryHoverColor: "#ec1d24",
   sectionBackground: "#f8f8f8",
