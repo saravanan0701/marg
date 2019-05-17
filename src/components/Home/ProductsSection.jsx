@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { FlatButton } from './../commons/FlatButton.jsx';
+import { FlatButton } from './../commons/';
 import { Link } from 'react-router-dom';
 import ProductCard from './../ProductList/ProductListWrapper/ProductCard/';
 
@@ -25,6 +25,7 @@ const Wrapper = styled.div`
   }
 
   & > .link {
+    padding-top: 10px;
     padding-bottom: 50px;
   }
 

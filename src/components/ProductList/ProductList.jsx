@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import ProductListFilter from './ProductListFilter';
 import ProductListWrapper from './ProductListWrapper';
-import { FlatButton } from './../commons/FlatButton.jsx';
+import { FlatButton, DropDown } from './../commons/';
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,6 +41,12 @@ export const ProductList = (props) => (
       <FlatButton type="secondary">Books</FlatButton>
       <FlatButton type="secondary">Digital Archives</FlatButton>
     </div>
+    <DropDown>
+      <div>Opt1</div>
+      <div>Opt2</div>
+      <div>Opt3</div>
+      <div>Opt4</div>
+    </DropDown>
     <ProductListFilter />
     <ProductListWrapper />
   </Wrapper>

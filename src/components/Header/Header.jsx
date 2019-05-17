@@ -5,7 +5,7 @@ import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
-import { FlatButton } from './../commons/FlatButton';
+import { FlatButton } from './../commons/';
 const HeaderContainer = styled.div`
 
   display: flex;

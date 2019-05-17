@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { FlatButton } from './../commons/FlatButton.jsx';
+import { FlatButton } from './../commons/';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { RaisedButton } from './../commons/RaisedButton.jsx';
+import { RaisedButton } from './../commons/';
 import about from './../../images/about.jpg';
 import { ProductsSection } from './ProductsSection.jsx';
 import { ProductCategories } from './ProductCategories.jsx';

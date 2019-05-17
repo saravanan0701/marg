@@ -18,8 +18,10 @@ const ButtonWrapper = styled.div`
   }
 `;
 
-export const FlatButton = (props) => (
+const FlatButton = (props) => (
   <ButtonWrapper {...props}>
     {props.children}
   </ButtonWrapper>
 );
+
+export default FlatButton;

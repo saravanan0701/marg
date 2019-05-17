@@ -4,8 +4,7 @@ import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
-import { FlatButton } from './../commons/FlatButton';
-import { RaisedButton } from './../commons/RaisedButton';
+import { FlatButton, RaisedButton } from './../commons/';
 
 const FooterContainer = styled.div`
   display: flex;

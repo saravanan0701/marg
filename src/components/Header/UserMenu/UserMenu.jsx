@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FlatButton } from './../../commons/FlatButton';
+import { FlatButton } from './../../commons/';
 
 export const UserMenu = ({
   email,

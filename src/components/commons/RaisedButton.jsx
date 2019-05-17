@@ -11,8 +11,10 @@ const ButtonWrapper = styled.div`
   font-weight: ${props => props.theme['$weight-bold']};
 `;
 
-export const RaisedButton = (props) => (
+const RaisedButton = (props) => (
   <ButtonWrapper {...props}>
     {props.children}
   </ButtonWrapper>
 );
+
+export default RaisedButton;
