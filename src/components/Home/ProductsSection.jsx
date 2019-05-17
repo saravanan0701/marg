@@ -86,8 +86,8 @@ export const ProductsSection = props => (
               return <h1>Nothing</h1>;
             }
             return data.products.edges.map(
-              (product) => (
-                <ProductCard className="col-3" {...product.node} />
+              (product, id) => (
+                <ProductCard key={id} className="col-3" {...product.node} />
               )
             )
           }
