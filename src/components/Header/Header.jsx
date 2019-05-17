@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import FontAwesome from 'react-fontawesome';
 import UserMenu from './UserMenu'
 import styled from 'styled-components';
@@ -91,7 +90,7 @@ const HeaderContainer = styled.div`
       display: flex;
       flex-direction: row;
 
-      & > div > a {
+      & > a {
         color: #000000;
         font-size: ${props => props.theme['$font-size-xxs']};
         font-weight: ${props => props.theme['$weight-medium']};
@@ -99,6 +98,11 @@ const HeaderContainer = styled.div`
         text-transform: uppercase;
         cursor: pointer;
         margin-right: 30px;
+        padding-bottom: 5px;
+
+        &.active {
+          border-bottom: 1px solid ${props => props.theme['primaryColor']};
+        }
       }
     }
 
@@ -135,7 +139,13 @@ const HeaderContainer = styled.div`
   }
 `
 
-export const Header = () => (
+const Header = ({
+  history: {
+    location: {
+      pathname
+    }
+  }
+}) => (
   <HeaderContainer>
     <div className="primary">
       <div className="left">
@@ -157,13 +167,13 @@ export const Header = () => (
     </div>
     <div className="secondary">
       <div className="menu">
-        <div><Link to="/categories">Publications</Link></div>
-        <div><Link to="/categories">About Marg</Link></div>
-        <div><Link to="/categories">Blog</Link></div>
-        <div><Link to="/categories">Advertise</Link></div>
-        <div><Link to="/categories">Donate</Link></div>
-        <div><Link to="/categories">Contact</Link></div>
-        <div><Link to="/categories">More</Link></div>
+        <Link className={pathname.match('categories')? 'active':''} to="/categories">Publications</Link>
+        <Link to="/categories">About Marg</Link>
+        <Link to="/categories">Blog</Link>
+        <Link to="/categories">Advertise</Link>
+        <Link to="/categories">Donate</Link>
+        <Link to="/categories">Contact</Link>
+        <Link to="/categories">More</Link>
       </div>
       <div className="search">
         <input type="text" placeholder="Search"/>
@@ -172,3 +182,5 @@ export const Header = () => (
     </div>
   </HeaderContainer>
 );
+
+export default withRouter(Header);
