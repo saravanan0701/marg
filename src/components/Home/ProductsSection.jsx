@@ -31,6 +31,7 @@ const Wrapper = styled.div`
   & > .row {
     width: 100%;
     justify-content: center;
+    padding: 0px 50px;
   }
 `;
 
@@ -87,7 +88,7 @@ export const ProductsSection = props => (
             }
             return data.products.edges.map(
               (product, id) => (
-                <ProductCard key={id} className="col-3" {...product.node} />
+                <ProductCard key={id} className="col-4" {...product.node} />
               )
             )
           }
