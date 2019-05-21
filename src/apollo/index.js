@@ -4,7 +4,7 @@ import { createHttpLink } from 'apollo-link-http';
 
 
 const link = createHttpLink({
-  uri: "http://local.marg.com/graphql/"
+  uri: process.env.REACT_APP_BACKEND_URL
 });
 const cache = new InMemoryCache();
 
