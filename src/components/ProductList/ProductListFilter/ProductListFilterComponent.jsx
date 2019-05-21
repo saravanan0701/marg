@@ -157,6 +157,7 @@ export const ProductListFilter = ({
       ({loading, error, data}) => {
         if(typeof(error) !== "undefined") {
           //TODO: error handling...
+          return (<h1>ERRor loading</h1>);
         }
         if(typeof(loading) === "undefined" || loading) {
           //TODO: custom loading...

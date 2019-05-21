@@ -66,8 +66,7 @@ export default class ProductListWrapper extends Component {
         }}>
         {
           ({loading, error, data}) => {
-            console.log(loading, data, error);
-            if(Object.keys(data).length == 0) {
+            if(!data || Object.keys(data).length == 0) {
               return <h1>Nothing</h1>;
             }
             return data.products.edges.map(

@@ -68,11 +68,12 @@ export const ProductCategories = props => (
             }
           ) => {
             let attributes = [];
-            if(data.attributes){
-              attributes = data.attributes.edges[0].node.values;
-            }
-            if(Object.keys(data).length == 0 && !loading) {
+            console.log("data.attributes: ", data);
+            if((!data || Object.keys(data).length == 0) && !loading) {
               return <h1>No categories found</h1>;
+            }
+            if(attributes && data &&  data.attributes && data.attributes.edges && data.attributes.edges.length > 0){
+              attributes = data.attributes.edges[0].node.values;
             }
             return attributes
               .sort((a, b) => a.name > b.name? 1: -1)
