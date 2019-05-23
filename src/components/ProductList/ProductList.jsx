@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { withApollo } from 'react-apollo';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import ProductListFilter from './ProductListFilter';
 import ProductListWrapper from './ProductListWrapper';
@@ -32,22 +35,68 @@ const Wrapper = styled.div`
   }
 `;
 
-export const ProductList = (props) => (
-  <Wrapper>
-    <div className="heading">All Publications</div>
-    <div className="product-types">
-      <FlatButton type="secondary">View All</FlatButton>
-      <FlatButton type="secondary">Magazines</FlatButton>
-      <FlatButton type="secondary">Books</FlatButton>
-      <FlatButton type="secondary">Digital Archives</FlatButton>
-    </div>
-    <DropDown>
-      <div>Opt1</div>
-      <div>Opt2</div>
-      <div>Opt3</div>
-      <div>Opt4</div>
-    </DropDown>
-    <ProductListFilter />
-    <ProductListWrapper />
-  </Wrapper>
-);
+const LOAD_PRODUCT_CATEGORIES = gql`
+  query LoadProductCategories($query: String) {
+    attributes(query: $query){
+      edges {
+        node {
+          name
+          values {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const ProductList = (props) => {
+
+  function searchAttributes() {
+    const {
+      client,
+    } = props;
+    return client.query({
+      query: LOAD_PRODUCT_CATEGORIES,
+      variables: {
+        query: "Year"
+      }
+    })
+    .then(({
+      data: {
+        attributes: {
+          edges
+        }
+      }
+    }) => {
+      return new Promise((resolve, reject) => {
+        if(edges && edges.length === 0) {
+          reject();
+        }
+        resolve(edges[0].node.values);
+      })
+    })
+  }
+
+  return (
+    <Wrapper>
+      <div className="heading">All Publications</div>
+      <div className="product-types">
+        <FlatButton type="secondary">View All</FlatButton>
+        <FlatButton type="secondary">Magazines</FlatButton>
+        <FlatButton type="secondary">Books</FlatButton>
+        <FlatButton type="secondary">Digital Archives</FlatButton>
+      </div>
+      <div>
+        <DropDown enableSearch={true} loadData={searchAttributes}>
+        </DropDown>
+      </div>
+      <ProductListFilter />
+      <ProductListWrapper />
+    </Wrapper>
+  );
+}
+
+export default withApollo(ProductList);
