@@ -39,10 +39,6 @@ export default class ProductListWrapper extends Component {
   
   constructor(props) {
     super(props);
-    // this.state = {
-      // currentPage: 1,
-      // pageSize: 5,
-    // }
   }
 
 
