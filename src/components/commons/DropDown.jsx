@@ -28,14 +28,38 @@ const Wrapper = styled.div`
     }
   }
 
-  & > .options {
+  & > div.body {
+
     z-index: 1;
-    position: absolute;
+    padding: 15px 10px;
     background: white;
     border: 1px solid #9d9d9d;
-    padding: 15px;
-    width: 100%;
     font-size: 14px;
+
+    & > input {
+      border: 1px solid #979797;
+      background-color: #f8f8f8;
+      padding: 10px;
+      color: ${props => props.theme.primaryColor};
+      
+      &::placeholder {
+        color: ${props => props.theme.primaryColor};
+        font-size: ${props => props.theme['$font-size-xxs']};
+        font-weight: ${props => props.theme['$weight-medium']};
+      }
+      
+      &:focus::placeholder {
+        color: grey;
+      }
+    }
+    
+    & > .options {
+      background: white;
+      padding: 15px;
+      width: 100%;
+      font-size: 14px;
+      padding: 15px 5px 0px;
+    }
   }
 `;
 
@@ -44,21 +68,72 @@ class DropDown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBody: false,
+      showBody: true,
+      dontClose: false,
+      options: [],
+      error: false,
     }
     this.labelClicked = this.labelClicked.bind(this);
+    this.inputFocused = this.inputFocused.bind(this);
+    this.inputBlurred = this.inputBlurred.bind(this);
   }
 
   labelClicked() {
+    setTimeout(function() {
+      if(this.state.dontClose){
+        return;
+      }
+      this.setState({
+        showBody: !this.state.showBody,
+      });
+    }.bind(this), 0);
+  }
+
+  inputFocused() {
     this.setState({
-      showBody: !this.state.showBody,
-    })
+      showBody: true,
+      dontClose: true,
+    });
+  }
+
+  inputBlurred() {
+    this.setState({
+      showBody: false,
+      dontClose: false,
+    });
+  }
+
+  componentDidMount() {
+    this
+      .props
+      .loadData()
+      .then(
+        (data) => {
+          this.setState({
+            options: data,
+          })
+        }
+      )
+      .catch(
+        (err) => {
+          this.setState({
+            options: [],
+            error: true,
+          })
+        }
+      );
   }
 
   render() {
     const {
       showBody,
+      error,
+      options,
     } = this.state;
+    
+    const {
+      enableSearch,
+    } = this.props;
 
     return (
       <Wrapper {...this.props}>
@@ -70,12 +145,30 @@ class DropDown extends Component {
               :
               <FontAwesome className="icon" name='chevron-down' />
           }
-
         </button>
         {
-          showBody &&
-          <div className="options">
-            {this.props.children}
+          showBody && error && 
+          <div className="error">
+            Error loading data
+          </div>
+        }
+        {
+          showBody && !error &&
+          <div className="body">
+            {
+              enableSearch &&
+              <input type="text" placeholder="Search" onChange={this.searchList} onFocus={this.inputFocused} onBlur={this.inputBlurred}/>
+            }
+            <div className="options">
+              {
+                options
+                  .map(
+                    (option) => (
+                      <div>{option.name}</div>
+                    )
+                  )
+              }
+            </div>
           </div>
         }
       </Wrapper>
