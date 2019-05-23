@@ -68,7 +68,6 @@ export const ProductCategories = props => (
             }
           ) => {
             let attributes = [];
-            console.log("data.attributes: ", data);
             if((!data || Object.keys(data).length == 0) && !loading) {
               return <h1>No categories found</h1>;
             }
