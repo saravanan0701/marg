@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components';
 import FontAwesome from 'react-fontawesome';
+import { Throttle } from 'react-throttle';
 
 const Wrapper = styled.div`
 
@@ -68,7 +69,7 @@ class DropDown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showBody: true,
+      showBody: false,
       dontClose: false,
       options: [],
       error: false,
@@ -76,6 +77,7 @@ class DropDown extends Component {
     this.labelClicked = this.labelClicked.bind(this);
     this.inputFocused = this.inputFocused.bind(this);
     this.inputBlurred = this.inputBlurred.bind(this);
+    this.searchList = this.searchList.bind(this);
   }
 
   labelClicked() {
@@ -103,10 +105,23 @@ class DropDown extends Component {
     });
   }
 
+  searchList(event) {
+    this.setState({
+      searchable: event.target.value,
+    })
+  }
+
   componentDidMount() {
-    this
-      .props
-      .loadData()
+    const {
+      loadData,
+    } = this.props;
+
+    if(loadData && typeof(loadData) == "object") {
+      return this.setState({
+        options: loadData,
+      })
+    }
+    return loadData()
       .then(
         (data) => {
           this.setState({
@@ -124,16 +139,34 @@ class DropDown extends Component {
       );
   }
 
+  filterOptions() {
+    const {
+      options,
+      searchable,
+    } = this.state;
+
+    return options
+      .filter((option) => {
+        if(!searchable) {
+          return option;
+        }
+        return option.toLocaleLowerCase.startsWith(searchable.toLocaleLowerCase());
+      })
+      .slice(0, 10);
+  }
+
   render() {
     const {
       showBody,
       error,
-      options,
+      
     } = this.state;
     
     const {
       enableSearch,
     } = this.props;
+    
+    const filteredOptions = this.filterOptions();
 
     return (
       <Wrapper {...this.props}>
@@ -157,11 +190,19 @@ class DropDown extends Component {
           <div className="body">
             {
               enableSearch &&
-              <input type="text" placeholder="Search" onChange={this.searchList} onFocus={this.inputFocused} onBlur={this.inputBlurred}/>
+              <Throttle time="200" handler="onChange">
+                <input type="text" placeholder="Search"
+                  onChange={this.searchList} onFocus={this.inputFocused} onBlur={this.inputBlurred}/>
+              </Throttle>
             }
             <div className="options">
               {
-                options
+                filteredOptions.length === 0 && 
+                  <div>No match found</div>
+              }
+              {
+                filteredOptions.length === 0 && 
+                filteredOptions
                   .map(
                     (option) => (
                       <div>{option.name}</div>
