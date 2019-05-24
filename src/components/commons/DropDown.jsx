@@ -78,6 +78,7 @@ class DropDown extends Component {
     this.inputFocused = this.inputFocused.bind(this);
     this.inputBlurred = this.inputBlurred.bind(this);
     this.searchList = this.searchList.bind(this);
+    this.optionsClicked = this.optionsClicked.bind(this);
   }
 
   labelClicked() {
@@ -103,6 +104,22 @@ class DropDown extends Component {
       showBody: false,
       dontClose: false,
     });
+  }
+
+  optionsClicked(option) {
+    this.setState({
+      showBody: true,
+      dontClose: true,
+    });
+
+    this.props.onOptionSelect(option);
+
+    setTimeout(function() {
+      this.setState({
+        showBody: false,
+        dontClose: false,
+      });
+    }.bind(this), 100);
   }
 
   searchList(event) {
@@ -159,11 +176,12 @@ class DropDown extends Component {
     const {
       showBody,
       error,
-      
     } = this.state;
     
     const {
       enableSearch,
+      label,
+      onOptionSelect,
     } = this.props;
     
     const filteredOptions = this.filterOptions();
@@ -171,7 +189,7 @@ class DropDown extends Component {
     return (
       <Wrapper {...this.props}>
         <button className="label" onClick={this.labelClicked} onBlur={this.labelClicked}>
-          <div>Label</div>
+          <div>{label}</div>
           {
             showBody?
               <FontAwesome className="icon" name='chevron-up' />
@@ -204,8 +222,8 @@ class DropDown extends Component {
                 filteredOptions.length > 0 && 
                 filteredOptions
                   .map(
-                    (option) => (
-                      <div>{option.name}</div>
+                    (option, id) => (
+                      <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
                     )
                   )
               }
