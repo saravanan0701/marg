@@ -201,7 +201,7 @@ class DropDown extends Component {
                   <div>No match found</div>
               }
               {
-                filteredOptions.length === 0 && 
+                filteredOptions.length > 0 && 
                 filteredOptions
                   .map(
                     (option) => (
