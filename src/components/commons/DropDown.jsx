@@ -188,7 +188,10 @@ class DropDown extends Component {
       onOptionSelect,
     } = this.props;
     
-    const filteredOptions = this.filterOptions();
+    let visibleOptions = this.filterOptions();
+    if(enableSearch) {
+      visibleOptions = this.filterOptions();
+    }
 
     return (
       <Wrapper {...this.props}>
@@ -219,12 +222,12 @@ class DropDown extends Component {
             }
             <div className="options">
               {
-                filteredOptions.length === 0 && 
+                visibleOptions.length === 0 && 
                   <div>No match found</div>
               }
               {
-                filteredOptions.length > 0 && 
-                filteredOptions
+                visibleOptions.length > 0 && 
+                visibleOptions
                   .map(
                     (option, id) => (
                       <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
