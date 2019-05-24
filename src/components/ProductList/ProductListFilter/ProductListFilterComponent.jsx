@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import styled from 'styled-components';
+import { Collapse } from 'reactstrap';
 import { DropDown } from './../../commons/';
 // import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead';
 
-import './ProductListFilter.scss';
 // const AsyncTypeahead = asyncContainer(Typeahead);
 
 const LOAD_FILTERS = gql`
@@ -115,64 +115,80 @@ const FILTERS_TO_BE_DISPLAYED = [
 //   }
 // }
 
-class Filter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: typeof(props.isOpen) !== 'undefined'? props.isOpen: false,
-    }
-    this.toggleIsOpen = this.toggleIsOpen.bind(this);
-  }
+// class Filter extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       isOpen: typeof(props.isOpen) !== 'undefined'? props.isOpen: false,
+//     }
+//     this.toggleIsOpen = this.toggleIsOpen.bind(this);
+//   }
 
-  toggleIsOpen() {
-    if(this.props.alwaysOpen) {
-      return;
-    }
-    this.setState({
-      isOpen: !this.state.isOpen,
-    })
-  }
+//   toggleIsOpen() {
+//     if(this.props.alwaysOpen) {
+//       return;
+//     }
+//     this.setState({
+//       isOpen: !this.state.isOpen,
+//     })
+//   }
 
-  render() {
-    const {
-      isOpen,
-    } = this.state;
-    const {
-      noFilters,
-      filterName,
-      children
-    } = this.props;
-    return (
-      <div className="filter-item">
-        <div className="filter-header" onClick={this.toggleIsOpen}>{ filterName }</div>
-        <Collapse isOpen={isOpen}>
-          {!children && <div>{noFilters? noFilters: 'No Filter found'}</div>}
-          {children}
-        </Collapse>
-      </div>
-    )
-  }
-}
+//   render() {
+//     const {
+//       isOpen,
+//     } = this.state;
+//     const {
+//       noFilters,
+//       filterName,
+//       children
+//     } = this.props;
+//     return (
+//       <div className="filter-item">
+//         <div className="filter-header" onClick={this.toggleIsOpen}>{ filterName }</div>
+//         <Collapse isOpen={isOpen}>
+//           {!children && <div>{noFilters? noFilters: 'No Filter found'}</div>}
+//           {children}
+//         </Collapse>
+//       </div>
+//     )
+//   }
+// }
 
-const FilterListRepeater = ({ filters, addFilter, type }) => (
-  <div>
-    {
-      (filters && filters.length > 0) && (
-        filters.map((filter) => ( 
-          <div
-            onClick={(e) => {addFilter({
-              type,
-              filter
-            })}}
-            key={filter.slug}
-          >
-            {filter.name}
-          </div>
-        ))
-      )
-    }
-  </div>
-)
+// const FilterListRepeater = ({ filters, addFilter, type }) => (
+//   <div>
+//     {
+//       (filters && filters.length > 0) && (
+//         filters.map((filter) => ( 
+//           <div
+//             onClick={(e) => {addFilter({
+//               type,
+//               filter
+//             })}}
+//             key={filter.slug}
+//           >
+//             {filter.name}
+//           </div>
+//         ))
+//       )
+//     }
+//   </div>
+// )
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 30px 20px;
+  background-color: ${props => props && props.theme && props.theme.sectionBackground};
+  justify-content: space-between;
+  align-items: center;
+
+  & > div.header {
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 0.59px;
+    line-height: 23px;
+  }
+`
 
 export const ProductListFilter = ({
   client,
@@ -198,12 +214,11 @@ export const ProductListFilter = ({
             edges: productTypeEdges,
           }
         } = data;
-        // const categoryEdges = data.attributes.edges;
-        // TODO: to be removed.
+
         const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
 
-        return <div className={`${className} filter-container`}>
-          <div className="main-header">Filter By:</div>
+        return <Wrapper>
+          <div className="header">Filter By:</div>
           {
             categoryEdges.map((category) => {
               const filter = FILTERS_TO_BE_DISPLAYED.find((it) => (it.id === category.node.name));
@@ -230,7 +245,24 @@ export const ProductListFilter = ({
               );
             })
           }
-        </div>;
+          <DropDown
+            label={"Sort by:"}
+            loadData={[]}
+            onOptionSelect={
+              (option) => (
+                {/*addFilter({
+                  type: category.node.name,
+                  filter: {
+                    id: option.id,
+                    name: option.name,
+                    slug: option.slug,
+                  },
+                })*/}
+              )
+            }
+          >
+          </DropDown>
+        </Wrapper>;
       }
     }
   </Query>
