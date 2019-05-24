@@ -20,6 +20,16 @@ export const ProductListReducers = (
         ...state,
         filters: state.filters.concat(action.filter),
       }
+    case 'REPLACE_FILTER':
+      return {
+        ...state,
+        filters: state.filters.map((filter) => {
+          if(filter.type == action.filter.type) {
+            return action.filter;
+          }
+          return filter;
+        })
+      }
     default:
       return state
   }

@@ -8,7 +8,13 @@ const addFilter = filter => ({
   filter,
 })
 
+const replaceFilter = filter => ({
+  type: 'REPLACE_FILTER',
+  filter,
+})
+
 export default {
   loadProducts,
   addFilter,
+  replaceFilter,
 }
