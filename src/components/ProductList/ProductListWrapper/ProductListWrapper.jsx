@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import ProductCard from './ProductCard'
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($query:String) {
-    products(query:$query) {
+  query LoadProducts($query:String, $attributes:[AttributeScalar]) {
+    products(query:$query, attributes:$attributes) {
       totalCount
       edges {
         node {
@@ -46,24 +46,25 @@ export default class ProductListWrapper extends Component {
     super(props);
   }
 
-
-
   render() {
     const {
       filters,
     } = this.props;
-    let category = "";
+
+    const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
+
+    const attributes = [];
     filters.forEach((it) => {
-      if(it.type == 'Category') {
-        category = it.filter.name;
-      }
-    })
+      attributes.push(`${getHyphenLowerCase(it.type)}:${getHyphenLowerCase(it.filter.name)}`);
+    });
     return (<Wrapper className={`row`}>
       <Query
         query={LOAD_PRODUCTS}
-        variables={{
-          query: category,
-        }}>
+        variables={
+          {
+            attributes,
+          }
+        }>
         {
           ({loading, error, data}) => {
             if(!data || Object.keys(data).length == 0) {
@@ -71,7 +72,7 @@ export default class ProductListWrapper extends Component {
             }
             return data.products.edges.map(
               (product) => (
-                <ProductCard className="col-3" {...product.node} />
+                <ProductCard className="col-4" {...product.node} />
               )
             )
           }
