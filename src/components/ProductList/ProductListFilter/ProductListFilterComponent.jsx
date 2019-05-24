@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import { DropDown } from './../../commons/';
 // import { asyncContainer, Typeahead } from 'react-bootstrap-typeahead';
 
 import './ProductListFilter.scss';
@@ -35,11 +36,37 @@ const LOAD_FILTERS = gql`
   }
 `;
 
+const LOAD_PRODUCT_CATEGORIES = gql`
+  query LoadProductCategories($query: String) {
+    attributes(query: $query){
+      edges {
+        node {
+          name
+          values {
+            id
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+
 const FILTERS_TO_BE_DISPLAYED = [
-  'Category',
-  'Editor',
-  'Year',
-]
+  {
+    id: 'Year',
+    name: 'Year'
+  },
+  {
+    id: 'Editor',
+    name: 'Author/Editor'
+  },
+  {
+    id: 'Category',
+    name: 'Category'
+  },
+];
 
 // const SEARCH_ATTRIBUTES = gql`
 //   query SearchAttributes($name:String!){
@@ -176,37 +203,35 @@ export const ProductListFilter = ({
         const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
 
         return <div className={`${className} filter-container`}>
-          <div className="main-header">Filter By</div>
-          <Filter
-            isOpen={true}
-            alwaysOpen={true}
-            filterName="All Publications"
-            noFilters="No Types Found"
-            >
-            <FilterListRepeater
-              type="Category"
-              addFilter={addFilter}
-              filters={productTypes}
-            />
-          </Filter>
+          <div className="main-header">Filter By:</div>
           {
-            categoryEdges.map((category) => (
-              FILTERS_TO_BE_DISPLAYED.findIndex((it) => (it === category.node.name)) != -1 &&
-              <Filter
-                key={category.node.slug}
-                filterName={`By ${category.node.name}`}
-                noFilters={`No ${category.node.name} Found`}
-                >
-                <FilterListRepeater
-                  type={category.node.name}
-                  addFilter={addFilter}
-                  filters={category.node.values}
-                />
-              </Filter>
-            ))
+            categoryEdges.map((category) => {
+              const filter = FILTERS_TO_BE_DISPLAYED.find((it) => (it.id === category.node.name));
+
+              return (
+                <DropDown
+                  label={filter.name}
+                  enableSearch={true}
+                  loadData={category.node.values}
+                  onOptionSelect={
+                    (option) => (
+                      addFilter({
+                        type: category.node.name,
+                        filter: {
+                          id: option.id,
+                          name: option.name,
+                          slug: option.slug,
+                        },
+                      })
+                    )
+                  }
+                  >
+                </DropDown>
+              );
+            })
           }
         </div>;
       }
     }
   </Query>
-)
+);
