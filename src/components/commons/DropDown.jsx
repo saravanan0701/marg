@@ -62,6 +62,17 @@ const Wrapper = styled.div`
       font-size: 14px;
       padding: 15px 5px 0px;
       cursor: pointer;
+
+      & > .option {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        & > .icon {
+          color: ${props => props.theme.primaryColor};
+        }
+      }
     }
   }
 `;
@@ -75,6 +86,7 @@ class DropDown extends Component {
       dontClose: false,
       options: [],
       error: false,
+      selectedOption: null,
     }
     this.labelClicked = this.labelClicked.bind(this);
     this.inputFocused = this.inputFocused.bind(this);
@@ -114,6 +126,7 @@ class DropDown extends Component {
     this.setState({
       showBody: true,
       dontClose: true,
+      selectedOption: option,
     });
 
     this.props.onOptionSelect(option);
@@ -180,6 +193,7 @@ class DropDown extends Component {
     const {
       showBody,
       error,
+      selectedOption,
     } = this.state;
     
     const {
@@ -230,7 +244,12 @@ class DropDown extends Component {
                 visibleOptions
                   .map(
                     (option, id) => (
-                      <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
+                      <div className="option">
+                        <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
+                        {
+                          option && selectedOption && option.slug == selectedOption.slug && <FontAwesome className="icon" name='times' />
+                        }
+                      </div>
                     )
                   )
               }
