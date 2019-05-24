@@ -36,6 +36,7 @@ const Wrapper = styled.div`
     background: white;
     border: 1px solid #9d9d9d;
     font-size: 14px;
+    position: absolute;
 
     & > input {
       border: 1px solid #979797;
@@ -60,6 +61,7 @@ const Wrapper = styled.div`
       width: 100%;
       font-size: 14px;
       padding: 15px 5px 0px;
+      cursor: pointer;
     }
   }
 `;
@@ -88,6 +90,7 @@ class DropDown extends Component {
       }
       this.setState({
         showBody: !this.state.showBody,
+        searchable: null,
       });
     }.bind(this), 0);
   }
@@ -103,6 +106,7 @@ class DropDown extends Component {
     this.setState({
       showBody: false,
       dontClose: false,
+      searchable: null,
     });
   }
 
@@ -167,7 +171,7 @@ class DropDown extends Component {
         if(!searchable) {
           return option;
         }
-        return option.toLocaleLowerCase.startsWith(searchable.toLocaleLowerCase());
+        return option.name.toLocaleLowerCase().startsWith(searchable.toLocaleLowerCase());
       })
       .slice(0, 10);
   }
@@ -188,7 +192,7 @@ class DropDown extends Component {
 
     return (
       <Wrapper {...this.props}>
-        <button className="label" onClick={this.labelClicked} onBlur={this.labelClicked}>
+        <button className="label" onMouseDown={this.labelClicked} onBlur={this.labelClicked}>
           <div>{label}</div>
           {
             showBody?
