@@ -8,7 +8,7 @@ import { FlatButton } from './../commons/';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 100px 150px;
+  padding: 100px;
 
   & > .heading {
     font-family: "Cormorant Garamond Medium";

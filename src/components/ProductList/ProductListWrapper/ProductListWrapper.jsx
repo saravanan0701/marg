@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
+import styled from 'styled-components';
 
 import ProductCard from './ProductCard'
 
@@ -35,6 +36,10 @@ const LOAD_PRODUCTS = gql`
     }
   }
 `;
+
+const Wrapper = styled.div`
+  padding: 20px;
+`;
 export default class ProductListWrapper extends Component {
   
   constructor(props) {
@@ -46,7 +51,6 @@ export default class ProductListWrapper extends Component {
   render() {
     const {
       filters,
-      className
     } = this.props;
     let category = "";
     filters.forEach((it) => {
@@ -54,7 +58,7 @@ export default class ProductListWrapper extends Component {
         category = it.filter.name;
       }
     })
-    return (<div className={`row ${className}`}>
+    return (<Wrapper className={`row`}>
       <Query
         query={LOAD_PRODUCTS}
         variables={{
@@ -73,6 +77,6 @@ export default class ProductListWrapper extends Component {
           }
         }
       </Query>
-    </div>)
+    </Wrapper>)
   }
 }
