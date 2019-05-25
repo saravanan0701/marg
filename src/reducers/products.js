@@ -24,11 +24,21 @@ export const ProductListReducers = (
       return {
         ...state,
         filters: state.filters.map((filter) => {
-          if(filter.type == action.filter.type) {
+          if(filter.type === action.filter.type) {
             return action.filter;
           }
           return filter;
         })
+      }
+    case 'REMOVE_FILTER':
+      return {
+        ...state,
+        filters: state.filters.reduce((acc, filter) => {
+          if(action.filter.type !== filter.type) {
+            return acc.concat(action.filter);
+          }
+          return acc;
+        }, []),
       }
     default:
       return state

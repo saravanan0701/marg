@@ -13,8 +13,14 @@ const replaceFilter = filter => ({
   filter,
 })
 
+const removeFilter = filter => ({
+  type: 'REMOVE_FILTER',
+  filter,
+})
+
 export default {
   loadProducts,
   addFilter,
   replaceFilter,
+  removeFilter,
 }
