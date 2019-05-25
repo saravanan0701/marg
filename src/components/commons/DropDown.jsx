@@ -93,6 +93,7 @@ class DropDown extends Component {
     this.inputBlurred = this.inputBlurred.bind(this);
     this.searchList = this.searchList.bind(this);
     this.optionsClicked = this.optionsClicked.bind(this);
+    this.optionUnselect = this.optionUnselect.bind(this);
   }
 
   labelClicked() {
@@ -130,6 +131,23 @@ class DropDown extends Component {
     });
 
     this.props.onOptionSelect(option);
+
+    setTimeout(function() {
+      this.setState({
+        showBody: false,
+        dontClose: false,
+      });
+    }.bind(this), 100);
+  }
+
+  optionUnselect(option) {
+    this.setState({
+      showBody: true,
+      dontClose: true,
+      selectedOption: null,
+    });
+
+    this.props.onOptionClose(option);
 
     setTimeout(function() {
       this.setState({
@@ -199,7 +217,6 @@ class DropDown extends Component {
     const {
       enableSearch,
       label,
-      onOptionSelect,
     } = this.props;
     
     let visibleOptions = this.filterOptions();
@@ -247,7 +264,8 @@ class DropDown extends Component {
                       <div className="option">
                         <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
                         {
-                          option && selectedOption && option.slug == selectedOption.slug && <FontAwesome className="icon" name='times' />
+                          option && selectedOption && option.slug == selectedOption.slug &&
+                            <FontAwesome className="icon" name='times' onMouseDown={() => this.optionUnselect(option)} />
                         }
                       </div>
                     )
