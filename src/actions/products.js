@@ -18,9 +18,20 @@ const removeAttributeFilter = filter => ({
   filter,
 })
 
+const addCategoryFilter = category => ({
+  type: 'ADD_CATEGORY_FILTER',
+  category,
+})
+
+const removeCategoryFilter = () => ({
+  type: 'REMOVE_CATEGORY_FILTER',
+})
+
 export default {
   loadProducts,
   addAttributeFilter,
   replaceAttributeFilter,
   removeAttributeFilter,
+  addCategoryFilter,
+  removeCategoryFilter,
 }

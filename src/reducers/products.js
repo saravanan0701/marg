@@ -52,6 +52,22 @@ export const ProductListReducers = (
           }, []),
         }
       }
+    case 'ADD_CATEGORY_FILTER':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          category: action.category,
+        }
+      }
+    case 'REMOVE_CATEGORY_FILTER':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          category: null,
+        }
+      }
     default:
       return state
   }
