@@ -12,6 +12,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addFilter: (filter) => dispatch(actions.addFilter(filter)),
     replaceFilter: (filter) => dispatch(actions.replaceFilter(filter)),
+    removeFilter: (filter) => dispatch(actions.removeFilter(filter)),
   }
 }
 

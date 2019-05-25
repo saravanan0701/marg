@@ -68,6 +68,7 @@ export const ProductListFilter = ({
   client,
   addFilter,
   replaceFilter,
+  removeFilter,
   className,
   filters,
 }) => {
@@ -124,7 +125,16 @@ export const ProductListFilter = ({
                         })
                       )
                     }
-                    >
+                  onOptionClose={
+                    (option) => (
+                      removeFilter({
+                        type: category.node.name,
+                        // filter object which contains details is not required
+                        // because we remove based on filter type and not the filter itself.
+                      })
+                    )
+                  }
+                  >
                   </DropDown>
                 );
               })
