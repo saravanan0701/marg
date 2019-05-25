@@ -3,9 +3,18 @@ import { withApollo } from 'react-apollo';
 import actions from './../../../actions/'
 import ProductListWrapper from './ProductListWrapper'
 
-const mapStateToProps = ({productList: { products, filters } }, ownProps) => ({
+const mapStateToProps = ({
+  productList: {
+    products,
+    filter: {
+      attributes,
+      category,
+    }
+  }
+}, ownProps) => ({
   products,
-  filters,
+  attributes,
+  category,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

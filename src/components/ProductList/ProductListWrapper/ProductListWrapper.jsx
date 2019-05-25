@@ -48,21 +48,21 @@ export default class ProductListWrapper extends Component {
 
   render() {
     const {
-      filters,
+      attributes,
     } = this.props;
 
     const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
 
-    const attributes = [];
-    filters.forEach((it) => {
-      attributes.push(`${getHyphenLowerCase(it.type)}:${getHyphenLowerCase(it.filter.name)}`);
+    const queryAttributes = [];
+    attributes.forEach((it) => {
+      queryAttributes.push(`${getHyphenLowerCase(it.type)}:${getHyphenLowerCase(it.filter.name)}`);
     });
     return (<Wrapper className={`row`}>
       <Query
         query={LOAD_PRODUCTS}
         variables={
           {
-            attributes,
+            attributes: queryAttributes,
           }
         }>
         {

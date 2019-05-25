@@ -4,8 +4,14 @@ import actions from './../../../actions/'
 import { ProductListFilter as Component } from './ProductListFilterComponent'
 
 
-const mapStateToProps = ({ productList: { filters } }, ownProps) => ({
-  filters,
+const mapStateToProps = ({
+  productList: {
+    filter: {
+      attributes,
+    }
+  }
+}, ownProps) => ({
+  attributes,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

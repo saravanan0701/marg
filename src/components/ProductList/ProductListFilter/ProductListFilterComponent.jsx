@@ -70,10 +70,10 @@ export const ProductListFilter = ({
   replaceFilter,
   removeFilter,
   className,
-  filters,
+  attributes,
 }) => {
   const applyFilter = (filter) => {
-    const filterFound = filters.find((it) => it.type === filter.type);
+    const filterFound = attributes.find((it) => it.type === filter.type);
     if(filterFound) {
       return replaceFilter(filter);
     }
