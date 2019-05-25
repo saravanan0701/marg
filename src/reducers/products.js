@@ -18,7 +18,7 @@ export const ProductListReducers = (
           products: action.products,
         }
       };
-    case 'ADD_FILTER':
+    case 'ADD_ATTRIBUTE_FILTER':
       return {
         ...state,
         filter: {
@@ -26,7 +26,7 @@ export const ProductListReducers = (
           attributes: state.filter.attributes.concat(action.filter),
         }
       }
-    case 'REPLACE_FILTER':
+    case 'REPLACE_ATTRIBUTE_FILTER':
       return {
         ...state,
         filter: {
@@ -39,7 +39,7 @@ export const ProductListReducers = (
           })
         },
       }
-    case 'REMOVE_FILTER':
+    case 'REMOVE_ATTRIBUTE_FILTER':
       return {
         ...state,
         filter: {

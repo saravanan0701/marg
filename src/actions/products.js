@@ -3,24 +3,24 @@ const loadProducts = products => ({
   products
 });
 
-const addFilter = filter => ({
-  type: 'ADD_FILTER',
+const addAttributeFilter = filter => ({
+  type: 'ADD_ATTRIBUTE_FILTER',
   filter,
 })
 
-const replaceFilter = filter => ({
-  type: 'REPLACE_FILTER',
+const replaceAttributeFilter = filter => ({
+  type: 'REPLACE_ATTRIBUTE_FILTER',
   filter,
 })
 
-const removeFilter = filter => ({
-  type: 'REMOVE_FILTER',
+const removeAttributeFilter = filter => ({
+  type: 'REMOVE_ATTRIBUTE_FILTER',
   filter,
 })
 
 export default {
   loadProducts,
-  addFilter,
-  replaceFilter,
-  removeFilter,
+  addAttributeFilter,
+  replaceAttributeFilter,
+  removeAttributeFilter,
 }

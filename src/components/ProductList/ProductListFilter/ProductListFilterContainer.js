@@ -16,9 +16,9 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addFilter: (filter) => dispatch(actions.addFilter(filter)),
-    replaceFilter: (filter) => dispatch(actions.replaceFilter(filter)),
-    removeFilter: (filter) => dispatch(actions.removeFilter(filter)),
+    addFilter: (filter) => dispatch(actions.addAttributeFilter(filter)),
+    replaceFilter: (filter) => dispatch(actions.replaceAttributeFilter(filter)),
+    removeFilter: (filter) => dispatch(actions.removeAttributeFilter(filter)),
   }
 }
 
