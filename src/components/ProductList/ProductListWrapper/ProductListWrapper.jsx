@@ -49,6 +49,7 @@ export default class ProductListWrapper extends Component {
   render() {
     const {
       attributes,
+      category,
     } = this.props;
 
     const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
@@ -63,6 +64,7 @@ export default class ProductListWrapper extends Component {
         variables={
           {
             attributes: queryAttributes,
+            category: category && category.id,
           }
         }>
         {
