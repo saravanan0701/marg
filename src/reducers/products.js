@@ -4,6 +4,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
     attributes: [],
     category: null,
   },
+  sortBy: null,
 }
 export const ProductListReducers = (
   state = INITIAL_PRODUCT_LIST_STATE,
@@ -67,6 +68,18 @@ export const ProductListReducers = (
           ...state.filter,
           category: null,
         }
+      }
+    case 'ADD_SORT_BY':
+      return {
+        ...state,
+        sortBy: {
+          ...action.sortBy,
+        }
+      }
+    case 'RESET_SORT_BY':
+      return {
+        ...state,
+        sortBy: null,
       }
     default:
       return state

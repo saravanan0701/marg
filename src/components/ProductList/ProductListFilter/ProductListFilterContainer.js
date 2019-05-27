@@ -19,6 +19,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addFilter: (filter) => dispatch(actions.addAttributeFilter(filter)),
     replaceFilter: (filter) => dispatch(actions.replaceAttributeFilter(filter)),
     removeFilter: (filter) => dispatch(actions.removeAttributeFilter(filter)),
+    addSortBy: (sortBy) => dispatch(actions.addSortBy(sortBy)),
+    resetSortBy: () => dispatch(actions.resetSortBy()),
   }
 }
 

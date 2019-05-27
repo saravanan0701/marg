@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import ProductCard from './ProductCard'
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($query:String, $attributes:[AttributeScalar]) {
-    products(query:$query, attributes:$attributes) {
+  query LoadProducts($query:String, $attributes:[AttributeScalar], $sortBy:String) {
+    products(query:$query, attributes:$attributes, sortBy:$sortBy) {
       totalCount
       edges {
         node {
@@ -50,6 +50,7 @@ export default class ProductListWrapper extends Component {
     const {
       attributes,
       category,
+      sortBy,
     } = this.props;
 
     const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
@@ -65,6 +66,7 @@ export default class ProductListWrapper extends Component {
           {
             attributes: queryAttributes,
             category: category && category.id,
+            sortBy: sortBy && sortBy.val,
           }
         }>
         {
