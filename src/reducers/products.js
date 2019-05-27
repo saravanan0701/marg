@@ -47,7 +47,7 @@ export const ProductListReducers = (
           ...state.filter,
           attributes: state.filter.attributes.reduce((acc, filter) => {
             if(action.filter.type !== filter.type) {
-              return acc.concat(action.filter);
+              return acc.concat(filter);
             }
             return acc;
           }, []),
