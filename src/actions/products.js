@@ -27,6 +27,16 @@ const removeProductTypeFilter = () => ({
   type: 'REMOVE_PRODUCT_TYPE_FILTER',
 })
 
+const addSortBy = (sortBy) => ({
+  type: 'ADD_SORT_BY',
+  sortBy,
+});
+
+const resetSortBy = (sortBy) => ({
+  type: 'RESET_SORT_BY',
+  sortBy,
+});
+
 export default {
   loadProducts,
   addAttributeFilter,
@@ -34,4 +44,6 @@ export default {
   removeAttributeFilter,
   addProductTypeFilter,
   removeProductTypeFilter,
+  addSortBy,
+  resetSortBy,
 }

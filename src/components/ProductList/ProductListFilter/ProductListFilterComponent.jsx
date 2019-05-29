@@ -48,6 +48,29 @@ const FILTERS_TO_BE_DISPLAYED = [
   },
 ];
 
+const SORT_BY = [
+  {
+    name: "Price Low-High",
+    slug: "PRICE_LOW_HIGH",
+    val: "price"
+  },
+  {
+    name: "Price High-Low",
+    slug: "PRICE_HIGH_LOW",
+    val: "-price"
+  },
+  {
+    name: "Name Increasing",
+    slug: "NAME_INCREASING",
+    val: "name"
+  },
+  {
+    name: "Name Decreasing",
+    slug: "NAME_DECREASING",
+    val: "-name"
+  },
+];
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -71,6 +94,8 @@ export const ProductListFilter = ({
   removeFilter,
   className,
   attributes,
+  addSortBy,
+  resetSortBy,
 }) => {
   const applyFilter = (filter) => {
     const filterFound = attributes.find((it) => it.type === filter.type);
@@ -141,17 +166,15 @@ export const ProductListFilter = ({
             }
             <DropDown
               label={"Sort by:"}
-              loadData={[]}
+              loadData={SORT_BY}
               onOptionSelect={
                 (option) => (
-                  {/*addFilter({
-                    type: category.node.name,
-                    filter: {
-                      id: option.id,
-                      name: option.name,
-                      slug: option.slug,
-                    },
-                  })*/}
+                  addSortBy(option)
+                )
+              }
+              onOptionClose={
+                (option) => (
+                  resetSortBy()
                 )
               }
             >

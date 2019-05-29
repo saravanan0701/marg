@@ -31,6 +31,7 @@ const Wrapper = styled.div`
 
   & > div.body {
 
+    width: 100%;
     z-index: 1;
     padding: 15px 10px;
     background: white;
@@ -39,6 +40,7 @@ const Wrapper = styled.div`
     position: absolute;
 
     & > input {
+      width: 100%;
       border: 1px solid #979797;
       background-color: #f8f8f8;
       padding: 10px;

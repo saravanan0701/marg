@@ -4,6 +4,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
     attributes: [],
     productType: null,
   },
+  sortBy: null,
 }
 export const ProductListReducers = (
   state = INITIAL_PRODUCT_LIST_STATE,
@@ -46,7 +47,7 @@ export const ProductListReducers = (
           ...state.filter,
           attributes: state.filter.attributes.reduce((acc, filter) => {
             if(action.filter.type !== filter.type) {
-              return acc.concat(action.filter);
+              return acc.concat(filter);
             }
             return acc;
           }, []),
@@ -67,6 +68,18 @@ export const ProductListReducers = (
           ...state.filter,
           productType: null,
         }
+      }
+    case 'ADD_SORT_BY':
+      return {
+        ...state,
+        sortBy: {
+          ...action.sortBy,
+        }
+      }
+    case 'RESET_SORT_BY':
+      return {
+        ...state,
+        sortBy: null,
       }
     default:
       return state

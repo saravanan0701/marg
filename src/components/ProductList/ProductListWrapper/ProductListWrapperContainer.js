@@ -9,12 +9,14 @@ const mapStateToProps = ({
     filter: {
       attributes,
       category,
-    }
+    },
+    sortBy,
   }
 }, ownProps) => ({
   products,
   attributes,
   category,
+  sortBy,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({})
