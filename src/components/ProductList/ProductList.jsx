@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import ProductListFilter from './ProductListFilter';
 import ProductListWrapper from './ProductListWrapper';
-import ProductCategoryFilter from './ProductCategoryFilter';
+import ProductTypeFilter from './ProductTypeFilter';
 import { FlatButton } from './../commons/';
 
 const Wrapper = styled.div`
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 export const ProductList = (props) => (
   <Wrapper>
     <div className="heading">All Publications</div>
-    <ProductCategoryFilter />
+    <ProductTypeFilter />
     <ProductListFilter />
     <ProductListWrapper />
   </Wrapper>

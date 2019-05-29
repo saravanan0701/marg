@@ -18,13 +18,13 @@ const removeAttributeFilter = filter => ({
   filter,
 })
 
-const addCategoryFilter = category => ({
-  type: 'ADD_CATEGORY_FILTER',
-  category,
+const addProductTypeFilter = productType => ({
+  type: 'ADD_PRODUCT_TYPE_FILTER',
+  productType,
 })
 
-const removeCategoryFilter = () => ({
-  type: 'REMOVE_CATEGORY_FILTER',
+const removeProductTypeFilter = () => ({
+  type: 'REMOVE_PRODUCT_TYPE_FILTER',
 })
 
 export default {
@@ -32,6 +32,6 @@ export default {
   addAttributeFilter,
   replaceAttributeFilter,
   removeAttributeFilter,
-  addCategoryFilter,
-  removeCategoryFilter,
+  addProductTypeFilter,
+  removeProductTypeFilter,
 }
