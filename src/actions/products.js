@@ -6,22 +6,22 @@ const loadProducts = products => ({
 const addAttributeFilter = filter => ({
   type: 'ADD_ATTRIBUTE_FILTER',
   filter,
-})
+});
 
 const replaceAttributeFilter = filter => ({
   type: 'REPLACE_ATTRIBUTE_FILTER',
   filter,
-})
+});
 
 const removeAttributeFilter = filter => ({
   type: 'REMOVE_ATTRIBUTE_FILTER',
   filter,
-})
+});
 
 const addCategoryFilter = category => ({
   type: 'ADD_CATEGORY_FILTER',
   category,
-})
+});
 
 const removeCategoryFilter = () => ({
   type: 'REMOVE_CATEGORY_FILTER',
@@ -37,6 +37,11 @@ const resetSortBy = (sortBy) => ({
   sortBy,
 });
 
+const updatePagingData = (pagination) => ({
+  type: 'UPDATE_PAGING_DATA',
+  pagination,
+})
+
 export default {
   loadProducts,
   addAttributeFilter,
@@ -46,4 +51,5 @@ export default {
   removeCategoryFilter,
   addSortBy,
   resetSortBy,
+  updatePagingData,
 }
