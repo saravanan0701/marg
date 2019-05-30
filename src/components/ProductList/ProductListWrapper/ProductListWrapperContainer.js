@@ -11,15 +11,19 @@ const mapStateToProps = ({
       productType,
     },
     sortBy,
+    pagination,
   }
 }, ownProps) => ({
   products,
   attributes,
   productType,
   sortBy,
+  pagination,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({})
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  updatePagingData: (pagination) => dispatch(actions.updatePagingData(pagination)),
+})
 
 export default connect(
   mapStateToProps,

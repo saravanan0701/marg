@@ -5,6 +5,10 @@ const INITIAL_PRODUCT_LIST_STATE = {
     productType: null,
   },
   sortBy: null,
+  pagination: {
+    first: 5,
+    after: null,
+  },
 }
 export const ProductListReducers = (
   state = INITIAL_PRODUCT_LIST_STATE,
@@ -26,7 +30,7 @@ export const ProductListReducers = (
           ...state.filter,
           attributes: state.filter.attributes.concat(action.filter),
         }
-      }
+      };
     case 'REPLACE_ATTRIBUTE_FILTER':
       return {
         ...state,
@@ -39,7 +43,7 @@ export const ProductListReducers = (
             return filter;
           })
         },
-      }
+      };
     case 'REMOVE_ATTRIBUTE_FILTER':
       return {
         ...state,
@@ -81,6 +85,15 @@ export const ProductListReducers = (
         ...state,
         sortBy: null,
       }
+    case 'UPDATE_PAGING_DATA':
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          first: action.pagination.first,
+          after: action.pagination.after,
+        },
+      };
     default:
       return state
   }
