@@ -49,7 +49,7 @@ export default class ProductListWrapper extends Component {
   render() {
     const {
       attributes,
-      category,
+      productType,
       sortBy,
     } = this.props;
 
@@ -65,7 +65,7 @@ export default class ProductListWrapper extends Component {
         variables={
           {
             attributes: queryAttributes,
-            category: category && category.id,
+            productType: productType && productType.id,
             sortBy: sortBy && sortBy.val,
           }
         }>

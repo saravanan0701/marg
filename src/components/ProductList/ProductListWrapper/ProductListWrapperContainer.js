@@ -8,14 +8,14 @@ const mapStateToProps = ({
     products,
     filter: {
       attributes,
-      category,
+      productType,
     },
     sortBy,
   }
 }, ownProps) => ({
   products,
   attributes,
-  category,
+  productType,
   sortBy,
 })
 
