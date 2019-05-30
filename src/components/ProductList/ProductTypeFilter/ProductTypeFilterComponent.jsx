@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Collapse } from 'reactstrap';
-import { FlatButton } from './../../commons/';
+import { FlatButton } from '../../commons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,51 +20,49 @@ const Wrapper = styled.div`
   }
 `;
 
-const LOAD_CATEGORIES = gql`
-  query LoadCategories {
-    categories(query: "") {
+const LOAD_TYPES = gql`
+  query LoadTypes {
+    productTypes {
       edges {
         node {
           id
           name
-          slug
         }
       }
     }
   }
 `;
 
-export const ProductCategoryFilterComponent = ({ category, selectCategory }) => (
+export const ProductTypeFilterComponent = ({ productType, selectProductType }) => (
   <Wrapper>
-    <Query query={LOAD_CATEGORIES}>
+    <Query query={LOAD_TYPES}>
       {
       ({loading, data, error}) => {
             if(loading) {
-              return <h4>Loading Categories, please wait</h4>
+              return <h4>Loading product types...please wait</h4>
             }
             if(error) {
-              return <h4>Error loading categories</h4>
+              return <h4>Error loading product types</h4>
             }
             let menus = [<FlatButton
               key="0"
-              onMouseDown={() => selectCategory(null)}
-              className={!category? 'active': ''}
+              onMouseDown={() => selectProductType(null)}
+              className={!productType? 'active': ''}
               type="secondary"
               >
               View All
             </FlatButton>];
-            data.categories.edges.forEach(
-              (categoryIt, id) => menus.push(
+            data.productTypes.edges.forEach(
+              (productTypeIt, id) => menus.push(
                 <FlatButton key={id + 1}
-                  onMouseDown={() => selectCategory({
-                    name: categoryIt.node.name,
-                    slug: categoryIt.node.slug,
-                    id: categoryIt.node.id,
+                  onMouseDown={() => selectProductType({
+                    name: productTypeIt.node.name,
+                    id: productTypeIt.node.id,
                   })}
-                  className={category && category.slug === categoryIt.node.slug? 'active': ''}
+                  className={productType && productType.id === productTypeIt.node.id? 'active': ''}
                   type="secondary"
                 >
-                  {categoryIt.node.name}
+                  {productTypeIt.node.name}
                 </FlatButton>
               )
             );

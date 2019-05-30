@@ -2,7 +2,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   products: [],
   filter : {
     attributes: [],
-    category: null,
+    productType: null,
   },
   sortBy: null,
   pagination: {
@@ -56,21 +56,21 @@ export const ProductListReducers = (
             return acc;
           }, []),
         }
-      };
-    case 'ADD_CATEGORY_FILTER':
+      }
+    case 'ADD_PRODUCT_TYPE_FILTER':
       return {
         ...state,
         filter: {
           ...state.filter,
-          category: action.category,
+          productType: action.productType,
         }
-      };
-    case 'REMOVE_CATEGORY_FILTER':
+      }
+    case 'REMOVE_PRODUCT_TYPE_FILTER':
       return {
         ...state,
         filter: {
           ...state.filter,
-          category: null,
+          productType: null,
         }
       }
     case 'ADD_SORT_BY':

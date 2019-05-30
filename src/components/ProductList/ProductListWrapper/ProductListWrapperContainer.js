@@ -8,7 +8,7 @@ const mapStateToProps = ({
     products,
     filter: {
       attributes,
-      category,
+      productType,
     },
     sortBy,
     pagination,
@@ -16,7 +16,7 @@ const mapStateToProps = ({
 }, ownProps) => ({
   products,
   attributes,
-  category,
+  productType,
   sortBy,
   pagination,
 })

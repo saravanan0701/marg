@@ -51,10 +51,10 @@ export default class ProductListWrapper extends Component {
     }
   }
 
-  async loadProducts() {
+  loadProducts() {
     const {
       attributes,
-      category,
+      productType,
       sortBy,
       client,
       updatePagingData,
