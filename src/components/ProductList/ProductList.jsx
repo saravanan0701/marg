@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { Query } from "react-apollo";
+import gql from 'graphql-tag';
+
 import ProductListFilter from './ProductListFilter';
 import ProductListWrapper from './ProductListWrapper';
 import ProductTypeFilter from './ProductTypeFilter';
@@ -21,12 +24,40 @@ const Wrapper = styled.div`
   }
 `;
 
+const LOAD_ALL_FILTERS = gql`
+  query LoadAllFilters {
+    productTypes {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
 export const ProductList = (props) => (
   <Wrapper>
     <div className="heading">All Publications</div>
-    <ProductTypeFilter />
-    <ProductListFilter />
-    <ProductListWrapper />
+    <Query
+      query={LOAD_ALL_FILTERS}>
+      {
+        ({loading, error, data}) => {
+          if(!data || Object.keys(data).length == 0) {
+            return <h1>Nothing</h1>;
+          }
+          console.log(data);
+          return (
+            <div>
+              <ProductTypeFilter availableProductTypes={data.productTypes.edges} />
+              <ProductListFilter />
+              <ProductListWrapper />
+            </div> 
+          )
+        }
+      }
+    </Query>
   </Wrapper>
 );
 

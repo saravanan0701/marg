@@ -33,43 +33,41 @@ const LOAD_TYPES = gql`
   }
 `;
 
-export const ProductTypeFilterComponent = ({ productType, selectProductType }) => (
-  <Wrapper>
-    <Query query={LOAD_TYPES}>
-      {
-      ({loading, data, error}) => {
-            if(loading) {
-              return <h4>Loading product types...please wait</h4>
-            }
-            if(error) {
-              return <h4>Error loading product types</h4>
-            }
-            let menus = [<FlatButton
-              key="0"
-              onMouseDown={() => selectProductType(null)}
-              className={!productType? 'active': ''}
-              type="secondary"
-              >
-              View All
-            </FlatButton>];
-            data.productTypes.edges.forEach(
-              (productTypeIt, id) => menus.push(
-                <FlatButton key={id + 1}
-                  onMouseDown={() => selectProductType({
-                    name: productTypeIt.node.name,
-                    id: productTypeIt.node.id,
-                  })}
-                  className={productType && productType.id === productTypeIt.node.id? 'active': ''}
-                  type="secondary"
-                >
-                  {productTypeIt.node.name}
-                </FlatButton>
-              )
-            );
+export const ProductTypeFilterComponent = ({ productType, selectProductType, availableProductTypes }) => {
 
-            return menus.map((menu) => menu);
-          }
-        }
-    </Query>
-  </Wrapper>
-);
+  availableProductTypes.forEach((type) => {
+    console.log(type);
+  });
+
+  const menus = [
+    <FlatButton
+      key="0"
+      onMouseDown={() => selectProductType(null)}
+      className={!productType? 'active': ''}
+      type="secondary"
+      >
+      View All
+    </FlatButton>
+  ];
+
+  availableProductTypes.forEach(
+    (productTypeIt, id) => menus.push(
+      <FlatButton key={id + 1}
+        onMouseDown={() => selectProductType({
+          name: productTypeIt.node.name,
+          id: productTypeIt.node.id,
+        })}
+        className={productType && productType.id === productTypeIt.node.id? 'active': ''}
+        type="secondary"
+      >
+        {productTypeIt.node.name}
+      </FlatButton>
+    )
+  );
+
+  return (
+    <Wrapper>
+      { menus.map((menu) => menu) }
+    </Wrapper>
+  )
+}
