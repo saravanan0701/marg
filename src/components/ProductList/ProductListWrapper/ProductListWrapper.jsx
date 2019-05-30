@@ -97,7 +97,6 @@ export default class ProductListWrapper extends Component {
     return this
       .loadProducts()
       .then((products) => {
-        console.log("PRODUCTS: on state", products);
         this.setState({
           products,
         })

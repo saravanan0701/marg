@@ -33,12 +33,12 @@ const LOAD_TYPES = gql`
   }
 `;
 
-export const ProductTypeFilterComponent = ({ productType, selectProductType, availableProductTypes }) => {
-
-  availableProductTypes.forEach((type) => {
-    console.log(type);
-  });
-
+export const ProductTypeFilterComponent = ({
+  productType, 
+  selectProductType, 
+  availableProductTypes 
+}) => {
+  
   const menus = [
     <FlatButton
       key="0"

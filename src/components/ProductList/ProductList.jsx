@@ -47,7 +47,6 @@ export const ProductList = (props) => (
           if(!data || Object.keys(data).length == 0) {
             return <h1>Nothing</h1>;
           }
-          console.log(data);
           return (
             <div>
               <ProductTypeFilter availableProductTypes={data.productTypes.edges} />
