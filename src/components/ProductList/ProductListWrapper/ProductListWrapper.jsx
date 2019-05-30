@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import ProductCard from './ProductCard'
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($query:String, $attributes:[AttributeScalar], $sortBy:String, $first:Int!, $after:String) {
-    products(query:$query, attributes:$attributes, sortBy:$sortBy, first:$first, after:$after) {
+  query LoadProducts($query:String, $productTypeName: String, $attributes:[AttributeScalar], $sortBy:String, $first:Int!, $after:String) {
+    products(query:$query, productType_Name:$productTypeName, attributes:$attributes, sortBy:$sortBy, first:$first, after:$after) {
       totalCount
       edges {
         node {
@@ -51,7 +51,8 @@ export default class ProductListWrapper extends Component {
     }
   }
 
-  loadProducts() {
+  loadProducts(usePagination) {
+    //Only use pagination attributes when `pageInfo` is changes
     const {
       attributes,
       productType,
@@ -75,9 +76,9 @@ export default class ProductListWrapper extends Component {
       query: LOAD_PRODUCTS,
       variables: {
         first,
-        after,
+        after: usePagination? after: "",
+        productTypeName: productType && productType.name,
         attributes: queryAttributes,
-        category: category && category.id,
         sortBy: sortBy && sortBy.val,
       }
     }).then(({data: { products: { edges, pageInfo } }}) => {
@@ -105,7 +106,7 @@ export default class ProductListWrapper extends Component {
 
   appendProducts() {
     this
-      .loadProducts()
+      .loadProducts(true)
       .then((products) => {
         console.log("PRODUCTS: on state", products);
         this.setState({
@@ -121,8 +122,9 @@ export default class ProductListWrapper extends Component {
   componentDidUpdate(prevProps) {
     //TODO: Add `productType` filter check.
     if(this.props.attributes != prevProps.attributes
+        || this.props.productType != prevProps.productType
         || this.props.sortBy != prevProps.sortBy) {
-      this.setProducts();      
+      this.setProducts();
     }
 
     if(this.props.pagination != prevProps.pagination
