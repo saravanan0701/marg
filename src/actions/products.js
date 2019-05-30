@@ -18,8 +18,6 @@ const removeAttributeFilter = filter => ({
   filter,
 });
 
-})
-
 const addProductTypeFilter = productType => ({
   type: 'ADD_PRODUCT_TYPE_FILTER',
   productType,
