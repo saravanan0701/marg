@@ -89,8 +89,6 @@ function* loadProductsFromBackend({ client }) {
 
     const products = edges.map((productEdge) => productEdge.node);
     
-    console.log();
-
     yield put(
       actions.replaceProducts({
         products,
@@ -102,7 +100,6 @@ function* loadProductsFromBackend({ client }) {
     );
   
   } catch (e) {
-    console.log("ERROR: ", e);
-    yield put(actions.loginFailure());
+    yield put(actions.loadProductsError());
   }
 }

@@ -2,6 +2,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   products: [],
   loadingAllProducts: true,
   loadingNextPage: false,
+  loadProductsError: false,
   filter : {
     attributes: [],
     productType: null,
@@ -23,6 +24,13 @@ export const ProductListReducers = (
         ...state,
         loadingAllProducts: true,
       };
+    case 'LOAD_PRODUCTS_ERROR':
+      return {
+        ...state,
+        loadingAllProducts: false,
+        loadingNextPage: false,
+        loadProductsError: true,
+      };
     case 'REPLACE_PROUCTS':
       return {
         ...state,
@@ -33,7 +41,7 @@ export const ProductListReducers = (
           after: action.productsData.pagination.after,
           hasNextPage: action.productsData.pagination.hasNextPage,
         }
-      }
+      };
     case 'ADD_ATTRIBUTE_FILTER':
       return {
         ...state,

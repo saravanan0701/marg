@@ -8,11 +8,13 @@ const mapStateToProps = ({
     products,
     loadingAllProducts,
     loadingNextPage,
+    loadProductsError,
   }
 }, ownProps) => ({
   products,
   loadingAllProducts,
   loadingNextPage,
+  loadProductsError,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
