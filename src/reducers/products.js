@@ -18,6 +18,9 @@ export const ProductListReducers = (
   state = INITIAL_PRODUCT_LIST_STATE,
   action
 ) => {
+  //Note: All actions which modify filter/sortBy/pagination should be added in saga to load data from backend.
+  // actions which modify selected filter only change its state, a side-effect in `products-list-saga.js` causes
+  // products to get fetched from server.
   switch (action.type) {
     case 'LOAD_PRODUCTS':
       return {
@@ -111,15 +114,6 @@ export const ProductListReducers = (
         loadingAllProducts: true,
         sortBy: null,
       }
-    // case 'UPDATE_PAGING_DATA':
-    //   return {
-    //     ...state,
-    //     pagination: {
-    //       ...state.pagination,
-    //       first: action.pagination.first,
-    //       after: action.pagination.after,
-    //     },
-    //   };
     default:
       return state
   }

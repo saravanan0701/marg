@@ -2,6 +2,7 @@ import { takeLatest, call, put, select } from "redux-saga/effects";
 import gql from 'graphql-tag';
 
 import actions from './../actions';
+import client from './../apollo/';
 
 const LOAD_PRODUCTS = gql`
   query LoadProducts($query:String, $productTypeName: String, $attributes:[AttributeScalar], $sortBy:String, $first:Int!, $after:String) {
@@ -38,10 +39,19 @@ const LOAD_PRODUCTS = gql`
 export const getProductsListFromState = (state) => state.productList
 
 export function* loadProducts() {
-  yield takeLatest("LOAD_PRODUCTS", loadProductsFromBackend);
+  yield takeLatest([
+    "LOAD_PRODUCTS",
+    "ADD_ATTRIBUTE_FILTER",
+    "REPLACE_ATTRIBUTE_FILTER",
+    "REMOVE_ATTRIBUTE_FILTER",
+    "ADD_PRODUCT_TYPE_FILTER",
+    "REMOVE_PRODUCT_TYPE_FILTER",
+    "ADD_SORT_BY",
+    "RESET_SORT_BY",
+  ], loadProductsFromBackend, {allowPagination: false});
 }
 
-function runProductsListQuery({ client, productsList }) {
+function runProductsListQuery({ client, productsList, allowPagination }) {
   const {
     filter: {
       attributes,
@@ -63,7 +73,7 @@ function runProductsListQuery({ client, productsList }) {
     query: LOAD_PRODUCTS,
     variables: {
       first,
-      after,
+      after: allowPagination? after: '',
       productTypeName: productType && productType.name,
       attributes: queryAttributes,
       sortBy: sortBy && sortBy.val,
@@ -72,7 +82,7 @@ function runProductsListQuery({ client, productsList }) {
 }
 
 
-function* loadProductsFromBackend({ client }) {
+function* loadProductsFromBackend({ allowPagination }) {
   try {
     const productsList = yield select(getProductsListFromState);
     const {
@@ -84,7 +94,8 @@ function* loadProductsFromBackend({ client }) {
       }
     } = yield call(runProductsListQuery, {
       client,
-      productsList
+      productsList,
+      allowPagination,
     });
 
     const products = edges.map((productEdge) => productEdge.node);
