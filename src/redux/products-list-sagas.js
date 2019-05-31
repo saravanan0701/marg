@@ -49,6 +49,10 @@ export function* loadProducts() {
     "ADD_SORT_BY",
     "RESET_SORT_BY",
   ], loadProductsFromBackend, {allowPagination: false});
+
+  yield takeLatest([
+    "LOAD_NEXT_PAGE",
+  ], loadProductsFromBackend, {allowPagination: true});
 }
 
 function runProductsListQuery({ client, productsList, allowPagination }) {
@@ -78,7 +82,24 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
       attributes: queryAttributes,
       sortBy: sortBy && sortBy.val,
     }
-  });
+  }).then(
+    (
+      {
+        data: {
+          products: {
+            edges,
+            pageInfo,
+          }
+        }
+      }
+    ) => {
+      const products = edges.map((productEdge) => productEdge.node);
+      return {
+        products,
+        pageInfo,
+      }
+    }
+  );
 }
 
 
@@ -86,29 +107,38 @@ function* loadProductsFromBackend({ allowPagination }) {
   try {
     const productsList = yield select(getProductsListFromState);
     const {
-      data: {
-        products: {
-          edges,
-          pageInfo,
-        }
-      }
+      products,
+      pageInfo,
     } = yield call(runProductsListQuery, {
       client,
       productsList,
       allowPagination,
     });
 
-    const products = edges.map((productEdge) => productEdge.node);
+    if(allowPagination) {
+      //If paginated, append products.
+      yield put(
+        actions.appendProducts({
+          products,
+          pagination: {
+            after: pageInfo.endCursor,
+            hasNextPage: pageInfo.hasNextPage,
+          }
+        })
+      );  
+    } else {
+      //On app boot or if any filter has been changed, replace all products.
+      yield put(
+        actions.replaceProducts({
+          products,
+          pagination: {
+            after: pageInfo.endCursor,
+            hasNextPage: pageInfo.hasNextPage,
+          }
+        })
+      );
+    }
     
-    yield put(
-      actions.replaceProducts({
-        products,
-        pagination: {
-          after: pageInfo.endCursor,
-          hasNextPage: pageInfo.hasNextPage,
-        }
-      })
-    );
   
   } catch (e) {
     yield put(actions.loadProductsError());

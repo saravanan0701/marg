@@ -15,10 +15,10 @@ const replaceProducts = productsData => ({
   productsData,
 });
 
-const appendProducts = products => ({
+const appendProducts = productsData => ({
   //Triggered by saga to append to existing products
-  type: 'REPLACE_PROUCTS',
-  products
+  type: 'APPEND_PROUCTS',
+  productsData
 });
 
 const addAttributeFilter = filter => ({
@@ -55,9 +55,9 @@ const resetSortBy = (sortBy) => ({
   sortBy,
 });
 
-const updatePagingData = (pagination) => ({
-  type: 'UPDATE_PAGING_DATA',
-  pagination,
+//Note: Only handeled by saga-middleware.
+const loadNextPage = () => ({
+  type: 'LOAD_NEXT_PAGE',
 })
 
 export default {
@@ -72,5 +72,5 @@ export default {
   removeProductTypeFilter,
   addSortBy,
   resetSortBy,
-  updatePagingData,
+  loadNextPage,
 }

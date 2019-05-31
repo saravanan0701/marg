@@ -45,6 +45,17 @@ export const ProductListReducers = (
           hasNextPage: action.productsData.pagination.hasNextPage,
         }
       };
+    case 'APPEND_PROUCTS':
+      return {
+        ...state,
+        products: state.products.concat(action.productsData.products),
+        loadingNextPage: false,
+        pagination: {
+          ...state.pagination,
+          after: action.productsData.pagination.after,
+          hasNextPage: action.productsData.pagination.hasNextPage,
+        }
+      };
     case 'ADD_ATTRIBUTE_FILTER':
       return {
         ...state,
@@ -113,6 +124,11 @@ export const ProductListReducers = (
         ...state,
         loadingAllProducts: true,
         sortBy: null,
+      }
+    case 'LOAD_NEXT_PAGE':
+      return {
+        ...state,
+        loadingNextPage: true,
       }
     default:
       return state

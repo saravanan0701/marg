@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import ProductListFilter from './ProductListFilter';
 import ProductListWrapper from './ProductListWrapper';
 import ProductTypeFilter from './ProductTypeFilter';
+import ProductListPagination from './ProductListPagination';
 import { FlatButton } from './../commons/';
 
 const Wrapper = styled.div`
@@ -69,6 +70,7 @@ export const ProductList = (props) => (
               <ProductTypeFilter availableProductTypes={productTypes} />
               <ProductListFilter />
               <ProductListWrapper />
+              <ProductListPagination />
             </div> 
           )
         }
