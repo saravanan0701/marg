@@ -42,105 +42,49 @@ const Wrapper = styled.div`
 `;
 export default class ProductListWrapper extends Component {
   
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-      paginationStatus: false,
-      //INITIATED, PAGINATED
-    }
-  }
-
-  loadProducts(usePagination) {
-    //Only use pagination attributes when `pageInfo` is changes
-    const {
-      attributes,
-      productType,
-      sortBy,
-      client,
-      updatePagingData,
-      pagination: {
-        first,
-        after
-      },
-    } = this.props;
-
-    const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
-
-    const queryAttributes = [];
-    attributes.forEach((it) => {
-      queryAttributes.push(`${getHyphenLowerCase(it.type)}:${getHyphenLowerCase(it.filter.name)}`);
-    });
-
-    return client.query({
-      query: LOAD_PRODUCTS,
-      variables: {
-        first,
-        after: usePagination? after: "",
-        productTypeName: productType && productType.name,
-        attributes: queryAttributes,
-        sortBy: sortBy && sortBy.val,
-      }
-    }).then(({data: { products: { edges, pageInfo } }}) => {
-      updatePagingData({
-        first,
-        after: pageInfo.endCursor,
-      });
-      this.setState({
-        paginationStatus: "INITIATED",
-      })
-      return edges;
-    });
-  }
-
-  setProducts() {
-    return this
-      .loadProducts()
-      .then((products) => {
-        this.setState({
-          products,
-        })
-      })
-  }
-
-  appendProducts() {
-    this
-      .loadProducts(true)
-      .then((products) => {
-        console.log("PRODUCTS: on state", products);
-        this.setState({
-          products: this.state.products.concat(products),
-        })
-      })
-  }
-
   componentDidMount() {
-    this.setProducts();
+    const {
+      loadProducts,
+      client,
+    } = this.props;
+    loadProducts(client);
   }
 
-  componentDidUpdate(prevProps) {
-    //TODO: Add `productType` filter check.
-    if(this.props.attributes != prevProps.attributes
-        || this.props.productType != prevProps.productType
-        || this.props.sortBy != prevProps.sortBy) {
-      this.setProducts();
-    }
-
-    if(this.props.pagination != prevProps.pagination
-        && (this.state.paginationStatus && this.state.paginationStatus != "INITIATED")) {
-      this.appendProducts();
-    }
-  }
 
   render() {
     const {
       products,
-    } = this.state;
+      loadingAllProducts,
+      loadingNextPage,
+      loadProductsError,
+    } = this.props;
 
     return (
       <Wrapper className={`row`}>
         {
-          products.map((product) => (<ProductCard className="col-4" {...product.node} />))
+          !loadProductsError
+            && loadingAllProducts
+            && <h3>Loading products please wait(TO be changed).....</h3>
+        }
+        {
+          !loadProductsError
+            && !loadingAllProducts
+            && products.map((product) => (<ProductCard className="col-4" {...product} />))
+        }
+        {
+          !loadProductsError
+            && !loadingAllProducts
+            && (!products || (products && products.length == 0))
+            && <h3>No products found</h3>
+        }
+        {
+          !loadProductsError
+            && loadingNextPage
+            && <h3>Loading more products</h3>
+        }
+        {
+          loadProductsError
+            && <h3>Error loading page, please refresh</h3>
         }
       </Wrapper>
     )
