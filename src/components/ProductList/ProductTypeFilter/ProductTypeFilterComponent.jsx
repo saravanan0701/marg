@@ -50,17 +50,21 @@ export const ProductTypeFilterComponent = ({
     </FlatButton>
   ];
 
+  availableProductTypes.forEach((type) => {
+    console.log(type.name);
+  });
+
   availableProductTypes.forEach(
     (productTypeIt, id) => menus.push(
       <FlatButton key={id + 1}
         onMouseDown={() => selectProductType({
-          name: productTypeIt.node.name,
-          id: productTypeIt.node.id,
+          name: productTypeIt.name,
+          id: productTypeIt.id,
         })}
         className={productType && productType.id === productTypeIt.node.id? 'active': ''}
         type="secondary"
       >
-        {productTypeIt.node.name}
+        {productTypeIt.name}
       </FlatButton>
     )
   );

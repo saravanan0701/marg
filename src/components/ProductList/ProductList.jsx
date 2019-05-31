@@ -31,6 +31,13 @@ const LOAD_ALL_FILTERS = gql`
         node {
           id
           name
+          variantAttributes {
+            id
+            name
+            values {
+              name
+            }
+          }
         }
       }
     }
@@ -44,12 +51,22 @@ export const ProductList = (props) => (
       query={LOAD_ALL_FILTERS}>
       {
         ({loading, error, data}) => {
+          const productTypes = []
           if(!data || Object.keys(data).length == 0) {
             return <h1>Nothing</h1>;
           }
+          else {
+            data.productTypes.edges.forEach((productType) => {
+              productTypes.push({
+                id: productType.node.id,
+                name: productType.node.name
+              })
+            });
+          }
+
           return (
             <div>
-              <ProductTypeFilter availableProductTypes={data.productTypes.edges} />
+              <ProductTypeFilter availableProductTypes={productTypes} />
               <ProductListFilter />
               <ProductListWrapper />
             </div> 
