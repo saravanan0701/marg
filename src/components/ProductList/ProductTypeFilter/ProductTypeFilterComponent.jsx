@@ -33,12 +33,12 @@ const LOAD_TYPES = gql`
   }
 `;
 
-export const ProductTypeFilterComponent = ({ productType, selectProductType, availableProductTypes }) => {
-
-  availableProductTypes.forEach((type) => {
-    console.log(type);
-  });
-
+export const ProductTypeFilterComponent = ({
+  productType, 
+  selectProductType, 
+  availableProductTypes 
+}) => {
+  
   const menus = [
     <FlatButton
       key="0"
@@ -50,17 +50,21 @@ export const ProductTypeFilterComponent = ({ productType, selectProductType, ava
     </FlatButton>
   ];
 
+  availableProductTypes.forEach((type) => {
+    console.log(type.name);
+  });
+
   availableProductTypes.forEach(
     (productTypeIt, id) => menus.push(
       <FlatButton key={id + 1}
         onMouseDown={() => selectProductType({
-          name: productTypeIt.node.name,
-          id: productTypeIt.node.id,
+          name: productTypeIt.name,
+          id: productTypeIt.id,
         })}
         className={productType && productType.id === productTypeIt.node.id? 'active': ''}
         type="secondary"
       >
-        {productTypeIt.node.name}
+        {productTypeIt.name}
       </FlatButton>
     )
   );
