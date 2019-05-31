@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
-import { Query } from "react-apollo";
-import gql from 'graphql-tag';
+import React from 'react';
 import styled from 'styled-components';
-import { Collapse } from 'reactstrap';
 import { FlatButton } from '../../commons';
 
 const Wrapper = styled.div`
@@ -16,19 +13,6 @@ const Wrapper = styled.div`
 
     &.active {
       border-bottom: 1px solid ${props => props.theme.primaryColor};
-    }
-  }
-`;
-
-const LOAD_TYPES = gql`
-  query LoadTypes {
-    productTypes {
-      edges {
-        node {
-          id
-          name
-        }
-      }
     }
   }
 `;
@@ -50,10 +34,6 @@ export const ProductTypeFilterComponent = ({
     </FlatButton>
   ];
 
-  availableProductTypes.forEach((type) => {
-    console.log(type.name);
-  });
-
   availableProductTypes.forEach(
     (productTypeIt, id) => menus.push(
       <FlatButton key={id + 1}
@@ -61,7 +41,7 @@ export const ProductTypeFilterComponent = ({
           name: productTypeIt.name,
           id: productTypeIt.id,
         })}
-        className={productType && productType.id === productTypeIt.node.id? 'active': ''}
+        className={productType && productType.id === productTypeIt.id? 'active': ''}
         type="secondary"
       >
         {productTypeIt.name}
