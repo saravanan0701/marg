@@ -6,23 +6,17 @@ import ProductListWrapper from './ProductListWrapper'
 const mapStateToProps = ({
   productList: {
     products,
-    filter: {
-      attributes,
-      productType,
-    },
-    sortBy,
-    pagination,
+    loadingAllProducts,
+    loadingNextPage,
   }
 }, ownProps) => ({
   products,
-  attributes,
-  productType,
-  sortBy,
-  pagination,
+  loadingAllProducts,
+  loadingNextPage,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  updatePagingData: (pagination) => dispatch(actions.updatePagingData(pagination)),
+  loadProducts: (client) => dispatch(actions.loadProducts(client)),
 })
 
 export default connect(

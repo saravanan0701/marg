@@ -1,5 +1,18 @@
-const loadProducts = products => ({
+const loadProducts = (client) => ({
+  //Used by saga to initiate a graphql request to server.
   type: 'LOAD_PRODUCTS',
+  client,
+});
+
+const replaceProducts = productsData => ({
+  //Triggered by saga to replace all existing products
+  type: 'REPLACE_PROUCTS',
+  productsData,
+});
+
+const appendProducts = products => ({
+  //Triggered by saga to append to existing products
+  type: 'REPLACE_PROUCTS',
   products
 });
 
@@ -44,6 +57,8 @@ const updatePagingData = (pagination) => ({
 
 export default {
   loadProducts,
+  replaceProducts,
+  appendProducts,
   addAttributeFilter,
   replaceAttributeFilter,
   removeAttributeFilter,

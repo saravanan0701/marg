@@ -1,5 +1,7 @@
 const INITIAL_PRODUCT_LIST_STATE = {
   products: [],
+  loadingAllProducts: true,
+  loadingNextPage: false,
   filter : {
     attributes: [],
     productType: null,
@@ -8,6 +10,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   pagination: {
     first: 5,
     after: null,
+    hasNextPage: false,
   },
 }
 export const ProductListReducers = (
@@ -18,22 +21,32 @@ export const ProductListReducers = (
     case 'LOAD_PRODUCTS':
       return {
         ...state,
-        productList: {
-          ...state.productList,
-          products: action.products,
-        }
+        loadingAllProducts: true,
       };
+    case 'REPLACE_PROUCTS':
+      return {
+        ...state,
+        products: [...action.productsData.products],
+        loadingAllProducts: false,
+        pagination: {
+          ...state.pagination,
+          after: action.productsData.pagination.after,
+          hasNextPage: action.productsData.pagination.hasNextPage,
+        }
+      }
     case 'ADD_ATTRIBUTE_FILTER':
       return {
         ...state,
         filter: {
           ...state.filter,
           attributes: state.filter.attributes.concat(action.filter),
-        }
+        },
+        loadingAllProducts: true,
       };
     case 'REPLACE_ATTRIBUTE_FILTER':
       return {
         ...state,
+        loadingAllProducts: true,
         filter: {
           ...state.filter,
           attributes: state.filter.attributes.map((filter) => {
@@ -47,6 +60,7 @@ export const ProductListReducers = (
     case 'REMOVE_ATTRIBUTE_FILTER':
       return {
         ...state,
+        loadingAllProducts: true,
         filter: {
           ...state.filter,
           attributes: state.filter.attributes.reduce((acc, filter) => {
@@ -60,6 +74,7 @@ export const ProductListReducers = (
     case 'ADD_PRODUCT_TYPE_FILTER':
       return {
         ...state,
+        loadingAllProducts: true,
         filter: {
           ...state.filter,
           productType: action.productType,
@@ -68,6 +83,7 @@ export const ProductListReducers = (
     case 'REMOVE_PRODUCT_TYPE_FILTER':
       return {
         ...state,
+        loadingAllProducts: true,
         filter: {
           ...state.filter,
           productType: null,
@@ -76,6 +92,7 @@ export const ProductListReducers = (
     case 'ADD_SORT_BY':
       return {
         ...state,
+        loadingAllProducts: true,
         sortBy: {
           ...action.sortBy,
         }
@@ -83,17 +100,18 @@ export const ProductListReducers = (
     case 'RESET_SORT_BY':
       return {
         ...state,
+        loadingAllProducts: true,
         sortBy: null,
       }
-    case 'UPDATE_PAGING_DATA':
-      return {
-        ...state,
-        pagination: {
-          ...state.pagination,
-          first: action.pagination.first,
-          after: action.pagination.after,
-        },
-      };
+    // case 'UPDATE_PAGING_DATA':
+    //   return {
+    //     ...state,
+    //     pagination: {
+    //       ...state.pagination,
+    //       first: action.pagination.first,
+    //       after: action.pagination.after,
+    //     },
+    //   };
     default:
       return state
   }

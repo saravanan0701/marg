@@ -2,7 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from "redux-saga";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import MargApp from './../reducers';
-import { stateRehydrateSaga, sessionPersistanceSaga, logoutUser } from "./sagas";
+import { stateRehydrateSaga, sessionPersistanceSaga, logoutUser } from "./auth-sagas";
+import { loadProducts } from "./products-list-sagas";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -18,7 +19,8 @@ export function StoreFactory(history) {
   );
 	sagaMiddleware.run(stateRehydrateSaga);
   sagaMiddleware.run(sessionPersistanceSaga);
-	sagaMiddleware.run(logoutUser);
+  sagaMiddleware.run(logoutUser);
+	sagaMiddleware.run(loadProducts);
 	return store;
 };
 
