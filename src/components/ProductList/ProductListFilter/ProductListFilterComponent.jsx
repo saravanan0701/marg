@@ -9,22 +9,26 @@ const SORT_BY = [
   {
     name: "Price Low-High",
     slug: "PRICE_LOW_HIGH",
-    val: "price"
+    id: "PRICE",
+    val: "ASC"
   },
   {
     name: "Price High-Low",
     slug: "PRICE_HIGH_LOW",
-    val: "-price"
+    id: "PRICE",
+    val: "DESC"
   },
   {
     name: "Name Increasing",
-    slug: "NAME_INCREASING",
-    val: "name"
+    slug: "NAME_LOW_HIGH",
+    id: "NAME",
+    val: "ASC"
   },
   {
     name: "Name Decreasing",
-    slug: "NAME_DECREASING",
-    val: "-name"
+    slug: "NAME_HIGH_LOW",
+    id: "NAME",
+    val: "DESC"
   },
 ];
 
