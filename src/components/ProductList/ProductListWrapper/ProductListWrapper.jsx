@@ -1,41 +1,8 @@
 import React, { Component } from 'react';
-import { Query } from "react-apollo";
-import gql from 'graphql-tag';
+
 import styled from 'styled-components';
 
 import ProductCard from './ProductCard'
-
-const LOAD_PRODUCTS = gql`
-  query LoadProducts($query:String, $productTypeName: String, $attributes:[AttributeScalar], $sortBy:String, $first:Int!, $after:String) {
-    products(query:$query, productType_Name:$productTypeName, attributes:$attributes, sortBy:$sortBy, first:$first, after:$after) {
-      totalCount
-      edges {
-        node {
-          id
-          name
-          price {
-            amount
-            currency
-          }
-          thumbnailUrl
-          attributes{
-            attribute{
-              name
-            }
-            value {
-              name
-            }
-          }
-        }
-      }
-
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-`;
 
 const Wrapper = styled.div`
   padding: 20px;
