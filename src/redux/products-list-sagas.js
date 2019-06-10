@@ -5,8 +5,8 @@ import actions from './../actions';
 import client from './../apollo/';
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($query:String, $productTypeName: String, $attributes:[AttributeScalar], $sortBy:String, $first:Int!, $after:String) {
-    products(query:$query, productType_Name:$productTypeName, attributes:$attributes, sortBy:$sortBy, first:$first, after:$after) {
+  query LoadProducts($query:String, $categoryIds: [ID], $attributes:[AttributeScalar], $sortBy:ProductOrder, $first:Int!, $after:String) {
+    products(query:$query, categories:$categoryIds, attributes:$attributes, sortBy:$sortBy, first:$first, after:$after) {
       totalCount
       edges {
         node {
@@ -44,8 +44,8 @@ export function* loadProducts() {
     "ADD_ATTRIBUTE_FILTER",
     "REPLACE_ATTRIBUTE_FILTER",
     "REMOVE_ATTRIBUTE_FILTER",
-    "ADD_PRODUCT_TYPE_FILTER",
-    "REMOVE_PRODUCT_TYPE_FILTER",
+    "ADD_CATEGORY_FILTER",
+    "REMOVE_CATEGORY_FILTER",
     "ADD_SORT_BY",
     "RESET_SORT_BY",
   ], loadProductsFromBackend, {allowPagination: false});
@@ -59,7 +59,7 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
   const {
     filter: {
       attributes,
-      productType,
+      category,
     },
     sortBy,
     pagination: {
@@ -69,18 +69,16 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
   } = productsList;
   const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
 
-  const queryAttributes = [];
-  attributes.forEach((it) => {
-    queryAttributes.push(`${getHyphenLowerCase(it.type)}:${getHyphenLowerCase(it.filter.name)}`);
-  });
+  const queryAttributes = attributes.map((it) => (`${it.type}:${it.filter.slug}`));
   return client.query({
     query: LOAD_PRODUCTS,
     variables: {
       first,
       after: allowPagination? after: '',
-      productTypeName: productType && productType.name,
-      attributes: queryAttributes,
-      sortBy: sortBy && sortBy.val,
+      categoryIds: category && category.id? [category.id]: [],
+      attributes: queryAttributes && queryAttributes.length > 0? queryAttributes: [],
+      sortBy: sortBy && sortBy.val? sortBy.val: null,
+      // TODO sorting...
     }
   }).then(
     (

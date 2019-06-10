@@ -85,7 +85,7 @@ export const ProductList = () => (
           }
           return (
             <div>
-              <CategoryFilter availableProductTypes={categories} />
+              <CategoryFilter categories={categories} />
               <ProductListFilter filters={attributes}/>
               <ProductListWrapper />
               <ProductListPagination />

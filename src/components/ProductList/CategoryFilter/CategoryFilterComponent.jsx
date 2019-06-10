@@ -18,33 +18,33 @@ const Wrapper = styled.div`
 `;
 
 export const CategoryFilterComponent = ({
-  productType, 
-  selectProductType, 
-  availableProductTypes 
+  category, 
+  selectCategory, 
+  categories 
 }) => {
   
   const menus = [
     <FlatButton
       key="0"
-      onMouseDown={() => selectProductType(null)}
-      className={!productType? 'active': ''}
+      onMouseDown={() => selectCategory(null)}
+      className={!category? 'active': ''}
       type="secondary"
       >
       View All
     </FlatButton>
   ];
 
-  availableProductTypes.forEach(
-    (productTypeIt, id) => menus.push(
+  categories.forEach(
+    (categoryIt, id) => menus.push(
       <FlatButton key={id + 1}
-        onMouseDown={() => selectProductType({
-          name: productTypeIt.name,
-          id: productTypeIt.id,
+        onMouseDown={() => selectCategory({
+          name: categoryIt.name,
+          id: categoryIt.id,
         })}
-        className={productType && productType.id === productTypeIt.id? 'active': ''}
+        className={category && category.id === categoryIt.id? 'active': ''}
         type="secondary"
       >
-        {productTypeIt.name}
+        {categoryIt.name}
       </FlatButton>
     )
   );

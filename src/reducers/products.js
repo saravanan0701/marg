@@ -5,7 +5,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   loadProductsError: false,
   filter : {
     attributes: [],
-    productType: null,
+    category: null,
   },
   sortBy: null,
   pagination: {
@@ -93,22 +93,24 @@ export const ProductListReducers = (
           }, []),
         }
       }
-    case 'ADD_PRODUCT_TYPE_FILTER':
+    case 'ADD_CATEGORY_FILTER':
       return {
         ...state,
         loadingAllProducts: true,
         filter: {
           ...state.filter,
-          productType: action.productType,
+          category: {
+            ...action.category,
+          }
         }
       }
-    case 'REMOVE_PRODUCT_TYPE_FILTER':
+    case 'REMOVE_CATEGORY_FILTER':
       return {
         ...state,
         loadingAllProducts: true,
         filter: {
           ...state.filter,
-          productType: null,
+          category: null,
         }
       }
     case 'ADD_SORT_BY':

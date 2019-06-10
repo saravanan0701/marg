@@ -7,17 +7,17 @@ import { CategoryFilterComponent as Component } from './CategoryFilterComponent'
 const mapStateToProps = ({
   productList: {
     filter: {
-      productType,
+      category,
     }
   }
 }, ownProps) => ({
-  productType,
+  category,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    selectProductType: (productType) => dispatch(actions.addProductTypeFilter(productType)),
-    removeProductType: (productType) => dispatch(actions.removeProductTypeFilter(productType)),
+    selectCategory: (category) => dispatch(actions.addCategoryFilter(category)),
+    removeCategory: (category) => dispatch(actions.removeCategoryFilter(category)),
   }
 }
 

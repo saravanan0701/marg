@@ -36,13 +36,13 @@ const removeAttributeFilter = filter => ({
   filter,
 });
 
-const addProductTypeFilter = productType => ({
-  type: 'ADD_PRODUCT_TYPE_FILTER',
-  productType,
+const addCategoryFilter = category => ({
+  type: 'ADD_CATEGORY_FILTER',
+  category,
 })
 
-const removeProductTypeFilter = () => ({
-  type: 'REMOVE_PRODUCT_TYPE_FILTER',
+const removeCategoryFilter = () => ({
+  type: 'REMOVE_CATEGORY_FILTER',
 })
 
 const addSortBy = (sortBy) => ({
@@ -68,8 +68,8 @@ export default {
   addAttributeFilter,
   replaceAttributeFilter,
   removeAttributeFilter,
-  addProductTypeFilter,
-  removeProductTypeFilter,
+  addCategoryFilter,
+  removeCategoryFilter,
   addSortBy,
   resetSortBy,
   loadNextPage,
