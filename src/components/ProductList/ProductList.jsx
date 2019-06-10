@@ -25,19 +25,28 @@ const Wrapper = styled.div`
   }
 `;
 
+//Note: Assuming there are always 2 product types.
 const LOAD_ALL_FILTERS = gql`
   query LoadAllFilters {
-    productTypes {
+    categories(first:10) {
       edges {
         node {
           id
           name
-          variantAttributes {
+          slug
+        }
+      }
+    }
+    attributes(first:10) {
+      edges {
+        node {
+          id
+          name
+          slug
+          values {
             id
             name
-            values {
-              name
-            }
+            slug
           }
         }
       }
@@ -45,30 +54,39 @@ const LOAD_ALL_FILTERS = gql`
   }
 `
 
-export const ProductList = (props) => (
+export const ProductList = () => (
   <Wrapper>
     <div className="heading">All Publications</div>
     <Query
       query={LOAD_ALL_FILTERS}>
       {
-        ({loading, error, data}) => {
-          const productTypes = []
-          if(!data || Object.keys(data).length == 0) {
-            return <h1>Nothing</h1>;
+        ({
+          loading,
+          error,
+          data: {
+            categories,
+            attributes,
+          }
+        }) => {
+          const productVariants = {};
+          if(loading) {
+            return <h1>Loading...</h1>;
+          }
+          if(!categories || Object.keys(categories).length == 0) {
+            return <h1>No categories found</h1>;
           }
           else {
-            data.productTypes.edges.forEach((productType) => {
-              productTypes.push({
-                id: productType.node.id,
-                name: productType.node.name
-              })
-            });
+            categories = categories.edges.map((productType) => ({
+              id: productType.node.id,
+              name: productType.node.name,
+              slug: productType.node.slug,
+            }));
+            attributes = attributes.edges.map((attribute) => attribute.node);
           }
-
           return (
             <div>
-              <ProductTypeFilter availableProductTypes={productTypes} />
-              <ProductListFilter />
+              <ProductTypeFilter availableProductTypes={categories} />
+              <ProductListFilter filters={attributes}/>
               <ProductListWrapper />
               <ProductListPagination />
             </div> 
