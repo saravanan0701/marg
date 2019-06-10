@@ -76,10 +76,10 @@ export const ProductList = () => (
             return <h1>No categories found</h1>;
           }
           else {
-            categories = categories.edges.map((productType) => ({
-              id: productType.node.id,
-              name: productType.node.name,
-              slug: productType.node.slug,
+            categories = categories.edges.map(({node}) => ({
+              id: node.id,
+              name: node.name,
+              slug: node.slug,
             }));
             attributes = attributes.edges.map((attribute) => attribute.node);
           }
