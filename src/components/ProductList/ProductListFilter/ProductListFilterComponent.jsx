@@ -5,49 +5,6 @@ import styled from 'styled-components';
 import { Collapse } from 'reactstrap';
 import { DropDown } from './../../commons/';
 
-const LOAD_FILTERS = gql`
-  query LoadFilters {
-    categories(query: "") {
-      totalCount
-      edges {
-        node {
-          id
-          name
-          slug
-        }
-      }
-    }
-    attributes(query: "") {
-      edges {
-        node {
-          name
-          slug
-          values {
-            id
-            name
-            slug
-          }
-        }
-      }
-    }
-  }
-`;
-
-const FILTERS_TO_BE_DISPLAYED = [
-  {
-    id: 'Year',
-    name: 'Year'
-  },
-  {
-    id: 'Editor',
-    name: 'Author/Editor'
-  },
-  {
-    id: 'Category',
-    name: 'Category'
-  },
-];
-
 const SORT_BY = [
   {
     name: "Price Low-High",
@@ -96,6 +53,7 @@ export const ProductListFilter = ({
   attributes,
   addSortBy,
   resetSortBy,
+  filters
 }) => {
   const applyFilter = (filter) => {
     const filterFound = attributes.find((it) => it.type === filter.type);
@@ -104,84 +62,55 @@ export const ProductListFilter = ({
     }
     return addFilter(filter);
   }
-  return (
-    <Query query={LOAD_FILTERS}>
-    {
-      ({loading, error, data}) => {
-        if(typeof(error) !== "undefined") {
-          //TODO: error handling...
-          return (<h1>ERRor loading</h1>);
+  return <Wrapper>
+    <div className="header">Filter By:</div>
+      {
+        filters.map((filterObj) => {
+          return (
+              <DropDown
+                label={filterObj.name}
+                enableSearch={true}
+                loadData={filterObj.values}
+                onOptionSelect={
+                  (option) => (
+                    applyFilter({
+                      type: filterObj.slug,
+                      filter: {
+                        id: option.id,
+                        name: option.name,
+                        slug: option.slug,
+                      },
+                    })
+                  )
+                }
+                onOptionClose={
+                  (option) => (
+                    removeFilter({
+                      type: filterObj.slug,
+                      // filter object which contains details is not required
+                      // because we remove based on filter type and not the filter itself.
+                    })
+                  )
+                }
+              >
+              </DropDown>
+            );
+          })
         }
-        if(typeof(loading) === "undefined" || loading) {
-          //TODO: custom loading...
-          return (<h1>Loading options</h1>);
-        }
-        const {
-          attributes: {
-            edges: categoryEdges,
-          },
-          categories: {
-            edges: productTypeEdges,
+        <DropDown
+          label={"Sort by:"}
+          loadData={SORT_BY}
+          onOptionSelect={
+            (option) => (
+              addSortBy(option)
+            )
           }
-        } = data;
-
-        const productTypes = productTypeEdges.reduce((acc, it) => (acc.concat([it.node])), [])
-
-        return <Wrapper>
-          <div className="header">Filter By:</div>
-          {
-            categoryEdges.map((category) => {
-              const filter = FILTERS_TO_BE_DISPLAYED.find((it) => (it.id === category.node.name));
-
-              return (
-                <DropDown
-                  label={filter.name}
-                  enableSearch={true}
-                  loadData={category.node.values}
-                  onOptionSelect={
-                    (option) => (
-                      applyFilter({
-                        type: category.node.name,
-                        filter: {
-                            id: option.id,
-                            name: option.name,
-                            slug: option.slug,
-                          },
-                        })
-                      )
-                    }
-                  onOptionClose={
-                    (option) => (
-                      removeFilter({
-                        type: category.node.name,
-                        // filter object which contains details is not required
-                        // because we remove based on filter type and not the filter itself.
-                      })
-                    )
-                  }
-                  >
-                  </DropDown>
-                );
-              })
-            }
-            <DropDown
-              label={"Sort by:"}
-              loadData={SORT_BY}
-              onOptionSelect={
-                (option) => (
-                  addSortBy(option)
-                )
-              }
-              onOptionClose={
-                (option) => (
-                  resetSortBy()
-                )
-              }
-            >
-            </DropDown>
-          </Wrapper>;
-        }
-      }
-    </Query>
-  );
+          onOptionClose={
+            (option) => (
+              resetSortBy()
+            )
+          }
+        >
+        </DropDown>
+  </Wrapper>
 }
