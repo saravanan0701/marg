@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 
 import ProductListFilter from './ProductListFilter';
 import ProductListWrapper from './ProductListWrapper';
-import ProductTypeFilter from './ProductTypeFilter';
+import CategoryFilter from './CategoryFilter';
 import ProductListPagination from './ProductListPagination';
 import { FlatButton } from './../commons/';
 
@@ -85,7 +85,7 @@ export const ProductList = () => (
           }
           return (
             <div>
-              <ProductTypeFilter availableProductTypes={categories} />
+              <CategoryFilter availableProductTypes={categories} />
               <ProductListFilter filters={attributes}/>
               <ProductListWrapper />
               <ProductListPagination />

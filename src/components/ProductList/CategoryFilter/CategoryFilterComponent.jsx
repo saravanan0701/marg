@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export const ProductTypeFilterComponent = ({
+export const CategoryFilterComponent = ({
   productType, 
   selectProductType, 
   availableProductTypes 

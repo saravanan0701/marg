@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import actions from '../../../actions'
-import { ProductTypeFilterComponent as Component } from './ProductTypeFilterComponent'
+import { CategoryFilterComponent as Component } from './CategoryFilterComponent'
 
 
 const mapStateToProps = ({
