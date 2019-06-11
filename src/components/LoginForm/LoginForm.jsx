@@ -11,6 +11,9 @@ const GET_AUTH_TOKEN = gql(`
   mutation LoginMutation($email: String!, $password: String!) {
     tokenCreate(email: $email, password: $password) {
       token,
+      user {
+        email
+      }
       errors {
         message 
       }
@@ -23,7 +26,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   padding: 100px 100px;
 
-  & > div{
+  & > form{
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -48,9 +51,20 @@ const Wrapper = styled.div`
       padding-top: 50px;
     }
 
-    & > input {
-      border: 1px solid #cccccc;
-      padding: 10px;
+    & > .input-container {
+
+      position: relative;
+
+      & > input {
+        border: 1px solid #cccccc;
+        padding: 10px;
+        width: 100%
+      }
+
+      & > div {
+        position: absolute;
+        bottom: -22px;
+      }
     }
 
     & > .forgot-button {
@@ -77,20 +91,25 @@ const Wrapper = styled.div`
 
 export default class Login extends Component {
 
-  state = {
-    email: '',
-    password: '',
-  } 
-
-  handleLogin = async (data) => {
+  handleLogin(data) {
     if (data.tokenCreate.errors && data.tokenCreate.errors.length > 0) {
       return this.props.loginFailure();
     }
-    const { token } = data.tokenCreate;
+    const { token, user: { email } } = data.tokenCreate;
     this.props.loginSuccess({
-      email: this.state.email,
+      email: email,
       authToken: token
     });
+  }
+
+  loginAttempt(values) {
+    const {
+      client,
+    } = this.props;
+    return client.mutate({
+      mutation: GET_AUTH_TOKEN,
+      variables: values,
+    }).then(({ data }) => this.handleLogin(data));
   }
 
   componentDidUpdate() {
@@ -120,7 +139,6 @@ export default class Login extends Component {
   }
 
   render() {
-    const { email, password } = this.state
 
     return (
       <Wrapper>
@@ -137,70 +155,61 @@ export default class Login extends Component {
             }
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={
+            (values, { setSubmitting }) => (
+              this
+                .loginAttempt(values)
+                .then(() => setSubmitting(false))
+            )
+          }
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <form onSubmit={handleSubmit}>
-              <input
-                type="email"
-                name="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email}
-              />
-              <span>{errors.email && touched.email && errors.email}</span>
-              <input
-                type="password"
-                name="password"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password}
-              />
-              <span>{errors.password && touched.password && errors.password}</span>
-              <button type="submit" disabled={isSubmitting}>
-                Submit
-              </button>
-            </form>
-          )}
-        </Formik>
-        <div>
-          <div className="heading">Sign In</div>
-          <div className="label">Email</div>
-          <input type="text" placeholder="email" value={email} onChange={e => this.setState({ email: e.target.value })} />
-          <div className="label">Password</div>
-          <input type="password" placeholder="password" value={password} onChange={e => this.setState({ password: e.target.value })} />
-          <FlatButton className="forgot-button">Forgot password</FlatButton>
-          <Mutation
-            mutation={GET_AUTH_TOKEN}
-            variables={{ email, password }}
-            onCompleted={(data) => this.handleLogin(data)}
-          >
-            {
-              (tokenCreate, { loading }) => (
-                <div className="login-button">
-                  <RaisedButton onClick={tokenCreate}>{ loading ? 'Logging in...' : 'Sign in'}</RaisedButton>
+          {
+            ({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => 
+            (
+              <form onSubmit={handleSubmit}>
+                <div className="heading">Sign In</div>
+                <div className="label">Email</div>
+                <div className="input-container">
+                  <input
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    />
+                  <div>{errors.email && touched.email && errors.email}</div>
                 </div>
-              )
-            }
-          </Mutation>
-          <div className="signup">
-            <div>Don’t have an account? </div>
-            <FlatButton className="button">Register</FlatButton>
-          </div>
-        </div>
+                <div className="label">Password</div>
+                <div className="input-container">
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    />
+                  <div>{errors.password && touched.password && errors.password}</div>
+                </div>
+                <FlatButton className="forgot-button">Forgot password</FlatButton>
+                <div className="login-button">
+                  <RaisedButton type="primary" disabled={isSubmitting}>{ isSubmitting ? 'Logging in...' : 'Sign in'}</RaisedButton>
+                </div>
+                <div className="signup">
+                  <div>Don’t have an account? </div>
+                  <FlatButton className="button">Register</FlatButton>
+                </div>
+              </form>
+            )
+          }
+        </Formik>
       </Wrapper>
     )
   }
