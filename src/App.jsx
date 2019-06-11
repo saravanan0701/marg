@@ -11,6 +11,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import styled, { ThemeProvider } from 'styled-components';
 import LoginForm from './components/LoginForm';
+import SignupForm from './components/SignupForm';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import actions from './actions';
@@ -54,6 +55,7 @@ class App extends Component {
                       <Route exact path="/" component={Home} />
                       <Route exact path="/categories" component={ProductList} />
                       <Route exact path="/login" component={LoginForm} />
+                      <Route exact path="/signup" component={SignupForm} />
                     </Switch>
                     <Footer />
                   </div>
