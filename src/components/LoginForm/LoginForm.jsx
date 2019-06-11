@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
+import { Formik } from 'formik';
+
 import { FlatButton, RaisedButton } from './../commons/';
 
 
@@ -122,6 +124,58 @@ export default class Login extends Component {
 
     return (
       <Wrapper>
+        <Formik
+          initialValues={{email: '', password: ''}}
+          validate={values => {
+            const errors = {};
+            if (!values.email) {
+              errors.email = 'Required';
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = 'Invalid email address';
+            }
+            return errors;
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                name="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email}
+              />
+              <span>{errors.email && touched.email && errors.email}</span>
+              <input
+                type="password"
+                name="password"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+              />
+              <span>{errors.password && touched.password && errors.password}</span>
+              <button type="submit" disabled={isSubmitting}>
+                Submit
+              </button>
+            </form>
+          )}
+        </Formik>
         <div>
           <div className="heading">Sign In</div>
           <div className="label">Email</div>
