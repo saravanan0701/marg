@@ -122,7 +122,7 @@ export default class Login extends Component {
         push,
       },
     } = this.props;
-    if(email && search) {
+    if(email) {
       //User has loggedin
       let returnUrl = search
         .slice(1)
@@ -140,6 +140,11 @@ export default class Login extends Component {
 
   render() {
 
+    const {
+      history: {
+        push,
+      },
+    } = this.props;
     return (
       <Wrapper>
         <Formik
@@ -204,7 +209,16 @@ export default class Login extends Component {
                 </div>
                 <div className="signup">
                   <div>Don’t have an account? </div>
-                  <FlatButton className="button">Register</FlatButton>
+                  <FlatButton
+                    onClick={
+                      () => {
+                          return push(`/signup`)
+                      }
+                    }
+                    className="button"
+                  >
+                    Register
+                  </FlatButton>
                 </div>
               </form>
             )
