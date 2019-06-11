@@ -69,7 +69,7 @@ export const ProductsSection = props => (
       Latest Magazines
     </div>
     <Link to="categories" className="link">
-      <FlatButton type="primary">View All</FlatButton>
+      <FlatButton colorType="primary">View All</FlatButton>
     </Link>
     <div className="row">
       <Query

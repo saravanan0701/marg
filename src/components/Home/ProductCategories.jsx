@@ -79,7 +79,7 @@ export const ProductCategories = props => (
               .map(
                 (attribute, id) => (
                   <Link to={`/categories/?category=${attribute.slug}`} className="link" key={id}>
-                    <FlatButton type="secondary">{attribute.name}</FlatButton>
+                    <FlatButton colorType="secondary">{attribute.name}</FlatButton>
                   </Link>
                 )
               )

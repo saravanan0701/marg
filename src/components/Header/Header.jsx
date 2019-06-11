@@ -160,7 +160,7 @@ const Header = ({
       </div>
       <div className="right">
         <UserMenu />
-        <FlatButton type="primary">
+        <FlatButton colorType="primary">
           Cart - 0
         </FlatButton>
       </div>

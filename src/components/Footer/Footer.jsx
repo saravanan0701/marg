@@ -137,22 +137,22 @@ export const Footer = () => (
         <div className="heading">Sign up for Newsletters:</div>
         <div className="form">
           <input type="text" placeholder="Your email"/>
-          <RaisedButton type="primary">Sign up</RaisedButton>
+          <RaisedButton colorType="primary">Sign up</RaisedButton>
         </div>
       </div>
       <div className="links">
         <div className="hypes">
           <div>
-            <FlatButton type="secondary">Home</FlatButton>
-            <FlatButton type="secondary">Publications</FlatButton>
-            <FlatButton type="secondary">About Marg</FlatButton>
-            <FlatButton type="secondary">Blog</FlatButton>
+            <FlatButton colorType="secondary">Home</FlatButton>
+            <FlatButton colorType="secondary">Publications</FlatButton>
+            <FlatButton colorType="secondary">About Marg</FlatButton>
+            <FlatButton colorType="secondary">Blog</FlatButton>
           </div>
           <div>
-            <FlatButton type="secondary">Advertise</FlatButton>
-            <FlatButton type="secondary">Donate</FlatButton>
-            <FlatButton type="secondary">Contact</FlatButton>
-            <FlatButton type="secondary">More</FlatButton>
+            <FlatButton colorType="secondary">Advertise</FlatButton>
+            <FlatButton colorType="secondary">Donate</FlatButton>
+            <FlatButton colorType="secondary">Contact</FlatButton>
+            <FlatButton colorType="secondary">More</FlatButton>
           </div>
         </div>
         <div className="copyright">

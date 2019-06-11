@@ -21,7 +21,7 @@ export const UserMenu = ({
           <button onClick={() => {logout()}}>Logout</button>
         </div>
       :
-        <FlatButton type="primary" onClick={
+        <FlatButton colorType="primary" onClick={
           () => {
             if(pathname.match(/login/)){
               return push(`/login`)

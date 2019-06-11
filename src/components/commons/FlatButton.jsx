@@ -2,7 +2,7 @@ import React from 'react'
 import styled, { css } from 'styled-components';
 
 const ButtonWrapper = styled.div`
-  color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
+  color: ${props => props.theme[props.colorType? `${props.colorType}Color`: "primaryColor"]};
   font-size: ${props => props.theme['$font-size-xxs']};
   font-weight: ${props => props.theme['$weight-bold']};
   letter-spacing: 3px;
@@ -11,9 +11,9 @@ const ButtonWrapper = styled.div`
   border-bottom: 1px solid transparent;
 
   &:hover, &:active {
-    color: ${props => props.theme[props.type? `${props.type}HoverColor`: "primaryHoverColor"]};
-    ${props => props.theme[`${props.type}HoverUnderLineColor`] !== undefined && css`
-      border-bottom: 1px solid ${props => props.theme[props.type? `${props.type}HoverUnderLineColor`: "primaryHoverUnderLineColor"]};
+    color: ${props => props.theme[props.colorType? `${props.colorType}HoverColor`: "primaryHoverColor"]};
+    ${props => props.theme[`${props.colorType}HoverUnderLineColor`] !== undefined && css`
+      border-bottom: 1px solid ${props => props.theme[props.colorType? `${props.colorType}HoverUnderLineColor`: "primaryHoverUnderLineColor"]};
     `}
   }
 `;
