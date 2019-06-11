@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.button`
   background-color: ${props => props.theme[props.colorType? `${props.colorType}Color`: "primaryColor"]};
   padding: 10px 30px;
   color: white;
@@ -9,6 +9,7 @@ const ButtonWrapper = styled.div`
   cursor: pointer;
   font-size: ${props => props.theme['$font-size-xxs']};
   font-weight: ${props => props.theme['$weight-bold']};
+  border: none;
 `;
 
 const RaisedButton = (props) => (
