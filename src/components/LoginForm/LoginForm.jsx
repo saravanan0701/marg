@@ -200,7 +200,7 @@ export default class Login extends Component {
                 </div>
                 <FlatButton className="forgot-button">Forgot password</FlatButton>
                 <div className="login-button">
-                  <RaisedButton type="primary" disabled={isSubmitting}>{ isSubmitting ? 'Logging in...' : 'Sign in'}</RaisedButton>
+                  <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>{ isSubmitting ? 'Logging in...' : 'Sign in'}</RaisedButton>
                 </div>
                 <div className="signup">
                   <div>Don’t have an account? </div>
