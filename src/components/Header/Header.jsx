@@ -171,7 +171,7 @@ const Header = ({
         <Link className={pathname.match('categories')? 'active':''} to="/categories">Publications</Link>
         <Link to="/aboutus">About Marg</Link>
         <Link to="/categories">Blog</Link>
-        <Link to="/categories">Advertise</Link>
+        <Link to="/advertise">Advertise</Link>
         <Link to="/categories">Donate</Link>
         <Link to="/categories">Contact</Link>
         <Link to="/categories">More</Link>

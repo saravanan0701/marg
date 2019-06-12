@@ -19,6 +19,7 @@ import { Home } from './components/Home/index.jsx';
 import ProductList from './components/ProductList/index.js';
 import { AboutUs } from './components/AboutUs.jsx';
 import { Team } from './components/Team.jsx';
+import { Advertise } from './components/Advertise.jsx';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
@@ -60,6 +61,7 @@ class App extends Component {
                       <Route exact path="/signup" component={SignupForm} />
                       <Route exact path="/aboutus" component={AboutUs} />
                       <Route exact path="/team" component={Team} />
+                      <Route exact path="/advertise" component={Advertise} />
                     </Switch>
                     <Footer />
                   </div>
