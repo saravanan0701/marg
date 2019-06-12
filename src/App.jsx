@@ -17,6 +17,7 @@ import Footer from './components/Footer';
 import actions from './actions';
 import { Home } from './components/Home/index.jsx';
 import ProductList from './components/ProductList/index.js';
+import { AboutUs } from './components/AboutUs.jsx';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
@@ -56,6 +57,7 @@ class App extends Component {
                       <Route exact path="/categories" component={ProductList} />
                       <Route exact path="/login" component={LoginForm} />
                       <Route exact path="/signup" component={SignupForm} />
+                      <Route exact path="/aboutus" component={AboutUs} />
                     </Switch>
                     <Footer />
                   </div>

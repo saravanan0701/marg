@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
 import { FlatButton } from './../commons/';
+
 const HeaderContainer = styled.div`
 
   display: flex;
@@ -168,7 +169,7 @@ const Header = ({
     <div className="secondary">
       <div className="menu">
         <Link className={pathname.match('categories')? 'active':''} to="/categories">Publications</Link>
-        <Link to="/categories">About Marg</Link>
+        <Link to="/aboutus">About Marg</Link>
         <Link to="/categories">Blog</Link>
         <Link to="/categories">Advertise</Link>
         <Link to="/categories">Donate</Link>
