@@ -173,7 +173,7 @@ const Header = ({
           <Link to="/categories">About Marg</Link>
           <Link to="/collaborate">Historical Timeline</Link>
           <Link to="/team">Marg team</Link>
-          <Link to="/collaborate">SUPPORTERS/SPONSORS</Link>
+          <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
           <Link to="/collaborate">TRUSTEES/ADVISORY</Link>
         </Menu>
         <Link to="/categories">Blog</Link>

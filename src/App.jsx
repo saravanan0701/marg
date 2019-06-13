@@ -21,6 +21,7 @@ import { AboutUs } from './components/AboutUs.jsx';
 import { Team } from './components/Team.jsx';
 import { Advertise } from './components/Advertise.jsx';
 import { Collaborate } from './components/Collaborate.jsx';
+import { Supporters } from './components/Supporters.jsx';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
@@ -64,6 +65,7 @@ class App extends Component {
                       <Route exact path="/team" component={Team} />
                       <Route exact path="/advertise" component={Advertise} />
                       <Route exact path="/collaborate" component={Collaborate} />
+                      <Route exact path="/supporters" component={Supporters} />
                     </Switch>
                     <Footer />
                   </div>
