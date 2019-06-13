@@ -71,7 +71,7 @@ const About = styled.div`
     flex-direction: column;
     align-items: start;
     justify-content: center;
-    padding: 5% 0px 5% 5%;
+    padding: 5% 0px 0% 5%;
 
     & > .heading {
       color: #000000;
