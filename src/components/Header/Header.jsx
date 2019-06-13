@@ -174,7 +174,7 @@ const Header = ({
           <Link to="/collaborate">Historical Timeline</Link>
           <Link to="/team">Marg team</Link>
           <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
-          <Link to="/collaborate">TRUSTEES/ADVISORY</Link>
+          <Link to="/trustees">TRUSTEES/ADVISORY</Link>
         </Menu>
         <Link to="/categories">Blog</Link>
         <Link to="/advertise">Advertise</Link>
