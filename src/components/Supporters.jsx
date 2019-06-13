@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import { RaisedButton, FlatButton } from './commons/';
 import { Link } from 'react-router-dom';
-import advertise1 from './../images/advertise1.png';
-import advertise2 from './../images/advertise2.png';
 
 const Wrapper = styled.div`
     padding: 50px 150px 100px;
