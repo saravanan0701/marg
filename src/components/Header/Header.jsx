@@ -5,7 +5,7 @@ import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
-import { FlatButton } from './../commons/';
+import { FlatButton, Menu } from './../commons/';
 
 const HeaderContainer = styled.div`
 
@@ -91,7 +91,7 @@ const HeaderContainer = styled.div`
       display: flex;
       flex-direction: row;
 
-      & > a {
+      & > * {
         color: #000000;
         font-size: ${props => props.theme['$font-size-xxs']};
         font-weight: ${props => props.theme['$weight-medium']};
@@ -169,12 +169,23 @@ const Header = ({
     <div className="secondary">
       <div className="menu">
         <Link className={pathname.match('categories')? 'active':''} to="/categories">Publications</Link>
-        <Link to="/aboutus">About Marg</Link>
+        <Menu label="About Marg">
+          <Link to="/categories">About Marg</Link>
+          <Link to="/collaborate">Historical Timeline</Link>
+          <Link to="/team">Marg team</Link>
+          <Link to="/collaborate">SUPPORTERS/SPONSORS</Link>
+          <Link to="/collaborate">TRUSTEES/ADVISORY</Link>
+        </Menu>
         <Link to="/categories">Blog</Link>
         <Link to="/advertise">Advertise</Link>
         <Link to="/categories">Donate</Link>
         <Link to="/categories">Contact</Link>
-        <Link to="/categories">More</Link>
+        <Menu label="More">
+          <Link to="/categories">Marg Events</Link>
+          <Link to="/collaborate">Collaborate</Link>
+          <Link to="/collaborate">Submit Proposals</Link>
+          <Link to="/collaborate">Film Archive</Link>
+        </Menu>
       </div>
       <div className="search">
         <input type="text" placeholder="Search"/>
