@@ -170,7 +170,7 @@ const Header = ({
       <div className="menu">
         <Link className={pathname.match('categories')? 'active':''} to="/categories">Publications</Link>
         <Menu label="About Marg">
-          <Link to="/categories">About Marg</Link>
+          <Link to="/aboutus">About Marg</Link>
           <Link to="/collaborate">Historical Timeline</Link>
           <Link to="/team">Marg team</Link>
           <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
