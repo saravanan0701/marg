@@ -176,10 +176,10 @@ const Header = ({
           <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
           <Link to="/trustees">TRUSTEES/ADVISORY</Link>
         </Menu>
-        <Link to="/categories">Blog</Link>
-        <Link to="/advertise">Advertise</Link>
-        <Link to="/categories">Donate</Link>
-        <Link to="/categories">Contact</Link>
+        <Link className={pathname.match('blog')? 'active':''} to="/categories">Blog</Link>
+        <Link className={pathname.match('advertise')? 'active':''} to="/advertise">Advertise</Link>
+        <Link className={pathname.match('donate')? 'active':''} to="/categories">Donate</Link>
+        <Link className={pathname.match('contactus')? 'active':''} to="/contactus">Contact</Link>
         <Menu label="More">
           <Link to="/categories">Marg Events</Link>
           <Link to="/collaborate">Collaborate</Link>
