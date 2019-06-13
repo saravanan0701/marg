@@ -23,6 +23,7 @@ import { Advertise } from './components/Advertise.jsx';
 import { Collaborate } from './components/Collaborate.jsx';
 import { Supporters } from './components/Supporters.jsx';
 import { Trustees } from './components/Trustees.jsx';
+import ContactusForm from './components/Contactus.jsx';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
@@ -68,6 +69,7 @@ class App extends Component {
                       <Route exact path="/collaborate" component={Collaborate} />
                       <Route exact path="/supporters" component={Supporters} />
                       <Route exact path="/trustees" component={Trustees} />
+                      <Route exact path="/contactus" component={ContactusForm} />
                     </Switch>
                     <Footer />
                   </div>
