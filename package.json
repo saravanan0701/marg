@@ -19,6 +19,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-apollo": "^2.5.2",
+    "react-country-region-selector": "^1.4.3",
     "react-dom": "^16.8.4",
     "react-fontawesome": "^1.6.1",
     "react-redux": "^6.0.1",

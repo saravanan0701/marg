@@ -143,13 +143,19 @@ class DropDown extends Component {
   }
 
   optionUnselect(option) {
+    const {
+      onOptionClose,
+    } = this.props;
+
     this.setState({
       showBody: true,
       dontClose: true,
       selectedOption: null,
     });
 
-    this.props.onOptionClose(option);
+    if(onOptionClose) {
+      onOptionClose(option);
+    }
 
     setTimeout(function() {
       this.setState({
@@ -165,10 +171,27 @@ class DropDown extends Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.loadData != prevProps.loadData) {
+      //This makes sure whenever `loadData` changes we reset entire state.
+      this.setState({
+        options: this.props.loadData,
+        showBody: false,
+        dontClose: false,
+        error: false,
+        selectedOption: null,
+      })
+    }
+  }
+
   componentDidMount() {
     const {
       loadData,
     } = this.props;
+
+    if(!loadData) {
+      return;
+    }
 
     if(loadData && typeof(loadData) == "object") {
       return this.setState({
@@ -209,6 +232,29 @@ class DropDown extends Component {
       .slice(0, 10);
   }
 
+  getLabel() {
+    const {
+      label,
+      showSelectedOption,
+      defaultOption,
+    } = this.props;
+    const {
+      selectedOption,
+    } = this.state;
+
+    if(showSelectedOption) {
+      if(selectedOption) {
+        return selectedOption.name
+      } else if(defaultOption) {
+        return defaultOption.name
+      } else {
+        return label
+      }
+    } else {
+      return label
+    }
+  }
+
   render() {
     const {
       showBody,
@@ -219,6 +265,9 @@ class DropDown extends Component {
     const {
       enableSearch,
       label,
+      showSelectedOption,
+      loadData,
+      defaultOption,
     } = this.props;
     
     let visibleOptions = this.filterOptions();
@@ -229,7 +278,11 @@ class DropDown extends Component {
     return (
       <Wrapper {...this.props}>
         <button className="label" onMouseDown={this.labelClicked} onBlur={this.labelClicked}>
-          <div>{label}</div>
+          <div>
+          {
+            this.getLabel()
+          }
+          </div>
           {
             showBody?
               <FontAwesome className="icon" name='chevron-up' />
