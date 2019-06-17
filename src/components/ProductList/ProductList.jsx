@@ -54,7 +54,7 @@ const LOAD_ALL_FILTERS = gql`
   }
 `
 
-export const ProductList = () => (
+const ProductList = () => (
   <Wrapper>
     <div className="heading">All Publications</div>
     <Query
