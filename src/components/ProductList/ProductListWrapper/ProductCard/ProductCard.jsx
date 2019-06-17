@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router';
 
 const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
 
 const CardContainer = styled.div`
+
+  cursor: pointer;
 
   & > img {
     width: 100%;
@@ -52,7 +55,8 @@ const CardContainer = styled.div`
 `;
 
 
-export const ProductCard = ({
+const ProductCard = ({
+  id,
   name,
   price: {
     amount,
@@ -61,6 +65,9 @@ export const ProductCard = ({
   attributes,
   className,
   thumbnailUrl,
+  history: {
+    push,
+  },
 }) => {
   let editor, year;
   attributes.forEach((it) => {
@@ -90,8 +97,12 @@ export const ProductCard = ({
     return replaceExps.reduce((url, it) => url.replace(it.key, it.value), url);
   }
 
+  const openProductDetails = (id) => {
+    return push(`/product/${id}`);
+  }
+
   return (
-    <CardContainer className={`${className} `}>
+    <CardContainer onClick={(e) => openProductDetails(id)} className={`${className} `}>
       <img
         src={replaceStaticUrl(thumbnailUrl)}
         />
@@ -105,3 +116,5 @@ export const ProductCard = ({
     </CardContainer>
   );
 };
+
+export default withRouter(ProductCard);
