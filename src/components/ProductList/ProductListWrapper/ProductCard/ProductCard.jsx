@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
+
 const CardContainer = styled.div`
 
   & > img {
@@ -62,19 +64,31 @@ export const ProductCard = ({
 }) => {
   let editor, year;
   attributes.forEach((it) => {
-    if(it.attribute.name == 'Editor') {
+    if(it.attribute.slug == 'editor') {
       editor = it.value.name
     }
-    if(it.attribute.name == 'Year') {
+    if(it.attribute.slug == 'year') {
       year = it.value.name
     }
   });
 
-  const replaceStaticUrl = (url) => (
-    url
-      && url.replace('static', 'backend-static')
-      && url.replace('media', 'backend-media')
-  );
+  const replaceStaticUrl = (url) => {
+    const replaceExps = [
+      {
+        key: 'http://backend/',
+        value: URI,
+      },
+      {
+        key: 'static',
+        value: 'backend-static',
+      },
+      {
+        key: 'media',
+        value: 'backend-media',
+      },
+    ];
+    return replaceExps.reduce((url, it) => url.replace(it.key, it.value), url);
+  }
 
   return (
     <CardContainer className={`${className} `}>

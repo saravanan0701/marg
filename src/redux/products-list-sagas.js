@@ -20,6 +20,7 @@ const LOAD_PRODUCTS = gql`
           attributes{
             attribute{
               name
+              slug
             }
             value {
               name
