@@ -24,6 +24,8 @@ const Theme = {
 
   '$thin-border': '20px', 
   '$thick-border': '40px',
+
+  '$font-primary-medium': "Lato Medium",
 }
 
 export default Theme;

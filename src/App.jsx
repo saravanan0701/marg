@@ -25,6 +25,7 @@ import { Supporters } from './components/Supporters.jsx';
 import { Trustees } from './components/Trustees.jsx';
 import Donate from './components/Donate.jsx';
 import ContactusForm from './components/Contactus.jsx';
+import ProductDetails from './components/ProductDetails/';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
@@ -62,6 +63,7 @@ class App extends Component {
                     <Switch>
                       <Route exact path="/" component={Home} />
                       <Route exact path="/categories" component={ProductList} />
+                      <Route exact path="/product/:id" component={ProductDetails} />
                       <Route exact path="/login" component={LoginForm} />
                       <Route exact path="/signup" component={SignupForm} />
                       <Route exact path="/aboutus" component={AboutUs} />
