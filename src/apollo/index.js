@@ -3,8 +3,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 
+const URI = `${process.env.REACT_APP_BACKEND_URL}/graphql`;
 const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_BACKEND_URL
+  uri: URI,
 });
 
 const authLink = setContext((_, { headers }) => {
