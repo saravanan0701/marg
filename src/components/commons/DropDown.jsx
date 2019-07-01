@@ -16,20 +16,32 @@ const Wrapper = styled.div`
     background: transparent;
     border: none;
     border-bottom: 1px solid #979797;
-    font-weight: ${props => props.theme['$weight-bold']};
-    font-size: ${props => props.theme['$font-size-xxs']};
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    outline: none;
-    color: ${props => props.theme.secondaryColor};
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px 0px 10px;
+    & > .main-label {
+      background: transparent;
+      border: none;
+      font-weight: ${props => props.theme['$weight-bold']};
+      font-size: ${props => props.theme['$font-size-xxs']};
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      outline: none;
+      color: ${props => props.theme.secondaryColor};
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0px;
+    }
 
-    & > .icon {
+    & > .selected-options {
+      font-weight: ${props => props.theme['$weight-regular']};
+      font-size: ${props => props.theme['$font-size-xxxs']};
+      & > .icon {
+        padding-left: 10px;
+      }
+    }
+
+    & .icon {
       color: ${props => props.theme.primaryColor};
-      padding-left: 50px;
     }
   }
 
@@ -92,7 +104,7 @@ class DropDown extends Component {
       dontClose: false,
       options: [],
       error: false,
-      selectedOption: null,
+      selectedOptions: [],
     }
     this.labelClicked = this.labelClicked.bind(this);
     this.inputFocused = this.inputFocused.bind(this);
@@ -100,6 +112,7 @@ class DropDown extends Component {
     this.searchList = this.searchList.bind(this);
     this.optionsClicked = this.optionsClicked.bind(this);
     this.optionUnselect = this.optionUnselect.bind(this);
+    this.unselectAll = this.unselectAll.bind(this);
   }
 
   labelClicked() {
@@ -133,14 +146,38 @@ class DropDown extends Component {
     });
   }
 
+  selectedOptionIndex(option) {
+    return this.state.selectedOptions.findIndex((selectedOption) => selectedOption.id === option.id);
+  }
+
   optionsClicked(option) {
+    const {
+      multiSelect,
+      onOptionSelect,
+    } = this.props;
+    const {
+      selectedOptions,
+    } = this.state;
+
     this.setState({
       showBody: true,
       dontClose: true,
-      selectedOption: option,
+      selectedOptions: (
+        () => {
+          if(!multiSelect) {
+            return [option];
+          }
+          if(this.selectedOptionIndex(option) === -1){
+            return selectedOptions.concat(option);
+          }
+          return [...selectedOptions];
+        }
+      ).bind(this)(),
     });
 
-    this.props.onOptionSelect(option);
+    if(onOptionSelect) {
+      onOptionSelect(option);
+    }
 
     setTimeout(function() {
       this.setState({
@@ -153,12 +190,28 @@ class DropDown extends Component {
   optionUnselect(option) {
     const {
       onOptionClose,
+      multiSelect,
     } = this.props;
+    const {
+      selectedOptions,
+    } = this.state;
 
     this.setState({
       showBody: true,
       dontClose: true,
-      selectedOption: null,
+      selectedOptions: (
+        () => {
+          if(!multiSelect) {
+            return [];
+          }
+          const selectedId = this.selectedOptionIndex(option);
+          if(selectedId > -1){
+            selectedOptions.splice(selectedId, 1);
+            //Above exp returns deleted option, so relying on return statement to pass immutable data
+          }
+          return [...selectedOptions];
+        }
+      ).bind(this)(),
     });
 
     if(onOptionClose) {
@@ -192,7 +245,7 @@ class DropDown extends Component {
         showBody: false,
         dontClose: false,
         error: false,
-        selectedOption: null,
+        selectedOptions: [],
       })
     }
   }
@@ -250,12 +303,12 @@ class DropDown extends Component {
       defaultOption,
     } = this.props;
     const {
-      selectedOption,
+      selectedOptions,
     } = this.state;
 
     if(showSelectedOption) {
-      if(selectedOption) {
-        return selectedOption.name
+      if(selectedOptions && selectedOptions.length > 0) {
+        return selectedOptions[0].name
       } else if(defaultOption) {
         return defaultOption.name
       } else {
@@ -266,11 +319,18 @@ class DropDown extends Component {
     }
   }
 
+  unselectAll(e) {
+    e.stopPropagation();
+    this.setState({
+      selectedOptions: [],
+    })
+  }
+
   render() {
     const {
       showBody,
       error,
-      selectedOption,
+      selectedOptions,
       options,
     } = this.state;
     
@@ -296,16 +356,29 @@ class DropDown extends Component {
     return (
       <Wrapper {...this.props}>
         <button className="label" onMouseDown={this.labelClicked} onBlur={this.labelClicked}>
-          <div>
-          {
-            this.getLabel()
-          }
+          <div class="main-label">
+            <div>
+            {
+              this.getLabel()
+            }
+            </div>
+            {
+              showBody?
+                <FontAwesome className="icon" name='chevron-up' />
+                :
+                <FontAwesome className="icon" name='chevron-down' />
+            }
           </div>
           {
-            showBody?
-              <FontAwesome className="icon" name='chevron-up' />
-              :
-              <FontAwesome className="icon" name='chevron-down' />
+            (
+              selectedOptions && selectedOptions.length > 0
+            ) &&
+            <div className="selected-options">
+              {
+                selectedOptions && selectedOptions.map && selectedOptions.map((option) => option.name).join(', ')
+              }
+              <FontAwesome onMouseDown={this.unselectAll} className="icon" name='close' />
+            </div>
           }
         </button>
         {
@@ -338,7 +411,7 @@ class DropDown extends Component {
                       <div className="option">
                         <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
                         {
-                          option && selectedOption && option.slug == selectedOption.slug &&
+                          this.selectedOptionIndex(option) > -1 &&
                             <FontAwesome className="icon" name='times' onMouseDown={() => this.optionUnselect(option)} />
                         }
                       </div>
