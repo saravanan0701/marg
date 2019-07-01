@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components';
 import FontAwesome from 'react-fontawesome';
-import { Throttle } from 'react-throttle';
+import { Subject } from 'rxjs';
+import {
+  distinctUntilChanged,
+  debounceTime,
+  switchMap,
+} from 'rxjs/operators';
 
 const Wrapper = styled.div`
-
   position: relative;
   width: fit-content;
 
@@ -103,6 +107,10 @@ class DropDown extends Component {
       if(this.state.dontClose){
         return;
       }
+      if(this.searchSub$){
+        this.searchSub$.next();
+        //Reset searchSub$ whenever label is clicked.
+      }
       this.setState({
         showBody: !this.state.showBody,
         searchable: null,
@@ -165,10 +173,15 @@ class DropDown extends Component {
     }.bind(this), 100);
   }
 
-  searchList(event) {
+  searchList({
+    target: {
+      value,
+    }
+  }) {
     this.setState({
-      searchable: event.target.value,
-    })
+      searchable: value,
+    });
+    this.searchSub$.next(value);
   }
 
   componentDidUpdate(prevProps) {
@@ -187,33 +200,31 @@ class DropDown extends Component {
   componentDidMount() {
     const {
       loadData,
+      searchData,
     } = this.props;
 
-    if(!loadData) {
-      return;
+    if(searchData) {
+      this.searchSub$ = new Subject();
+      this.searchSub$.pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          switchMap(searchData),
+        ).subscribe((options) => {
+          this.setState({ options })
+        });
     }
 
     if(loadData && typeof(loadData) == "object") {
-      return this.setState({
+      this.setState({
         options: loadData,
       })
     }
-    return loadData()
-      .then(
-        (data) => {
-          this.setState({
-            options: data,
-          })
-        }
-      )
-      .catch(
-        (err) => {
-          this.setState({
-            options: [],
-            error: true,
-          })
-        }
-      );
+  }
+
+  componentWillUnmount() {
+    if(this.searchSub$) {
+      this.searchSub$.complete();
+    }
   }
 
   filterOptions() {
@@ -260,6 +271,7 @@ class DropDown extends Component {
       showBody,
       error,
       selectedOption,
+      options,
     } = this.state;
     
     const {
@@ -268,11 +280,17 @@ class DropDown extends Component {
       showSelectedOption,
       loadData,
       defaultOption,
+      searchData,
     } = this.props;
     
-    let visibleOptions = this.filterOptions();
-    if(enableSearch) {
+    let visibleOptions = [];
+    if(enableSearch && !searchData) {
+      //SearchData is not available, no ajax data to be recieved.
       visibleOptions = this.filterOptions();
+    } else {
+      // SearchData is available, ajax data will be recieved.
+      // If enableSearch is not true, show all.
+      visibleOptions = options;
     }
 
     return (
@@ -301,10 +319,11 @@ class DropDown extends Component {
           <div className="body">
             {
               enableSearch &&
-              <Throttle time="200" handler="onChange">
-                <input type="text" placeholder="Search"
-                  onChange={this.searchList} onFocus={this.inputFocused} onBlur={this.inputBlurred}/>
-              </Throttle>
+              <input
+                type="text" placeholder="Search"
+                onChange={this.searchList}
+                onFocus={this.inputFocused}
+                onBlur={this.inputBlurred}/>
             }
             <div className="options">
               {
