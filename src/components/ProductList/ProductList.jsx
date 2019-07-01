@@ -51,6 +51,15 @@ const LOAD_ALL_FILTERS = gql`
         }
       }
     }
+    editors(first:10) {
+      edges {
+        node {
+          id
+          firstName
+          lastName
+        }
+      }
+    }
   }
 `
 
@@ -66,6 +75,7 @@ const ProductList = () => (
           data: {
             categories,
             attributes,
+            editors,
           }
         }) => {
           const productVariants = {};
@@ -75,18 +85,13 @@ const ProductList = () => (
           if(!categories || Object.keys(categories).length == 0) {
             return <h1>No categories found</h1>;
           }
-          else {
-            categories = categories.edges.map(({node}) => ({
-              id: node.id,
-              name: node.name,
-              slug: node.slug,
-            }));
-            attributes = attributes.edges.map((attribute) => attribute.node);
-          }
+          categories = categories.edges.map(({node}) => node);
+          attributes = attributes.edges.map(({node}) => node);
+          editors = editors.edges.map(({node}) => node)
           return (
             <div>
               <CategoryFilter categories={categories} />
-              <ProductListFilter filters={attributes}/>
+              <ProductListFilter filters={attributes} editors={editors}/>
               <ProductListWrapper />
               <ProductListPagination />
             </div> 
