@@ -301,12 +301,17 @@ class DropDown extends Component {
       label,
       showSelectedOption,
       defaultOption,
+      multiSelect,
     } = this.props;
     const {
       selectedOptions,
     } = this.state;
 
-    if(showSelectedOption) {
+    if(!showSelectedOption) {
+      return label
+    }
+
+    if(showSelectedOption && !multiSelect) {
       if(selectedOptions && selectedOptions.length > 0) {
         return selectedOptions[0].name
       } else if(defaultOption) {
@@ -314,8 +319,6 @@ class DropDown extends Component {
       } else {
         return label
       }
-    } else {
-      return label
     }
   }
 
