@@ -12,6 +12,7 @@ const Theme = {
   '$weight-bold': '700',
 
    // FONT SIZES
+  '$font-size-xxxs': '14px',
   '$font-size-xxs': '16px',
   '$font-size-xs': '20px',
   '$font-size-sm': '26px',
