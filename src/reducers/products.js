@@ -80,6 +80,20 @@ export const ProductListReducers = (
           }, []),
         }
       }
+    case 'REMOVE_ALL_ATTRIBUTE_FILTERS_BY_ATTRIBUTE_SLUG':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          attributes: state.filter.attributes.reduce((acc, attribute) => {
+            if(action.attributeSlug !== attribute.type) {
+              return acc.concat(attribute);
+            }
+            return acc;
+          }, []),
+        },
+        loadingAllProducts: true,
+      };
     case 'ADD_CATEGORY_FILTER':
       return {
         ...state,
@@ -141,7 +155,16 @@ export const ProductListReducers = (
             return acc;
           }, []),
         }
-      }
+      };
+    case 'REMOVE_ALL_EDITOR_FILTERS':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          editors: [],
+        },
+        loadingAllProducts: true,
+      };
     default:
       return state
   }

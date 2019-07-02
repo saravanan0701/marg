@@ -31,6 +31,11 @@ const removeAttributeFilter = filterId => ({
   filterId,
 });
 
+const removeAllAttributeFiltersBySlug = attributeSlug => ({
+  type: 'REMOVE_ALL_ATTRIBUTE_FILTERS_BY_ATTRIBUTE_SLUG',
+  attributeSlug,
+});
+
 const addCategoryFilter = category => ({
   type: 'ADD_CATEGORY_FILTER',
   category,
@@ -66,12 +71,17 @@ const removeEditorFilter = editor => ({
   editor,
 });
 
+const removeAllEditors = () => ({
+  type: 'REMOVE_ALL_EDITOR_FILTERS',
+})
+
 export default {
   loadProducts,
   loadProductsError,
   replaceProducts,
   appendProducts,
   addAttributeFilter,
+  removeAllAttributeFiltersBySlug,
   removeAttributeFilter,
   addCategoryFilter,
   removeCategoryFilter,
@@ -80,4 +90,5 @@ export default {
   loadNextPage,
   addEditorFilter,
   removeEditorFilter,
+  removeAllEditors,
 }

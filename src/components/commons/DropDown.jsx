@@ -333,6 +333,12 @@ class DropDown extends Component {
 
   unselectAll(e) {
     e.stopPropagation();
+    const {
+      onUnselectAll,
+    } = this.props;
+    if(onUnselectAll) {
+      onUnselectAll();
+    }
     this.setState({
       selectedOptions: [],
     })

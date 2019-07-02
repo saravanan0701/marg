@@ -64,7 +64,7 @@ export function* loadProducts() {
   yield takeLatest([
     "LOAD_PRODUCTS",
     "ADD_ATTRIBUTE_FILTER",
-    "REPLACE_ATTRIBUTE_FILTER",
+    "REMOVE_ALL_ATTRIBUTE_FILTERS_BY_ATTRIBUTE_SLUG",
     "REMOVE_ATTRIBUTE_FILTER",
     "ADD_CATEGORY_FILTER",
     "REMOVE_CATEGORY_FILTER",
@@ -73,6 +73,7 @@ export function* loadProducts() {
     "ADD_EDITOR_FILTER",
     "REPLACE_EDITOR_FILTER",
     "REMOVE_EDITOR_FILTER",
+    "REMOVE_ALL_EDITOR_FILTERS",
   ], loadProductsFromBackend, {allowPagination: false});
 
   yield takeLatest([

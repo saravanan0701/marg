@@ -72,6 +72,7 @@ const EditorSearch = withApollo(
     addEditor,
     removeEditor,
     selectedEditors,
+    removeAllEditors,
   }) => {
     const getVisibleName = (firstName, lastName) => `${firstName} ${lastName}`;
     const searchEditors = (name) => client.query({
@@ -130,6 +131,11 @@ const EditorSearch = withApollo(
           }
         }
       }
+      onUnselectAll={
+        () => (
+          removeAllEditors()
+        )
+      }
     >
     </DropDown>
   }
@@ -139,6 +145,7 @@ export const ProductListFilter = ({
   client,
   addFilter,
   removeFilter,
+  removeAllAttributeFiltersBySlug,
   className,
   addSortBy,
   resetSortBy,
@@ -146,6 +153,7 @@ export const ProductListFilter = ({
   editors,
   addEditor,
   removeEditor,
+  removeAllEditors,
   selectedAttributes,
   selectedEditors,
 }) => {
@@ -161,6 +169,7 @@ export const ProductListFilter = ({
         key={"editors"}
         addEditor={addEditor}
         removeEditor={removeEditor}
+        removeAllEditors={removeAllEditors}
         editors={editors}
         selectedEditors={selectedEditors}
       >
@@ -190,6 +199,11 @@ export const ProductListFilter = ({
                     removeFilter(option.id)
                     // filter object which contains details is not required
                     // because we remove based on attribute.filter.id and not the filter type.
+                  )
+                }
+                onUnselectAll={
+                  () => (
+                    removeAllAttributeFiltersBySlug(filterObj.slug)
                   )
                 }
               >
