@@ -69,6 +69,9 @@ const EditorSearch = withApollo(
     applyFilter,
     removeFilter,
     editors,
+    addEditor,
+    removeEditor,
+    selectedEditors,
   }) => {
     const getVisibleName = (firstName, lastName) => `${firstName} ${lastName}`;
     const searchEditors = (name) => client.query({
@@ -100,34 +103,32 @@ const EditorSearch = withApollo(
         )
       )
     )
-    editors = editors.map(
-      ({id, firstName, lastName}) => ({id, name: getVisibleName(firstName, lastName)})
-    );
+    const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({id: selectedId}) => selectedId === id).length > 0
     return <DropDown
       label={"Editors"}
       enableSearch={true}
       loadData={editors}
       searchData = {searchEditors}
+      multiSelect = {true}
       onOptionSelect={
-        (option) => (
-          applyFilter({
-            type: "editor",
-            filter: {
-              id: option.id,
-              name: option.name,
-              slug: option.slug,
-            },
+        (option) => {
+          if(checkIfEditorAlreadySelected(option)) {
+            return;
+          }
+          addEditor({
+            id: option.id,
+            name: option.name,
           })
-        )
+        }
       }
       onOptionClose={
-        (option) => (
-          removeFilter({
-          type: "editor",
-          // filter object which contains details is not required
-          // because we remove based on filter type and not the filter itself.
-          })
-        )
+        (option) => {
+          if(checkIfEditorAlreadySelected(option)) {
+            removeEditor({
+              id: option.id,
+            })
+          }
+        }
       }
     >
     </DropDown>
@@ -140,14 +141,17 @@ export const ProductListFilter = ({
   replaceFilter,
   removeFilter,
   className,
-  attributes,
   addSortBy,
   resetSortBy,
   filters,
   editors,
+  addEditor,
+  removeEditor,
+  selectedAttributes,
+  selectedEditors,
 }) => {
   const applyFilter = (filter) => {
-    const filterFound = attributes.find((it) => it.type === filter.type);
+    const filterFound = selectedAttributes.find((it) => it.type === filter.type);
     if(filterFound) {
       return replaceFilter(filter);
     }
@@ -155,14 +159,22 @@ export const ProductListFilter = ({
   }
   return <Wrapper>
     <div className="header">Filter By:</div>
-      <EditorSearch applyFilter={applyFilter} editors={editors}></EditorSearch>
+      <EditorSearch
+        key={"editors"}
+        addEditor={addEditor}
+        removeEditor={removeEditor}
+        editors={editors}
+        selectedEditors={selectedEditors}
+      >
+      </EditorSearch>
       {
-        filters.map((filterObj) => {
+        filters.map((filterObj, id) => {
           return (
-              <DropDown
+              <DropDown key={filterObj.slug}
                 label={filterObj.name}
                 enableSearch={true}
                 loadData={filterObj.values}
+                multiSelect = {true}
                 onOptionSelect={
                   (option) => (
                     applyFilter({
@@ -190,6 +202,7 @@ export const ProductListFilter = ({
           })
         }
         <DropDown
+          key={"sort"}
           label={"Sort by:"}
           loadData={SORT_BY}
           onOptionSelect={

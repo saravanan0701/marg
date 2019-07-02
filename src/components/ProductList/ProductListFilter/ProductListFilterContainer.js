@@ -8,10 +8,12 @@ const mapStateToProps = ({
   productList: {
     filter: {
       attributes,
+      editors,
     }
   }
 }, ownProps) => ({
-  attributes,
+  selectedAttributes: attributes,
+  selectedEditors: editors,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -19,6 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addFilter: (filter) => dispatch(actions.addAttributeFilter(filter)),
     replaceFilter: (filter) => dispatch(actions.replaceAttributeFilter(filter)),
     removeFilter: (filter) => dispatch(actions.removeAttributeFilter(filter)),
+    addEditor: (editor) => dispatch(actions.addEditorFilter(editor)),
+    replaceEditor: (editor) => dispatch(actions.replaceEditorFilter(editor)),
+    removeEditor: (editor) => dispatch(actions.removeEditorFilter(editor)),
     addSortBy: (sortBy) => dispatch(actions.addSortBy(sortBy)),
     resetSortBy: () => dispatch(actions.resetSortBy()),
   }

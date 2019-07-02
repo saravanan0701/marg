@@ -5,6 +5,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   loadProductsError: false,
   filter : {
     attributes: [],
+    editors: [],
     category: null,
   },
   sortBy: null,
@@ -131,6 +132,43 @@ export const ProductListReducers = (
       return {
         ...state,
         loadingNextPage: true,
+      }
+    case 'ADD_EDITOR_FILTER':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          editors: state.filter.editors.concat(action.editor),
+        },
+        loadingAllProducts: true,
+      };
+    case 'REPLACE_EDITOR_FILTER':
+      return {
+        ...state,
+        loadingAllProducts: true,
+        filter: {
+          ...state.filter,
+          editors: state.filter.editors.map((editor) => {
+            if(editor.id === action.editor.id) {
+              return action.editor;
+            }
+            return editor;
+          })
+        },
+      };
+    case 'REMOVE_EDITOR_FILTER':
+      return {
+        ...state,
+        loadingAllProducts: true,
+        filter: {
+          ...state.filter,
+          editors: state.filter.editors.reduce((acc, editor) => {
+            if(action.editor.id !== editor.id) {
+              return acc.concat(editor);
+            }
+            return acc;
+          }, []),
+        }
       }
     default:
       return state

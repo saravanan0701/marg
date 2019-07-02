@@ -5,8 +5,24 @@ import actions from './../actions';
 import client from './../apollo/';
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($query:String, $categoryIds: [ID], $attributes:[AttributeScalar], $sortBy:ProductOrder, $first:Int!, $after:String) {
-    products(query:$query, categories:$categoryIds, attributes:$attributes, sortBy:$sortBy, first:$first, after:$after) {
+  query LoadProducts(
+    $query:String,
+    $categoryIds: [ID],
+    $attributes:[AttributeScalar],
+    $sortBy:ProductOrder,
+    $first:Int!,
+    $after:String,
+    $editorIds: [ID]
+  ) {
+    products(
+      query:$query,
+      categories:$categoryIds,
+      attributes:$attributes,
+      sortBy:$sortBy,
+      first:$first,
+      after:$after,
+      editorIds: $editorIds,
+    ) {
       totalCount
       edges {
         node {
@@ -17,6 +33,11 @@ const LOAD_PRODUCTS = gql`
             currency
           }
           thumbnailUrl
+          editors {
+            id
+            firstName
+            lastName
+          }
           attributes{
             attribute{
               name
@@ -49,6 +70,9 @@ export function* loadProducts() {
     "REMOVE_CATEGORY_FILTER",
     "ADD_SORT_BY",
     "RESET_SORT_BY",
+    "ADD_EDITOR_FILTER",
+    "REPLACE_EDITOR_FILTER",
+    "REMOVE_EDITOR_FILTER",
   ], loadProductsFromBackend, {allowPagination: false});
 
   yield takeLatest([
@@ -61,6 +85,7 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
     filter: {
       attributes,
       category,
+      editors,
     },
     sortBy,
     pagination: {
@@ -71,10 +96,12 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
   const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
 
   const queryAttributes = attributes.map((it) => (`${it.type}:${it.filter.slug}`));
+  const editorIds = editors.map(({id}) => id);
   return client.query({
     query: LOAD_PRODUCTS,
     variables: {
       first,
+      editorIds,
       after: allowPagination? after: '',
       categoryIds: category && category.id? [category.id]: [],
       attributes: queryAttributes && queryAttributes.length > 0? queryAttributes: [],

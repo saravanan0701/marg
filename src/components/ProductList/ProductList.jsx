@@ -87,7 +87,7 @@ const ProductList = () => (
           }
           categories = categories.edges.map(({node}) => node);
           attributes = attributes.edges.map(({node}) => node);
-          editors = editors.edges.map(({node}) => node)
+          editors = editors.edges.map(({ node: {id, firstName, lastName} }) => ({id, name: `${firstName} ${lastName}`}))
           return (
             <div>
               <CategoryFilter categories={categories} />
