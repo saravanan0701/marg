@@ -26,11 +26,6 @@ const addAttributeFilter = filter => ({
   filter,
 });
 
-const replaceAttributeFilter = filter => ({
-  type: 'REPLACE_ATTRIBUTE_FILTER',
-  filter,
-});
-
 const removeAttributeFilter = filterId => ({
   type: 'REMOVE_ATTRIBUTE_FILTER',
   filterId,
@@ -63,11 +58,6 @@ const loadNextPage = () => ({
 
 const addEditorFilter = editor => ({
   type: 'ADD_EDITOR_FILTER',
-  editor,
-});
-
-const replaceEditorFilter = editor => ({
-  type: 'REPLACE_EDITOR_FILTER',
   editor,
 });
 

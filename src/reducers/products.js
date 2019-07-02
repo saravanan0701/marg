@@ -66,20 +66,6 @@ export const ProductListReducers = (
         },
         loadingAllProducts: true,
       };
-    case 'REPLACE_ATTRIBUTE_FILTER':
-      return {
-        ...state,
-        loadingAllProducts: true,
-        filter: {
-          ...state.filter,
-          attributes: state.filter.attributes.map((filter) => {
-            if(filter.type === action.filter.type) {
-              return action.filter;
-            }
-            return filter;
-          })
-        },
-      };
     case 'REMOVE_ATTRIBUTE_FILTER':
       return {
         ...state,
@@ -141,20 +127,6 @@ export const ProductListReducers = (
           editors: state.filter.editors.concat(action.editor),
         },
         loadingAllProducts: true,
-      };
-    case 'REPLACE_EDITOR_FILTER':
-      return {
-        ...state,
-        loadingAllProducts: true,
-        filter: {
-          ...state.filter,
-          editors: state.filter.editors.map((editor) => {
-            if(editor.id === action.editor.id) {
-              return action.editor;
-            }
-            return editor;
-          })
-        },
       };
     case 'REMOVE_EDITOR_FILTER':
       return {

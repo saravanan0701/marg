@@ -19,10 +19,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addFilter: (filter) => dispatch(actions.addAttributeFilter(filter)),
-    replaceFilter: (filter) => dispatch(actions.replaceAttributeFilter(filter)),
     removeFilter: (filterId) => dispatch(actions.removeAttributeFilter(filterId)),
     addEditor: (editor) => dispatch(actions.addEditorFilter(editor)),
-    replaceEditor: (editor) => dispatch(actions.replaceEditorFilter(editor)),
     removeEditor: (editor) => dispatch(actions.removeEditorFilter(editor)),
     addSortBy: (sortBy) => dispatch(actions.addSortBy(sortBy)),
     resetSortBy: () => dispatch(actions.resetSortBy()),

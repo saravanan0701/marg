@@ -138,7 +138,6 @@ const EditorSearch = withApollo(
 export const ProductListFilter = ({
   client,
   addFilter,
-  replaceFilter,
   removeFilter,
   className,
   addSortBy,
