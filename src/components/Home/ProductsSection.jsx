@@ -37,8 +37,8 @@ const Wrapper = styled.div`
 `;
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($sortBy:String, $last: Int) {
-    products(sortBy:$sortBy, last: $last) {
+  query LoadProducts($last: Int) {
+    products(last: $last) {
       totalCount
       edges {
         node {
@@ -52,10 +52,16 @@ const LOAD_PRODUCTS = gql`
           attributes{
             attribute{
               name
+              slug
             }
             value {
               name
             }
+          }
+          editors {
+            id
+            firstName
+            lastName
           }
         }
       }
