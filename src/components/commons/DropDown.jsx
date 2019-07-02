@@ -16,6 +16,9 @@ const Wrapper = styled.div`
     background: transparent;
     border: none;
     border-bottom: 1px solid #979797;
+    width: 100%;
+    max-width: 100%;
+
     & > .main-label {
       background: transparent;
       border: none;
@@ -33,6 +36,7 @@ const Wrapper = styled.div`
     }
 
     & > .selected-options {
+      text-align: left;
       font-weight: ${props => props.theme['$weight-regular']};
       font-size: ${props => props.theme['$font-size-xxxs']};
       & > .icon {

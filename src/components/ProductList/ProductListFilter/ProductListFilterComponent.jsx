@@ -39,13 +39,20 @@ const Wrapper = styled.div`
   padding: 30px 20px;
   background-color: ${props => props && props.theme && props.theme.sectionBackground};
   justify-content: space-between;
-  align-items: center;
 
   & > div.header {
     font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 0.59px;
     line-height: 23px;
+    width: 12%;
+    max-width: 12%;
+  }
+
+  & > div.dropdown {
+    margin-left: 2%;
+    width: 20%;
+    max-width: 20%;
   }
 `
 
@@ -73,6 +80,7 @@ const EditorSearch = withApollo(
     removeEditor,
     selectedEditors,
     removeAllEditors,
+    className,
   }) => {
     const getVisibleName = (firstName, lastName) => `${firstName} ${lastName}`;
     const searchEditors = (name) => client.query({
@@ -106,6 +114,7 @@ const EditorSearch = withApollo(
     )
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({id: selectedId}) => selectedId === id).length > 0
     return <DropDown
+      className={className}
       label={"Editors"}
       enableSearch={true}
       loadData={editors}
@@ -166,6 +175,7 @@ export const ProductListFilter = ({
   return <Wrapper>
     <div className="header">Filter By:</div>
     <EditorSearch
+      className="dropdown"
       key={"editors"}
       addEditor={addEditor}
       removeEditor={removeEditor}
@@ -177,7 +187,9 @@ export const ProductListFilter = ({
     {
       filters.map((filterObj, id) => {
         return (
-          <DropDown key={filterObj.slug}
+          <DropDown
+            className="dropdown"
+            key={filterObj.slug}
             label={filterObj.name}
             enableSearch={true}
             loadData={filterObj.values}
@@ -212,6 +224,7 @@ export const ProductListFilter = ({
       })
     }
     <DropDown
+      className="dropdown"
       key={"sort"}
       label={"Sort by:"}
       loadData={SORT_BY}
