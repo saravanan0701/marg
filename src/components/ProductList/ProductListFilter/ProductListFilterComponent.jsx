@@ -9,26 +9,26 @@ import { DropDown } from './../../commons/';
 const SORT_BY = [
   {
     name: "Price Low-High",
-    slug: "PRICE_LOW_HIGH",
-    id: "PRICE",
+    id: "PRICE_LOW_HIGH",
+    key: "PRICE",
     val: "ASC"
   },
   {
     name: "Price High-Low",
-    slug: "PRICE_HIGH_LOW",
-    id: "PRICE",
+    id: "PRICE_HIGH_LOW",
+    key: "PRICE",
     val: "DESC"
   },
   {
     name: "Name Increasing",
-    slug: "NAME_LOW_HIGH",
-    id: "NAME",
+    id: "NAME_LOW_HIGH",
+    key: "NAME",
     val: "ASC"
   },
   {
     name: "Name Decreasing",
-    slug: "NAME_HIGH_LOW",
-    id: "NAME",
+    id: "NAME_HIGH_LOW",
+    key: "NAME",
     val: "DESC"
   },
 ];

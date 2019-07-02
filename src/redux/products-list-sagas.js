@@ -106,7 +106,7 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
       after: allowPagination? after: '',
       categoryIds: category && category.id? [category.id]: [],
       attributes: queryAttributes && queryAttributes.length > 0? queryAttributes: [],
-      sortBy: sortBy? { field: sortBy.id, direction: sortBy.val }: null,
+      sortBy: sortBy? { field: sortBy.key, direction: sortBy.val }: null,
     }
   }).then(
     (
