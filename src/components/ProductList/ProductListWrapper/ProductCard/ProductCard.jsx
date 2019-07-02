@@ -65,19 +65,19 @@ const ProductCard = ({
   attributes,
   className,
   thumbnailUrl,
+  editors,
   history: {
     push,
   },
 }) => {
-  let editor, year;
+  let year;
   attributes.forEach((it) => {
-    if(it.attribute.slug == 'editor') {
-      editor = it.value.name
-    }
     if(it.attribute.slug == 'year') {
       year = it.value.name
     }
   });
+
+  const cardEditors = editors.map(({firstName, lastName}) => `${firstName} ${lastName}`).join(", ")
 
   const replaceStaticUrl = (url) => {
     const replaceExps = [
@@ -108,7 +108,7 @@ const ProductCard = ({
         />
       <div className="name">{name}</div>
       <div className="meta">
-        <div>{editor}</div>
+        <div>{cardEditors}</div>
         <div className="spacer">|</div>
         <div>{year}</div>
       </div>
