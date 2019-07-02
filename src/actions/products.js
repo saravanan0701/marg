@@ -36,13 +36,9 @@ const removeAllAttributeFiltersBySlug = attributeSlug => ({
   attributeSlug,
 });
 
-const addCategoryFilter = category => ({
-  type: 'ADD_CATEGORY_FILTER',
-  category,
-})
-
-const removeCategoryFilter = () => ({
-  type: 'REMOVE_CATEGORY_FILTER',
+const replaceCategoryFilters = categories => ({
+  type: 'REPLACE_CATEGORY_FILTERS',
+  categories,
 })
 
 const addSortBy = (sortBy) => ({
@@ -83,8 +79,7 @@ export default {
   addAttributeFilter,
   removeAllAttributeFiltersBySlug,
   removeAttributeFilter,
-  addCategoryFilter,
-  removeCategoryFilter,
+  replaceCategoryFilters,
   addSortBy,
   resetSortBy,
   loadNextPage,

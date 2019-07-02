@@ -6,7 +6,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   filter : {
     attributes: [],
     editors: [],
-    category: null,
+    categories: [],
   },
   sortBy: null,
   pagination: {
@@ -94,24 +94,15 @@ export const ProductListReducers = (
         },
         loadingAllProducts: true,
       };
-    case 'ADD_CATEGORY_FILTER':
+    case 'REPLACE_CATEGORY_FILTERS':
       return {
         ...state,
         loadingAllProducts: true,
         filter: {
           ...state.filter,
-          category: {
-            ...action.category,
-          }
-        }
-      }
-    case 'REMOVE_CATEGORY_FILTER':
-      return {
-        ...state,
-        loadingAllProducts: true,
-        filter: {
-          ...state.filter,
-          category: null,
+          categories: [
+            ...action.categories,
+          ]
         }
       }
     case 'ADD_SORT_BY':

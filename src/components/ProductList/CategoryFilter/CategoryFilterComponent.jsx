@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { FlatButton } from '../../commons';
 
@@ -17,41 +17,63 @@ const Wrapper = styled.div`
   }
 `;
 
-export const CategoryFilterComponent = ({
-  category, 
-  selectCategory, 
-  categories 
-}) => {
+class CategoryFilterComponent extends Component {
+
+  componentDidMount(prevProps, nextProps) {
+    const {
+      categories,
+      selectedCategories,
+      replaceCategoryFilters,
+    } = this.props;
+
+    this.allCategories = categories.filter((category) => {
+      if(category.slug !== "articles") {
+        return category;
+      }
+    });
+    
+
+    this.articles = categories.filter((category) => {
+      if(category.slug === "articles") {
+        return category;
+      }
+    });
+
+    replaceCategoryFilters(this.allCategories);      
+  }
   
-  const menus = [
-    <FlatButton
-      key="0"
-      onMouseDown={() => selectCategory(null)}
-      className={!category? 'active': ''}
-      type="secondary"
-      >
-      View All
-    </FlatButton>
-  ];
+  render() {
+  
+    const {
+      selectedCategories,
+      replaceCategoryFilters,
+      categories,
+    } = this.props;
 
-  categories.forEach(
-    (categoryIt, id) => menus.push(
-      <FlatButton key={id + 1}
-        onMouseDown={() => selectCategory({
-          name: categoryIt.name,
-          id: categoryIt.id,
-        })}
-        className={category && category.id === categoryIt.id? 'active': ''}
-        type="secondary"
-      >
-        {categoryIt.name}
-      </FlatButton>
+    const articlesIsNotSelected = () => selectedCategories.filter((category) => category.slug !== 'articles').length > 0
+
+    return (
+      <Wrapper>
+        <FlatButton
+          key="1"
+          className={articlesIsNotSelected()? 'active': ''}
+          onMouseDown={() => replaceCategoryFilters(this.allCategories)}
+          type="secondary"
+        >
+          Magazines & Books
+        </FlatButton>
+        <FlatButton
+          key="2"
+          className={!articlesIsNotSelected()? 'active': ''}
+          onMouseDown={() => replaceCategoryFilters(this.articles)}
+          type="secondary"
+        >
+          Articles
+        </FlatButton>
+      </Wrapper>
     )
-  );
+  }
 
-  return (
-    <Wrapper>
-      { menus.map((menu) => menu) }
-    </Wrapper>
-  )
 }
+
+export default CategoryFilterComponent;

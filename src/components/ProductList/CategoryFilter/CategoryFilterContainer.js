@@ -1,27 +1,26 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import actions from '../../../actions'
-import { CategoryFilterComponent as Component } from './CategoryFilterComponent'
+import CategoryFilterComponent from './CategoryFilterComponent'
 
 
 const mapStateToProps = ({
   productList: {
     filter: {
-      category,
+      categories,
     }
   }
 }, ownProps) => ({
-  category,
+  selectedCategories: categories,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    selectCategory: (category) => dispatch(actions.addCategoryFilter(category)),
-    removeCategory: (category) => dispatch(actions.removeCategoryFilter(category)),
+    replaceCategoryFilters: (categories) => dispatch(actions.replaceCategoryFilters(categories)),
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(Component));
+)(withApollo(CategoryFilterComponent));

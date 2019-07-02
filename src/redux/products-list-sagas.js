@@ -66,8 +66,7 @@ export function* loadProducts() {
     "ADD_ATTRIBUTE_FILTER",
     "REMOVE_ALL_ATTRIBUTE_FILTERS_BY_ATTRIBUTE_SLUG",
     "REMOVE_ATTRIBUTE_FILTER",
-    "ADD_CATEGORY_FILTER",
-    "REMOVE_CATEGORY_FILTER",
+    "REPLACE_CATEGORY_FILTERS",
     "ADD_SORT_BY",
     "RESET_SORT_BY",
     "ADD_EDITOR_FILTER",
@@ -85,7 +84,7 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
   const {
     filter: {
       attributes,
-      category,
+      categories,
       editors,
     },
     sortBy,
@@ -104,7 +103,7 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
       first,
       editorIds,
       after: allowPagination? after: '',
-      categoryIds: category && category.id? [category.id]: [],
+      categoryIds: categories.map((category) => category.id),
       attributes: queryAttributes && queryAttributes.length > 0? queryAttributes: [],
       sortBy: sortBy? { field: sortBy.key, direction: sortBy.val }: null,
     }
