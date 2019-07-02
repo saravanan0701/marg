@@ -165,67 +165,67 @@ export const ProductListFilter = ({
   }
   return <Wrapper>
     <div className="header">Filter By:</div>
-      <EditorSearch
-        key={"editors"}
-        addEditor={addEditor}
-        removeEditor={removeEditor}
-        removeAllEditors={removeAllEditors}
-        editors={editors}
-        selectedEditors={selectedEditors}
-      >
-      </EditorSearch>
-      {
-        filters.map((filterObj, id) => {
-          return (
-              <DropDown key={filterObj.slug}
-                label={filterObj.name}
-                enableSearch={true}
-                loadData={filterObj.values}
-                multiSelect = {true}
-                onOptionSelect={
-                  (option) => (
-                    applyFilter({
-                      type: filterObj.slug,
-                      filter: {
-                        id: option.id,
-                        name: option.name,
-                        slug: option.slug,
-                      },
-                    })
-                  )
-                }
-                onOptionClose={
-                  (option) => (
-                    removeFilter(option.id)
-                    // filter object which contains details is not required
-                    // because we remove based on attribute.filter.id and not the filter type.
-                  )
-                }
-                onUnselectAll={
-                  () => (
-                    removeAllAttributeFiltersBySlug(filterObj.slug)
-                  )
-                }
-              >
-              </DropDown>
-            );
-          })
-        }
-        <DropDown
-          key={"sort"}
-          label={"Sort by:"}
-          loadData={SORT_BY}
-          onOptionSelect={
-            (option) => (
-              addSortBy(option)
-            )
-          }
-          onOptionClose={
-            (option) => (
-              resetSortBy()
-            )
-          }
-        >
-        </DropDown>
+    <EditorSearch
+      key={"editors"}
+      addEditor={addEditor}
+      removeEditor={removeEditor}
+      removeAllEditors={removeAllEditors}
+      editors={editors}
+      selectedEditors={selectedEditors}
+    >
+    </EditorSearch>
+    {
+      filters.map((filterObj, id) => {
+        return (
+          <DropDown key={filterObj.slug}
+            label={filterObj.name}
+            enableSearch={true}
+            loadData={filterObj.values}
+            multiSelect = {true}
+            onOptionSelect={
+              (option) => (
+                applyFilter({
+                type: filterObj.slug,
+                filter: {
+                  id: option.id,
+                  name: option.name,
+                    slug: option.slug,
+                  },
+                })
+              )
+            }
+            onOptionClose={
+              (option) => (
+                removeFilter(option.id)
+                // filter object which contains details is not required
+                // because we remove based on attribute.filter.id and not the filter type.
+              )
+            }
+            onUnselectAll={
+              () => (
+                removeAllAttributeFiltersBySlug(filterObj.slug)
+              )
+            }
+          >
+          </DropDown>
+        );
+      })
+    }
+    <DropDown
+      key={"sort"}
+      label={"Sort by:"}
+      loadData={SORT_BY}
+      onOptionSelect={
+        (option) => (
+          addSortBy(option)
+        )
+      }
+      onOptionClose={
+        (option) => (
+          resetSortBy()
+        )
+      }
+    >
+    </DropDown>
   </Wrapper>
 }
