@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
-import actions from './../../../actions/'
 import ProductListWrapper from './ProductListWrapper'
 
 const mapStateToProps = ({
@@ -17,9 +16,7 @@ const mapStateToProps = ({
   loadProductsError,
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  loadProducts: (client) => dispatch(actions.loadProducts(client)),
-})
+const mapDispatchToProps = () => ({})
 
 export default connect(
   mapStateToProps,

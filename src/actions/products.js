@@ -1,9 +1,3 @@
-const loadProducts = (client) => ({
-  //Used by saga to initiate a graphql request to server.
-  type: 'LOAD_PRODUCTS',
-  client,
-});
-
 const loadProductsError = (client) => ({
   //Used by saga to initiate a graphql request to server.
   type: 'LOAD_PRODUCTS_ERROR',
@@ -72,7 +66,6 @@ const removeAllEditors = () => ({
 })
 
 export default {
-  loadProducts,
   loadProductsError,
   replaceProducts,
   appendProducts,
