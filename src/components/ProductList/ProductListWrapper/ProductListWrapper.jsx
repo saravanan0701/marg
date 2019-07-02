@@ -36,7 +36,7 @@ export default class ProductListWrapper extends Component {
         {
           !loadProductsError
             && !loadingAllProducts
-            && products.map((product) => (<ProductCard className="col-4" {...product} />))
+            && products.map((product, id) => (<ProductCard key={id} className="col-4" {...product} />))
         }
         {
           !loadProductsError
