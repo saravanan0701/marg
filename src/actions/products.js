@@ -31,9 +31,9 @@ const replaceAttributeFilter = filter => ({
   filter,
 });
 
-const removeAttributeFilter = filter => ({
+const removeAttributeFilter = filterId => ({
   type: 'REMOVE_ATTRIBUTE_FILTER',
-  filter,
+  filterId,
 });
 
 const addCategoryFilter = category => ({

@@ -150,12 +150,11 @@ export const ProductListFilter = ({
   selectedAttributes,
   selectedEditors,
 }) => {
-  const applyFilter = (filter) => {
-    const filterFound = selectedAttributes.find((it) => it.type === filter.type);
-    if(filterFound) {
-      return replaceFilter(filter);
+  const applyFilter = (attribute) => {
+    const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
+    if(!filterFound) {
+      return addFilter(attribute);
     }
-    return addFilter(filter);
   }
   return <Wrapper>
     <div className="header">Filter By:</div>
@@ -189,11 +188,9 @@ export const ProductListFilter = ({
                 }
                 onOptionClose={
                   (option) => (
-                    removeFilter({
-                      type: filterObj.slug,
-                      // filter object which contains details is not required
-                      // because we remove based on filter type and not the filter itself.
-                    })
+                    removeFilter(option.id)
+                    // filter object which contains details is not required
+                    // because we remove based on attribute.filter.id and not the filter type.
                   )
                 }
               >
