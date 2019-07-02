@@ -107,6 +107,7 @@ class DropDown extends Component {
       selectedOptions: [],
     }
     this.labelClicked = this.labelClicked.bind(this);
+    this.labelBlured = this.labelBlured.bind(this);
     this.inputFocused = this.inputFocused.bind(this);
     this.inputBlurred = this.inputBlurred.bind(this);
     this.searchList = this.searchList.bind(this);
@@ -128,6 +129,14 @@ class DropDown extends Component {
         showBody: !this.state.showBody,
         searchable: null,
       });
+    }.bind(this), 0);
+  }
+
+  labelBlured() {
+    setTimeout(function() {
+      if(this.state.showBody){
+        this.labelClicked();
+      }
     }.bind(this), 0);
   }
 
@@ -358,8 +367,8 @@ class DropDown extends Component {
 
     return (
       <Wrapper {...this.props}>
-        <button className="label" onMouseDown={this.labelClicked} onBlur={this.labelClicked}>
-          <div class="main-label">
+        <button className="label" onMouseDown={this.labelClicked} onBlur={this.labelBlured}>
+          <div className="main-label">
             <div>
             {
               this.getLabel()
@@ -410,9 +419,9 @@ class DropDown extends Component {
                 visibleOptions.length > 0 && 
                 visibleOptions
                   .map(
-                    (option, id) => (
-                      <div className="option">
-                        <div key={id} onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
+                    (option) => (
+                      <div key={option.id} className="option">
+                        <div onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
                         {
                           this.selectedOptionIndex(option) > -1 &&
                             <FontAwesome className="icon" name='times' onMouseDown={() => this.optionUnselect(option)} />
