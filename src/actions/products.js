@@ -72,7 +72,6 @@ export default {
   replaceProducts,
   appendProducts,
   addAttributeFilter,
-  replaceAttributeFilter,
   removeAttributeFilter,
   addCategoryFilter,
   removeCategoryFilter,
@@ -80,6 +79,5 @@ export default {
   resetSortBy,
   loadNextPage,
   addEditorFilter,
-  replaceEditorFilter,
   removeEditorFilter,
 }
