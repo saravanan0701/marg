@@ -133,8 +133,8 @@ const ArticleWrapper = styled.div`
     padding: 20px 0px 15px;
 
     & > div.title {
-      width: 90%;
-      max-width: 90%;
+      width: 75%;
+      max-width: 75%;
       display: flex;
       flex-direction: column;
 
@@ -144,6 +144,7 @@ const ArticleWrapper = styled.div`
         letter-spacing: 0.66px;
         line-height: 23px;
         color: ${props => props.theme.mainTextColor};
+        padding-bottom: 15px;
       }
 
       & > div.product-editor {
@@ -155,8 +156,9 @@ const ArticleWrapper = styled.div`
     }
 
     & > div.price {
-      width: 5%;
-      max-width: 5%;
+      margin-left: 10%;
+      width: 10%;
+      max-width: 10%;
       text-align: center;
       font-family: ${props => props.theme['$font-primary-medium']};
       color: ${props => props.theme.underlineColor};
@@ -167,7 +169,37 @@ const ArticleWrapper = styled.div`
     & > div.icon {
       color: ${props => props.theme.primaryColor};
     }
+  }
 
+  & > .body {
+    display: none;
+
+    & > .description {
+      width: 70%;
+      max-width: 70%;
+    }
+
+    & > .action {
+      margin-left: 5%;
+      width: 25%;
+      max-width: 25%;
+
+      & > button {
+        width: 100%;
+      }
+
+      & > .hint {
+        font-size: ${props => props.theme['$font-size-xxxs']};
+        font-weight: ${props => props.theme['$weight-regular']};
+        letter-spacing: 0.52px;
+        line-height: 21px;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  & > .body.isOpen{
+    display: flex;
   }
 `;
 
@@ -177,19 +209,9 @@ const LOAD_PRODUCT = gql`
       id
       name
       description
-      pricing{
-        priceRange{
-          start{
-            gross{
-              amount
-            }
-          }
-          stop{
-            gross{
-              amount
-            }
-          }
-        }
+      price{
+        currency
+        amount
       }
       images{
         url
@@ -219,19 +241,9 @@ const LOAD_PRODUCT = gql`
           id
           name
           description
-          pricing{
-            priceRange{
-              start{
-                gross{
-                  amount
-                }
-              }
-              stop{
-                gross{
-                  amount
-                }
-              }
-            }
+          price{
+            currency
+            amount
           }
           editors {
             id
@@ -267,30 +279,67 @@ const getEditorName = (editors) => (
     .join(',')
 );
 
-const Article = ({
-  name,
-  editors
-}) => (
-  <ArticleWrapper>
-    <div className="header">
-      <div className="title">
-        <div className="product-title">
-          {name}
-        </div>
-        <div className="product-editor">
-          {getEditorName(editors)}
-        </div>
-      </div>
-      <div className="price">
-        80
-      </div>
-      <div className="icon">
-        <FontAwesome name='chevron-down'/>
-      </div>
+class Article extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpen: false
+    }
+    this.toggleBody = this.toggleBody.bind(this);
+  }
 
-    </div>
-  </ArticleWrapper>
-);
+  toggleBody() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    })
+  }
+
+  render() {
+    const {
+      name,
+      editors,
+      description,
+      price: {
+        currency,
+        amount,
+      },
+    } = this.props;
+
+    const {
+      isOpen,
+    } = this.state;
+
+    return (
+      <ArticleWrapper>
+        <div onClick={this.toggleBody} className="header">
+          <div className="title">
+            <div className="product-title">
+              {name}
+            </div>
+            <div className="product-editor">
+              {getEditorName(editors)}
+            </div>
+          </div>
+          <div className="price">
+            {currency}&nbsp;{amount}
+          </div>
+          <div className="icon">
+            <FontAwesome name='chevron-down'/>
+          </div>
+        </div>
+        <div className={`body ${isOpen?'isOpen': '' }`}>
+          <div className="description">
+            {ReactHtmlParser(description)}
+          </div>
+          <div className="action">
+            <RaisedButton>Add to cart</RaisedButton>
+            <div className="hint">This is a digital article. You can read it on the Marg website using any device.</div>
+          </div>
+        </div>
+      </ArticleWrapper>
+    )
+  }
+}
 
 const ProductDetails = ({
   match: {
@@ -318,6 +367,10 @@ const ProductDetails = ({
               thumbnail: {
                 url: thumbnailUrl
               } = {},
+              price: {
+                currency,
+                amount,
+              } = {},
               attributes,
               editors,
               sections,
@@ -340,7 +393,7 @@ const ProductDetails = ({
                 <div className="details">
                   <div className="name">{name}</div>
                   <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
-                  <div className="price">Rs. 1,380</div>
+                  <div className="price">{currency}. {amount}</div>
                   <RaisedButton className="add-to-bag">Add to bag</RaisedButton>
                   <div className="availability">Available to ship within 2 business days</div>
                 </div>
