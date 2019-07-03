@@ -6,6 +6,8 @@ const Theme = {
   secondaryColor: "#3a3a3a",
   secondaryHoverColor: "#ec1d24",
   sectionBackground: "#f8f8f8",
+  underlineColor: "#37312f",
+  mainTextColor: "#000000",
 
   '$weight-regular': '400',
   '$weight-semibold': '600',
