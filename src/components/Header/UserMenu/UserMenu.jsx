@@ -1,6 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { FlatButton } from './../../commons/';
+import { FlatButton, Menu } from './../../commons/';
 
 export const UserMenu = ({
   email,
@@ -17,8 +18,11 @@ export const UserMenu = ({
     email
       ?
         <div>
-          <p>Welcome, {email}</p>
-          <button onClick={() => {logout()}}>Logout</button>
+          <Menu label={"MY ACCOUNT"}>
+            <Link to="">ORDERS & PROFILE</Link>
+            <Link to="">MY SUBSCRIPTIONS</Link>
+            <Link onClick={() => {logout()}}>SIGN OUT</Link>
+          </Menu>
         </div>
       :
         <FlatButton colorType="primary" onClick={

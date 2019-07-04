@@ -14,6 +14,11 @@ const loginFailure = user => ({
   user
 })
 
+const setUserName = user => ({
+  type: 'SET_USER_NAME',
+  user
+})
+
 const logout = () => ({
   type: 'LOGOUT',
 })
@@ -22,5 +27,6 @@ export default {
   persistAuthenticatedUserToState,
   persistAuthenticatedUser,
   loginFailure,
-  logout
+  logout,
+  setUserName,
 }
