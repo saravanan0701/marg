@@ -2,6 +2,7 @@ import FlatButton from './FlatButton.jsx';
 import RaisedButton from './RaisedButton.jsx';
 import DropDown from './DropDown.jsx';
 import Menu from './Menu.jsx';
+import RadioButtonSet from './RadioButtonSet.jsx';
 
 
 export {
@@ -9,4 +10,5 @@ export {
   RaisedButton,
   DropDown,
   Menu,
+  RadioButtonSet
 }
