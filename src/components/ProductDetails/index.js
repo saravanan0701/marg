@@ -1,2 +1,2 @@
-import ProductDetails from './ProductDetails';
-export default ProductDetails;
+import ProductDetailsContainer from './ProductDetailsContainer';
+export default ProductDetailsContainer;

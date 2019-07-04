@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import ReactHtmlParser from 'react-html-parser';
-import { RaisedButton } from './../commons/';
+import { RaisedButton, RadioButtonSet } from './../commons/';
 import FontAwesome from 'react-fontawesome';
 
 const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
@@ -56,7 +56,8 @@ const Wrapper = styled.div`
           padding-bottom: 45px;
         }
 
-        & > .price {
+        & > .pricing {
+          width: 60%;
           color: #37312f;
           font-family: ${props => props.theme['$font-primary-medium']};
           font-size: ${props => props.theme['$font-size-xs']};
@@ -252,6 +253,18 @@ const LOAD_PRODUCT = gql`
           }
         }
       }
+      variants{
+        id
+        isDigital
+        pricing{
+          price{
+            gross{
+              currency
+              amount
+            }
+          }
+        }
+      }
     }
   }
 `
@@ -279,6 +292,8 @@ const getEditorName = (editors) => (
     .join(',')
 );
 
+const DEFAULT_QUANTITY = 1;
+
 class Article extends Component {
   constructor(props) {
     super(props);
@@ -303,6 +318,8 @@ class Article extends Component {
         currency,
         amount,
       },
+      variants = [],
+      addToCart,
     } = this.props;
 
     const {
@@ -332,7 +349,17 @@ class Article extends Component {
             {ReactHtmlParser(description)}
           </div>
           <div className="action">
-            <RaisedButton>Add to cart</RaisedButton>
+            <RaisedButton
+              onClick={
+                () =>
+                addToCart({
+                  quantity: DEFAULT_QUANTITY,
+                  variant: variants[0]
+                })
+              }
+              >
+              Add to cart
+            </RaisedButton>
             <div className="hint">This is a digital article. You can read it on the Marg website using any device.</div>
           </div>
         </div>
@@ -341,14 +368,35 @@ class Article extends Component {
   }
 }
 
+const PriceWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-size: ${props => props.theme['$font-size-xxxs']};
+  font-weight: ${props => props.theme['$weight-bold']};
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: ${props => props.theme.underlineColor};
+  
+  & > .name {
+    width: 40%;
+  }
+
+  & > .price {
+
+  }
+`
+
 const ProductDetails = ({
   match: {
     params: {
       id,
     }
-  }
-}) => (
-  <Wrapper>
+  },
+  addToCart,
+}) => {
+
+  let selectedVariant = {};
+  return <Wrapper>
     <Query
       query={LOAD_PRODUCT}
       variables={{
@@ -374,10 +422,10 @@ const ProductDetails = ({
               attributes,
               editors,
               sections,
+              variants = [],
             } = {},
           },
         }) => {
-          const productVariants = {};
           if(loading) {
             return <h1>Loading...</h1>;
           }
@@ -393,8 +441,53 @@ const ProductDetails = ({
                 <div className="details">
                   <div className="name">{name}</div>
                   <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
-                  <div className="price">{currency}. {amount}</div>
-                  <RaisedButton className="add-to-bag">Add to bag</RaisedButton>
+                  <RadioButtonSet
+                    selectOption={(id) => {
+                        selectedVariant = {
+                          ...variants[id]
+                        };
+                      }
+                    }
+                    className="pricing"
+                  >
+                    {
+                      variants.map(
+                        ({
+                          id,
+                          isDigital,
+                          pricing: {
+                            price: {
+                              gross: {
+                                currency,
+                                amount,
+                              },
+                            },
+                          },
+                        }) => (
+                          <PriceWrapper key={id}>
+                            {
+                              isDigital?
+                                <div className="name">Digital</div>
+                                :
+                                <div className="name">Print</div>
+                            }
+                            <div className="price">{currency}&nbsp;{amount}</div>
+                          </PriceWrapper>
+                        )
+                      )
+                    }
+                  </RadioButtonSet>
+                  <RaisedButton
+                    onClick={
+                      () => addToCart({
+                        variant: selectedVariant,
+                        quantity: DEFAULT_QUANTITY,
+                      })
+                    }
+                    className="add-to-bag"
+                  >
+                    Add to bag
+                  </RaisedButton>
                   <div className="availability">Available to ship within 2 business days</div>
                 </div>
               </div>
@@ -407,7 +500,11 @@ const ProductDetails = ({
                   childProducts && childProducts.length > 0 &&
                     <div key="heading" className="heading">Contents</div>
                 }
-                {childProducts.map((product) => <Article key={product.id} {...product} />)}
+                {
+                  childProducts.map(
+                    (product) => <Article {...addToCart} key={product.id} {...product} />
+                  )
+                }
               </div>
             </div> 
           )
@@ -415,6 +512,6 @@ const ProductDetails = ({
       }
     </Query>
   </Wrapper>
-);
+};
 
 export default ProductDetails;
