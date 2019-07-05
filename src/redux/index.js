@@ -5,6 +5,7 @@ import MargApp from './../reducers';
 import { stateRehydrateSaga, sessionPersistanceSaga, logoutUser } from "./auth-sagas";
 import { loadProducts } from "./products-list-sagas";
 import { fetchUserDetails } from "./user-sagas";
+import { saveVariantInCart } from "./cart-sagas";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -23,6 +24,7 @@ export function StoreFactory(history) {
   sagaMiddleware.run(logoutUser);
   sagaMiddleware.run(loadProducts);
   sagaMiddleware.run(fetchUserDetails);
+  sagaMiddleware.run(saveVariantInCart);
 	return store;
 };
 
