@@ -10,7 +10,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addToCart: (variantDetails) => dispatch(actions.addToCart(variantDetails)),
+    saveVariant: (variantDetails) => dispatch(actions.saveVariant(variantDetails)),
   }
 }
 

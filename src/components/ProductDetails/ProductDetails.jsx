@@ -319,7 +319,7 @@ class Article extends Component {
         amount,
       },
       variants = [],
-      addToCart,
+      saveVariant,
     } = this.props;
 
     const {
@@ -352,7 +352,7 @@ class Article extends Component {
             <RaisedButton
               onClick={
                 () =>
-                addToCart({
+                saveVariant({
                   quantity: DEFAULT_QUANTITY,
                   variant: variants[0]
                 })
@@ -392,7 +392,7 @@ const ProductDetails = ({
       id,
     }
   },
-  addToCart,
+  saveVariant,
 }) => {
 
   let selectedVariant = {};
@@ -479,7 +479,7 @@ const ProductDetails = ({
                   </RadioButtonSet>
                   <RaisedButton
                     onClick={
-                      () => addToCart({
+                      () => saveVariant({
                         variant: selectedVariant,
                         quantity: DEFAULT_QUANTITY,
                       })
@@ -502,7 +502,7 @@ const ProductDetails = ({
                 }
                 {
                   childProducts.map(
-                    (product) => <Article {...addToCart} key={product.id} {...product} />
+                    (product) => <Article {...saveVariant} key={product.id} {...product} />
                   )
                 }
               </div>
