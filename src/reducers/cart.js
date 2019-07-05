@@ -26,6 +26,12 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         error: false,
       }
 
+    case 'UPDATE_CART_QUANTITY':
+      return {
+        ...state,
+        totalQuantity: action.totalQuantity,
+      }
+
     default:
       return state
   }

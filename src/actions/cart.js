@@ -21,10 +21,16 @@ const updateCheckoutLines = checkout => ({
   checkout,
 })
 
+const updateCartQuantity = totalQuantity => ({
+	type: 'UPDATE_CART_QUANTITY',
+	totalQuantity,
+})
+
 
 
 export default {
   saveVariant,
   initCheckout,
   updateCheckoutLines,
+  updateCartQuantity,
 }

@@ -110,7 +110,17 @@ function* saveVariant({
     } = yield select(getCartFromState);
 
     if(!auth.email) {
-      // const cart = JSON.parse(localStorage.getItem('cart'));
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push({
+        quantity: variantQuantity,
+        variantId: id,
+      });
+      localStorage.setItem('cart', JSON.stringify(cart));
+      if(cart.length > 0) {
+        yield put(
+          actions.updateCartQuantity(cart.length)
+        );
+      }
       //Use local cache
     } else if(checkoutId) {
       const {
