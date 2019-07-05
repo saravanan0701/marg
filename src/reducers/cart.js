@@ -3,6 +3,7 @@ const INITIAL_CART_STATE = {
   lines: [],
   token: null,
   error: false,
+  totalQuantity: 0,
 }
 export const CartReducers = (state = INITIAL_CART_STATE, action) => {
   switch (action.type) {
@@ -13,6 +14,15 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         checkoutId: action.checkout.id,
         lines: action.checkout.lines.concat(),
         token: action.checkout.token,
+        totalQuantity: action.checkout.quantity,
+        error: false,
+      }
+
+    case 'UPDATE_CHECKOUT_LINES':
+      return {
+        ...state,
+        totalQuantity: action.checkout.quantity,
+        lines: action.checkout.lines.concat(),
         error: false,
       }
 

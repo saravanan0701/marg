@@ -16,9 +16,15 @@ const initCheckout = checkout => ({
   checkout,
 })
 
+const updateCheckoutLines = checkout => ({
+  type: 'UPDATE_CHECKOUT_LINES',
+  checkout,
+})
+
 
 
 export default {
   saveVariant,
   initCheckout,
+  updateCheckoutLines,
 }
