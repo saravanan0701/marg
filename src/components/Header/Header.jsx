@@ -145,7 +145,8 @@ const Header = ({
     location: {
       pathname
     }
-  }
+  },
+  cartQuantity,
 }) => (
   <HeaderContainer>
     <div className="primary">
@@ -162,7 +163,7 @@ const Header = ({
       <div className="right">
         <UserMenu />
         <FlatButton colorType="primary">
-          Cart - 0
+          Cart - {cartQuantity}
         </FlatButton>
       </div>
     </div>
