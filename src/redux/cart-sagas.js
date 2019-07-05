@@ -19,6 +19,7 @@ const CREATE_NEW_CHECKOUT = gql(`
       checkout{
         id
         token
+        quantity
         lines{
           quantity
           totalPrice{
@@ -47,12 +48,56 @@ const CREATE_NEW_CHECKOUT = gql(`
   }
 `);
 
-export const getUserFromState = (state) => state.auth
+const SAVE_VARIANT_TO_CHECKOUT = gql(`
+  mutation SaveVariant($checkoutId: ID!, $variantId: ID!, $quantity: Int!) {
+    checkoutLinesAdd(
+      checkoutId: $checkoutId,
+      lines: [
+        {
+          quantity: $quantity,
+          variantId: $variantId
+        }
+      ]
+    ) {
+      checkout{
+        id
+        token
+        quantity
+        lines{
+          quantity
+          totalPrice{
+            currency
+            gross{
+              amount
+            }
+            net{
+              amount
+            }
+          }
+          variant{
+            id
+            product{
+              id
+              name
+              thumbnail{
+                url
+                alt
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`)
+
+export const getUserFromState = (state) => state.auth;
+export const getCartFromState = (state) => state.cart;
 
 function* saveVariant({
   type,
   variantDetails: {
-    quantity,
+    quantity: variantQuantity,
     variant: {
       id,
     },
@@ -60,10 +105,40 @@ function* saveVariant({
 }) {
   try {
     const auth = yield select(getUserFromState);
+    const {
+      checkoutId,
+    } = yield select(getCartFromState);
+
     if(!auth.email) {
-      const cart = JSON.parse(localStorage.getItem('cart'));
+      // const cart = JSON.parse(localStorage.getItem('cart'));
       //Use local cache
-    } else {
+    } else if(checkoutId) {
+      const {
+        data: {
+          checkoutLinesAdd: {
+            checkout: {
+              quantity,
+              lines,
+            },
+          }
+        }
+      } = yield call(() => {
+        return client.mutate({
+          mutation: SAVE_VARIANT_TO_CHECKOUT,
+          variables: {
+            checkoutId,
+            quantity: variantQuantity,
+            variantId: id,
+          }
+        })
+      });
+      yield put(
+        actions.updateCheckoutLines({
+          quantity,
+          lines,
+        })
+      );
+    } else if(!checkoutId) {
       //Set variant data on graphql
       const {
         data: {
@@ -75,7 +150,7 @@ function* saveVariant({
         return client.mutate({
           mutation: CREATE_NEW_CHECKOUT,
           variables: {
-            quantity,
+            quantity: variantQuantity,
             variantId: id,
           }
         })

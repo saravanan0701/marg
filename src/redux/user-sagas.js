@@ -12,6 +12,8 @@ const QUERY_ME = gql`
       email
       checkout{
         id
+        quantity
+        token
         lines{
           totalPrice{
             net{
