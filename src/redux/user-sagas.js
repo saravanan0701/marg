@@ -10,6 +10,31 @@ const QUERY_ME = gql`
       firstName
       lastName
       email
+      checkout{
+        id
+        lines{
+          totalPrice{
+            net{
+              amount
+            }
+            gross{
+              amount
+            }
+          }
+          quantity
+          variant{
+            id
+            name
+            sku
+            product{
+              thumbnail{
+                url
+                alt
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -31,6 +56,7 @@ function* setCurrenUserDetails() {
         me: {
           firstName,
           lastName,
+          checkout,
         }
       }
     } = yield call(queryUserDetails, client);
@@ -40,6 +66,9 @@ function* setCurrenUserDetails() {
         firstName,
         lastName,
       })
+    );
+    yield put(
+      actions.initCheckout(checkout)
     );
   
   } catch (e) {
