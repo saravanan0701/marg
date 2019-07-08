@@ -6,8 +6,8 @@ import gql from 'graphql-tag';
 import ReactHtmlParser from 'react-html-parser';
 import { RaisedButton, RadioButtonSet } from './../commons/';
 import FontAwesome from 'react-fontawesome';
+import { replaceStaticUrl } from './../../utils/';
 
-const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
 
 const Wrapper = styled.div`
   padding: 50px 100px 100px;
@@ -268,23 +268,6 @@ const LOAD_PRODUCT = gql`
     }
   }
 `
-
-const replaceStaticUrl = (url) => (
-  [
-    {
-      key: 'http://backend/',
-      value: URI,
-    },
-    {
-      key: 'static',
-      value: 'backend-static',
-    },
-    {
-      key: 'media',
-      value: 'backend-media',
-    },
-  ].reduce((url, it) => url.replace(it.key, it.value), url)
-)
 
 const getEditorName = (editors) => (
   editors

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
-
-const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
+import { replaceStaticUrl } from './../../../../utils/';
 
 const CardContainer = styled.div`
 
@@ -78,24 +77,6 @@ const ProductCard = ({
   });
 
   const cardEditors = editors.map(({firstName, lastName}) => `${firstName} ${lastName}`).join(", ")
-
-  const replaceStaticUrl = (url) => {
-    const replaceExps = [
-      {
-        key: 'http://backend/',
-        value: URI,
-      },
-      {
-        key: 'static',
-        value: 'backend-static',
-      },
-      {
-        key: 'media',
-        value: 'backend-media',
-      },
-    ];
-    return replaceExps.reduce((url, it) => url.replace(it.key, it.value), url);
-  }
 
   const openProductDetails = (id) => {
     return push(`/product/${id}`);
