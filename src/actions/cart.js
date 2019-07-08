@@ -10,6 +10,15 @@ const saveVariant = variantDetails => ({
   variantDetails,
 })
 
+//persistCartFromLocalCache is triggered when a user logs in
+// and we pick cart information in cache and persist it to backend.
+const persistCartFromLocalCache = checkout => ({
+  type: 'PERSIST_CART_FROM_CACHE',
+  checkout,
+})
+
+//ADD another action to reset checkout object. 
+
 //Initiated the checkout object.
 const initCheckout = checkout => ({
   type: 'INIT_CHECKOUT',
@@ -22,8 +31,8 @@ const updateCheckoutLines = checkout => ({
 })
 
 const updateCartQuantity = totalQuantity => ({
-	type: 'UPDATE_CART_QUANTITY',
-	totalQuantity,
+  type: 'UPDATE_CART_QUANTITY',
+  totalQuantity,
 })
 
 
@@ -33,4 +42,5 @@ export default {
   initCheckout,
   updateCheckoutLines,
   updateCartQuantity,
+  persistCartFromLocalCache,
 }
