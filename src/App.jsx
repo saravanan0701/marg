@@ -29,6 +29,7 @@ import ProductDetails from './components/ProductDetails/';
 import background from './images/background.png';
 import Theme from './Theme';
 import './App.scss';
+import Checkout from './components/Checkout/';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
@@ -74,6 +75,7 @@ class App extends Component {
                       <Route exact path="/trustees" component={Trustees} />
                       <Route exact path="/contactus" component={ContactusForm} />
                       <Route exact path="/donate" component={Donate} />
+                      <Route exact path="/checkout" component={Checkout} />
                     </Switch>
                     <Footer />
                   </div>
