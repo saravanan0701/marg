@@ -8,13 +8,16 @@ export function* saveVariantInCart() {
   yield takeEvery("SAVE_VARIANT", saveVariant);
 }
 
+export function* persistCartFromCache() {
+  yield takeEvery("PERSIST_CART_FROM_CACHE", persistCartItems);
+}
+
 const CREATE_NEW_CHECKOUT = gql(`
-  mutation SaveVariant($variantId: ID!, $quantity: Int!) {
+  mutation SaveVariant(
+    $lines: [CheckoutLineInput]!,
+  ) {
     checkoutCreate(input: {
-      lines: {
-        quantity: $quantity,
-        variantId: $variantId
-      }
+      lines: $lines,
     }) {
       checkout{
         id
@@ -49,15 +52,13 @@ const CREATE_NEW_CHECKOUT = gql(`
 `);
 
 const SAVE_VARIANT_TO_CHECKOUT = gql(`
-  mutation SaveVariant($checkoutId: ID!, $variantId: ID!, $quantity: Int!) {
+  mutation SaveVariant(
+    $checkoutId: ID!,
+    $lines: [CheckoutLineInput]!,
+  ) {
     checkoutLinesAdd(
       checkoutId: $checkoutId,
-      lines: [
-        {
-          quantity: $quantity,
-          variantId: $variantId
-        }
-      ]
+      lines: $lines
     ) {
       checkout{
         id
@@ -94,6 +95,47 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
 export const getUserFromState = (state) => state.auth;
 export const getCartFromState = (state) => state.cart;
 
+function* createCheckoutAndLines(lines) {
+  const {
+    data: {
+      checkoutCreate: {
+        checkout,
+      }
+    }
+  } = yield call(
+    () => (
+      client.mutate({
+        mutation: CREATE_NEW_CHECKOUT,
+        variables: {
+          lines,
+        }
+      })
+    )
+  );
+  return checkout;
+}
+
+function* addCheckoutLines(checkoutId, lines) {
+  const {
+    data: {
+      checkoutLinesAdd: {
+        checkout,
+      }
+    }
+  } = yield call(
+    () => (
+      client.mutate({
+        mutation: SAVE_VARIANT_TO_CHECKOUT,
+        variables: {
+          checkoutId,
+          lines,
+        }
+      })
+    )
+  );
+  return checkout;  
+}
+
 function* saveVariant({
   type,
   variantDetails: {
@@ -123,54 +165,80 @@ function* saveVariant({
       }
       //Use local cache
     } else if(checkoutId) {
-      const {
-        data: {
-          checkoutLinesAdd: {
-            checkout: {
-              quantity,
-              lines,
-            },
-          }
-        }
-      } = yield call(() => {
-        return client.mutate({
-          mutation: SAVE_VARIANT_TO_CHECKOUT,
-          variables: {
-            checkoutId,
-            quantity: variantQuantity,
-            variantId: id,
-          }
-        })
-      });
+      const createdCheckout = yield call(
+        () => addCheckoutLines(
+          checkoutId,
+          [
+            {
+              quantity: variantQuantity,
+              variantId: id,
+            }
+          ]
+        )
+      );
       yield put(
-        actions.updateCheckoutLines({
-          quantity,
-          lines,
-        })
+        actions.updateCheckoutLines(createdCheckout)
       );
     } else if(!checkoutId) {
       //Set variant data on graphql
-      const {
-        data: {
-          checkoutCreate: {
-            checkout,
-          }
-        }
-      } = yield call(() => {
-        return client.mutate({
-          mutation: CREATE_NEW_CHECKOUT,
-          variables: {
+      const createdCheckout = yield call(
+        () => createCheckoutAndLines([
+          {
             quantity: variantQuantity,
             variantId: id,
           }
-        })
-      });
+        ])
+      )
       yield put(
-        actions.initCheckout(checkout)
+        actions.initCheckout(createdCheckout)
       );
+      
     }
   
   } catch (e) {
+    // Something went wrong while updating cart.
     // yield put(actions.loginFailure());
   }
+}
+
+function* persistCartItems({
+  type,
+  checkout,
+}) {
+
+  try {
+    const auth = yield select(getUserFromState);
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if(cart.length === 0) {
+      return;
+    }
+
+    if(checkout.id) {
+      const createdCheckout = yield call(
+        () => addCheckoutLines(
+          checkout.id,
+          cart,
+        )
+      );
+      yield put(
+        actions.updateCheckoutLines(createdCheckout)
+      );
+      localStorage.setItem('cart', "[]");
+    } else {
+      const createdCheckout = yield call(
+        () => addCheckoutLines(
+          checkout.id,
+          cart,
+        )
+      );
+      yield put(
+        actions.updateCheckoutLines(createdCheckout)
+      );
+      localStorage.setItem('cart', "[]");
+    }
+
+  } catch {
+    //Failed to save your items on cart, please try again later.
+  }
+
 }

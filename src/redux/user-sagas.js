@@ -15,6 +15,7 @@ const QUERY_ME = gql`
         quantity
         token
         lines{
+          id
           totalPrice{
             net{
               amount
@@ -62,15 +63,20 @@ function* setCurrenUserDetails() {
         }
       }
     } = yield call(queryUserDetails, client);
-
     yield put(
       actions.setUserName({
         firstName,
         lastName,
       })
     );
+    if(checkout) {
+      yield put(
+        actions.initCheckout(checkout)
+        // Set state with current checkout object, if present.
+      );
+    }
     yield put(
-      actions.initCheckout(checkout)
+      actions.persistCartFromLocalCache(checkout)
     );
   
   } catch (e) {
