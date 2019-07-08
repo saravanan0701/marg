@@ -51,6 +51,12 @@ function* rehyderateUserFromSession({ client }) {
   
   } catch (e) {
     yield put(actions.loginFailure());
+    
+    //if user is not loggedin, cart length is set as `totalQuantity`.
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    yield put(
+      actions.updateCartQuantity(cart.length)
+    );
   }
 }
 
