@@ -14,13 +14,25 @@ const QUERY_ME = gql`
         id
         quantity
         token
+        totalPrice{
+          net{
+            currency
+            amount
+          }
+          gross{
+            currency
+            amount
+          }
+        }
         lines{
           id
           totalPrice{
             net{
+              currency
               amount
             }
             gross{
+              currency
               amount
             }
           }
@@ -30,6 +42,7 @@ const QUERY_ME = gql`
             name
             sku
             product{
+              name
               thumbnail{
                 url
                 alt

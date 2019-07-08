@@ -23,15 +23,26 @@ const CREATE_NEW_CHECKOUT = gql(`
         id
         token
         quantity
+        totalPrice{
+          gross{
+            currency
+            amount
+          }
+          net{
+            currency
+            amount
+          }
+        }
         lines{
           id
           quantity
           totalPrice{
-            currency
             gross{
+              currency
               amount
             }
             net{
+              currency
               amount
             }
           }
@@ -65,15 +76,26 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
         id
         token
         quantity
+        totalPrice{
+          gross{
+            currency
+            amount
+          }
+          net{
+            currency
+            amount
+          }
+        }
         lines{
           id
           quantity
           totalPrice{
-            currency
             gross{
+              currency
               amount
             }
             net{
+              currency
               amount
             }
           }

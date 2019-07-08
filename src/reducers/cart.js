@@ -4,6 +4,7 @@ const INITIAL_CART_STATE = {
   token: null,
   error: false,
   totalQuantity: 0,
+  totalPrice: {},
 }
 export const CartReducers = (state = INITIAL_CART_STATE, action) => {
   switch (action.type) {
@@ -15,6 +16,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         lines: action.checkout.lines.concat(),
         token: action.checkout.token,
         totalQuantity: action.checkout.quantity,
+        totalPrice: action.checkout.totalPrice,
         error: false,
       }
 
@@ -23,6 +25,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         ...state,
         totalQuantity: action.checkout.quantity,
         lines: action.checkout.lines.concat(),
+        totalPrice: action.checkout.totalPrice,
         error: false,
       }
 
