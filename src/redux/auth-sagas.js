@@ -63,7 +63,6 @@ function* setSessionInCache({ user }) {
     localStorage.setItem('authToken', user.authToken);
     yield put(actions.persistAuthenticatedUserToState(user));
   } catch(e) {
-    console.log("Error: ", e)
     yield put(actions.loginFailure());
   }
 }
