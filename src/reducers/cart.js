@@ -32,6 +32,12 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         totalQuantity: action.totalQuantity,
       }
 
+    case 'RESET_CART':
+      return {
+        ...state,
+        ...INITIAL_CART_STATE,
+      }
+
     default:
       return state
   }

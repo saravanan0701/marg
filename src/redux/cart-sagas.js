@@ -24,6 +24,7 @@ const CREATE_NEW_CHECKOUT = gql(`
         token
         quantity
         lines{
+          id
           quantity
           totalPrice{
             currency
@@ -65,6 +66,7 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
         token
         quantity
         lines{
+          id
           quantity
           totalPrice{
             currency

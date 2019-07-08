@@ -35,7 +35,9 @@ const updateCartQuantity = totalQuantity => ({
   totalQuantity,
 })
 
-
+const resetCart = () => ({
+  type: 'RESET_CART',
+})
 
 export default {
   saveVariant,
@@ -43,4 +45,5 @@ export default {
   updateCheckoutLines,
   updateCartQuantity,
   persistCartFromLocalCache,
+  resetCart,
 }

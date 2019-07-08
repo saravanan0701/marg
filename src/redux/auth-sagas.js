@@ -71,6 +71,9 @@ export function* logoutUser() {
   yield takeLatest("LOGOUT", removeUserFromLocalCache);
 }
 
-function removeUserFromLocalCache() {
-  localStorage.removeItem('authToken');  
+function* removeUserFromLocalCache() {
+  localStorage.removeItem('authToken');
+  yield put(
+    actions.resetCart()
+  );
 }
