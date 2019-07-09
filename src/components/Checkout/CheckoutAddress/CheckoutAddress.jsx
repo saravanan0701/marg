@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 
-import { getAllCountries } from './../../utils/';
-import { RaisedButton, FlatButton, DropDown } from './../commons/';
+import { getAllCountries } from './../../../utils/';
+import { RaisedButton, FlatButton, DropDown } from './../../commons/';
 
 const Wrapper = styled.div`
   padding: 50px 100px 100px;

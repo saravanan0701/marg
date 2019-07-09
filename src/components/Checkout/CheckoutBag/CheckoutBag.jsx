@@ -1,9 +1,9 @@
 import React from 'react'
-import { Route } from "react-router-dom"
+import { Link, Route } from "react-router-dom"
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
-import { replaceStaticUrl } from './../../utils/';
-import { RaisedButton } from './../commons/';
+import { replaceStaticUrl } from './../../../utils/';
+import { RaisedButton } from './../../commons/';
 
 const Wrapper = styled.div`
   display: flex;
@@ -83,7 +83,7 @@ const Wrapper = styled.div`
     flex-direction: row;
     padding-top: 40px;
 
-    & > button {
+    & > div {
       margin-left: 87%;
       width: 13%;
     }
@@ -156,7 +156,9 @@ const Checkout = ({
       </div>
     </div>
     <div className="footer">
-      <RaisedButton>Checkout</RaisedButton>
+      <Link to="/checkout/address" className="link button">
+        <RaisedButton>Checkout</RaisedButton>
+      </Link>
     </div>
   </Wrapper>
 )

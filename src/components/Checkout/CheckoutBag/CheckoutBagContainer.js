@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Checkout from './Checkout.jsx'
+import CheckoutBag from './CheckoutBag.jsx'
 
 
 const mapStateToProps = ({
@@ -13,4 +13,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({})
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Checkout);
+)(CheckoutBag);

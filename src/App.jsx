@@ -75,7 +75,7 @@ class App extends Component {
                       <Route exact path="/trustees" component={Trustees} />
                       <Route exact path="/contactus" component={ContactusForm} />
                       <Route exact path="/donate" component={Donate} />
-                      <Route exact path="/checkout" component={Checkout} />
+                      <Route path="/checkout" component={Checkout} />
                     </Switch>
                     <Footer />
                   </div>
