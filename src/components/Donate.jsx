@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
-import { CountryRegionData } from 'react-country-region-selector';
+import { getAllCountries } from './../utils/';
 import { Link } from 'react-router-dom';
 import { RaisedButton, FlatButton, DropDown } from './commons/';
 
@@ -123,31 +123,13 @@ const Wrapper = styled.div`
     }
   }
 `;
+const {
+  countries,
+  defaultCountry,
+} = getAllCountries();
 
-let DEFAULT_COUNTRY = {};
-const COUNTRIES = CountryRegionData.map(
-  (country) => {
-    const states = country[2]
-      .split('|')
-      .map((nameWithCode) => (
-        {
-          name: nameWithCode.split("~")[0],
-          slug: nameWithCode.split("~")[1],
-          id: nameWithCode.split("~")[1],
-        }
-      ));
-    const countryObj = {
-      name: country[0],
-      slug: country[1],
-      id: country[1],
-      states: states,
-    }
-    if(countryObj.slug == "IN") {
-      DEFAULT_COUNTRY = countryObj;
-    }
-    return countryObj;
-  }
-);
+const DEFAULT_COUNTRY = defaultCountry;
+const COUNTRIES = countries;
 
 //TODO: 
 // 1. Validation
