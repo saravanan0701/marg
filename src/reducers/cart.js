@@ -5,6 +5,7 @@ const INITIAL_CART_STATE = {
   error: false,
   totalQuantity: 0,
   totalPrice: {},
+  shippingAddress: {},
 }
 export const CartReducers = (state = INITIAL_CART_STATE, action) => {
   switch (action.type) {
@@ -17,6 +18,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         token: action.checkout.token,
         totalQuantity: action.checkout.quantity,
         totalPrice: action.checkout.totalPrice,
+        shippingAddress: {...action.checkout.shippingAddress},
         error: false,
       }
 

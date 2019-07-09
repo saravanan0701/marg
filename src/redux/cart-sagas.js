@@ -58,6 +58,22 @@ const CREATE_NEW_CHECKOUT = gql(`
             }
           }
         }
+        shippingAddress{
+          id
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          cityArea
+          postalCode
+          country{
+            country
+            code
+          }
+          countryArea
+          phone
+        }
       }
     }
   }
@@ -109,6 +125,22 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
                 alt
               }
             }
+          }
+          shippingAddress{
+            id
+            firstName
+            lastName
+            streetAddress1
+            streetAddress2
+            city
+            cityArea
+            postalCode
+            country{
+              country
+              code
+            }
+            countryArea
+            phone          
           }
         }
       }
