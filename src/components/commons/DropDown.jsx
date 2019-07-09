@@ -247,7 +247,9 @@ class DropDown extends Component {
     this.setState({
       searchable: value,
     });
-    this.searchSub$.next(value);
+    if(this.searchSub$) {
+      this.searchSub$.next(value);      
+    }
   }
 
   componentDidUpdate(prevProps) {
