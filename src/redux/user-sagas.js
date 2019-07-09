@@ -50,6 +50,22 @@ const QUERY_ME = gql`
             }
           }
         }
+        shippingAddress{
+          id
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          cityArea
+          postalCode
+          country{
+            country
+            code
+          }
+          countryArea
+          phone          
+        }
       }
     }
   }
