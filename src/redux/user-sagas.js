@@ -66,6 +66,14 @@ const QUERY_ME = gql`
           countryArea
           phone          
         }
+        availableShippingMethods{
+          id
+          name
+          price{
+            currency
+            amount
+          }
+        }
       }
     }
   }

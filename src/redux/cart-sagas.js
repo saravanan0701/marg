@@ -74,6 +74,14 @@ const CREATE_NEW_CHECKOUT = gql(`
           countryArea
           phone
         }
+        availableShippingMethods{
+          id
+          name
+          price{
+            currency
+            amount
+          }
+        }
       }
     }
   }
@@ -141,6 +149,14 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
             }
             countryArea
             phone          
+          }
+        }
+        availableShippingMethods{
+          id
+          name
+          price{
+            currency
+            amount
           }
         }
       }
