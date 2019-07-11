@@ -120,7 +120,7 @@ const SAVE_ADDRESS = gql`
         }
       }
     }
-    checkoutBillingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+    checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $shippingAddress) {
       checkout{
         billingAddress{
           id
