@@ -237,6 +237,9 @@ class CheckoutAddress extends Component {
       firstName,
       lastName,
       email,
+      history: {
+        push,
+      }
     } = this.props;
     const self = this;
 
@@ -278,6 +281,7 @@ class CheckoutAddress extends Component {
                 .saveAddress(values)
                 .then(() => this.saveShippingMethod())
                 .then(() => setSubmitting(false))
+                .then(() => push('/checkout/payment/'))
             }
           }
         >
