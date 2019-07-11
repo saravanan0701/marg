@@ -142,6 +142,7 @@ const HeaderContainer = styled.div`
 
 const Header = ({
   history: {
+    push,
     location: {
       pathname
     }
@@ -162,7 +163,7 @@ const Header = ({
       </div>
       <div className="right">
         <UserMenu />
-        <FlatButton colorType="primary">
+        <FlatButton onClick={(e) => push('/checkout')} colorType="primary">
           Cart - {cartQuantity}
         </FlatButton>
       </div>
