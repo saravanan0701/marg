@@ -120,6 +120,26 @@ const SAVE_ADDRESS = gql`
         }
       }
     }
+    checkoutBillingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+      checkout{
+        billingAddress{
+          id
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          cityArea
+          postalCode
+          country{
+            country
+            code
+          }
+          countryArea
+          phone          
+        }
+      }
+    }
   }
 `;
 
