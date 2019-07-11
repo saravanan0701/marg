@@ -39,6 +39,16 @@ const resetCart = () => ({
   type: 'RESET_CART',
 })
 
+const updateShippingAddress = shippingAddress => ({
+  type: 'UPDATE_SHIPPING_ADDRESS',
+  shippingAddress,
+});
+
+const updateShippingMethod = shippingMethod => ({
+  type: 'UPDATE_SHIPPING_METHOD',
+  shippingMethod,
+});
+
 export default {
   saveVariant,
   initCheckout,
@@ -46,4 +56,6 @@ export default {
   updateCartQuantity,
   persistCartFromLocalCache,
   resetCart,
+  updateShippingAddress,
+  updateShippingMethod,
 }

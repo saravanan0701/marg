@@ -123,6 +123,19 @@ const SAVE_ADDRESS = gql`
   }
 `;
 
+const SAVE_SHIPPING_METHOD = gql`
+  mutation SaveShippingMethod($checkoutId: ID!, $shippingMethodId: ID!) {
+    checkoutShippingMethodUpdate(checkoutId: $checkoutId, shippingMethodId: $shippingMethodId) {
+      checkout{
+        shippingMethod{
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
 const {
   countries,
   defaultCountry,
@@ -159,17 +172,59 @@ class CheckoutAddress extends Component {
       client,
       cart: {
         checkoutId,
-      }
+      },
+      updateShippingAddress,
     } = this.props;
-    client.mutate({
+    return client.mutate({
       mutation: SAVE_ADDRESS,
       variables: {
         checkoutId,
         shippingAddress,
       },
-    }).then((data) => {
-      console.log(".....................");
-      console.log(data);
+    }).then((
+      {
+        data: {
+          checkoutShippingAddressUpdate: {
+            checkout: {
+              shippingAddress,
+            }
+          }
+        }
+      }
+    ) => {
+      updateShippingAddress(shippingAddress);
+      return shippingAddress;
+    })
+  }
+
+  saveShippingMethod() {
+    const {
+      client,
+      cart: {
+        checkoutId,
+        availableShippingMethods,
+      },
+      updateShippingMethod,
+    } = this.props;
+    return client.mutate({
+      mutation: SAVE_SHIPPING_METHOD,
+      variables: {
+        checkoutId,
+        shippingMethodId: availableShippingMethods[0].id,
+      },
+    }).then((
+        {
+          data: {
+            checkoutShippingMethodUpdate: {
+              checkout: {
+                shippingMethod
+              }
+            }
+          }
+        }
+      ) => {
+      updateShippingMethod(shippingMethod);
+      return shippingMethod;
     })
   }
 
@@ -215,15 +270,14 @@ class CheckoutAddress extends Component {
           }
           onSubmit={
             (values, { setSubmitting }) => {
-              console.log("values: ", values);
               values.streetAddress2 = values.streetAddress1;
               values.country = self.state.country.slug;
               values.countryArea = self.state.state.name;
               delete values.email;
-              this.saveAddress(values);
-              {/*this*/}
-                {/*.loginAttempt(values)*/}
-                {/*.then(() => setSubmitting(false))*/}
+              this
+                .saveAddress(values)
+                .then(() => this.saveShippingMethod())
+                .then(() => setSubmitting(false))
             }
           }
         >
