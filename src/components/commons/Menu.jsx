@@ -93,9 +93,9 @@ class Menu extends Component{
           <div>{label}</div>
           {
             isOpen?
-              <FontAwesome className="icon" name='chevron-up' />
+              <FontAwesome className="icon ml-1" name='chevron-up' />
               :
-              <FontAwesome className="icon" name='chevron-down' />
+              <FontAwesome className="icon ml-1" name='chevron-down' />
           }
         </div>
         {

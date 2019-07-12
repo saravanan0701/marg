@@ -4,11 +4,27 @@ import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
 import logo from './../../images/logo.png'
 import headerImg from './../../images/header-left.jpg'
+
 import { FlatButton, RaisedButton } from './../commons/';
+import { Container, Row, Col } from 'reactstrap';
+
 
 const FooterContainer = styled.div`
   display: flex;
   flex-direction: column;
+
+  .footer-link {
+
+    font-size: $font-size-xxs;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+
+    span {
+      color: red;
+    }
+    
+  }
 
   & > .primary {
     padding-top: 20px;
@@ -81,7 +97,7 @@ const FooterContainer = styled.div`
           margin-right: 10px;
 
           &::placeholder {
-            color: ${props => props.theme[props.type? `${props.type}Color`: "primaryColor"]};
+            color: ${props => props.theme[props.type ? `${props.type}Color` : "primaryColor"]};
             font-size: ${props => props.theme['$font-size-xxs']};
             font-weight: ${props => props.theme['$weight-bold']};
             letter-spacing: 3px;
@@ -122,6 +138,36 @@ const FooterContainer = styled.div`
 
 export const Footer = () => (
   <FooterContainer>
+    <Container>
+      <Row>
+        <Col lg='5'>
+          <div className="subscribe">
+            <div className="heading">Sign up for Newsletters:</div>
+            <div className="form">
+              <input type="text" placeholder="Your email" />
+              <RaisedButton colorType="primary">Sign up</RaisedButton>
+            </div>
+          </div>
+        </Col>
+        <Col lg='7'>
+          <Row>
+            <Col lg='6'>
+              <FlatButton className="footer-link" colorType="secondary">Home</FlatButton>
+              <FlatButton className='footer-link' colorType="secondary">Publications</FlatButton>
+              <FlatButton className='footer-link' colorType="secondary">About Marg</FlatButton>
+              <FlatButton className='footer-link' colorType="secondary">Blog</FlatButton>
+            </Col>
+            <Col lg='6'>
+              <FlatButton className="footer-link" colorType="secondary">Advertise</FlatButton>
+              <FlatButton className="footer-link" colorType="secondary">Donate</FlatButton>
+              <FlatButton className="footer-link" colorType="secondary">Contact</FlatButton>
+              <FlatButton className="footer-link" colorType="secondary">More</FlatButton>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Container>
+
     <div className="primary">
       <div className="img-container">
         <img src={headerImg} />
@@ -136,7 +182,7 @@ export const Footer = () => (
       <div className="subscribe">
         <div className="heading">Sign up for Newsletters:</div>
         <div className="form">
-          <input type="text" placeholder="Your email"/>
+          <input type="text" placeholder="Your email" />
           <RaisedButton colorType="primary">Sign up</RaisedButton>
         </div>
       </div>
