@@ -44,6 +44,16 @@ const MainContainer = styled.div`
   & > div {
     background: white;
   }
+
+  #app {
+    max-width: 1440px !important;
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1440px;
+    }
+  }
 `
 
 class App extends Component {
@@ -59,7 +69,7 @@ class App extends Component {
             <ConnectedRouter history={history}>
               <ThemeProvider theme={Theme}>
                 <MainContainer>
-                  <div>
+                  <div id="app" className='mx-auto'>
                     <Header />
                     <Switch>
                       <Route exact path="/" component={Home} />
