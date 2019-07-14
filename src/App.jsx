@@ -54,6 +54,15 @@ const MainContainer = styled.div`
       max-width: 1440px;
     }
   }
+
+  .color-red {
+    color: ${props => props.theme['primaryColor']};
+  }
+
+  .color-black {
+    color: black;
+  }
+
 `
 
 class App extends Component {
@@ -69,7 +78,7 @@ class App extends Component {
             <ConnectedRouter history={history}>
               <ThemeProvider theme={Theme}>
                 <MainContainer>
-                  <div id="app" className='mx-auto'>
+                  <div id="app" className='mx-auto px-lg-4'>
                     <Header />
                     <Switch>
                       <Route exact path="/" component={Home} />
