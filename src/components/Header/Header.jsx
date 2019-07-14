@@ -22,87 +22,62 @@ const HeaderContainer = styled.div`
     margin-top: 0.5rem;
   }
 
-  .color-black {
-    color: black;
+  hr {
+    border-top: 1px solid #cccccc;
   }
 
   .menu {
     & > * {
       color: #000000;
       font-size: ${props => props.theme['$font-size-xxs']};
-      font-weight: ${props => props.theme['$weight-medium']};
+      font-weight: ${props => props.theme['$weight-bold']};
       letter-spacing: 3px;
       text-transform: uppercase;
       cursor: pointer;
-      margin-right: 30px;
       padding-bottom: 5px;
+      margin-right: 30px;
 
       &.active {
         border-bottom: 1px solid ${props => props.theme['primaryColor']};
       }
     }
   }
-  
-  & > .secondary {
-    margin: 0px 20px;
-    padding-bottom: 20px;
-    box-sizing: content-box;
-    width: fill-available;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    padding-top: 20px;
 
-    & > .menu {
-      width: 90%;
-      display: flex;
-      flex-direction: row;
+  .search {
+    position: relative;
 
-      & > * {
+    input {
+      ::-webkit-input-placeholder { 
+        text-align:right;
         color: #000000;
         font-size: ${props => props.theme['$font-size-xxs']};
-        font-weight: ${props => props.theme['$weight-medium']};
+        font-weight: ${props => props.theme['$weight-bold']};
         letter-spacing: 3px;
         text-transform: uppercase;
-        cursor: pointer;
-        margin-right: 30px;
-        padding-bottom: 5px;
-
-        &.active {
-          border-bottom: 1px solid ${props => props.theme['primaryColor']};
-        }
+        background-color: 
       }
+
+      input:-moz-placeholder { 
+        text-align:right;
+        color: #000000;
+        font-size: ${props => props.theme['$font-size-xxs']};
+        font-weight: ${props => props.theme['$weight-bold']};
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      padding: 10px 20px;
+      padding-right: 40px;
+
+      outline: none;
+      border: none;
+
+      background-color: #f8f8f8;
     }
 
-    & > .search {
-      width: 10%;
-      position: relative;
-
-      & > input {
-        width: 100%;
-        border: none;
-        cursor: pointer;
-
-        &::placeholder {
-          color: #000000;
-          font-size: ${props => props.theme['$font-size-xxs']};
-          font-weight: ${props => props.theme['$weight-medium']};
-          letter-spacing: 3px;
-          text-transform: uppercase;
-        }
-        &:focus::placeholder {
-          color: grey;
-        }
-      }
-
-      & > span {
-        position: absolute;
-        right: 10px;
-        top: 5px;
-        z-index: 1;
-        color: ${props => props.theme[props.type ? `${props.type}Color` : "primaryColor"]};
-      }
-
+    #searchIcon {
+      position: absolute;
+      right: 5%;
     }
   }
 `
@@ -133,42 +108,38 @@ const Header = ({
             </FlatButton>
           </Col>
         </Row>
+        <hr/>
       </Container>
 
       <Container>
         <Row>
-          <Col className="menu">
+          <Col xs="12" className="menu d-flex align-items-center flex-wrap">
             <Link className={pathname.match('categories') ? 'active' : ''} to="/categories">Publications</Link>
+            <Link className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
+            <Link className={pathname.match('advertise') ? 'active' : ''} to="/advertise">Advertise</Link>
+            <Link className={pathname.match('donate') ? 'active' : ''} to="/donate">Donate</Link>
+            <Menu label="About Marg">
+              <Link to="/aboutus">About Marg</Link>
+              <Link to="/collaborate">Historical Timeline</Link>
+              <Link to="/team">Marg team</Link>
+              <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
+              <Link to="/trustees">TRUSTEES/ADVISORY</Link>
+            </Menu>
+            <Link className={pathname.match('contactus') ? 'active' : ''} to="/contactus">Contact</Link>
+            <Menu label="More">
+              <Link to="/categories">Marg Events</Link>
+              <Link to="/collaborate">Collaborate</Link>
+              <Link to="/collaborate">Submit Proposals</Link>
+              <Link to="/collaborate">Film Archive</Link>
+            </Menu>
+            <div className="search d-flex align-items-center">
+              <input type="text" placeholder="Search" />
+              <FontAwesome id="searchIcon" name='search' className='color-red' />
+            </div>
           </Col>
         </Row>
       </Container>
 
-      <div className="secondary">
-        <div className="menu">
-          <Link className={pathname.match('categories') ? 'active' : ''} to="/categories">Publications</Link>
-          <Menu label="About Marg">
-            <Link to="/aboutus">About Marg</Link>
-            <Link to="/collaborate">Historical Timeline</Link>
-            <Link to="/team">Marg team</Link>
-            <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
-            <Link to="/trustees">TRUSTEES/ADVISORY</Link>
-          </Menu>
-          <Link className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
-          <Link className={pathname.match('advertise') ? 'active' : ''} to="/advertise">Advertise</Link>
-          <Link className={pathname.match('donate') ? 'active' : ''} to="/donate">Donate</Link>
-          <Link className={pathname.match('contactus') ? 'active' : ''} to="/contactus">Contact</Link>
-          <Menu label="More">
-            <Link to="/categories">Marg Events</Link>
-            <Link to="/collaborate">Collaborate</Link>
-            <Link to="/collaborate">Submit Proposals</Link>
-            <Link to="/collaborate">Film Archive</Link>
-          </Menu>
-        </div>
-        <div className="search">
-          <input type="text" placeholder="Search" />
-          <FontAwesome name='search' />
-        </div>
-      </div>
     </HeaderContainer >
   );
 
