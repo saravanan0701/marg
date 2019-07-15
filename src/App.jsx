@@ -36,10 +36,16 @@ export const history = createBrowserHistory()
 const store = StoreFactory(history);
 
 const MainContainer = styled.div`
+
   background-image: url(${background});
   background-attachment: fixed;
   background-position: center;
-  padding: 10vh 2.5vw 25vh;
+  padding-bottom: 25vh;
+
+  @media (min-width: 992px) {
+    padding: 10vh 2.5vw 25vh;
+  }
+
   min-height: 100%;
 
   & > div {
