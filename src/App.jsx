@@ -13,6 +13,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Header from './components/Header';
+import MobileHeader from './components/MobileHeader';
 import Footer from './components/Footer';
 import actions from './actions';
 import { Home } from './components/Home/index.jsx';
@@ -79,6 +80,7 @@ class App extends Component {
               <ThemeProvider theme={Theme}>
                 <MainContainer>
                   <div id="app" className='mx-auto px-lg-4'>
+                    <MobileHeader />
                     <Header />
                     <Switch>
                       <Route exact path="/" component={Home} />

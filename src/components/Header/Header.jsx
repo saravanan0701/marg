@@ -10,7 +10,11 @@ import { Container, Row, Col } from 'reactstrap';
 
 const HeaderContainer = styled.div`
 
-  display: flex;
+  display: none;
+  
+  @media (min-width: 992px) {
+    display: flex;
+  }
   flex-direction: column;
 
   .logo-text {
@@ -54,7 +58,6 @@ const HeaderContainer = styled.div`
         font-weight: ${props => props.theme['$weight-bold']};
         letter-spacing: 3px;
         text-transform: uppercase;
-        background-color: 
       }
 
       input:-moz-placeholder { 
@@ -92,7 +95,7 @@ const Header = ({
 }) => (
     <HeaderContainer>
 
-      <Container className="py-4">
+      <Container className="py-4 d-none d-lg-block">
         <Row>
           <Col lg="4" className="d-flex align-items-center">
             <FlatButton>Subscribe to Marg</FlatButton>
