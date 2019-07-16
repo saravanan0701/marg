@@ -27,7 +27,7 @@ import { Trustees } from './components/Trustees.jsx';
 import Donate from './components/Donate.jsx';
 import ContactusForm from './components/Contactus.jsx';
 import ProductDetails from './components/ProductDetails/';
-import background from './images/background.png';
+import background from './images/Chandigarh.jpg';
 import Theme from './Theme';
 import './App.scss';
 import Checkout from './components/Checkout/';
