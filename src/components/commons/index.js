@@ -3,6 +3,7 @@ import RaisedButton from './RaisedButton.jsx';
 import DropDown from './DropDown.jsx';
 import Menu from './Menu.jsx';
 import RadioButtonSet from './RadioButtonSet.jsx';
+import CollapseContainer from './CollapseContainer.jsx';
 
 
 export {
@@ -10,5 +11,6 @@ export {
   RaisedButton,
   DropDown,
   Menu,
-  RadioButtonSet
+  RadioButtonSet,
+  CollapseContainer
 }
