@@ -11,8 +11,12 @@ const Header = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 30vh;
-  background-color: ${props => props.theme.sectionBackground};
+  background-color: #fcf8d1;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 
   & > .small {
     color: #000000;
@@ -94,7 +98,7 @@ const About = styled.div`
 
 export const Home = props => (
   <div>
-    <Header>
+    <Header className="full-width py-5">
       <div className="small">THE MARG FOUNDATION</div>
       <div className="big">A Pathmaking Tradition</div>
     </Header>
@@ -103,7 +107,7 @@ export const Home = props => (
       <Todo>Blogs and events: TODO</Todo>
       <About>
         <div className="img-container">
-          <img src={about} />
+          <img className="img-fluid" src={about} />
         </div>
         <div className="text-section">
           <div className="heading">The Legacy of Marg</div>
