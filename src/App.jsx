@@ -42,7 +42,7 @@ const MainContainer = styled.div`
   background-position: center;
   padding-bottom: 25vh;
 
-  @media (min-width: 992px) {
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
     padding: 10vh 2.5vw 25vh;
   }
 
@@ -54,6 +54,17 @@ const MainContainer = styled.div`
 
   #app {
     max-width: 1440px !important;
+    
+    // appHorizontalPadding
+    padding-left: ${props => props.theme['appHorizontalPadding']};
+    padding-right: ${props => props.theme['appHorizontalPadding']};
+
+    // This counters the appHorizontalPadding above
+    .full-width {
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+    }
+
   }
 
   @media (min-width: 1200px) {
@@ -70,6 +81,9 @@ const MainContainer = styled.div`
     color: black;
   }
 
+  .bg-gray {
+    background-color: #f8f8f8;
+  }
 `
 
 class App extends Component {
@@ -85,7 +99,7 @@ class App extends Component {
             <ConnectedRouter history={history}>
               <ThemeProvider theme={Theme}>
                 <MainContainer>
-                  <div id="app" className='mx-auto px-lg-4'>
+                  <div id="app" className='mx-auto'>
                     <MobileHeader />
                     <Header />
                     <Switch>
