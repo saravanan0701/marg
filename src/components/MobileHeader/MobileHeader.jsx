@@ -12,7 +12,7 @@ import { width } from '@material-ui/system';
 
 const MobileHeaderContainer = styled.div`
 
-  @media (min-width: 992px) { display: none; }
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) { display: none; }
 
   .container { max-width: unset; }
 
@@ -27,6 +27,7 @@ const MobileHeaderContainer = styled.div`
     cursor: pointer;
     float: right;
     padding-right: 0px;
+    z-index: 1301;
 
     &:hover {
       color: inherit;
@@ -48,7 +49,7 @@ const SideMenuContainer = styled.div`
     display: block;
 
     &:hover {
-      color: ${props => props.theme['$primaryHoverColor']};
+      color: ${props => props.theme['primaryHoverColor']};
     }
 
     &.active {

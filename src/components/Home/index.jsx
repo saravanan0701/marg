@@ -6,6 +6,8 @@ import about from './../../images/about.jpg';
 import { ProductsSection } from './ProductsSection.jsx';
 import { ProductCategories } from './ProductCategories.jsx';
 
+import { Container, Row, Col } from 'reactstrap';
+
 const Header = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,15 +71,7 @@ const About = styled.div`
     }
   }
 
-  & > .text-section {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    padding: 5% 0px 0% 5%;
-
-    & > .heading {
+      h1 {
       color: #000000;
       font-family: "Cormorant Garamond Medium";
       font-size: ${props => props.theme['$font-size-lg']};
@@ -86,13 +80,23 @@ const About = styled.div`
       line-height: 57px;
     }
 
-    & > .body {
+    .body {
       font-size: ${props => props.theme['$font-size-xxs']};
       font-weight: ${props => props.theme['$weight-regular']};
       letter-spacing: 0.59px;
       line-height: 23px;
       padding: 35px 0px;
     }
+
+  & > .text-section {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 5% 0px 0% 5%;
+
+
   }
 `
 
@@ -105,22 +109,30 @@ export const Home = props => (
     <Body>
       <Todo>Issues section: TODO</Todo>
       <Todo>Blogs and events: TODO</Todo>
-      <About>
-        <div className="img-container">
-          <img className="img-fluid" src={about} />
-        </div>
-        <div className="text-section">
-          <div className="heading">The Legacy of Marg</div>
-          <div className="body">
-            Marg was founded by Mulk Raj Anand in 1946, with the aim of developing a
-            socially active and culturally engaging language of art. 
-            Marg magazine and books have been a forum for pioneering research in Indian art
-            and are acclaimed for their standards of production and editorial content.
-          </div>
-          <RaisedButton>
-            MORE ABOUT MARG
-          </RaisedButton>
-        </div>
+
+      <About className="full-width bg-gray">
+        <Container>
+          <Row>
+            <Col lg="7">
+              <img className="img-fluid" src={about} />
+            </Col>
+            <Col lg="5" className="d-flex align-items-center">
+              <div>
+                <h1>The Legacy of Marg</h1>
+                <p class="body">
+                  Marg was founded by Mulk Raj Anand in 1946, with the aim of developing a
+                  socially active and culturally engaging language of art.
+                  Marg magazine and books have been a forum for pioneering research in Indian art
+                  and are acclaimed for their standards of production and editorial content.
+                </p>
+                <RaisedButton>
+                  MORE ABOUT MARG
+                </RaisedButton>
+              </div>
+
+            </Col>
+          </Row>
+        </Container>
       </About>
       <ProductsSection>
       </ProductsSection>

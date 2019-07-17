@@ -12,9 +12,8 @@ const HeaderContainer = styled.div`
 
   display: none;
   
-  @media (min-width: 992px) {
-    display: flex;
-  }
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) { display: flex; }
+  
   flex-direction: column;
 
   .logo-text {
@@ -48,7 +47,9 @@ const HeaderContainer = styled.div`
   }
 
   .search {
-    position: relative;
+    position: absolute;
+    right: 0;
+    margin-right: 0px;
 
     input {
       ::-webkit-input-placeholder { 
@@ -95,7 +96,7 @@ const Header = ({
 }) => (
     <HeaderContainer>
 
-      <Container className="py-4 d-none d-lg-block">
+      <Container className="py-4 d-none d-lg-block px-0">
         <Row>
           <Col lg="4" className="d-flex align-items-center">
             <FlatButton>Subscribe to Marg</FlatButton>
@@ -116,7 +117,7 @@ const Header = ({
 
       <Container>
         <Row>
-          <Col xs="12" className="menu d-flex align-items-center flex-wrap">
+          <Col xs="12" className="menu d-flex align-items-center flex-wrap mb-3 px-0">
             <Link className={pathname.match('categories') ? 'active' : ''} to="/categories">Publications</Link>
             <Link className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
             <Link className={pathname.match('advertise') ? 'active' : ''} to="/advertise">Advertise</Link>
