@@ -20,6 +20,10 @@ const MobileHeaderContainer = styled.div`
   display: flex;
   align-items: center;
 
+  #mobileHeaderLogoLink {
+    cursor: pointer;
+  }
+
   img { width: 83px; }
 
   button.hamburger {
@@ -153,7 +157,7 @@ class MobileHeader extends Component {
       <Row>
         <Col lg="12">
           <div className="mx-auto" style={{ width: 90 }}>
-            <img className="img-fluid" src={logo} />
+            <Link id="mobileHeaderLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
             <div className="logo-text">Since 1946</div>
           </div>
         </Col>

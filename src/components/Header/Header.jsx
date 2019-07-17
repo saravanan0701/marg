@@ -16,6 +16,10 @@ const HeaderContainer = styled.div`
   
   flex-direction: column;
 
+  #headerLogoLink {
+    cursor: pointer;
+  }
+
   .logo-text {
     color: #37312f;
     font-size: ${props => props.theme['$font-size-xxs']};
@@ -102,7 +106,7 @@ const Header = ({
             <FlatButton>Subscribe to Marg</FlatButton>
           </Col>
           <Col lg="4" className="d-flex align-items-center justify-content-center flex-column">
-            <img className="img-fluid" src={logo} />
+            <Link id="headerLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
             <div className="logo-text">Since 1946</div>
           </Col>
           <Col lg="4" className="d-flex align-items-center justify-content-end">
