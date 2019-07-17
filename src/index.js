@@ -9,8 +9,6 @@ import 'lato-font/css/lato-font.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'typeface-cormorant-garamond/index.css';
 
-document.title = "Marg"
-
 ReactDOM.render(
   <App />,
   document.getElementById('root')
