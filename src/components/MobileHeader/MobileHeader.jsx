@@ -183,7 +183,7 @@ class MobileHeader extends Component {
         <Container>
           <Row>
             <Col lg="12 d-flex justify-content-between align-items-center">
-              <img className="img-fluid" src={logo} />
+              <Link id="mobileHeaderLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
               <div className='d-flex align-items-center'>
                 <FlatButton className="mr-4 d-inline-block" colorType="primary">
                   <span className="color-black">Cart—</span>{this.props.cartQuantity}
