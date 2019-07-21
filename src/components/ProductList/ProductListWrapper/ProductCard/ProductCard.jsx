@@ -7,13 +7,6 @@ const CardContainer = styled.div`
 
   cursor: pointer;
 
-  & > img {
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
-    object-position: top;
-  }
-
   & > div {
     padding-left: 10px;
     padding-right: 10px;
@@ -21,11 +14,11 @@ const CardContainer = styled.div`
 
   & > .name {
     color: #000000;
-    font-size: ${props => props.theme['$font-size-xs']};
+    font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-bold']};
     letter-spacing: 0.66px;
     line-height: 20px;
-    min-height: 60px;
+    /* min-height: 60px; */
     padding-top: 15px;
   }
 
@@ -37,7 +30,8 @@ const CardContainer = styled.div`
     line-height: 23px;
     display: flex;
     flex-direction: row;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
     & > .spacer {
       margin: 0px 10px;
@@ -48,8 +42,6 @@ const CardContainer = styled.div`
     color: #000000;
     font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
-    letter-spacing: 0.59px;
-    line-height: 23px;
   }
 `;
 
@@ -83,10 +75,8 @@ const ProductCard = ({
   }
 
   return (
-    <CardContainer onClick={(e) => openProductDetails(id)} className={`${className} `}>
-      <img
-        src={replaceStaticUrl(thumbnailUrl)}
-        />
+    <CardContainer onClick={(e) => openProductDetails(id)} className={`${className} mb-5`}>
+      <img className="img-fluid w-100" src={replaceStaticUrl(thumbnailUrl)} />
       <div className="name">{name}</div>
       <div className="meta">
         <div>{cardEditors}</div>

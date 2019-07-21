@@ -66,7 +66,6 @@ const About = styled.div`
     }
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 1px;
-    line-height: 57px;
   }
 
   .body {
@@ -116,10 +115,8 @@ export const Home = props => (
           </Row>
         </Container>
       </About>
-      <ProductsSection>
-      </ProductsSection>
-      <ProductCategories>
-      </ProductCategories>
+      <ProductsSection />
+      <ProductCategories />
     </Body>
   </div>
 )

@@ -8,7 +8,10 @@ import { Link } from 'react-router-dom';
 import ProductCard from './../ProductList/ProductListWrapper/ProductCard/';
 
 const Wrapper = styled.div`
-  padding: 100px 100px;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 100px 100px;
+  }
 
   display: flex;
   flex-direction: column;
@@ -32,7 +35,9 @@ const Wrapper = styled.div`
   & > .row {
     width: 100%;
     justify-content: center;
-    padding: 0px 50px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      padding: 0px 50px;
+    }
   }
 `;
 
@@ -70,7 +75,7 @@ const LOAD_PRODUCTS = gql`
 `;
 
 export const ProductsSection = props => (
-  <Wrapper>
+  <Wrapper className="py-5">
     <div className="heading">
       Latest Magazines
     </div>
@@ -94,7 +99,7 @@ export const ProductsSection = props => (
             }
             return data.products.edges.map(
               (product, id) => (
-                <ProductCard key={id} className="col-4" {...product.node} />
+                <ProductCard key={id} className="col-12 col-md-4" {...product.node} />
               )
             )
           }
