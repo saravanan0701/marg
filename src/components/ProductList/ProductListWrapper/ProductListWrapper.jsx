@@ -5,7 +5,10 @@ import styled from 'styled-components';
 import ProductCard from './ProductCard'
 
 const Wrapper = styled.div`
-  padding: 20px;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 20px;
+  }
 `;
 export default class ProductListWrapper extends Component {
 
@@ -27,7 +30,7 @@ export default class ProductListWrapper extends Component {
         {
           !loadProductsError
             && !loadingAllProducts
-            && products.map((product, id) => (<ProductCard key={id} className="col-4" {...product} />))
+            && products.map((product, id) => (<ProductCard key={id} className="col-6 col-lg-4" {...product} />))
         }
         {
           !loadProductsError

@@ -8,26 +8,30 @@ const CardContainer = styled.div`
   cursor: pointer;
 
   & > div {
-    padding-left: 10px;
-    padding-right: 10px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+  }
+
+  .name, .meta, .price {
+    font-size: 12px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-xxs']};
+    }
   }
 
   & > .name {
     color: #000000;
-    font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-bold']};
     letter-spacing: 0.66px;
-    line-height: 20px;
-    /* min-height: 60px; */
     padding-top: 15px;
   }
 
   & > .meta {
     color: #000000;
-    font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 0.59px;
-    line-height: 23px;
     display: flex;
     flex-direction: row;
     padding-top: 5px;
@@ -40,7 +44,6 @@ const CardContainer = styled.div`
 
   & > .price {
     color: #000000;
-    font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
   }
 `;

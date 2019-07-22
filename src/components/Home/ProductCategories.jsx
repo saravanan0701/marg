@@ -7,7 +7,10 @@ import { FlatButton } from './../commons/';
 import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
-  padding: 100px 100px;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 100px 100px;
+  }
 
   display: flex;
   flex-direction: column;
@@ -48,34 +51,25 @@ const LOAD_PRODUCT_CATEGORIES = gql`
 `;
 
 export const ProductCategories = props => (
-  <Wrapper>
+  <Wrapper className="py-5">
     <div className="heading">
       View Publications by Category
     </div>
     <div className="row">
       <Query
         query={LOAD_PRODUCT_CATEGORIES}
-        variables={
-          {
-            name: "Category",
-          }
-        }
-        >
-        {
-          (
-            {
-              loading, error, data
-            }
-          ) => {
+        variables={{ name: "Category", }}
+      >
+        {({ loading, error, data }) => {
             let attributes = [];
-            if((!data || Object.keys(data).length == 0) && !loading) {
+            if ((!data || Object.keys(data).length == 0) && !loading) {
               return <h1>No categories found</h1>;
             }
-            if(attributes && data &&  data.attributes && data.attributes.edges && data.attributes.edges.length > 0){
+            if (attributes && data && data.attributes && data.attributes.edges && data.attributes.edges.length > 0) {
               attributes = data.attributes.edges[0].node.values;
             }
             return attributes
-              .sort((a, b) => a.name > b.name? 1: -1)
+              .sort((a, b) => a.name > b.name ? 1 : -1)
               .map(
                 (attribute, id) => (
                   <Link to={`/categories/?category=${attribute.slug}`} className="link" key={id}>

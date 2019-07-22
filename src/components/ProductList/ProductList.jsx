@@ -13,7 +13,10 @@ import { FlatButton } from './../commons/';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 50px 100px 100px;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 50px 100px 100px;
+  }
 
   & > .heading {
     font-family: "Cormorant Garamond Medium";
