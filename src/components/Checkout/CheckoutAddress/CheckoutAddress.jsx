@@ -258,7 +258,7 @@ class CheckoutAddress extends Component {
       country: DEFAULT_COUNTRY,
       price: 1000,
       showAddressForm: false,
-      selectedAddressId: null,
+      selectedAddress: null,
     };
 
     this.toggleAddressForm = this.toggleAddressForm.bind(this);
@@ -316,9 +316,9 @@ class CheckoutAddress extends Component {
     })
   }
 
-  selectAddress(addressId) {
+  selectAddress(address) {
     this.setState({
-      selectedAddressId: addressId,
+      selectedAddress: address,
     })
   }
 
@@ -358,7 +358,7 @@ class CheckoutAddress extends Component {
       country,
       price,
       showAddressForm,
-      selectedAddressId,
+      selectedAddress,
     } = this.state;
     const {
       firstName,
@@ -385,13 +385,13 @@ class CheckoutAddress extends Component {
               <ShippingAddress
                 selected={
                   (() => {
-                    if(selectedAddressId) {
-                      return selectedAddressId === shippingAddress.id
+                    if(selectedAddress && selectedAddress.id) {
+                      return selectedAddress.id === shippingAddress.id
                     }
                     return true;
                   })()
                 }
-                onClick={() => this.selectAddress(shippingAddress.id)}
+                onClick={() => this.selectAddress(shippingAddress)}
                 {...shippingAddress}
                 >
               </ShippingAddress>
@@ -407,15 +407,15 @@ class CheckoutAddress extends Component {
                   })
                   .map((address, id) => (
                       <ShippingAddress
-                        onClick={() => this.selectAddress(address.id)}
+                        onClick={() => this.selectAddress(address)}
                         selected={
                           (() => {
-                            if(!shippingAddress && !selectedAddressId) {
+                            if(!shippingAddress && !selectedAddress) {
                               return id === 0;
                               //Select first address if none is selected and 
                               // checkout.shippingAddress is null.
                             }
-                            return address.id === selectedAddressId
+                            return selectedAddress && address.id === selectedAddress.id
                           })()
                         }
                         {...address}
