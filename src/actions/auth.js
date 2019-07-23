@@ -19,6 +19,11 @@ const setUserDetails = user => ({
   user
 })
 
+const addNewAddress = address => ({
+  type: 'ADD_NEW_ADDRESS',
+  address,
+})
+
 const logout = () => ({
   type: 'LOGOUT',
 })
@@ -29,4 +34,5 @@ export default {
   loginFailure,
   logout,
   setUserDetails,
+  addNewAddress,
 }

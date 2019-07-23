@@ -3,96 +3,95 @@ import { Formik } from 'formik';
 import styled from 'styled-components';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
+import { Container, Row, Col } from 'reactstrap';
 
 import { getAllCountries } from './../../../utils/';
-import { RaisedButton, FlatButton, DropDown } from './../../commons/';
+import { RaisedButton, FlatButton, DropDown, RadioButtonSet } from './../../commons/';
 
 const Wrapper = styled.div`
-  padding: 50px 100px 100px;
+  padding: 50px;
 
-  & > .header {
-    font-family: "Cormorant Garamond Medium";
-    font-size: ${props => props.theme['$font-size-lg']};
-    font-weight: ${props => props.theme['$weight-regular']};
-    letter-spacing: 1px;
-    line-height: 57px;
-  }
+  & > .address-form {
+    & > .header {
+      font-family: "Cormorant Garamond Medium";
+      font-size: ${props => props.theme['$font-size-lg']};
+      font-weight: ${props => props.theme['$weight-regular']};
+      letter-spacing: 1px;
+      line-height: 57px;
+    }
 
-  & > .description {
-    font-size: ${props => props.theme['$font-size-xxs']};;
-    font-weight: ${props => props.theme['$weight-regular']};
-    letter-spacing: 0.59px;
-    line-height: 23px;
-    width: 55%;
-  }
+    & > .description {
+      font-size: ${props => props.theme['$font-size-xxs']};;
+      font-weight: ${props => props.theme['$weight-regular']};
+      letter-spacing: 0.59px;
+      line-height: 23px;
+      width: 55%;
+    }
 
-  & > div.address-block {
+    & > div.address-block {
 
-    width: 50%;
+      width: 50%;
 
-    & > form {
+      & > form {
 
-      & .label {
-        color: #000000;
-        font-size: ${props => props.theme['$font-size-xxs']};
-        font-weight: ${props => props.theme['$weight-bold']};
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        padding-bottom: 10px;
-        padding-top: 50px;
-      }
-
-      & .input-container {
-        position: relative;
-
-        & > input, & > textarea {
-          border: 1px solid #979797;
-          padding: 10px;
-          width: 100%
+        & .label {
+          color: #000000;
+          font-size: ${props => props.theme['$font-size-xxs']};
+          font-weight: ${props => props.theme['$weight-bold']};
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          padding-bottom: 10px;
+          padding-top: 50px;
         }
 
-        & > div.error {
-          position: absolute;
-          bottom: -22px;
+        & .input-container {
+          position: relative;
+
+          & > input, & > textarea {
+            border: 1px solid #979797;
+            padding: 10px;
+            width: 100%
+          }
+
+          & > div.error {
+            position: absolute;
+            bottom: -22px;
+          }
         }
-      }
 
-      & > .horizontal-inputs {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        & > div {
-          width: 45%;
-
-          & .dropdown {
-            width: 100%;
-
-            & button.label {
+        & > .horizontal-inputs {
+          padding: 0px;
+          & > div {
+            padding: 0px;
+            & .dropdown {
               width: 100%;
-              padding: 10px !important;
-              border: 1px solid #979797 !important;
-              padding: 10px;
 
-              & > div {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                width: 90%;
-                height: 24px;
-              }
+              & button.label {
+                width: 100%;
+                padding: 10px !important;
+                border: 1px solid #979797 !important;
+                padding: 10px;
 
-              & > span {
-                width: 10%;
-                padding: 0px;
+                & > div {
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  width: 90%;
+                  height: 24px;
+                }
+
+                & > span {
+                  width: 10%;
+                  padding: 0px;
+                }
               }
             }
           }
         }
-      }
 
-      & > .donate-button {
-        margin-top: 30px;
+        & > .actions {
+          padding: 10px;
+        }
       }
     }
   }
@@ -154,7 +153,34 @@ const SAVE_SHIPPING_METHOD = gql`
       }
     }
   }
-`
+`;
+
+const SAVE_NEW_ADDRESS = gql`
+  mutation SaveAddress($userId: ID!, $input: AddressInput!) {
+    addressCreate(userId: $userId, input: $input) {
+      errors{
+        field
+        message
+      }
+      address{
+        id
+        firstName
+        lastName
+        streetAddress1
+        streetAddress2
+        city
+        cityArea
+        postalCode
+        country{
+          country
+          code
+        }
+        countryArea
+        phone
+      }
+    }
+  }
+`;
 
 const {
   countries,
@@ -163,6 +189,44 @@ const {
 
 const DEFAULT_COUNTRY = defaultCountry;
 const COUNTRIES = countries;
+const AddressWrapper = styled.div`
+  padding: 15px;
+  border: solid 1px black;
+  border-radius: 10px;
+`;
+
+const ShippingAddress = (
+  {
+    firstName,
+    lastName,
+    streetAddress1,
+    streetAddress2,
+    cityArea,
+    city,
+    countryArea,
+    country: {
+      country,
+    }={},
+    postalCode,
+    phone,
+  }
+) => (
+  <AddressWrapper className="col-12 col-sm-3">
+    <Col className="col-12">{firstName}&nbsp;{lastName}</Col>
+    <Col className="col-12">{streetAddress1},</Col>
+    <Col className="col-12">{cityArea? cityArea + ',&nbsp;': ''}{city}</Col>
+    <Col className="col-12">{countryArea},&nbsp;{country}</Col>
+    <Col className="col-12">{postalCode}</Col>
+    <Col className="col-12">{phone}</Col>
+  </AddressWrapper>
+);
+
+const AddressListingWrapper = styled.div`
+  margin-bottom: 30px;
+  & > * {
+    margin-right: 10px;
+  }
+`;
 
 class CheckoutAddress extends Component {
 
@@ -172,7 +236,16 @@ class CheckoutAddress extends Component {
     this.state = {
       country: DEFAULT_COUNTRY,
       price: 1000,
+      showAddressForm: false,
     };
+
+    this.toggleAddressForm = this.toggleAddressForm.bind(this);
+  }
+
+  toggleAddressForm() {
+    this.setState({
+      showAddressForm: !this.state.showAddressForm,
+    })
   }
 
   selectCountry(country) {
@@ -190,30 +263,33 @@ class CheckoutAddress extends Component {
   saveAddress(shippingAddress) {
     const {
       client,
+      userId,
       cart: {
         checkoutId,
       },
-      updateShippingAddress,
+      addNewAddress,
     } = this.props;
     return client.mutate({
-      mutation: SAVE_ADDRESS,
+      mutation: SAVE_NEW_ADDRESS,
       variables: {
-        checkoutId,
-        shippingAddress,
+        userId,
+        input: shippingAddress,
       },
     }).then((
       {
         data: {
-          checkoutShippingAddressUpdate: {
-            checkout: {
-              shippingAddress,
-            }
+          addressCreate: {
+            address,
+            errors,
           }
         }
       }
     ) => {
-      updateShippingAddress(shippingAddress);
-      return shippingAddress;
+      if(errors && errors.length > 0) {
+        return;
+      }
+      addNewAddress(address);
+      return address;
     })
   }
 
@@ -252,6 +328,7 @@ class CheckoutAddress extends Component {
     const {
       country,
       price,
+      showAddressForm,
     } = this.state;
     const {
       firstName,
@@ -259,190 +336,223 @@ class CheckoutAddress extends Component {
       email,
       history: {
         push,
+      },
+      addresses,
+      cart: {
+        shippingAddress,
+        availableShippingMethods,
       }
     } = this.props;
     const self = this;
 
     return (
       <Wrapper>
-        <div className="header">
-          Shipping Address
-        </div>
-        <div className="description">
-          You order will be delivered at this address
-        </div>
-        <Formik
-          enableReinitialize
-          initialValues={{
-            firstName,
-            lastName,
-            email,
-          }}
-          validate={
-            values => {
-              const errors = {};
-              if (!values.email) {
-                errors.email = 'Required';
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = 'Invalid email address';
+        {
+          shippingAddress &&
+          <AddressListingWrapper className="row align-items-center">
+            {
+              shippingAddress &&
+              <ShippingAddress {...shippingAddress}></ShippingAddress>
+            }
+            {
+              addresses &&
+                addresses
+                  .filter((address) => {
+                    if(shippingAddress && address.id != shippingAddress.id) {
+                      return true;
+                    }
+                    return false;
+                  })
+                  .map((address) => <ShippingAddress {...address}></ShippingAddress>)
+            }
+          </AddressListingWrapper>
+        }
+        <RaisedButton disabled={showAddressForm} onClick={this.toggleAddressForm} colortype="primary">
+          Add new address
+        </RaisedButton>
+        { showAddressForm &&
+          <div className="address-form">
+            <div className="header">
+              Add new shipping Address
+            </div>
+            <div className="description">
+              You order will be delivered at this address
+            </div>
+            <Formik
+              enableReinitialize
+              initialValues={{
+                firstName,
+                lastName,
+                email,
+              }}
+              validate={
+                values => {
+                  const errors = {};
+                  if (!values.email) {
+                    errors.email = 'Required';
+                  } else if (
+                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                  ) {
+                    errors.email = 'Invalid email address';
+                  }
+                  return errors;
+                }
               }
-              return errors;
-            }
-          }
-          onSubmit={
-            (values, { setSubmitting }) => {
-              values.streetAddress2 = values.streetAddress1;
-              values.country = self.state.country.slug;
-              values.countryArea = self.state.state.name;
-              delete values.email;
-              this
-                .saveAddress(values)
-                .then(() => this.saveShippingMethod())
-                .then(() => setSubmitting(false))
-                .then(() => push('/checkout/payment/'))
-            }
-          }
-        >
-          {
-            ({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => 
-              (
-                <div className="address-block">
-                  <form onSubmit={handleSubmit}>
-                    <div className="label">First Name</div>
-                    <div className="input-container">
-                      <input
-                        type="firstName"
-                        name="firstName"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.firstName}
-                      />
-                      <div className="error">{errors.firstName && touched.firstName && errors.firstName}</div>
-                    </div>
-                    <div className="label">Last Name</div>
-                    <div className="input-container">
-                      <input
-                        type="lastName"
-                        name="lastName"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.lastName}
-                      />
-                      <div className="error">{errors.lastName && touched.lastName && errors.lastName}</div>
-                    </div>
-                    <div className="label">Phone</div>
-                    <div className="input-container">
-                      <input
-                        type="phone"
-                        name="phone"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.phone}
-                        />
-                      <div className="error">{errors.phone && touched.phone && errors.phone}</div>
-                    </div>
-                    <div className="label">Your Email</div>
-                    <div className="input-container">
-                      <input
-                        type="email"
-                        name="email"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.email}
-                      />
-                      <div className="error">{errors.email && touched.email && errors.email}</div>
-                    </div>
-                    <div className="label">Address</div>
-                    <div className="input-container">
-                      <textarea
-                        rows="3"
-                        type="streetAddress1"
-                        name="streetAddress1"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.streetAddress1}
-                      />
-                      <div className="error">
-                        {errors.streetAddress1 && touched.streetAddress1 && errors.streetAddress1}
-                      </div>
-                    </div>
-                    <div className="horizontal-inputs">
-                      <div>
-                        <div className="label">City</div>
-                        <div className="input-container">
+              onSubmit={
+                (values, { setSubmitting, resetForm }) => {
+                  values.streetAddress2 = values.streetAddress1;
+                  values.country = self.state.country.slug;
+                  values.countryArea = self.state.state.name;
+                  delete values.email;
+                  this
+                    .saveAddress(values)
+                    .then(() => setSubmitting(false))
+                    .then(() => this.toggleAddressForm())
+                    .then(() => resetForm());
+                }
+              }
+            >
+              {
+                ({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                }) => 
+                  (
+                    <div className="address-block row">
+                      <form className="row col-12" onSubmit={handleSubmit}>
+                        <div className="label col-12">First Name</div>
+                        <div className="input-container col-12">
                           <input
-                            rows="3"
-                            type="city"
-                            name="city"
+                            type="firstName"
+                            name="firstName"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.city}
+                            value={values.firstName}
                           />
-                          <div className="error">{errors.city && touched.city && errors.city}</div>
+                          <div className="error">{errors.firstName && touched.firstName && errors.firstName}</div>
                         </div>
-                      </div>
-                      <div>
-                        <div className="label">State</div>
-                        <div className="input-container">
-                          <DropDown
-                            onClick={(e) => e.preventDefault()}
-                            enableSearch="true"
-                            loadData={country.states}
-                            showSelectedOption="true"
-                            className="dropdown"
-                            onOptionSelect={(val) => this.selectState(val)} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="horizontal-inputs">
-                      <div>
-                        <div className="label">ZIP/POSTAL CODE</div>
-                        <div className="input-container">
+                        <div className="label col-12">Last Name</div>
+                        <div className="input-container col-12">
                           <input
-                            rows="3"
-                            type="postalCode"
-                            name="postalCode"
+                            type="lastName"
+                            name="lastName"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.postalCode}
+                            value={values.lastName}
                           />
-                          <div className="error">{errors.postalCode && touched.postalCode && errors.postalCode}</div>
+                          <div className="error">{errors.lastName && touched.lastName && errors.lastName}</div>
                         </div>
-                      </div>
-                      <div>
-                        <div className="label">Country</div>
-                        <div className="input-container">
-                          <DropDown
-                            onClick={(e) => e.preventDefault()}
-                            defaultOption={country}
-                            enableSearch="true"
-                            loadData={COUNTRIES}
-                            showSelectedOption="true"
-                            className="dropdown"
-                            onOptionSelect={(val) => this.selectCountry(val)} />
+                        <div className="label col-12">Phone</div>
+                        <div className="input-container col-12">
+                          <input
+                            type="phone"
+                            name="phone"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.phone}
+                            />
+                          <div className="error">{errors.phone && touched.phone && errors.phone}</div>
                         </div>
-                      </div>
+                        <div className="label col-12">Your Email</div>
+                        <div className="input-container col-12">
+                          <input
+                            type="email"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                          />
+                          <div className="error">{errors.email && touched.email && errors.email}</div>
+                        </div>
+                        <div className="label col-12">Address</div>
+                        <div className="input-container col-12">
+                          <textarea
+                            rows="3"
+                            type="streetAddress1"
+                            name="streetAddress1"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.streetAddress1}
+                          />
+                          <div className="error">
+                            {errors.streetAddress1 && touched.streetAddress1 && errors.streetAddress1}
+                          </div>
+                        </div>
+                        <div className="horizontal-inputs col-6">
+                          <div className="col-12">
+                            <div className="label col-12">City</div>
+                            <div className="input-container col-12">
+                              <input
+                                rows="3"
+                                type="city"
+                                name="city"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.city}
+                              />
+                              <div className="error">{errors.city && touched.city && errors.city}</div>
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <div className="label col-12">State</div>
+                            <div className="input-container col-12">
+                              <DropDown
+                                onClick={(e) => e.preventDefault()}
+                                enableSearch="true"
+                                loadData={country.states}
+                                showSelectedOption="true"
+                                className="dropdown"
+                                onOptionSelect={(val) => this.selectState(val)} />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="horizontal-inputs col-6">
+                          <div className="col-12">
+                            <div className="label col-12">ZIP/POSTAL CODE</div>
+                            <div className="input-container col-12">
+                              <input
+                                rows="3"
+                                type="postalCode"
+                                name="postalCode"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.postalCode}
+                              />
+                              <div className="error">{errors.postalCode && touched.postalCode && errors.postalCode}</div>
+                            </div>
+                          </div>
+                          <div className="col-12">
+                            <div className="label col-12">Country</div>
+                            <div className="input-container col-12">
+                              <DropDown
+                                onClick={(e) => e.preventDefault()}
+                                defaultOption={country}
+                                enableSearch="true"
+                                loadData={COUNTRIES}
+                                showSelectedOption="true"
+                                className="dropdown"
+                                onOptionSelect={(val) => this.selectCountry(val)} />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="actions row align-items-center col-12 justify-content-around">
+                          <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>
+                            { isSubmitting ? 'Saving...' : 'Save Address'}
+                          </RaisedButton>
+                          <FlatButton colortype="primary" onClick={this.toggleAddressForm}>Cancel</FlatButton>
+                        </div>
+                      </form>
                     </div>
-                    <div className="donate-button">
-                      <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>
-                        { isSubmitting ? 'Saving...' : 'Save Address'}
-                      </RaisedButton>
-                    </div>
-                  </form>
-                </div>
-              )
-          }
-        </Formik>
+                  )
+              }
+            </Formik>
+          </div>
+        }
       </Wrapper>
     )
   }

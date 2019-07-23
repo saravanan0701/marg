@@ -29,6 +29,12 @@ export const AuthReducers = (state = {isLoading: true}, action) => {
         isLoading: false,
       }
 
+    case 'ADD_NEW_ADDRESS':
+      return {
+        ...state,
+        addresses: state.addresses.concat(action.address),
+      }
+
     case 'LOGOUT':
       return {
         ...state,

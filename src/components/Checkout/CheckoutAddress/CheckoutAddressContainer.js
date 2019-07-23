@@ -6,18 +6,23 @@ import actions from './../../../actions/';
 const mapStateToProps = ({
   cart,
   auth: {
+    id: userId,
   	firstName,
   	lastName,
   	email,
+    addresses,
   }
 }, ownProps) => ({
   cart,
   firstName,
   lastName,
   email,
+  addresses,
+  userId,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  addNewAddress: (address) => dispatch(actions.addNewAddress(address)),
   updateShippingAddress: (shippingAddress) => dispatch(actions.updateShippingAddress(shippingAddress)),
   updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod)),
 })
