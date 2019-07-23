@@ -7,6 +7,7 @@ import actions from './../actions';
 const QUERY_ME = gql`
   query Me {
     me {
+      id
       firstName
       lastName
       email
@@ -110,6 +111,7 @@ function* setCurrenUserDetails() {
     const {
       data: {
         me: {
+          id,
           firstName,
           lastName,
           checkout,
@@ -119,6 +121,7 @@ function* setCurrenUserDetails() {
     } = yield call(queryUserDetails, client);
     yield put(
       actions.setUserDetails({
+        id,
         firstName,
         lastName,
         addresses,

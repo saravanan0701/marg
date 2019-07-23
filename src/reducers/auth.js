@@ -1,4 +1,5 @@
 const INITIAL_USER_STATE = {
+  id: null,
   email: null,
   authToken: null,
   firstName: null,
@@ -21,6 +22,7 @@ export const AuthReducers = (state = {isLoading: true}, action) => {
     case 'SET_USER_DETAILS':
       return {
         ...state,
+        id: action.user.id,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
         addresses: action.user.addresses.concat(),
