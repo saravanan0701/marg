@@ -172,7 +172,7 @@ export const ProductListFilter = ({
       return addFilter(attribute);
     }
   }
-  return <Wrapper>
+  return <Wrapper className="d-none d-lg-flex">
     <div className="header">Filter By:</div>
     <EditorSearch
       className="dropdown"
