@@ -193,6 +193,8 @@ const AddressWrapper = styled.div`
   padding: 15px;
   border: solid 1px black;
   border-radius: 10px;
+  margin-left: 0px !important;
+  margin-right: 10px !important;
 `;
 
 const ShippingAddress = (
@@ -209,15 +211,26 @@ const ShippingAddress = (
     }={},
     postalCode,
     phone,
+    addNew,
+    children,
   }
 ) => (
-  <AddressWrapper className="col-12 col-sm-3">
-    <Col className="col-12">{firstName}&nbsp;{lastName}</Col>
-    <Col className="col-12">{streetAddress1},</Col>
-    <Col className="col-12">{cityArea? cityArea + ',&nbsp;': ''}{city}</Col>
-    <Col className="col-12">{countryArea},&nbsp;{country}</Col>
-    <Col className="col-12">{postalCode}</Col>
-    <Col className="col-12">{phone}</Col>
+  <AddressWrapper className="col-12 col-md-3 row align-items-center justify-content-center">
+    {
+      !addNew &&
+        <div>
+          <Col className="col-12">{firstName}&nbsp;{lastName}</Col>
+          <Col className="col-12">{streetAddress1},</Col>
+          <Col className="col-12">{cityArea? cityArea + ',&nbsp;': ''}{city}</Col>
+          <Col className="col-12">{countryArea},&nbsp;{country}</Col>
+          <Col className="col-12">{postalCode}</Col>
+          <Col className="col-12">{phone}</Col>
+        </div>
+    }
+    {
+      addNew && 
+      children
+    }
   </AddressWrapper>
 );
 
@@ -349,7 +362,7 @@ class CheckoutAddress extends Component {
       <Wrapper>
         {
           shippingAddress &&
-          <AddressListingWrapper className="row align-items-center">
+          <AddressListingWrapper className="row">
             {
               shippingAddress &&
               <ShippingAddress {...shippingAddress}></ShippingAddress>
@@ -364,12 +377,15 @@ class CheckoutAddress extends Component {
                     return false;
                   })
                   .map((address) => <ShippingAddress {...address}></ShippingAddress>)
+                  .concat(
+                    <ShippingAddress addNew={true}>
+                      <RaisedButton onClick={this.toggleAddressForm} colortype="primary">
+                          Add new address
+                      </RaisedButton>
+                    </ShippingAddress>)
             }
           </AddressListingWrapper>
         }
-        <RaisedButton disabled={showAddressForm} onClick={this.toggleAddressForm} colortype="primary">
-          Add new address
-        </RaisedButton>
         { showAddressForm &&
           <div className="address-form">
             <div className="header">
