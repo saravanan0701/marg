@@ -14,8 +14,8 @@ const loginFailure = user => ({
   user
 })
 
-const setUserName = user => ({
-  type: 'SET_USER_NAME',
+const setUserDetails = user => ({
+  type: 'SET_USER_DETAILS',
   user
 })
 
@@ -28,5 +28,5 @@ export default {
   persistAuthenticatedUser,
   loginFailure,
   logout,
-  setUserName,
+  setUserDetails,
 }

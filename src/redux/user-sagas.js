@@ -10,6 +10,22 @@ const QUERY_ME = gql`
       firstName
       lastName
       email
+      addresses{
+        id
+        firstName
+        lastName
+        streetAddress1
+        streetAddress2
+        city
+        cityArea
+        postalCode
+        country{
+          country
+          code
+        }
+        countryArea
+        phone
+      }
       checkout{
         id
         quantity
@@ -97,13 +113,15 @@ function* setCurrenUserDetails() {
           firstName,
           lastName,
           checkout,
+          addresses,
         }
       }
     } = yield call(queryUserDetails, client);
     yield put(
-      actions.setUserName({
+      actions.setUserDetails({
         firstName,
         lastName,
+        addresses,
       })
     );
     if(checkout) {

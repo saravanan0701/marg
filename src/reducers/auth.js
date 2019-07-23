@@ -3,22 +3,28 @@ const INITIAL_USER_STATE = {
   authToken: null,
   firstName: null,
   lastName: null,
+  addresses: [],
+  isLoading: true,
 }
-export const AuthReducers = (state = {}, action) => {
+//TODO: Use above object, make sure it doesnt break anything else
+export const AuthReducers = (state = {isLoading: true}, action) => {
   switch (action.type) {
 
     case 'PERSIST_AUTHENTICATED_USER_TO_STATE':
       return {
         ...state,
         email: action.user.email,
-        authToken: action.user.authToken
+        authToken: action.user.authToken,
+        isLoading: false,
       }
 
-    case 'SET_USER_NAME':
+    case 'SET_USER_DETAILS':
       return {
         ...state,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
+        addresses: action.user.addresses.concat(),
+        isLoading: false,
       }
 
     case 'LOGOUT':
@@ -28,6 +34,7 @@ export const AuthReducers = (state = {}, action) => {
         authToken: '',
         firstName: '',
         lastName: '',
+        isLoading: false,
       }
 
     default:
