@@ -2,93 +2,67 @@ import React from 'react'
 import { Link, Route } from "react-router-dom"
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
+import { Container, Row, Col } from 'reactstrap';
 import { replaceStaticUrl } from './../../../utils/';
 import { RaisedButton } from './../../commons/';
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 20px;
 
-  & > div.order-line {
-    display: flex;
-    flex-direction: row;
+const ImgContainer = styled.div`
+  & > img {
     width: 100%;
-    max-width: 100%;
-    margin-bottom: 20px;
-
-    & > div.img-container {
-      width: 13%;
-      max-width: 13%;
-
-      & > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    & > div.name-container {
-      margin-left: 2%;
-      width: 70%;
-      min-width: 70%;
-      display: flex;
-      flex-direction: column;
-
-      & > div.name-placeholder {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        & > div.main-name {
-          font-size: ${props => props.theme['$font-size-sm']};
-          font-weight: ${props => props.theme['$weight-bold']};
-          margin-right: 10px;
-        }
-        & > div.quantity {
-          margin-left: 10px;
-          font-size: ${props => props.theme['$font-size-xs']};
-          font-weight: ${props => props.theme['$weight-regular']};
-        }
-      }
-
-      & > div.sub-heading {
-        font-size: ${props => props.theme['$font-size-xs']};
-        font-weight: ${props => props.theme['$weight-regular']};
-        opacity: 0.9;
-      }
-    }
-
-    & > div.price {
-      width: 13%;
-      min-width: 13%;
-      margin-left: 2%;
-      text-align: right;
-    }
-  }
-
-  & > div.price-container {
-    display: flex;
-    flex-direction: row;
-    border-top: ${props => props.theme.underlineColor} solid 1px;
-
-    & > div.price-details {
-      margin-left: 87%;
-      width: 13%;
-      text-align: right;
-    }
-  }
-
-  & > div.footer {
-    display: flex;
-    flex-direction: row;
-    padding-top: 40px;
-
-    & > div {
-      margin-left: 87%;
-      width: 13%;
-    }
+    height: 100%;
+    object-fit: cover;
   }
 `;
+
+const NameContainer = styled.div`
+  margin-left: 2%;
+  & > div.name-placeholder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    & > div.main-name {
+      font-size: ${props => props.theme['$font-size-sm']};
+      font-weight: ${props => props.theme['$weight-bold']};
+      margin-right: 10px;
+    }
+    & > div.quantity {
+      margin-left: 10px;
+      font-size: ${props => props.theme['$font-size-xs']};
+      font-weight: ${props => props.theme['$weight-regular']};
+    }
+  }
+
+  & > div.sub-heading {
+    font-size: ${props => props.theme['$font-size-xs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    opacity: 0.9;
+  }
+`;
+
+const LinePrice = styled.div`
+  text-align: right;
+`;
+
+const PriceContainer = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: ${props => props.theme.underlineColor} solid 1px;
+  & > div.price-details {
+    text-align: right;
+  }
+`;
+
+const ActionButton = styled.div`
+  padding-bottom: 10px
+  & > .button-wrapper {
+    padding-right: 0px;
+  }
+`;
+
+const OrderLine = styled.div`
+margin-bottom: 10px;
+`
 
 const Checkout = ({
   cart: {
@@ -102,7 +76,7 @@ const Checkout = ({
     } = {}
   } = {}
 }) => (
-  <Wrapper>
+  <Container>
     {
       lines.map(
         (
@@ -125,42 +99,55 @@ const Checkout = ({
             }
           }
         ) => (
-          <div key={sku} className="order-line">
-            <div className="img-container">
-              <img src={replaceStaticUrl(url)} />
-            </div>
-            <div className="name-container">
-              <div className="name-placeholder">
-                <div className="main-name">
-                  {name}
-                </div>
-                <FontAwesome name="close" />
-                <div className="quantity">
-                  {quantity}
-                </div>
-              </div>
-              <div className="sub-heading">
-                {sku}
-              </div>
-            </div>
-            <div className="price">
-              {currency}.&nbsp;{amount}
-            </div>
-          </div>
+          <OrderLine key={sku} className="row">
+            <Col xs='8' sm='10'>
+              <Row>
+                <Col xs='12' sm='2'>
+                  <ImgContainer>
+                    <img src={replaceStaticUrl(url)} />
+                  </ImgContainer>
+                </Col>
+                <Col xs='12' sm='10'>
+                  <NameContainer>
+                    <div className="name-placeholder">
+                      <div className="main-name">
+                        {name}
+                      </div>
+                      <FontAwesome name="close" />
+                      <div className="quantity">
+                        {quantity}
+                      </div>
+                    </div>
+                    <div className="sub-heading">
+                      {sku}
+                    </div>
+                  </NameContainer>
+                </Col>
+              </Row>
+            </Col>
+            <Col xs='4' sm='2' className="row align-items-center align-items-md-start justify-content-end">
+              <LinePrice>
+                {currency}.&nbsp;{amount}
+              </LinePrice>
+            </Col>
+          </OrderLine>
         )
       )
     }
-    <div className="price-container">
-      <div className="price-details">
+    <PriceContainer className="row">
+      <Col xs="8" sm="10"></Col>
+      <Col xs="4" sm="2" className="price-details row align-items-center align-items-md-start justify-content-end">
         {currency}.&nbsp;{amount}
-      </div>
-    </div>
-    <div className="footer">
-      <Link to="/checkout/address" className="link button">
-        <RaisedButton>Checkout</RaisedButton>
-      </Link>
-    </div>
-  </Wrapper>
+      </Col>
+    </PriceContainer>
+    <ActionButton className="row">
+        <Col sm={{offset:8, size: 4}} className="button-wrapper row justify-content-end">
+          <Link to="/checkout/address" className="link button">
+            <RaisedButton>Checkout</RaisedButton>
+          </Link>
+        </Col>
+    </ActionButton>
+  </Container>
 )
 
 export default Checkout;
