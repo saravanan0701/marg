@@ -295,19 +295,17 @@ function* persistCartItems({
       yield put(
         actions.updateCheckoutLines(createdCheckout)
       );
-      localStorage.setItem('cart', "[]");
     } else {
       const createdCheckout = yield call(
-        () => addCheckoutLines(
-          checkout.id,
+        () => createCheckoutAndLines(
           cart,
         )
       );
       yield put(
-        actions.updateCheckoutLines(createdCheckout)
+        actions.initCheckout(createdCheckout)
       );
-      localStorage.setItem('cart', "[]");
     }
+    localStorage.setItem('cart', "[]");
 
   } catch {
     //Failed to save your items on cart, please try again later.
