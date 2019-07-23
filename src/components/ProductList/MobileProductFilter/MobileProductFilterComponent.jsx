@@ -8,6 +8,7 @@ import { DropDown } from './../../commons/';
 import { FlatButton } from '../../commons';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { makeStyles } from '@material-ui/core/styles';
+import { Container, Row, Col } from 'reactstrap';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -45,6 +46,13 @@ const SORT_BY = [
   },
 ];
 
+const MobileFilterToggleContainer = styled.div`
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      display: none !important;
+  }
+`
+
 const Wrapper = styled.div`
 
   div.dropdown {
@@ -52,7 +60,6 @@ const Wrapper = styled.div`
     height: 60px;
     display: flex;
   }
-
   /* display: flex;
   flex-direction: row;
   padding: 30px 20px;
@@ -198,8 +205,10 @@ export const MobileProductFilter = ({
 
   return (
     <div>
-      <FlatButton onClick={() => setFilterState(!filterOpen)}>FILTERS</FlatButton>
-
+      <MobileFilterToggleContainer>
+        <FlatButton id="mobileFilterToggle" onClick={() => setFilterState(!filterOpen)}>FILTERS</FlatButton>
+      </MobileFilterToggleContainer>
+      
       <SwipeableDrawer
         anchor="bottom"
         open={filterOpen}
