@@ -195,6 +195,10 @@ const AddressWrapper = styled.div`
   border-radius: 10px;
   margin-left: 0px !important;
   margin-right: 10px !important;
+  cursor: pointer;
+  &.selected {
+    border-top: solid 5px ${props => props.theme.primaryColor};
+  }
 `;
 
 const ShippingAddress = (
@@ -213,9 +217,13 @@ const ShippingAddress = (
     phone,
     addNew,
     children,
+    selected,
+    onClick,
   }
 ) => (
-  <AddressWrapper className="col-12 col-md-3 row align-items-center justify-content-center">
+  <AddressWrapper
+    onClick={onClick}
+    className={`col-12 col-md-3 row align-items-center justify-content-center ${selected?'selected':''}`}>
     {
       !addNew &&
         <div>
@@ -250,9 +258,11 @@ class CheckoutAddress extends Component {
       country: DEFAULT_COUNTRY,
       price: 1000,
       showAddressForm: false,
+      selectedAddressId: null,
     };
 
     this.toggleAddressForm = this.toggleAddressForm.bind(this);
+    this.selectAddress = this.selectAddress.bind(this);
   }
 
   toggleAddressForm() {
@@ -306,6 +316,12 @@ class CheckoutAddress extends Component {
     })
   }
 
+  selectAddress(addressId) {
+    this.setState({
+      selectedAddressId: addressId,
+    })
+  }
+
   saveShippingMethod() {
     const {
       client,
@@ -342,6 +358,7 @@ class CheckoutAddress extends Component {
       country,
       price,
       showAddressForm,
+      selectedAddressId,
     } = this.state;
     const {
       firstName,
@@ -365,7 +382,19 @@ class CheckoutAddress extends Component {
           <AddressListingWrapper className="row">
             {
               shippingAddress &&
-              <ShippingAddress {...shippingAddress}></ShippingAddress>
+              <ShippingAddress
+                selected={
+                  (() => {
+                    if(selectedAddressId) {
+                      return selectedAddressId === shippingAddress.id
+                    }
+                    return true;
+                  })()
+                }
+                onClick={() => this.selectAddress(shippingAddress.id)}
+                {...shippingAddress}
+                >
+              </ShippingAddress>
             }
             {
               addresses &&
@@ -376,7 +405,24 @@ class CheckoutAddress extends Component {
                     }
                     return false;
                   })
-                  .map((address) => <ShippingAddress {...address}></ShippingAddress>)
+                  .map((address, id) => (
+                      <ShippingAddress
+                        onClick={() => this.selectAddress(address.id)}
+                        selected={
+                          (() => {
+                            if(!shippingAddress && !selectedAddressId) {
+                              return id === 0;
+                              //Select first address if none is selected and 
+                              // checkout.shippingAddress is null.
+                            }
+                            return address.id === selectedAddressId
+                          })()
+                        }
+                        {...address}
+                        >
+                      </ShippingAddress>
+                    )
+                  )
                   .concat(
                     <ShippingAddress addNew={true}>
                       <RaisedButton onClick={this.toggleAddressForm} colortype="primary">
