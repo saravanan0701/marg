@@ -25,6 +25,12 @@ const cache = new InMemoryCache();
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
+  defaultOptions: {
+      query: {
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all',
+      },
+    }
 });
 
 export default client;
