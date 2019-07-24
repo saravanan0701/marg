@@ -149,7 +149,27 @@ const ShippingAddress = (
   </AddressWrapper>
 );
 
-const AddressListingWrapper = styled.div`
+const ShippingMethod = ({
+  name,
+  price:{
+    currency,
+    amount,
+  },
+  onClick,
+  selected,
+}) => (
+  <AddressWrapper
+    onClick={onClick}
+    className={`col-12 col-md-3 row align-items-center justify-content-center ${selected?'selected':''}`}
+  >
+    <div>
+      <Col className="col-12">{name}</Col>
+      <Col className="col-12">{currency}.&nbsp;{amount}</Col>
+    </div>
+  </AddressWrapper>
+);
+
+const ListingWrapper = styled.div`
   margin-bottom: 30px;
   & > * {
     margin-right: 10px;
@@ -165,10 +185,12 @@ class CheckoutAddress extends Component {
       price: 1000,
       showAddressForm: false,
       selectedAddress: null,
+      selectedShippingMethod: null,
     };
 
     this.toggleAddressForm = this.toggleAddressForm.bind(this);
     this.selectAddress = this.selectAddress.bind(this);
+    this.selectShippingMethod = this.selectShippingMethod.bind(this);
   }
 
   toggleAddressForm() {
@@ -214,6 +236,12 @@ class CheckoutAddress extends Component {
     this.setState({
       selectedAddress: address,
     })
+  }
+
+  selectShippingMethod(shippingMethod) {
+    this.setState({
+      selectedShippingMethod: shippingMethod,
+    });
   }
 
   saveShippingMethod() {
@@ -272,7 +300,7 @@ class CheckoutAddress extends Component {
       <Wrapper>
         {
           shippingAddress &&
-          <AddressListingWrapper className="row">
+          <ListingWrapper className="row">
             {
               shippingAddress &&
               <ShippingAddress
@@ -286,7 +314,7 @@ class CheckoutAddress extends Component {
                 }
                 onClick={() => this.selectAddress(shippingAddress)}
                 {...shippingAddress}
-                >
+              >
               </ShippingAddress>
             }
             {
@@ -324,7 +352,22 @@ class CheckoutAddress extends Component {
                     </ShippingAddress>
                   )
             }
-          </AddressListingWrapper>
+          </ListingWrapper>
+        }
+        {
+          availableShippingMethods && availableShippingMethods.length > 0 &&
+          <ListingWrapper className="row">
+            {
+              availableShippingMethods.map((shippingMethod) => (
+                <ShippingMethod
+                  selected="true"
+                  onClick={() => this.selectShippingMethod(shippingMethod)}
+                  {...shippingMethod}
+                >
+                </ShippingMethod>
+              ))
+            }
+          </ListingWrapper>
         }
         { showAddressForm &&
           <AddressEditForm
