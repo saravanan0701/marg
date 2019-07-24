@@ -81,9 +81,12 @@ const Wrapper = styled.div`
     max-width: 80%; */
     & > .heading {
       font-family: "Cormorant Garamond Medium";
-      font-size: ${props => props.theme['$font-size-lg']};
+      font-size: ${props => props.theme['$font-size-sm']};
+      @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+        font-size: ${props => props.theme['$font-size-lg']};
+      }
       font-weight: ${props => props.theme['$weight-regular']};
-      padding-bottom: 60px;
+      /* padding-bottom: 60px; */
       color: ${props => props.theme.mainTextColor};
     }
 
@@ -224,6 +227,14 @@ const ArticleWrapper = styled.div`
     display: flex;
   }
 
+  .hint {
+    font-size: 12px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-xxxs']};
+    }
+    font-weight: ${props => props.theme['$weight-regular']};
+  }
+
   div.header {
     display: flex;
     flex-direction: row;
@@ -282,7 +293,10 @@ const ArticleWrapper = styled.div`
       }
 
       & > .hint {
-        font-size: ${props => props.theme['$font-size-xxxs']};
+        font-size: 10px;
+        @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+          font-size: ${props => props.theme['$font-size-xxxs']};
+        }
         font-weight: ${props => props.theme['$weight-regular']};
         letter-spacing: 0.52px;
         line-height: 21px;
@@ -405,22 +419,22 @@ class Article extends Component {
       <ArticleWrapper>
         <Container className="py-3 px-0">
           <Row onClick={this.toggleBody} className="header">
-            <Col xs="10">
+            <Col xs="9" lg="10">
               <h3 className="title">{name}</h3>
               <span>{getEditorName(editors)}</span>
             </Col>
-            <Col xs="2" className="d-flex flex-column align-items-center justify-content-center">
+            <Col xs="3" lg="2" className="d-flex flex-column align-items-center justify-content-center">
               {currency}&nbsp;{amount}
               <FontAwesome name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
             </Col>
           </Row>
           <Row className={`body py-4 ${isOpen ? 'isOpen' : ''}`}>
             <Col lg="4" className="order-lg-2">
-              <div className="action text-center">
+              <div className="action text-lg-center mb-3">
                 <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
                   Add to cart
                 </RaisedButton>
-                <div className="hint mt-lg-3">This is a digital article. You can read it on the Marg website using any device.</div>
+                <div className="hint mt-3">This is a digital article. You can read it on the Marg website using any device.</div>
               </div>
             </Col>
             <Col lg="8" className="description">
@@ -569,7 +583,7 @@ const ProductDetails = ({
                   <div className="contents">
                     {
                       childProducts && childProducts.length > 0 &&
-                      <div key="heading" className="heading">Contents</div>
+                      <div key="heading" className="heading my-3">Contents</div>
                     }
                     {
                       childProducts.map(
