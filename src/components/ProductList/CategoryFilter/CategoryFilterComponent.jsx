@@ -6,6 +6,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    justify-content: center;
+  }
 
   @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
     padding-top: 40px;
@@ -13,9 +16,9 @@ const Wrapper = styled.div`
   }
 
   span.link {
-    font-size: 12px;
+    font-size: 14px;
     @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-      font-size: unset;
+      font-size: 16px;
     }
   }
 

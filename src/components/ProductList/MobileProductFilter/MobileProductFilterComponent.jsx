@@ -8,7 +8,7 @@ import { DropDown } from './../../commons/';
 import { FlatButton } from '../../commons';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Row, Col } from 'reactstrap';
+import FontAwesome from 'react-fontawesome';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -206,7 +206,13 @@ export const MobileProductFilter = ({
   return (
     <div>
       <MobileFilterToggleContainer>
-        <FlatButton id="mobileFilterToggle" onClick={() => setFilterState(!filterOpen)}>FILTERS</FlatButton>
+        <FlatButton 
+          className="my-4" 
+          id="mobileFilterToggle" 
+          onClick={() => setFilterState(!filterOpen)}>
+            FILTERS
+            <FontAwesome className="icon ml-2" name='filter' />
+        </FlatButton>
       </MobileFilterToggleContainer>
       
       <SwipeableDrawer
