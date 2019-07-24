@@ -269,6 +269,9 @@ class CheckoutAddress extends Component {
       },
       updateShippingMethod,
       updateShippingAddress,
+      history: {
+        push,
+      },
     } = this.props;
     let {
       selectedAddress,
@@ -326,7 +329,7 @@ class CheckoutAddress extends Component {
         //TODO: Optional update billing address.
         return true;
       }
-    )
+    ).then(() => push("/checkout/payment"))
   }
 
   checkIfSameAddress(address1, address2) {
@@ -360,9 +363,6 @@ class CheckoutAddress extends Component {
       firstName,
       lastName,
       email,
-      history: {
-        push,
-      },
       addresses,
       cart: {
         shippingAddress,
