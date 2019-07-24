@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 import { RaisedButton, FlatButton, DropDown, RadioButtonSet } from './../../commons/';
 import AddressEditForm from './AddressEditForm.jsx';
-
+import ShippingAddress from './ShippingAddress.jsx';
 const Wrapper = styled.div`
   padding: 50px;
 `;
@@ -115,47 +115,6 @@ const AddressWrapper = styled.div`
   }
 `;
 
-const ShippingAddress = (
-  {
-    firstName,
-    lastName,
-    streetAddress1,
-    streetAddress2,
-    cityArea,
-    city,
-    countryArea,
-    country: {
-      country,
-    }={},
-    postalCode,
-    phone,
-    addNew,
-    children,
-    selected,
-    onClick,
-  }
-) => {
-
-  return <AddressWrapper
-    onClick={onClick}
-    className={`col-12 col-md-3 row align-items-center justify-content-center ${selected?'selected':''}`}>
-    {
-      !addNew &&
-        <div>
-          <Col className="col-12">{firstName}&nbsp;{lastName}</Col>
-          <Col className="col-12">{streetAddress1},</Col>
-          <Col className="col-12">{cityArea? cityArea + ',&nbsp;': ''}{city}</Col>
-          <Col className="col-12">{countryArea},&nbsp;{country}</Col>
-          <Col className="col-12">{postalCode}</Col>
-          <Col className="col-12">{phone}</Col>
-        </div>
-    }
-    {
-      addNew && 
-      children
-    }
-  </AddressWrapper>
-};
 
 const ShippingMethod = ({
   name,
@@ -379,6 +338,7 @@ class CheckoutAddress extends Component {
             {
               shippingAddress &&
               <ShippingAddress
+                size="col-12 col-md-3"
                 key={selectedAddress && selectedAddress.id}
                 selected={
                   (() => {
@@ -405,6 +365,7 @@ class CheckoutAddress extends Component {
                   })
                   .map((address, id) => (
                       <ShippingAddress
+                        size="col-12 col-md-3"
                         key={address && address.id}
                         onClick={() => this.selectAddress(address)}
                         selected={
@@ -423,7 +384,7 @@ class CheckoutAddress extends Component {
                     )
                   )
                   .concat(
-                    <ShippingAddress addNew={true}>
+                    <ShippingAddress size="col-12 col-md-3" addNew={true}>
                       <RaisedButton onClick={this.toggleAddressForm} colortype="primary">
                           Add new address
                       </RaisedButton>
