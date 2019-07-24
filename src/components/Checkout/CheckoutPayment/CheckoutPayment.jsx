@@ -77,13 +77,13 @@ const Wrapper = styled.div`
     }
 
     & > .success {
-
       & > .header {
         font-size: 40px;
       }
+    }
 
-
-
+    & > .failure {
+      font-size: 40px;
     }
   }
 `
@@ -101,6 +101,13 @@ export default class CheckoutPayment extends Component {
     }
 
     this.initiatePayment = this.initiatePayment.bind(this);
+    this.resetStatus = this.resetStatus.bind(this);
+  }
+
+  resetStatus() {
+    this.setState({
+      status: "",
+    })
   }
 
   componentDidMount() {
@@ -184,7 +191,14 @@ export default class CheckoutPayment extends Component {
         }
       }
     }).then(
-      () => {
+      ({
+        errors,
+      }) => {
+        if(errors && errors.length > 0) {
+          return self.setState({
+            status: "PAYMENT_PERSISTENCE_FAILURE"
+          });
+        }
         self.setState({
           status: "PAYMENT_SUCCESS"
         });
@@ -231,7 +245,7 @@ export default class CheckoutPayment extends Component {
         return resetCart();
       }
       self.setState({
-          status: "PAYMENT_PERSISTENCE_FAILURE",
+        status: "PAYMENT_PERSISTENCE_FAILURE",
       });
       return false;
     })
@@ -276,6 +290,12 @@ export default class CheckoutPayment extends Component {
                     <div>You have payed&nbsp;{currency}.&nbsp;{amount}</div>
                   </div>
                 </div>
+              </div>
+          }
+          {
+            (status === "PAYMENT_PERSISTENCE_FAILURE") &&
+              <div className="row col-12 failure">
+                Order has not been placed, you'll be refunded shortly
               </div>
           }
         </div>
