@@ -11,8 +11,8 @@ const Wrapper = styled.div`
   padding: 50px;
 `;
 
-const SAVE_ADDRESS = gql`
-  mutation SaveAddress($checkoutId: ID!, $shippingAddress: AddressInput!) {
+const SAVE_ADDRESS_AND_SHIPPING_TO_CHECKOUT = gql`
+  mutation SaveAddress($checkoutId: ID!, $shippingAddress: AddressInput!,$shippingMethodId: ID!) {
     checkoutShippingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
       checkout{
         shippingAddress{
@@ -29,8 +29,12 @@ const SAVE_ADDRESS = gql`
             code
           }
           countryArea
-          phone          
+          phone
         }
+      }
+      errors{
+        field
+        message
       }
     }
     checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $shippingAddress) {
@@ -49,21 +53,24 @@ const SAVE_ADDRESS = gql`
             code
           }
           countryArea
-          phone          
+          phone
         }
       }
+      errors{
+        field
+        message
+      }
     }
-  }
-`;
-
-const SAVE_SHIPPING_METHOD = gql`
-  mutation SaveShippingMethod($checkoutId: ID!, $shippingMethodId: ID!) {
     checkoutShippingMethodUpdate(checkoutId: $checkoutId, shippingMethodId: $shippingMethodId) {
       checkout{
         shippingMethod{
           id
           name
         }
+      }
+      errors{
+        field
+        message
       }
     }
   }
@@ -127,8 +134,9 @@ const ShippingAddress = (
     selected,
     onClick,
   }
-) => (
-  <AddressWrapper
+) => {
+
+  return <AddressWrapper
     onClick={onClick}
     className={`col-12 col-md-3 row align-items-center justify-content-center ${selected?'selected':''}`}>
     {
@@ -147,7 +155,7 @@ const ShippingAddress = (
       children
     }
   </AddressWrapper>
-);
+};
 
 const ShippingMethod = ({
   name,
@@ -196,6 +204,7 @@ class CheckoutAddress extends Component {
     this.toggleAddressForm = this.toggleAddressForm.bind(this);
     this.selectAddress = this.selectAddress.bind(this);
     this.selectShippingMethod = this.selectShippingMethod.bind(this);
+    this.saveAddressAndShippingMethod = this.saveAddressAndShippingMethod.bind(this);
   }
 
   toggleAddressForm() {
@@ -230,7 +239,7 @@ class CheckoutAddress extends Component {
       }
     ) => {
       if(errors && errors.length > 0) {
-        return;
+        return false;
       }
       addNewAddress(address);
       return address;
@@ -249,35 +258,95 @@ class CheckoutAddress extends Component {
     });
   }
 
-  saveShippingMethod() {
+  saveAddressAndShippingMethod() {
     const {
       client,
+      addresses,
       cart: {
         checkoutId,
         availableShippingMethods,
+        shippingAddress,
       },
       updateShippingMethod,
+      updateShippingAddress,
     } = this.props;
+    let {
+      selectedAddress,
+      selectedShippingMethod,
+    } = this.state;
+    selectedAddress = selectedAddress? selectedAddress: (shippingAddress || (addresses && addresses.length > 0 && addresses[0]));
+    selectedShippingMethod = selectedShippingMethod? selectedShippingMethod: (availableShippingMethods[0]);
+    delete selectedAddress.__typename;
+    selectedAddress.country = selectedAddress.country.code;
+    delete selectedAddress.id;
     return client.mutate({
-      mutation: SAVE_SHIPPING_METHOD,
+      mutation: SAVE_ADDRESS_AND_SHIPPING_TO_CHECKOUT,
       variables: {
         checkoutId,
+        shippingAddress: selectedAddress,
         shippingMethodId: availableShippingMethods[0].id,
       },
-    }).then((
+    }).then(
+      (
         {
           data: {
             checkoutShippingMethodUpdate: {
               checkout: {
                 shippingMethod
-              }
-            }
+              },
+              errors: checkoutShippingMethodErrors,
+            },
+            checkoutShippingAddressUpdate: {
+              checkout: {
+                shippingAddress,
+              },
+              errors: checkoutShippingAddressErrors,
+            },
+            checkoutBillingAddressUpdate: {
+              checkout: {
+                billingAddress,
+              },
+              errors: checkoutBillingAddressErrors,
+            },
           }
         }
       ) => {
-      updateShippingMethod(shippingMethod);
-      return shippingMethod;
-    })
+        if(
+            (checkoutShippingMethodErrors && checkoutShippingMethodErrors.length > 0)
+            ||
+            (checkoutShippingAddressErrors && checkoutShippingAddressErrors.length > 0)
+            ||
+            (checkoutBillingAddressErrors && checkoutBillingAddressErrors.length > 0)
+          ){
+          //TODO: show errors.
+          return false;
+        }
+        updateShippingMethod(shippingMethod);
+        updateShippingAddress(shippingAddress);
+        //TODO: Optional update billing address.
+        return true;
+      }
+    )
+  }
+
+  checkIfSameAddress(address1, address2) {
+    const address1Keys = Object.keys(address1);
+    const address2Keys = Object.keys(address2);
+    if(address1Keys.length !== address2Keys.length) {
+      return false;
+    }
+    return address1Keys.reduce((acc, it) => {
+      if(acc === false) {
+        return false;
+      }
+      if(it === "country" || it === "id") {
+        return true;
+      }
+      if(!address1[it] && !address2[it]) {
+        return true;
+      }
+      return address1[it] && address2[it] && address1[it].toLowerCase() === address2[it].toLowerCase()
+    }, true)
   }
 
   render() {
@@ -300,16 +369,17 @@ class CheckoutAddress extends Component {
         availableShippingMethods,
       }
     } = this.props;
-
+    const self = this;
     return (
       <Wrapper>
         {
           shippingAddress &&
           <ListingWrapper className="row">
-            <div class="header col-12">Saved Addresses</div>
+            <div className="header col-12">Saved Addresses</div>
             {
               shippingAddress &&
               <ShippingAddress
+                key={selectedAddress && selectedAddress.id}
                 selected={
                   (() => {
                     if(selectedAddress && selectedAddress.id) {
@@ -327,13 +397,15 @@ class CheckoutAddress extends Component {
               addresses &&
                 addresses
                   .filter((address) => {
-                    if(shippingAddress && address.id != shippingAddress.id) {
+                    if(shippingAddress && !self.checkIfSameAddress(address, shippingAddress)) {
+                      // TODO-BUG On selecting an address and saving duplicate item is rendered...
                       return true;
                     }
                     return false;
                   })
                   .map((address, id) => (
                       <ShippingAddress
+                        key={address && address.id}
                         onClick={() => this.selectAddress(address)}
                         selected={
                           (() => {
@@ -342,7 +414,7 @@ class CheckoutAddress extends Component {
                               //Select first address if none is selected and 
                               // checkout.shippingAddress is null.
                             }
-                            return selectedAddress && address.id === selectedAddress.id
+                            return selectedAddress && this.checkIfSameAddress(address, selectedAddress);
                           })()
                         }
                         {...address}
@@ -386,6 +458,9 @@ class CheckoutAddress extends Component {
           >
           </AddressEditForm>
         }
+        <RaisedButton colortype="primary" onClick={this.saveAddressAndShippingMethod}>
+          Next
+        </RaisedButton>
       </Wrapper>
     )
   }
