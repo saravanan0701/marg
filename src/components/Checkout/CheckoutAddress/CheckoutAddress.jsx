@@ -174,6 +174,11 @@ const ListingWrapper = styled.div`
   & > * {
     margin-right: 10px;
   }
+  & > .header {
+    padding: 0px;
+    font-family: "Cormorant Garamond Medium";
+    font-size: ${props => props.theme['$font-size-lg']};
+  }
 `;
 
 class CheckoutAddress extends Component {
@@ -301,6 +306,7 @@ class CheckoutAddress extends Component {
         {
           shippingAddress &&
           <ListingWrapper className="row">
+            <div class="header col-12">Saved Addresses</div>
             {
               shippingAddress &&
               <ShippingAddress
@@ -357,6 +363,7 @@ class CheckoutAddress extends Component {
         {
           availableShippingMethods && availableShippingMethods.length > 0 &&
           <ListingWrapper className="row">
+            <div class="header col-12">Shipping method</div>
             {
               availableShippingMethods.map((shippingMethod) => (
                 <ShippingMethod
