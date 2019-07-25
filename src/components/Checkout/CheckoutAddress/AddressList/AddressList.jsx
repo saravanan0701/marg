@@ -46,16 +46,80 @@ const SAVE_NEW_ADDRESS = gql`
   }
 `;
 
+const SAVE_ADDRESS_TO_CHECKOUT = gql`
+  mutation SaveAddress($checkoutId: ID!, $shippingAddress: AddressInput!) {
+    checkoutShippingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+      checkout{
+        shippingAddress{
+          id
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          cityArea
+          postalCode
+          country{
+            country
+            code
+          }
+          countryArea
+          phone
+        }
+        availableShippingMethods{
+          id
+          name
+          price{
+            currency
+            amount
+          }
+        }
+      }
+      errors{
+        field
+        message
+      }
+    }
+    checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $shippingAddress) {
+      checkout{
+        billingAddress{
+          id
+          firstName
+          lastName
+          streetAddress1
+          streetAddress2
+          city
+          cityArea
+          postalCode
+          country{
+            country
+            code
+          }
+          countryArea
+          phone
+        }
+      }
+      errors{
+        field
+        message
+      }
+    }
+  }
+`;
+
 export const AddressList = ({
+  checkoutId,
   userId,
   firstName,
   lastName,
   email,
   client,
   addresses,
-  cartShippingAddress,
+  shippingAddress: cartShippingAddress,
+
   addNewAddress,
-  addAvailableShippingMethods,
+  setAvailableShippingMethods,
+  updateShippingAddress,
 }) => {
 
   const [ showAddressForm, setShowAddressForm ] = useState(false);
@@ -85,11 +149,56 @@ export const AddressList = ({
     })
   }
 
-
+  const saveAddressToCart = (shippingAddress) => {
+    const updatableShipping = {...shippingAddress};
+    delete updatableShipping.__typename;
+    updatableShipping.country = updatableShipping.country.code;
+    delete updatableShipping.id;
+    client.mutate({
+      mutation: SAVE_ADDRESS_TO_CHECKOUT,
+      variables: {
+        checkoutId,
+        shippingAddress: updatableShipping,
+      },
+    }).then(
+      (
+        {
+          data: {
+            checkoutShippingAddressUpdate: {
+              checkout: {
+                shippingAddress: updatedShippingAddress,
+                availableShippingMethods,
+              },
+              errors: checkoutShippingAddressErrors,
+            },
+            checkoutBillingAddressUpdate: {
+              checkout: {
+                billingAddress,
+              },
+              errors: checkoutBillingAddressErrors,
+            },
+          }
+        }
+      ) => {
+        if(
+            (checkoutShippingAddressErrors && checkoutShippingAddressErrors.length > 0)
+            ||
+            (checkoutBillingAddressErrors && checkoutBillingAddressErrors.length > 0)
+          ){
+          //TODO: show errors.
+          return false;
+        }
+        updateShippingAddress(updatedShippingAddress);
+        setAvailableShippingMethods(availableShippingMethods);
+        //TODO: Optional update billing address.
+        return true;
+      }
+    )
+  }
 
   return (
     <ListingWrapper className="row">
-      <div className="header col-12">Saved Addresses</div>
+      <div className="header col-12">Please select an address</div>
       {
         addresses &&
           addresses
@@ -97,14 +206,9 @@ export const AddressList = ({
               <ShippingAddress
                 size="col-12 col-md-3"
                 key={address && address.id}
-                onClick={() => this.selectAddress(address)}
+                onClick={() => saveAddressToCart(address)}
                 selected={
                   (() => {
-                    if(!cartShippingAddress) {
-                      return id === 0;
-                      //Select first address if none is selected and 
-                      // checkout.cartShippingAddress is null.
-                    }
                     return cartShippingAddress && checkIfSameAddress(address, cartShippingAddress);
                   })()
                 }
