@@ -46,4 +46,24 @@ export const getAllCountries = () => CountryRegionData.map(
 }, {
   countries: [],
   defaultCountry: {}
-})
+});
+
+export const checkIfSameAddress = (address1, address2) => {
+  const address1Keys = Object.keys(address1);
+  const address2Keys = Object.keys(address2);
+  if(address1Keys.length !== address2Keys.length) {
+    return false;
+  }
+  return address1Keys.reduce((acc, it) => {
+    if(acc === false) {
+      return false;
+    }
+    if(it === "country" || it === "id") {
+      return true;
+    }
+    if(!address1[it] && !address2[it]) {
+      return true;
+    }
+    return address1[it] && address2[it] && address1[it].toLowerCase() === address2[it].toLowerCase()
+  }, true)
+}
