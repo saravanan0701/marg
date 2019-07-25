@@ -5,6 +5,7 @@ import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 
 import ProductListFilter from './ProductListFilter';
+import MobileProductFilter from './MobileProductFilter';
 import ProductListWrapper from './ProductListWrapper';
 import CategoryFilter from './CategoryFilter';
 import ProductListPagination from './ProductListPagination';
@@ -13,11 +14,17 @@ import { FlatButton } from './../commons/';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 50px 100px 100px;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 50px 100px 100px;
+  }
 
   & > .heading {
     font-family: "Cormorant Garamond Medium";
-    font-size: ${props => props.theme['$font-size-lg']};
+    font-size: ${props => props.theme['$font-size-sm']};
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-lg']};
+    }
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 1px;
     line-height: 42px;
@@ -64,7 +71,7 @@ const LOAD_ALL_FILTERS = gql`
 `
 
 const ProductList = () => (
-  <Wrapper>
+  <Wrapper className="mt-2 mb-2">
     <div className="heading">All Publications</div>
     <Query
       query={LOAD_ALL_FILTERS}>
@@ -92,6 +99,7 @@ const ProductList = () => (
             <div>
               <CategoryFilter categories={categories} />
               <ProductListFilter filters={attributes} editors={editors}/>
+              <MobileProductFilter filters={attributes} />
               <ProductListWrapper />
               <ProductListPagination />
             </div> 

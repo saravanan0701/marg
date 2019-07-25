@@ -59,6 +59,10 @@ const Wrapper = styled.div`
     font-size: 14px;
     position: absolute;
 
+    @media (max-width: 992px) {
+      top: 60px;
+    }
+    
     & > input {
       width: 100%;
       border: 1px solid #979797;
@@ -137,11 +141,11 @@ class DropDown extends Component {
   }
 
   labelBlured() {
-    setTimeout(function() {
-      if(this.state.showBody){
-        this.labelClicked();
-      }
-    }.bind(this), 0);
+    // setTimeout(function() {
+    //   if(this.state.showBody){
+    //     this.labelClicked();
+    //   }
+    // }.bind(this), 0);
   }
 
   inputFocused() {

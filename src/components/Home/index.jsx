@@ -6,13 +6,19 @@ import about from './../../images/about.jpg';
 import { ProductsSection } from './ProductsSection.jsx';
 import { ProductCategories } from './ProductCategories.jsx';
 
+import { Container, Row, Col } from 'reactstrap';
+
 const Header = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 30vh;
-  background-color: ${props => props.theme.sectionBackground};
+  background-color: #fcf8d1;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
 
   & > .small {
     color: #000000;
@@ -24,7 +30,11 @@ const Header = styled.div`
 
   & > .big {
     font-family: "Cormorant Garamond Medium";
-    font-size: ${props => props.theme['$font-size-lg']};
+    font-size: 32px; 
+
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-lg']};
+    }
     font-weight: ${props => props.theme['$weight-semi-bold']};
     letter-spacing: 1px;
     line-height: 57px;
@@ -39,89 +49,74 @@ const Todo = styled.div`
 `
 
 const Body = styled.div`
-  & > div {
+  /* & > div {
     padding-left: 130px;
     padding-right: 130px;
-  }
+  } */
 `;
 
 const About = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: ${props => props.theme.sectionBackground};
-  height: 80vh;
-  padding-top: 72px;
-  padding-bottom: 72px;
 
-  & > .img-container {
-    width: 55%;
-    display: flex;
-    flex-direction: row;
-
-    & > img {
-      height: 100%;
-      object-position: top;
-      object-fit: cover;
-    }
-  }
-
-  & > .text-section {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    justify-content: center;
-    padding: 5% 0px 0% 5%;
-
-    & > .heading {
-      color: #000000;
-      font-family: "Cormorant Garamond Medium";
+  h1 {
+    color: #000000;
+    font-family: "Cormorant Garamond Medium";
+    font-size: ${props => props.theme['$font-size-sm']};
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
       font-size: ${props => props.theme['$font-size-lg']};
-      font-weight: ${props => props.theme['$weight-regular']};
-      letter-spacing: 1px;
-      line-height: 57px;
     }
-
-    & > .body {
-      font-size: ${props => props.theme['$font-size-xxs']};
-      font-weight: ${props => props.theme['$weight-regular']};
-      letter-spacing: 0.59px;
-      line-height: 23px;
-      padding: 35px 0px;
-    }
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 1px;
   }
+
+  .body {
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 0.59px;
+    line-height: 23px;
+  }
+
+  button {
+    letter-spacing: 3px;
+  }
+
 `
 
 export const Home = props => (
   <div>
-    <Header>
+    <Header className="full-width py-5 text-center">
       <div className="small">THE MARG FOUNDATION</div>
-      <div className="big">A Pathmaking Tradition</div>
+      <div className="big text-center">A Pathmaking Tradition</div>
     </Header>
     <Body>
-      <Todo>Issues section: TODO</Todo>
-      <Todo>Blogs and events: TODO</Todo>
-      <About>
-        <div className="img-container">
-          <img src={about} />
-        </div>
-        <div className="text-section">
-          <div className="heading">The Legacy of Marg</div>
-          <div className="body">
-            Marg was founded by Mulk Raj Anand in 1946, with the aim of developing a
-            socially active and culturally engaging language of art. 
-            Marg magazine and books have been a forum for pioneering research in Indian art
-            and are acclaimed for their standards of production and editorial content.
-          </div>
-          <RaisedButton>
-            MORE ABOUT MARG
-          </RaisedButton>
-        </div>
+      {/* <Todo>Issues section: TODO</Todo>
+      <Todo>Blogs and events: TODO</Todo> */}
+
+      <About className="full-width bg-gray py-5 px-3 px-lg-5">
+        <Container>
+          <Row>
+            <Col lg="7" className="text-center">
+              <img className="img-fluid p-lg-5" src={about} />
+            </Col>
+            <Col lg="5" className="d-flex align-items-center">
+              <div className="my-4">
+                <h1>The Legacy of Marg</h1>
+                <p className="body my-2">
+                  Marg was founded by Mulk Raj Anand in 1946, with the aim of developing a
+                  socially active and culturally engaging language of art.
+                  Marg magazine and books have been a forum for pioneering research in Indian art
+                  and are acclaimed for their standards of production and editorial content.
+                </p>
+                <RaisedButton className="my-3">
+                  MORE ABOUT MARG
+                </RaisedButton>
+              </div>
+
+            </Col>
+          </Row>
+        </Container>
       </About>
-      <ProductsSection>
-      </ProductsSection>
-      <ProductCategories>
-      </ProductCategories>
+      <ProductsSection />
+      <ProductCategories />
     </Body>
   </div>
 )

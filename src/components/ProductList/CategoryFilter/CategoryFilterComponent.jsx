@@ -5,11 +5,27 @@ import { FlatButton } from '../../commons';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  padding-top: 40px;
-  padding-bottom: 30px;
+  justify-content: space-around;
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    justify-content: center;
+  }
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding-top: 40px;
+    padding-bottom: 30px;
+  }
+
+  span.link {
+    font-size: 14px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: 16px;
+    }
+  }
+
   & > div {
-    margin-left: 50px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      margin-left: 50px;
+    }
 
     &.active {
       border-bottom: 1px solid ${props => props.theme.primaryColor};
@@ -53,14 +69,14 @@ class CategoryFilterComponent extends Component {
     const articlesIsNotSelected = () => selectedCategories.filter((category) => category.slug !== 'articles').length > 0
 
     return (
-      <Wrapper>
+      <Wrapper className="my-4">
         <FlatButton
           key="1"
           className={articlesIsNotSelected()? 'active': ''}
           onMouseDown={() => replaceCategoryFilters(this.allCategories)}
           type="secondary"
         >
-          Magazines & Books
+          <span className="link">Magazines & Books</span>
         </FlatButton>
         <FlatButton
           key="2"
@@ -68,7 +84,7 @@ class CategoryFilterComponent extends Component {
           onMouseDown={() => replaceCategoryFilters(this.articles)}
           type="secondary"
         >
-          Articles
+          <span className="link">Articles</span>
         </FlatButton>
       </Wrapper>
     )

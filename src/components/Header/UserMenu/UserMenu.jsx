@@ -25,7 +25,7 @@ export const UserMenu = ({
           </Menu>
         </div>
       :
-        <FlatButton colorType="primary" onClick={
+        <FlatButton colorType="#000000" onClick={
           () => {
             if(pathname.match(/login/)){
               return push(`/login`)

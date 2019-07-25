@@ -7,17 +7,104 @@ import ReactHtmlParser from 'react-html-parser';
 import { RaisedButton, RadioButtonSet } from './../commons/';
 import FontAwesome from 'react-fontawesome';
 import { replaceStaticUrl } from './../../utils/';
+import { Container, Row, Col } from 'reactstrap';
 
 
 const Wrapper = styled.div`
-  padding: 50px 100px 100px;
 
-  & > .product-details {
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 50px 100px 100px;
+  }
+
+  .name {
+    font-family: "Cormorant Garamond Medium";
+    font-size: ${props => props.theme['$font-size-sm']};
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-lg']};
+    }
+    font-weight: ${props => props.theme['$weight-regular']};
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 20px;
+  }
+
+  .editor-name {
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 1px;
+    line-height: 28px;
+    margin-bottom: 1.5rem;
+  }
+
+  .medium-name {
+    color: #37312f;
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 20px;
+    margin-right: 3rem;
+  }
+
+  .pricing {
+    /* width: 60%; */
+    color: #37312f;
+    font-family: ${props => props.theme['$font-primary-medium']};
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    line-height: 20px;
+  }
+
+  .add-to-bag {
+    margin: 1.5rem 0;
+    align-self: flex-start;
+  }
+
+  .availability {
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 0.59px;
+    line-height: 23px;
+  }
+
+  h3#description {
+    color: #37312f;
+    font-family: Lato;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .contents {
+    /* width: 80%;
+    max-width: 80%; */
+    & > .heading {
+      font-family: "Cormorant Garamond Medium";
+      font-size: ${props => props.theme['$font-size-sm']};
+      @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+        font-size: ${props => props.theme['$font-size-lg']};
+      }
+      font-weight: ${props => props.theme['$weight-regular']};
+      /* padding-bottom: 60px; */
+      color: ${props => props.theme.mainTextColor};
+    }
+
+    & > div:not(.heading) {
+      border-top: 1px solid #9d9d9d;
+    }
+
+    & > div:last-child {
+      border-bottom: 1px solid #9d9d9d;
+    }
+  }
+
+  /* & > .product-details {
     
     display: flex;
     flex-direction: column;
 
-    & > .details{
+    & > .details {
       display: flex;
       flex-direction: row;
       min-height: 80vh;
@@ -36,9 +123,9 @@ const Wrapper = styled.div`
       & > .details {
         width: 40%;
         display: flex;
-        flex-direction: column;
+        flex-direction: column; */
 
-        & > .name {
+        /* & > .name {
           font-family: "Cormorant Garamond Medium";
           font-size: ${props => props.theme['$font-size-lg']};
           font-weight: ${props => props.theme['$weight-regular']};
@@ -119,7 +206,7 @@ const Wrapper = styled.div`
         border-bottom: 1px solid #9d9d9d;
       }
     }
-  }
+  } */
 `;
 
 const ArticleWrapper = styled.div`
@@ -127,33 +214,49 @@ const ArticleWrapper = styled.div`
   flex-direction: column;
   cursor: pointer;
 
-  & > div.header {
+  span.fa {
+    color: ${props => props.theme['primaryColor']};
+    display: block;
+  }
+
+  .body {
+    display: none;
+  }
+
+  .body.isOpen{
+    display: flex;
+  }
+
+  .hint {
+    font-size: 12px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-xxxs']};
+    }
+    font-weight: ${props => props.theme['$weight-regular']};
+  }
+
+  div.header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 20px 0px 15px;
-
-    & > div.title {
-      width: 75%;
-      max-width: 75%;
-      display: flex;
-      flex-direction: column;
-
-      & > div.product-title {
+  
+    .title {
+      font-size: ${props => props.theme['$font-size-xxs']};
+      @media (min-with: ${props => props.theme['mobileBreakpoint']}) {
         font-size: ${props => props.theme['$font-size-xs']};
-        font-weight: ${props => props.theme['$weight-bold']};
-        letter-spacing: 0.66px;
-        line-height: 23px;
-        color: ${props => props.theme.mainTextColor};
-        padding-bottom: 15px;
       }
+      font-weight: ${props => props.theme['$weight-bold']};
+      letter-spacing: 0.66px;
+      line-height: 23px;
+      color: ${props => props.theme.mainTextColor};
+      /* padding-bottom: 15px; */
+    }
 
-      & > div.product-editor {
-        font-size: ${props => props.theme['$font-size-xxxs']};
-        font-weight: ${props => props.theme['$weight-bold']};
-        color: ${props => props.theme.underlineColor};
-        letter-spacing: 1px;
-      }
+    div.product-editor {
+      font-size: ${props => props.theme['$font-size-xxxs']};
+      font-weight: ${props => props.theme['$weight-bold']};
+      color: ${props => props.theme.underlineColor};
+      letter-spacing: 1px;
     }
 
     & > div.price {
@@ -190,7 +293,10 @@ const ArticleWrapper = styled.div`
       }
 
       & > .hint {
-        font-size: ${props => props.theme['$font-size-xxxs']};
+        font-size: 10px;
+        @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+          font-size: ${props => props.theme['$font-size-xxxs']};
+        }
         font-weight: ${props => props.theme['$weight-regular']};
         letter-spacing: 0.52px;
         line-height: 21px;
@@ -271,7 +377,7 @@ const LOAD_PRODUCT = gql`
 
 const getEditorName = (editors) => (
   editors
-    .map(({id, firstName, lastName}) => (`${firstName} ${lastName}`))
+    .map(({ id, firstName, lastName }) => (`${firstName} ${lastName}`))
     .join(',')
 );
 
@@ -311,41 +417,31 @@ class Article extends Component {
 
     return (
       <ArticleWrapper>
-        <div onClick={this.toggleBody} className="header">
-          <div className="title">
-            <div className="product-title">
-              {name}
-            </div>
-            <div className="product-editor">
-              {getEditorName(editors)}
-            </div>
-          </div>
-          <div className="price">
-            {currency}&nbsp;{amount}
-          </div>
-          <div className="icon">
-            <FontAwesome name='chevron-down'/>
-          </div>
-        </div>
-        <div className={`body ${isOpen?'isOpen': '' }`}>
-          <div className="description">
-            {ReactHtmlParser(description)}
-          </div>
-          <div className="action">
-            <RaisedButton
-              onClick={
-                () =>
-                saveVariant({
-                  quantity: DEFAULT_QUANTITY,
-                  variant: variants[0]
-                })
-              }
-              >
-              Add to cart
-            </RaisedButton>
-            <div className="hint">This is a digital article. You can read it on the Marg website using any device.</div>
-          </div>
-        </div>
+        <Container className="py-3 px-0">
+          <Row onClick={this.toggleBody} className="header">
+            <Col xs="9" lg="10">
+              <h3 className="title">{name}</h3>
+              <span>{getEditorName(editors)}</span>
+            </Col>
+            <Col xs="3" lg="2" className="d-flex flex-column align-items-center justify-content-center">
+              {currency}&nbsp;{amount}
+              <FontAwesome name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
+            </Col>
+          </Row>
+          <Row className={`body py-4 ${isOpen ? 'isOpen' : ''}`}>
+            <Col lg="4" className="order-lg-2">
+              <div className="action text-lg-center mb-3">
+                <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
+                  Add to cart
+                </RaisedButton>
+                <div className="hint mt-3">This is a digital article. You can read it on the Marg website using any device.</div>
+              </div>
+            </Col>
+            <Col lg="8" className="description">
+              {ReactHtmlParser(description)}
+            </Col>
+          </Row>
+        </Container>
       </ArticleWrapper>
     )
   }
@@ -409,27 +505,29 @@ const ProductDetails = ({
             } = {},
           },
         }) => {
-          if(loading) {
+          if (loading) {
             return <h1>Loading...</h1>;
           }
           const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
           return (
-            <div className="product-details">
-              <div className="details">
-                <div className="image-container">
+
+            <Container>
+              <Row className="my-5">
+                <Col className="text-lg-center" lg="6">
                   <img
-                    src={images && images.length > 0? replaceStaticUrl(images[0].url): replaceStaticUrl(thumbnailUrl)}
-                    />
-                </div>
-                <div className="details">
+                    className="img-fluid"
+                    src={images && images.length > 0 ? replaceStaticUrl(images[0].url) : replaceStaticUrl(thumbnailUrl)}
+                  />
+                </Col>
+                <Col className="details" lg="6">
                   <div className="name">{name}</div>
                   <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
                   <RadioButtonSet
                     selectOption={(id) => {
-                        selectedVariant = {
-                          ...variants[id]
-                        };
-                      }
+                      selectedVariant = {
+                        ...variants[id]
+                      };
+                    }
                     }
                     className="pricing"
                   >
@@ -447,16 +545,16 @@ const ProductDetails = ({
                             },
                           },
                         }) => (
-                          <PriceWrapper key={id}>
-                            {
-                              isDigital?
-                                <div className="name">Digital</div>
-                                :
-                                <div className="name">Print</div>
-                            }
-                            <div className="price">{currency}&nbsp;{amount}</div>
-                          </PriceWrapper>
-                        )
+                            <PriceWrapper key={id}>
+                              {
+                                isDigital ?
+                                  <div className="medium-name">Digital</div>
+                                  :
+                                  <div className="medium-name">Print</div>
+                              }
+                              <div className="price">{currency}&nbsp;{amount}</div>
+                            </PriceWrapper>
+                          )
                       )
                     }
                   </RadioButtonSet>
@@ -472,24 +570,110 @@ const ProductDetails = ({
                     Add to bag
                   </RaisedButton>
                   <div className="availability">Available to ship within 2 business days</div>
+                </Col>
+              </Row>
+              <Row>
+                <Col lg="6">
+                  <h3 id="description">Description</h3>
+                  {ReactHtmlParser(description)}
+                </Col>
+              </Row>
+              <Row>
+                <Col lg="9" className="px-0">
+                  <div className="contents">
+                    {
+                      childProducts && childProducts.length > 0 &&
+                      <div key="heading" className="heading my-3">Contents</div>
+                    }
+                    {
+                      childProducts.map(
+                        (product) => <Article {...saveVariant} key={product.id} {...product} />
+                      )
+                    }
+                  </div>
+                </Col>
+              </Row>
+              <div className="product-details d-none">
+                <div className="details">
+                  <div className="image-container">
+                    <img
+                      src={images && images.length > 0 ? replaceStaticUrl(images[0].url) : replaceStaticUrl(thumbnailUrl)}
+                    />
+                  </div>
+                  <div className="details">
+                    <div className="name">{name}</div>
+                    <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
+                    <div className="my-4">
+                      <RadioButtonSet
+                        selectOption={(id) => {
+                          selectedVariant = {
+                            ...variants[id]
+                          };
+                        }
+                        }
+                        className="pricing"
+                      >
+                        {
+                          variants.map(
+                            ({
+                              id,
+                              isDigital,
+                              pricing: {
+                                price: {
+                                  gross: {
+                                    currency,
+                                    amount,
+                                  },
+                                },
+                              },
+                            }) => (
+                                <PriceWrapper key={id}>
+                                  {
+                                    isDigital ?
+                                      <div className="name">Digital</div>
+                                      :
+                                      <div className="name">Print</div>
+                                  }
+                                  <div className="price">{currency}&nbsp;{amount}</div>
+                                </PriceWrapper>
+                              )
+                          )
+                        }
+                      </RadioButtonSet>
+                    </div>
+
+                    <RaisedButton
+                      onClick={
+                        () => saveVariant({
+                          variant: selectedVariant,
+                          quantity: DEFAULT_QUANTITY,
+                        })
+                      }
+                      className="add-to-bag"
+                    >
+                      Add to bag
+                  </RaisedButton>
+                    <div className="availability">Available to ship within 2 business days</div>
+                  </div>
+                </div>
+                <div className="description">
+                  <div className="label">Description</div>
+                  {ReactHtmlParser(description)}
+                </div>
+                <div className="contents">
+                  {
+                    childProducts && childProducts.length > 0 &&
+                    <div key="heading" className="heading">Contents</div>
+                  }
+                  {
+                    childProducts.map(
+                      (product) => <Article {...saveVariant} key={product.id} {...product} />
+                    )
+                  }
                 </div>
               </div>
-              <div className="description">
-                <div className="label">Description</div>
-                {ReactHtmlParser(description)}
-              </div>
-              <div className="contents">
-                {
-                  childProducts && childProducts.length > 0 &&
-                    <div key="heading" className="heading">Contents</div>
-                }
-                {
-                  childProducts.map(
-                    (product) => <Article {...saveVariant} key={product.id} {...product} />
-                  )
-                }
-              </div>
-            </div> 
+
+            </Container>
           )
         }
       }

@@ -13,6 +13,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import Header from './components/Header';
+import MobileHeader from './components/MobileHeader';
 import Footer from './components/Footer';
 import actions from './actions';
 import { Home } from './components/Home/index.jsx';
@@ -26,7 +27,7 @@ import { Trustees } from './components/Trustees.jsx';
 import Donate from './components/Donate.jsx';
 import ContactusForm from './components/Contactus.jsx';
 import ProductDetails from './components/ProductDetails/';
-import background from './images/background.png';
+import background from './images/Chandigarh.jpg';
 import Theme from './Theme';
 import './App.scss';
 import Checkout from './components/Checkout/';
@@ -35,14 +36,53 @@ export const history = createBrowserHistory()
 const store = StoreFactory(history);
 
 const MainContainer = styled.div`
+
   background-image: url(${background});
   background-attachment: fixed;
   background-position: center;
-  padding: 10vh 2.5vw 25vh;
+  padding-bottom: 25vh;
+
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 10vh 2.5vw 25vh;
+  }
+
   min-height: 100%;
 
   & > div {
     background: white;
+  }
+
+  #app {
+    max-width: 1440px !important;
+    
+    // appHorizontalPadding
+    padding-left: ${props => props.theme['appHorizontalPadding']};
+    padding-right: ${props => props.theme['appHorizontalPadding']};
+
+    // This counters the appHorizontalPadding above
+    .full-width {
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+    }
+
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 1440px;
+    }
+  }
+
+  .color-red {
+    color: ${props => props.theme['primaryColor']};
+  }
+
+  .color-black {
+    color: black;
+  }
+
+  .bg-gray {
+    background-color: #f8f8f8;
   }
 `
 
@@ -59,7 +99,8 @@ class App extends Component {
             <ConnectedRouter history={history}>
               <ThemeProvider theme={Theme}>
                 <MainContainer>
-                  <div>
+                  <div id="app" className='mx-auto'>
+                    <MobileHeader />
                     <Header />
                     <Switch>
                       <Route exact path="/" component={Home} />
