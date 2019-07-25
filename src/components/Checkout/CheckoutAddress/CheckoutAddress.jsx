@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
@@ -11,25 +11,26 @@ const Wrapper = styled.div`
   padding: 50px;
 `;
 
-class CheckoutAddress extends Component {
-
-  constructor(props) {
-    super(props);
+const CheckoutAddress = ({
+  shippingAddress,
+  shippingMethod,
+  history: {
+    push,
   }
+}) => (
 
-  render() {
-    return (
-      <Wrapper>
-        <AddressList />
-        <ShippingMethod />
+  <Wrapper>
+    <AddressList />
+    <ShippingMethod />
         
-        <RaisedButton colortype="primary">
-          Next
-        </RaisedButton>
-      </Wrapper>
-    )
-  }
-}
+    {
+      shippingAddress && shippingMethod && shippingAddress.id && shippingMethod.id &&
+          <RaisedButton onClick={() => push("/checkout/payment")} colortype="primary">
+            Next
+          </RaisedButton>
+    }
+  </Wrapper>
+)
 
 export default CheckoutAddress;
 
