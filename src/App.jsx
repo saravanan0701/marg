@@ -65,6 +65,13 @@ const MainContainer = styled.div`
       margin-right: -1.5rem;
     }
 
+    .full-width-lg-below {
+      @media (max-width: 992px) {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+      }
+    }
+
   }
 
   @media (min-width: 1200px) {

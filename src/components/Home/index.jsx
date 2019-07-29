@@ -5,6 +5,7 @@ import { RaisedButton } from './../commons/';
 import about from './../../images/about.jpg';
 import { ProductsSection } from './ProductsSection.jsx';
 import { ProductCategories } from './ProductCategories.jsx';
+import HeroCarousel from './HeroCarousel.jsx';
 
 import { Container, Row, Col } from 'reactstrap';
 
@@ -90,7 +91,7 @@ export const Home = props => (
     <Body>
       {/* <Todo>Issues section: TODO</Todo>
       <Todo>Blogs and events: TODO</Todo> */}
-
+      <HeroCarousel />
       <About className="full-width bg-gray py-5 px-3 px-lg-5">
         <Container>
           <Row>
