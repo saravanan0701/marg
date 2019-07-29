@@ -162,9 +162,13 @@ class AddressEditForm extends Component {
               values.countryArea = self.state.state.name;
               delete values.email;
               saveAddress(values)
-                .then(() => setSubmitting(false))
-                .then(() => toggleAddressForm())
-                .then(() => resetForm());
+                .then((success) => {
+                  setSubmitting(false);
+                  if(success){
+                    toggleAddressForm();
+                    resetForm();
+                  }
+                })
             }
           }
           >

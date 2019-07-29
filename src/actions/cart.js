@@ -49,6 +49,11 @@ const updateShippingMethod = shippingMethod => ({
   shippingMethod,
 });
 
+const setAvailableShippingMethods = availableShippingMethods => ({
+  type: 'SET_AVAILABLE_SHIPPING_METHODS',
+  availableShippingMethods,
+})
+
 export default {
   saveVariant,
   initCheckout,
@@ -58,4 +63,5 @@ export default {
   resetCart,
   updateShippingAddress,
   updateShippingMethod,
+  setAvailableShippingMethods,
 }

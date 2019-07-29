@@ -4,27 +4,16 @@ import CheckoutAddress from './CheckoutAddress.jsx'
 import actions from './../../../actions/';
 
 const mapStateToProps = ({
-  cart,
-  auth: {
-    id: userId,
-  	firstName,
-  	lastName,
-  	email,
-    addresses,
-  }
+  cart: {
+    shippingAddress,
+    shippingMethod
+  },
 }, ownProps) => ({
-  cart,
-  firstName,
-  lastName,
-  email,
-  addresses,
-  userId,
+  shippingAddress,
+  shippingMethod,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  addNewAddress: (address) => dispatch(actions.addNewAddress(address)),
-  updateShippingAddress: (shippingAddress) => dispatch(actions.updateShippingAddress(shippingAddress)),
-  updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod)),
 })
 
 export default connect(

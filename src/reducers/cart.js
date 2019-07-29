@@ -69,6 +69,14 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         },
       }
 
+    case 'SET_AVAILABLE_SHIPPING_METHODS':
+      return {
+        ...state,
+        availableShippingMethods: [
+          ...action.availableShippingMethods,
+        ],
+      }
+
     default:
       return state
   }
