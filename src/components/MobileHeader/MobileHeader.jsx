@@ -135,13 +135,13 @@ class MobileHeader extends Component {
 
   collapseBodyPublications = () => (
     <div>
-      { PUBLICATION_LINK_LIST.map(({ label, link }) => <Link to={link}>{label}</Link>) }
+      { PUBLICATION_LINK_LIST.map(({ label, link }) => <Link onClick={this.handleHamburgerClick} to={link}>{label}</Link>) }
     </div>
   )
   
   collapseBodyAbout = () => (
     <div>
-      { ABOUT_LINK_LIST.map(({ label, link }) => <Link to={link}>{label}</Link>) }
+      { ABOUT_LINK_LIST.map(({ label, link }) => <Link onClick={this.handleHamburgerClick} to={link}>{label}</Link>) }
     </div>
   )
 
@@ -157,21 +157,21 @@ class MobileHeader extends Component {
       <Row>
         <Col lg="12">
           <div className="mx-auto" style={{ width: 90 }}>
-            <Link id="mobileHeaderLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
+            <Link onClick={this.handleHamburgerClick} id="mobileHeaderLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
             <div className="logo-text">Since 1946</div>
           </div>
         </Col>
         <Col lg="12" className="my-5">
           <CollapseContainer trigger={this.collapseTriggerElementPublications} body={this.collapseBodyPublications} />
-          <Link className="menu-link" to="/categories">Blog</Link>
-          <Link to="/categories">Advertise</Link>
-          <Link to="/categories">Donate</Link>
+          <Link hidden={true} onClick={this.handleHamburgerClick} to="/categories">Blog</Link>
+          <Link onClick={this.handleHamburgerClick} to="/categories">Advertise</Link>
+          <Link onClick={this.handleHamburgerClick} to="/categories">Donate</Link>
           <CollapseContainer trigger={this.collapseTriggerElementAbout} body={this.collapseBodyAbout}/>
-          <Link to="/categories">Contact</Link>
-          <Link to="/categories">Marg Events</Link>
-          <Link to="/categories">Collaborate</Link>
-          <Link to="/categories">Submit Proposals</Link>
-          <Link to="/categories">Film Archive</Link>
+          <Link onClick={this.handleHamburgerClick}  to="/categories">Contact</Link>
+          <Link onClick={this.handleHamburgerClick}  to="/categories">Marg Events</Link>
+          <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link>
+          <Link onClick={this.handleHamburgerClick}  to="/categories">Submit Proposals</Link>
+          <Link onClick={this.handleHamburgerClick}  to="/categories">Film Archive</Link>
         </Col>
       </Row>
     </Container>

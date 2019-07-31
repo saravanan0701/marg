@@ -124,7 +124,7 @@ const Header = ({
       <Row>
         <Col xs="12" className="menu d-flex align-items-center flex-wrap mb-3 px-0">
           <Link className={pathname.match('categories') ? 'active' : ''} to="/categories">Publications</Link>
-          <Link className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
+          <Link hidden={true} className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
           <Link className={pathname.match('advertise') ? 'active' : ''} to="/advertise">Advertise</Link>
           <Link className={pathname.match('donate') ? 'active' : ''} to="/donate">Donate</Link>
           <Menu label="About Marg">

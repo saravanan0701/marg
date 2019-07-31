@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { RaisedButton } from './commons/';
 import { Link } from 'react-router-dom';
 import anand from './../images/anand.png';
+import default_profile from './../images/default_profile.jpeg';
 
 const Wrapper = styled.div`
 
@@ -126,7 +127,7 @@ const PersonWrapper = styled.div`
 
 const PersonDetails = props => (
   <PersonWrapper>
-    <img src={anand} />
+    <img src={default_profile} />
     <div className="sub-info">
       1046 - Current
     </div>
