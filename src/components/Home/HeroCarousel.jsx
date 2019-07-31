@@ -4,6 +4,7 @@ import { RaisedButton } from './../commons/';
 import FontAwesome from 'react-fontawesome';
 import Hero1 from '../../images/Hero1.jpg';
 import Hero2 from '../../images/Hero2.jpg';
+import { Link } from 'react-router-dom';
 import {
   Carousel,
   CarouselItem,
@@ -22,7 +23,8 @@ const items = [
     subtitle: "Edited by: Sita Reddy",
     description: "This article explores the botanical illustrations produced by Sir Joseph Dalton Hooker during his travels in Sikkim and the Himalayan regions in the 19th century.",
     imageSrc: Hero1,
-    ctaText: "View This Issue"
+    ctaText: "View This Issue",
+    ctaUrl: "/product/UHJvZHVjdDoxMg=="
   },
   {
     position: '2',
@@ -31,7 +33,8 @@ const items = [
     subtitle: "Edited by: Kavita Singh",
     description: "The arts of the Deccan remained understudied for a long while, possibly due to their complex and hybrid nature.",
     imageSrc: Hero2,
-    ctaText: "View This Book"
+    ctaText: "View This Book",
+    ctaUrl: "/product/UHJvZHVjdDoyNg=="
   }
 ];
 
@@ -131,6 +134,10 @@ const CarouselWrapper = styled.div`
   .cta {
     position: absolute;
     bottom: 20%;
+
+    a {
+      color: white;
+    }
   }
 
 `;
@@ -191,7 +198,7 @@ class HeroCarousel extends Component {
                 <h1 className="title my-2">{item.title}</h1>
                 <h3 className="subtitle mb-4">{item.subtitle}</h3>
                 <p className="description">{item.description}</p>
-                <RaisedButton className="cta">{item.ctaText}</RaisedButton>
+                <RaisedButton className="cta"><Link to={item.ctaUrl}>{item.ctaText}</Link></RaisedButton>
                 <div class="controls">
                   <FontAwesome className="icon" name='chevron-left' onClick={this.previous} />
                   <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
