@@ -25,11 +25,19 @@ const Wrapper = styled.div`
     letter-spacing: 1px;
     line-height: 57px;
     padding-bottom: 50px;
+    text-align: center;
   }
 
   & > .row {
-    width: 80%;
+    width: 90%;
     justify-content: space-around;
+
+    & > .link {
+      padding-bottom: 5%;
+      @media (min-width: 992px) {
+        padding-right: 10%;
+      }
+    }
   }
 `;
 
