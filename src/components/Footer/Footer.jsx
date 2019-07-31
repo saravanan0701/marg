@@ -93,7 +93,7 @@ export const Footer = () => (
   <FooterContainer>
     <div id="magazineSubscribe" className='text-center py-5 full-width'>
       <Link to="/subscribe">SUBSCRIBE TO MARG</Link>
-      <p className="mx-auto my-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in sem enim. Donec pharetra, sem sed consectetur</p>
+      <p className="mx-auto my-3">Founded in 1946, Marg magazine has consistently published original research on Indian art and culture, combining scholarly analysis with high-quality, evocative images. </p>
     </div>
     <div className='py-5 full-width bg-gray'>
       <Container className="px-4 px-lg-5">
