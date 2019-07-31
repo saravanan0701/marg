@@ -42,8 +42,8 @@ const Wrapper = styled.div`
 `;
 
 const LOAD_PRODUCTS = gql`
-  query LoadProducts($last: Int) {
-    products(last: $last) {
+  query LoadProducts($first: Int, $categories: [ID]!) {
+    products(first: $first, categories: $categories) {
       totalCount
       edges {
         node {
@@ -74,10 +74,10 @@ const LOAD_PRODUCTS = gql`
   }
 `;
 
-export const ProductsSection = props => (
+export const ProductsSection = ({name, categoryId}) => (
   <Wrapper className="py-5">
     <div className="heading">
-      Latest Magazines
+      Latest {name}
     </div>
     <Link to="categories" className="link">
       <FlatButton colorType="primary">View All</FlatButton>
@@ -88,14 +88,18 @@ export const ProductsSection = props => (
         variables={
           {
             sortBy: "updatedAt",
-            last: 3,
+            first: 3,
+            categories: [categoryId],
           }
         }
         >
         {
           ({loading, error, data}) => {
-            if(!data || Object.keys(data).length == 0) {
-              return <h1>Nothing</h1>;
+            if(loading) {
+              return <h1>loading..</h1>;
+            }
+            if(error) {
+              return <div>Error loading products</div>
             }
             return data.products.edges.map(
               (product, id) => (
