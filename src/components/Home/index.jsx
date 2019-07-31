@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Query, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { RaisedButton } from './../commons/';
 import about from './../../images/about.jpg';
@@ -79,8 +81,20 @@ const About = styled.div`
   button {
     letter-spacing: 3px;
   }
-
 `
+
+const LIST_CATEGORIES = gql`
+  query ListCategories($first: Int) {
+    categories(first: $first){
+      edges{
+        node{
+          id
+          name
+        }
+      }
+    }
+  }
+`;
 
 export const Home = props => (
   <div>
@@ -116,7 +130,35 @@ export const Home = props => (
           </Row>
         </Container>
       </About>
-      <ProductsSection />
+      <Query
+        query={LIST_CATEGORIES}
+        variables= {{first: 10}}
+      >
+        {
+          ({loading, data, error}) => {
+            if(loading || error) {
+              return (<div>Loading..</div>);
+            }
+            const categories = data.categories.edges;
+            const categoryOb = categories.reduce((acc, {node: {id, name}={}}) => {
+              if(name.toLowerCase().match(new RegExp(/magazine/gi))) {
+                acc.magazineId = id;
+              }
+              if(name.toLowerCase().match(new RegExp(/book/gi))) {
+                acc.bookId = id;
+              }
+              return acc;
+            }, {});
+            return (
+              <div>
+                <ProductsSection key={1} name="Magazines" categoryId={categoryOb.magazineId} />
+                <ProductsSection key={2} name="Books" categoryId={categoryOb.bookId} />
+              </div>
+            )
+
+          }
+        }
+      </Query>
       <ProductCategories />
     </Body>
   </div>
