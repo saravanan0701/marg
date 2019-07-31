@@ -94,11 +94,11 @@ const PUBLICATION_LINK_LIST = [
 const ABOUT_LINK_LIST = [
   { 
     label:'Our Story',
-    link:'/our-story'
+    link:''
   },
   {
     label: 'Timeline',
-    link: '/timeline'
+    link: ''
   },
   {
     label: 'Trustees',
@@ -110,7 +110,7 @@ const ABOUT_LINK_LIST = [
   },
   {
     label: 'Patrons & Partners',
-    link: '/patrons-and-partners'
+    link: '/supporters'
   }
 ]
 
@@ -164,14 +164,14 @@ class MobileHeader extends Component {
         <Col lg="12" className="my-5">
           <CollapseContainer trigger={this.collapseTriggerElementPublications} body={this.collapseBodyPublications} />
           <Link hidden={true} onClick={this.handleHamburgerClick} to="/categories">Blog</Link>
-          <Link onClick={this.handleHamburgerClick} to="/categories">Advertise</Link>
-          <Link onClick={this.handleHamburgerClick} to="/categories">Donate</Link>
+          <Link onClick={this.handleHamburgerClick} to="/advertise">Advertise</Link>
+          <Link onClick={this.handleHamburgerClick} to="/donate">Donate</Link>
           <CollapseContainer trigger={this.collapseTriggerElementAbout} body={this.collapseBodyAbout}/>
-          <Link onClick={this.handleHamburgerClick}  to="/categories">Contact</Link>
-          <Link onClick={this.handleHamburgerClick}  to="/categories">Marg Events</Link>
+          <Link onClick={this.handleHamburgerClick}  to="/contactus">Contact</Link>
+          <Link onClick={this.handleHamburgerClick}>Marg Events</Link>
           <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link>
-          <Link onClick={this.handleHamburgerClick}  to="/categories">Submit Proposals</Link>
-          <Link onClick={this.handleHamburgerClick}  to="/categories">Film Archive</Link>
+          <Link onClick={this.handleHamburgerClick}>Submit Proposals</Link>
+          <Link onClick={this.handleHamburgerClick}>Film Archive</Link>
         </Col>
       </Row>
     </Container>
