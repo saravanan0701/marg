@@ -38,22 +38,6 @@ const TrusteeWrapper = styled.div`
   }
 `;
 
-
-// & > div.content {
-//       display: flex;
-//       flex-direction: row;
-//       flex-wrap: wrap;
-//       width: 100%;
-//       justify-content: space-around;
-
-//       & > div {
-//         width: 30%;
-//         height: 60px;
-//         background-color: #d8d8d8;
-//         margin-bottom: 3%;
-//       }
-//     }
-
 const TrusteeDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
