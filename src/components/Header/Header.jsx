@@ -136,10 +136,10 @@ const Header = ({
           </Menu>
           <Link className={pathname.match('contactus') ? 'active' : ''} to="/contactus">Contact</Link>
           <Menu label="More">
-            <Link to="/categories">Marg Events</Link>
+            <Link>Marg Events</Link>
             <Link to="/collaborate">Collaborate</Link>
-            <Link to="/collaborate">Submit Proposals</Link>
-            <Link to="/collaborate">Film Archive</Link>
+            <Link>Submit Proposals</Link>
+            <Link>Film Archive</Link>
           </Menu>
           <div className="search d-flex align-items-center">
             <input type="text" placeholder="Search" />

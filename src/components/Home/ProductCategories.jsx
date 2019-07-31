@@ -31,13 +31,6 @@ const Wrapper = styled.div`
   & > .row {
     width: 90%;
     justify-content: space-around;
-
-    & > .link {
-      padding-bottom: 5%;
-      @media (min-width: 992px) {
-        padding-right: 10%;
-      }
-    }
   }
 `;
 
@@ -83,7 +76,7 @@ export const ProductCategories = props => (
               .sort((a, b) => a.name > b.name ? 1 : -1)
               .map(
                 (attribute, id) => (
-                  <Link to={`/categories/?category=${attribute.slug}`} className="link" key={id}>
+                  <Link to={`/categories/?category=${attribute.slug}`} className="mx-4 my-4" key={id}>
                     <FlatButton colorType="secondary">{attribute.name}</FlatButton>
                   </Link>
                 )
