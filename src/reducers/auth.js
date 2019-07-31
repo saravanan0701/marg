@@ -25,7 +25,9 @@ export const AuthReducers = (state = {isLoading: true}, action) => {
         id: action.user.id,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
-        addresses: action.user.addresses.concat(),
+        addresses: action.user.addresses.filter(
+          ({firstName}) => !firstName.toLowerCase().match(new RegExp(/\.\.\./gi))
+        ),
         isLoading: false,
       }
 
