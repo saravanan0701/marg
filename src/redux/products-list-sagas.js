@@ -32,7 +32,7 @@ const LOAD_PRODUCTS = gql`
             amount
             currency
           }
-          thumbnailUrl
+          thumbnailUrl(size:500)
           editors {
             id
             firstName

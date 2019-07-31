@@ -53,7 +53,7 @@ const LOAD_PRODUCTS = gql`
             amount
             currency
           }
-          thumbnailUrl
+          thumbnailUrl(size:500)
           attributes{
             attribute{
               name
