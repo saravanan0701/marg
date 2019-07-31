@@ -181,7 +181,7 @@ class HeroCarousel extends Component {
           onExited={this.onExited}
           key={item.position}
         >
-          <Container fluid="true">
+          <Container className="px-3 px-lg-5" fluid="true">
             <Row>
               <Col lg="7" className="order-lg-2 px-0">
                 <img className="carousel-image" src={item.imageSrc} alt="" />
@@ -205,7 +205,7 @@ class HeroCarousel extends Component {
     });
 
     return (
-      <CarouselWrapper className="full-width-lg-below">
+      <CarouselWrapper className="full-width-lg-below my-5">
         <Carousel
           activeIndex={activeIndex}
           next={this.next}

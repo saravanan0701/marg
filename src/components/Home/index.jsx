@@ -112,10 +112,10 @@ export const Home = props => (
       <About className="full-width bg-gray py-5 px-3 px-lg-5">
         <Container>
           <Row>
-            <Col lg="7" className="text-center">
-              <img className="img-fluid p-lg-5" src={about} />
+            <Col lg="6" className="text-center">
+              <img className="img-fluid" src={about} />
             </Col>
-            <Col lg="5" className="d-flex align-items-center">
+            <Col lg="6" className="d-flex align-items-center">
               <div className="my-4">
                 <h1>The Legacy of Marg</h1>
                 <p className="body my-2">
