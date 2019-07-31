@@ -44,10 +44,9 @@ const FormWrapper = styled.div`
       & .input-container {
         position: relative;
 
-        & > input, & > textarea {
+        & > input, & > textarea, & > div > input {
           border: 1px solid #979797;
           padding: 10px;
-          width: 100%
         }
 
         & > div.error {
@@ -152,6 +151,13 @@ class AddressEditForm extends Component {
               ) {
                 errors.email = 'Invalid email address';
               }
+              if (!values.phone) {
+                errors.phone = 'Required';
+              } else if (
+                !/^[0-9]{10}$/i.test(values.phone)
+              ) {
+                errors.phone = 'Invalid phone number';
+              }
               return errors;
             }
           }
@@ -188,6 +194,7 @@ class AddressEditForm extends Component {
                     <div className="label col-12">First Name</div>
                     <div className="input-container col-12">
                       <input
+                        className="col-12"
                         type="firstName"
                         name="firstName"
                         onChange={handleChange}
@@ -199,6 +206,7 @@ class AddressEditForm extends Component {
                     <div className="label col-12">Last Name</div>
                     <div className="input-container col-12">
                       <input
+                        className="col-12"
                         type="lastName"
                         name="lastName"
                         onChange={handleChange}
@@ -209,18 +217,23 @@ class AddressEditForm extends Component {
                     </div>
                     <div className="label col-12">Phone</div>
                     <div className="input-container col-12">
-                      <input
-                        type="phone"
-                        name="phone"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.phone}
-                      />
+                      <div className="row align-items-center">
+                        <div class="col-1">+91</div>
+                        <input
+                          className="col-11"
+                          type="phone"
+                          name="phone"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.phone}
+                        />
+                      </div>
                       <div className="error">{errors.phone && touched.phone && errors.phone}</div>
                     </div>
                     <div className="label col-12">Your Email</div>
                     <div className="input-container col-12">
                       <input
+                        className="col-12"
                         type="email"
                         name="email"
                         onChange={handleChange}
@@ -232,6 +245,7 @@ class AddressEditForm extends Component {
                     <div className="label col-12">Address</div>
                     <div className="input-container col-12">
                       <textarea
+                        className="col-12"
                         rows="3"
                         type="streetAddress1"
                         name="streetAddress1"
