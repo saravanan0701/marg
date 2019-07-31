@@ -163,7 +163,7 @@ class MobileHeader extends Component {
         </Col>
         <Col lg="12" className="my-5">
           <CollapseContainer trigger={this.collapseTriggerElementPublications} body={this.collapseBodyPublications} />
-          <Link onClick={this.handleHamburgerClick} to="/categories">Blog</Link>
+          <Link hidden={true} onClick={this.handleHamburgerClick} to="/categories">Blog</Link>
           <Link onClick={this.handleHamburgerClick} to="/categories">Advertise</Link>
           <Link onClick={this.handleHamburgerClick} to="/categories">Donate</Link>
           <CollapseContainer trigger={this.collapseTriggerElementAbout} body={this.collapseBodyAbout}/>

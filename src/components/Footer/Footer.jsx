@@ -106,13 +106,13 @@ export const Footer = () => (
                 <FlatButton className="footer-link" colorType="secondary">Home</FlatButton>
                 <FlatButton className='footer-link' colorType="secondary">Publications</FlatButton>
                 <FlatButton className='footer-link' colorType="secondary">About Marg</FlatButton>
-                <FlatButton className='footer-link' colorType="secondary">Blog</FlatButton>
+                <FlatButton hidden={true} className='footer-link' colorType="secondary">Blog</FlatButton>
               </Col>
               <Col lg='6'>
                 <FlatButton className="footer-link" colorType="secondary">Advertise</FlatButton>
                 <FlatButton className="footer-link" colorType="secondary">Donate</FlatButton>
                 <FlatButton className="footer-link" colorType="secondary">Contact</FlatButton>
-                <FlatButton className="footer-link" colorType="secondary">More</FlatButton>
+                <FlatButton hidden={true} className="footer-link" colorType="secondary">More</FlatButton>
               </Col>
             </Row>
           </Col>
