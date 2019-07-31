@@ -99,7 +99,7 @@ export const Advertise = props => (
         <div className="name">Commercial Ads</div>
         <div className="meta">
           <div>
-            A unique feature of the magazine, thematic advertisements appear in the opening pages of each issue. In this section, we feature the advertisers' logos along with a set of specially curated, visually rich images that pertain to the focus of the issue. If you choose to advertise here, your company branding will feature prominently on a single page, placed beneath one of the images from the portfolio. Advertisers in this section join a list of eminent companies who support the arts.
+            Commercial advertisements are placed in the closing section of the magazine, immediately after the text.
           </div>
           <div className="rates">
             <div className="header">
