@@ -85,9 +85,13 @@ export const AboutUs = props => (
       <div className="sub-header">
         <div className="title">The Marg Foundation</div>
         <div className="description">
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet auctor nunc, ut feugiat neque. Aliquam pretium condimentum nunc eu accumsan. Phasellus ut laoreet metus, quis convallis dolor. Phasellus pulvinar convallis felis sed iaculis. Morbi cursus dapibus ligula, non euismod velit blandit id. Quisque tempus justo justo, eu elementum metus eleifend nec. Sed at nisi in lorem consectetur rutrum.
-          </div>
+          <p>
+            Marg's aim is to develop a socially active and culturally engaging language of art. Marg magazine and books have been a forum for pioneering research in Indian art and are acclaimed for their standards of production and editorial content.
+            <br /><br />
+            Marg’s books, published simultaneously with the magazine from 1977 to 2009, have since diverged into independent publications, each a landmark contribution.
+            <br /><br />
+            We have also produced thought-provoking documentary films on India’s architectural heritage and changing urban spaces.
+          </p>
           <Link to="team" className="link button">
             <RaisedButton colorType="primary">The Marg Team</RaisedButton>
           </Link>
@@ -101,7 +105,7 @@ export const AboutUs = props => (
       <div className="content">
         <div className="header">Historical Timeline</div>
         <div className="body">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet auctor nunc, ut feugiat neque. Aliquam pretium condimentum nunc eu accumsan. Phasellus ut laoreet metus, quis convallis dolor. Phasellus pulvinar convallis felis sed iaculis. Sed at nisi in lorem consectetur rutrum.
+          Marg began as a magazine in 1946 and was founded by scholar-writer-activist Mulk Raj Anand along with a group of art critics and architects which included Karl Khandalavala, Anil de Silva and Minnette de Silva. With seven ads and two rooms provided by the visionary industrialist J.R.D. Tata, it took up the massive task of identifying, analysing and advancing the artistic heritage of a newly independent nation, guided by the spirit of humanism, socialism and internationalism.
         </div>
         <Link to="history" className="link button">
           <RaisedButton colorType="primary">Our History</RaisedButton>
