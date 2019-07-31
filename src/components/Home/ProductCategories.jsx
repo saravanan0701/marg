@@ -34,8 +34,8 @@ const Wrapper = styled.div`
 `;
 
 const LOAD_PRODUCT_CATEGORIES = gql`
-  query LoadProductCategories($name: String) {
-    attributes(query: $name){
+  query LoadProductCategories($name: String, $first: Int) {
+    attributes(query: $name, first: $first){
       edges {
         node {
           name
@@ -58,12 +58,15 @@ export const ProductCategories = props => (
     <div className="row">
       <Query
         query={LOAD_PRODUCT_CATEGORIES}
-        variables={{ name: "Category", }}
+        variables={{ name: "Category" , first: 100}}
       >
         {({ loading, error, data }) => {
             let attributes = [];
-            if ((!data || Object.keys(data).length == 0) && !loading) {
-              return <h1>No categories found</h1>;
+            if (loading) {
+              return <h1>Loading</h1>;
+            }
+            if(error) {
+              return <div>Error loading categories</div>
             }
             if (attributes && data && data.attributes && data.attributes.edges && data.attributes.edges.length > 0) {
               attributes = data.attributes.edges[0].node.values;
