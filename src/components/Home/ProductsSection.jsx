@@ -101,6 +101,9 @@ export const ProductsSection = ({name, categoryId}) => (
             if(error) {
               return <div>Error loading products</div>
             }
+            if(data.products.length > 0) {
+              return (<div>No {name} found</div>)
+            }
             return data.products.edges.map(
               (product, id) => (
                 <ProductCard key={id} className="col-12 col-md-4" {...product.node} />
