@@ -21,7 +21,14 @@ const FooterContainer = styled.div`
     margin-bottom: 1.5rem;
 
     span { color: red; }
+
+    a {
+
+      color: #3a3a3a;
+    }
   }
+
+
 
   .subscribe-heading {
     color: #000000;
@@ -103,15 +110,15 @@ export const Footer = () => (
           <Col lg='6'>
             <Row>
               <Col lg='6'>
-                <FlatButton className="footer-link" colorType="secondary">Home</FlatButton>
-                <FlatButton className='footer-link' colorType="secondary">Publications</FlatButton>
-                <FlatButton className='footer-link' colorType="secondary">About Marg</FlatButton>
+                <FlatButton className="footer-link" colorType="secondary"><Link to="/">Home</Link></FlatButton>
+                <FlatButton className='footer-link' colorType="secondary"><Link to="/categories">Publications</Link></FlatButton>
+                <FlatButton className='footer-link' colorType="secondary"><Link to="/aboutus">About Marg</Link></FlatButton>
                 <FlatButton hidden={true} className='footer-link' colorType="secondary">Blog</FlatButton>
               </Col>
               <Col lg='6'>
-                <FlatButton className="footer-link" colorType="secondary">Advertise</FlatButton>
-                <FlatButton className="footer-link" colorType="secondary">Donate</FlatButton>
-                <FlatButton className="footer-link" colorType="secondary">Contact</FlatButton>
+                <FlatButton className="footer-link" colorType="secondary"><Link to="/advertise">Advertise</Link></FlatButton>
+                <FlatButton className="footer-link" colorType="secondary"><Link to="/donate">Donate</Link></FlatButton>
+                <FlatButton className="footer-link" colorType="secondary"><Link to="/contactus">Contact</Link></FlatButton>
                 <FlatButton hidden={true} className="footer-link" colorType="secondary">More</FlatButton>
               </Col>
             </Row>
