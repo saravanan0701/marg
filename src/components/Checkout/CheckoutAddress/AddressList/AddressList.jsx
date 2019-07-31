@@ -152,6 +152,9 @@ export const AddressList = ({
   const saveAddressToCart = (shippingAddress) => {
     const updatableShipping = {...shippingAddress};
     delete updatableShipping.__typename;
+    if(updatableShipping.phone.length === 10) {
+      updatableShipping.phone = `+91{updatableShipping.phone}`
+    }
     updatableShipping.country = updatableShipping.country.code;
     delete updatableShipping.id;
     client.mutate({
@@ -168,15 +171,15 @@ export const AddressList = ({
               checkout: {
                 shippingAddress: updatedShippingAddress,
                 availableShippingMethods,
-              },
+              }={},
               errors: checkoutShippingAddressErrors,
-            },
+            }={},
             checkoutBillingAddressUpdate: {
               checkout: {
                 billingAddress,
-              },
+              }={},
               errors: checkoutBillingAddressErrors,
-            },
+            }={},
           }
         }
       ) => {
