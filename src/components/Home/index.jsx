@@ -8,7 +8,7 @@ import about from './../../images/about.jpg';
 import { ProductsSection } from './ProductsSection.jsx';
 import { ProductCategories } from './ProductCategories.jsx';
 import HeroCarousel from './HeroCarousel.jsx';
-
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
 const Header = styled.div`
@@ -80,6 +80,9 @@ const About = styled.div`
 
   button {
     letter-spacing: 3px;
+    a {
+      color: white;
+    }
   }
 `
 
@@ -122,7 +125,7 @@ export const Home = props => (
                   and are acclaimed for their standards of production and editorial content.
                 </p>
                 <RaisedButton className="my-3">
-                  MORE ABOUT MARG
+                  <Link to="/aboutus">MORE ABOUT MARG</Link>
                 </RaisedButton>
               </div>
 
