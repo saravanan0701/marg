@@ -29,9 +29,9 @@ const items = [
   {
     position: '2',
     label: "QUARTERLY BOOK",
-    title: "Scent upon a Southern Breeze: The Synaesthetic Arts of the Deccan",
+    title: "Scent upon a Southern Breeze",
     subtitle: "Edited by: Kavita Singh",
-    description: "The arts of the Deccan remained understudied for a long while, possibly due to their complex and hybrid nature.",
+    description: "The arts of the Deccan remained understudied for a long while, possibly due to their complex and hybrid nature. This was a coveted region, and many powers fought over its control.",
     imageSrc: Hero2,
     ctaText: "View This Book",
     ctaUrl: "/product/UHJvZHVjdDoyNg=="
@@ -58,6 +58,7 @@ const CarouselWrapper = styled.div`
 
   #carouselInfoCol {
     padding-bottom: 150px;
+    min-height: 450px;
   }
 
   .controls {
@@ -113,6 +114,7 @@ const CarouselWrapper = styled.div`
     color: #000000;
     font-family: "Cormorant Garamond Medium";
     font-weight: 500;
+    /* min-height: 126px; */
   }
 
   .subtitle {
@@ -129,6 +131,7 @@ const CarouselWrapper = styled.div`
     font-size: 16px;
     font-weight: 400;
     line-height: 23px;
+    min-height: 92px;
   }
 
   .cta {
