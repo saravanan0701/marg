@@ -22,7 +22,7 @@ const items = [
     title: "The Weight of a Petal: Ars Botanica",
     subtitle: "Edited by: Sita Reddy",
     description: "This article explores the botanical illustrations produced by Sir Joseph Dalton Hooker during his travels in Sikkim and the Himalayan regions in the 19th century.",
-    imageSrc: Hero1,
+    imageSrc: "https://www.marg-art.org/images/005_DEC_VOL_70_No_2_BOTANICAL_ART.jpg",
     ctaText: "View This Issue",
     ctaUrl: "/product/UHJvZHVjdDoxMg=="
   },
@@ -212,7 +212,7 @@ class HeroCarousel extends Component {
     });
 
     return (
-      <CarouselWrapper className="full-width-lg-below my-5">
+      <CarouselWrapper className="full-width-lg-below my-3 my-lg-5 ">
         <Carousel
           activeIndex={activeIndex}
           next={this.next}
