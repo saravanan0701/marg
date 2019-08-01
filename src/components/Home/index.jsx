@@ -101,7 +101,7 @@ const LIST_CATEGORIES = gql`
 
 export const Home = props => (
   <div>
-    <Header className="full-width py-5 text-center">
+    <Header className="d-none full-width py-5 text-center">
       <div className="small">THE MARG FOUNDATION</div>
       <div className="big text-center">A Pathmaking Tradition</div>
     </Header>
