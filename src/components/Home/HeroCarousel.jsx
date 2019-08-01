@@ -58,7 +58,9 @@ const CarouselWrapper = styled.div`
 
   #carouselInfoCol {
     padding-bottom: 150px;
-    min-height: 450px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      min-height: 450px;
+    }
   }
 
   .controls {
@@ -131,7 +133,9 @@ const CarouselWrapper = styled.div`
     font-size: 16px;
     font-weight: 400;
     line-height: 23px;
-    min-height: 92px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      min-height: 92px;
+    }
   }
 
   .cta {
