@@ -65,8 +65,7 @@ const LOAD_PRODUCTS = gql`
           }
           editors {
             id
-            firstName
-            lastName
+            name
           }
         }
       }

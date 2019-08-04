@@ -62,8 +62,7 @@ const EDITORS_QUERY = gql`
       edges {
         node {
           id
-          firstName
-          lastName
+          name
         }
       }
     }
@@ -82,7 +81,6 @@ const EditorSearch = withApollo(
     removeAllEditors,
     className,
   }) => {
-    const getVisibleName = (firstName, lastName) => `${firstName} ${lastName}`;
     const searchEditors = (name) => client.query({
       query: EDITORS_QUERY,
       variables: {
@@ -101,12 +99,12 @@ const EditorSearch = withApollo(
         edges.map(
           (
             {
-              node: { id, firstName, lastName }
+              node: { id, name }
             }
           ) => (
             {
               id,
-              name: getVisibleName(firstName, lastName),
+              name
             }
           )
         )

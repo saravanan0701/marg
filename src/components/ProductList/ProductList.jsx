@@ -62,8 +62,7 @@ const LOAD_ALL_FILTERS = gql`
       edges {
         node {
           id
-          firstName
-          lastName
+          name
         }
       }
     }
@@ -94,7 +93,7 @@ const ProductList = () => (
           }
           categories = categories.edges.map(({node}) => node);
           attributes = attributes.edges.map(({node}) => node);
-          editors = editors.edges.map(({ node: {id, firstName, lastName} }) => ({id, name: `${firstName} ${lastName}`}))
+          editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
           return (
             <div>
               <CategoryFilter categories={categories} />

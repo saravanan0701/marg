@@ -71,7 +71,13 @@ const ProductCard = ({
     }
   });
 
-  const cardEditors = editors.map(({firstName, lastName}) => `${firstName} ${lastName}`).join(", ")
+  const cardEditors = editors.reduce(
+    (acc, {name}={}) => {
+      if(name) {
+        return acc + " , " + name;
+      }
+    }, ""
+  )
 
   const openProductDetails = (id) => {
     return push(`/product/${id}`);

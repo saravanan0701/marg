@@ -35,8 +35,7 @@ const LOAD_PRODUCTS = gql`
           thumbnailUrl(size:500)
           editors {
             id
-            firstName
-            lastName
+            name
           }
           attributes{
             attribute{
