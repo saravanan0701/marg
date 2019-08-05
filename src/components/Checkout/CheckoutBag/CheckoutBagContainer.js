@@ -11,7 +11,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   setLineQuantity: (updatedLine) => dispatch(actions.setLineQuantity(updatedLine)),
-  setTotalQuantity: (totalQuantity) => dispatch(actions.setTotalQuantity(totalQuantity)),
+  updateCartQuantity: (totalQuantity) => dispatch(actions.updateCartQuantity(totalQuantity)),
+  removeLineItem: (lineId) => dispatch(actions.removeLineItem(lineId)),
 })
 
 export default connect(

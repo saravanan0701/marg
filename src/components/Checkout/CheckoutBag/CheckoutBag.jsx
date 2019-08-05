@@ -75,67 +75,33 @@ const UPDATE_QUANTITY = gql(`
       lines: $lines
     ) {
       checkout{
-        id
-        token
         quantity
-        totalPrice{
-          gross{
-            currency
-            amount
-          }
-          net{
-            currency
-            amount
-          }
-        }
         lines{
           id
           quantity
-          totalPrice{
-            gross{
-              currency
-              amount
-            }
-            net{
-              currency
-              amount
-            }
-          }
-          variant{
-            id
-            product{
-              id
-              name
-              thumbnail{
-                url
-                alt
-              }
-            }
-          }
         }
-        shippingAddress{
+      }
+      errors{
+        message
+        field
+      }
+    }
+  }
+`);
+
+const DELETE_LINE = gql(`
+  mutation UpdateQuantity(
+    $checkoutId: ID!,
+    $lineId: ID!,
+  ) {
+    checkoutLineDelete(
+      checkoutId: $checkoutId,
+      lineId: $lineId
+    ) {
+      checkout{
+        id
+        lines{
           id
-          firstName
-          lastName
-          streetAddress1
-          streetAddress2
-          city
-          cityArea
-          postalCode
-          country{
-            country
-            code
-          }
-          countryArea
-          phone          
-        }
-        availableShippingMethods{
-          id
-          name
-          price{
-            currency
-            amount
-          }
         }
       }
       errors{
@@ -145,6 +111,7 @@ const UPDATE_QUANTITY = gql(`
     }
   }
 `)
+
 
 const Checkout = ({
   cart: {
@@ -160,16 +127,18 @@ const Checkout = ({
   } = {},
   client,
   setLineQuantity,
-  setTotalQuantity,
+  updateCartQuantity,
+  removeLineItem,
 }) => {
 
 
+  const getQuantityFromLines = (lines) => lines.reduce((acc, line) => (acc + line.quantity), 0)
   const modifyQuantity = (id) => {
     return (quantity) => {
       return client.mutate({
         mutation: UPDATE_QUANTITY,
         variables: {
-          checkoutId: checkoutId,
+          checkoutId,
           lines: lines.map(({ id: lineId , quantity: lineQuantity , variant: { id: variantId } = {} }) => {
             if(lineId === id) {
               return {
@@ -186,16 +155,38 @@ const Checkout = ({
       }).then(({
           data: {
             checkoutLinesUpdate: {
-              checkout: { quantity: upatedTotalQuantity }={}
-            }
+              checkout: { lines }={}
+            },
           }
         }={}) => {
           setLineQuantity({id, quantity})
-          setTotalQuantity(upatedTotalQuantity);
+          updateCartQuantity(getQuantityFromLines(lines));
           return;
         }
       )
     }
+  }
+
+  const deleteLineItem = (lineId) => {
+    client.mutate({
+      mutation: DELETE_LINE,
+      variables: {
+        checkoutId,
+        lineId,
+      }
+    }).then(({
+      data: {
+        checkoutLineDelete: {
+          checkout: { lines }
+        },
+        errors,
+      }
+    }) => {
+      if(!errors || errors.length === 0 ) {
+        removeLineItem(lineId);
+        updateCartQuantity(getQuantityFromLines(lines));
+      }
+    })
   }
 
   return (
@@ -249,6 +240,10 @@ const Checkout = ({
                             {sku}
                           </div>
                           <QuantityEditor quantity={quantity} modifyQuantity={modifyQuantity(id)} />
+                          {
+                            quantity > 0 &&                            
+                              <FontAwesome name="trash" onClick={(e) => deleteLineItem(id)}  className='color-red' />
+                          }
                         </NameContainer>
                       </Col>
                     </Row>
