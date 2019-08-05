@@ -159,6 +159,8 @@ const Checkout = ({
     } = {}
   } = {},
   client,
+  setLineQuantity,
+  setTotalQuantity,
 }) => {
 
 
@@ -181,7 +183,18 @@ const Checkout = ({
             };
           })
         }
-      })
+      }).then(({
+          data: {
+            checkoutLinesUpdate: {
+              checkout: { quantity: upatedTotalQuantity }={}
+            }
+          }
+        }={}) => {
+          setLineQuantity({id, quantity})
+          setTotalQuantity(upatedTotalQuantity);
+          return;
+        }
+      )
     }
   }
 
