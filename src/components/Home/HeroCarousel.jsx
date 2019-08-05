@@ -4,6 +4,7 @@ import { RaisedButton } from './../commons/';
 import FontAwesome from 'react-fontawesome';
 import Hero1 from '../../images/Hero1.jpg';
 import Hero2 from '../../images/Hero2.jpg';
+import { Link } from 'react-router-dom';
 import {
   Carousel,
   CarouselItem,
@@ -21,17 +22,19 @@ const items = [
     title: "The Weight of a Petal: Ars Botanica",
     subtitle: "Edited by: Sita Reddy",
     description: "This article explores the botanical illustrations produced by Sir Joseph Dalton Hooker during his travels in Sikkim and the Himalayan regions in the 19th century.",
-    imageSrc: Hero1,
-    ctaText: "View This Issue"
+    imageSrc: "https://www.marg-art.org/images/005_DEC_VOL_70_No_2_BOTANICAL_ART.jpg",
+    ctaText: "View This Issue",
+    ctaUrl: "/product/UHJvZHVjdDoxMg=="
   },
   {
     position: '2',
     label: "QUARTERLY BOOK",
-    title: "Scent upon a Southern Breeze: The Synaesthetic Arts of the Deccan",
+    title: "Scent upon a Southern Breeze",
     subtitle: "Edited by: Kavita Singh",
-    description: "The arts of the Deccan remained understudied for a long while, possibly due to their complex and hybrid nature.",
+    description: "The arts of the Deccan remained understudied for a long while, possibly due to their complex and hybrid nature. This was a coveted region, and many powers fought over its control.",
     imageSrc: Hero2,
-    ctaText: "View This Book"
+    ctaText: "View This Book",
+    ctaUrl: "/product/UHJvZHVjdDoyNg=="
   }
 ];
 
@@ -55,6 +58,9 @@ const CarouselWrapper = styled.div`
 
   #carouselInfoCol {
     padding-bottom: 150px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      min-height: 450px;
+    }
   }
 
   .controls {
@@ -110,6 +116,7 @@ const CarouselWrapper = styled.div`
     color: #000000;
     font-family: "Cormorant Garamond Medium";
     font-weight: 500;
+    /* min-height: 126px; */
   }
 
   .subtitle {
@@ -126,11 +133,18 @@ const CarouselWrapper = styled.div`
     font-size: 16px;
     font-weight: 400;
     line-height: 23px;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      min-height: 92px;
+    }
   }
 
   .cta {
     position: absolute;
     bottom: 20%;
+
+    a {
+      color: white;
+    }
   }
 
 `;
@@ -181,7 +195,7 @@ class HeroCarousel extends Component {
           onExited={this.onExited}
           key={item.position}
         >
-          <Container fluid="true">
+          <Container className="px-3 px-lg-5" fluid="true">
             <Row>
               <Col lg="7" className="order-lg-2 px-0">
                 <img className="carousel-image" src={item.imageSrc} alt="" />
@@ -191,7 +205,7 @@ class HeroCarousel extends Component {
                 <h1 className="title my-2">{item.title}</h1>
                 <h3 className="subtitle mb-4">{item.subtitle}</h3>
                 <p className="description">{item.description}</p>
-                <RaisedButton className="cta">{item.ctaText}</RaisedButton>
+                <RaisedButton className="cta"><Link to={item.ctaUrl}>{item.ctaText}</Link></RaisedButton>
                 <div class="controls">
                   <FontAwesome className="icon" name='chevron-left' onClick={this.previous} />
                   <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
@@ -205,7 +219,7 @@ class HeroCarousel extends Component {
     });
 
     return (
-      <CarouselWrapper className="full-width-lg-below">
+      <CarouselWrapper className="full-width-lg-below my-3 my-lg-5 ">
         <Carousel
           activeIndex={activeIndex}
           next={this.next}

@@ -57,7 +57,7 @@ export const Collaborate = props => (
   <Wrapper>
     <div className="header">
       <div className="name">Collaborate with Marg</div>
-      <FlatButton>CONTACT US FOR Collaborators</FlatButton>
+      <FlatButton>CONTACT US FOR COLLABORATIONS</FlatButton>
     </div>
     <div className="body">
       <div className="text">
