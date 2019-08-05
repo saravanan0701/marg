@@ -4,6 +4,7 @@ import DropDown from './DropDown.jsx';
 import Menu from './Menu.jsx';
 import RadioButtonSet from './RadioButtonSet.jsx';
 import CollapseContainer from './CollapseContainer.jsx';
+import QuantityEditor from './QuantityEditor.jsx';
 
 
 export {
@@ -12,5 +13,6 @@ export {
   DropDown,
   Menu,
   RadioButtonSet,
-  CollapseContainer
+  CollapseContainer,
+  QuantityEditor,
 }
