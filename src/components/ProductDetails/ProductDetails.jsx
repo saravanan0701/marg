@@ -372,6 +372,18 @@ const LOAD_PRODUCT = gql`
             id
             name
           }
+          variants{
+            id
+            isDigital
+            pricing{
+              price{
+                gross{
+                  currency
+                  amount
+                }
+              }
+            }
+          }
         }
       }
       variants{
@@ -687,7 +699,7 @@ const ProductDetails = ({
                     }
                     {
                       childProducts.map(
-                        (product) => <Article {...saveVariant} key={product.id} {...product} />
+                        (product) => <Article saveVariant={saveVariant} key={product.id} {...product} />
                       )
                     }
                   </div>
