@@ -141,11 +141,11 @@ class DropDown extends Component {
   }
 
   labelBlured() {
-    // setTimeout(function() {
-    //   if(this.state.showBody){
-    //     this.labelClicked();
-    //   }
-    // }.bind(this), 0);
+    setTimeout(function() {
+      if(this.state.showBody){
+        this.labelClicked();
+      }
+    }.bind(this), 0);
   }
 
   inputFocused() {
