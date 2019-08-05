@@ -36,6 +36,12 @@ const Wrapper = styled.div`
     margin-bottom: 1.5rem;
   }
 
+  .out-of-stock {
+    color: ${props => props.theme.primaryColor};
+    font-size: ${props => props.theme['$font-size-xs']};
+    font-weight: ${props => props.theme['$weight-regular']};
+  }
+
   .medium-name {
     color: #37312f;
     font-size: ${props => props.theme['$font-size-xxs']};
@@ -316,6 +322,11 @@ const LOAD_PRODUCT = gql`
       id
       name
       description
+      volumeInfo
+      isAvailable
+      category{
+        name
+      }
       price{
         currency
         amount
@@ -340,8 +351,7 @@ const LOAD_PRODUCT = gql`
       }
       editors{
         id
-        firstName
-        lastName
+        name
       }
       sections{
         childProducts{
@@ -354,8 +364,7 @@ const LOAD_PRODUCT = gql`
           }
           editors {
             id
-            firstName
-            lastName
+            name
           }
         }
       }
@@ -375,10 +384,15 @@ const LOAD_PRODUCT = gql`
   }
 `
 
+
 const getEditorName = (editors) => (
   editors
-    .map(({ id, firstName, lastName }) => (`${firstName} ${lastName}`))
-    .join(',')
+    .reduce(({ acc, name }) => {
+      if(name) {
+        return acc + ", " + name
+      }
+      return acc;
+    }, "")
 );
 
 const DEFAULT_QUANTITY = 1;
@@ -465,6 +479,8 @@ const PriceWrapper = styled.div`
   }
 `
 
+
+
 const ProductDetails = ({
   match: {
     params: {
@@ -472,9 +488,39 @@ const ProductDetails = ({
     }
   },
   saveVariant,
+  client
 }) => {
 
   let selectedVariant = {};
+
+  const deleteAll = () => {
+    client.query({
+      query: GET_PRODS,
+      variables: {
+        first: 100
+      }
+    }).then(
+      ({data: { products: { totalCount, edges } }}) => {
+        edges.forEach(
+          ({node: {id}}) => {
+              client.mutate({
+                mutation: DEL_PRODUCT,
+                variables: {
+                  id
+                }
+              })
+          }
+        )
+        if(totalCount > 0) {
+          deleteAll()
+        }
+      }
+    )
+  }
+
+  // deleteAll();
+  // TODO: REMOVE fter migrations are stable...
+
   return <Wrapper>
     <Query
       query={LOAD_PRODUCT}
@@ -489,8 +535,10 @@ const ProductDetails = ({
             product: {
               id: productId,
               name,
+              volumeInfo,
               description,
               images,
+              isAvailable,
               thumbnail: {
                 url: thumbnailUrl
               } = {},
@@ -508,6 +556,7 @@ const ProductDetails = ({
           if (loading) {
             return <h1>Loading...</h1>;
           }
+
           const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
           return (
 
@@ -520,56 +569,69 @@ const ProductDetails = ({
                   />
                 </Col>
                 <Col className="details" lg="6">
+                  <div>{volumeInfo}</div>
                   <div className="name">{name}</div>
-                  <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
-                  <RadioButtonSet
-                    selectOption={(id) => {
-                      selectedVariant = {
-                        ...variants[id]
-                      };
-                    }
-                    }
-                    className="pricing"
-                  >
-                    {
-                      variants.map(
-                        ({
-                          id,
-                          isDigital,
-                          pricing: {
-                            price: {
-                              gross: {
-                                currency,
-                                amount,
+                  {
+                    getEditorName(editors) && 
+                      <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
+                  }
+                  {
+                    !isAvailable &&
+                      <div className="out-of-stock">Out of stock</div>
+                  }
+                  {
+                    isAvailable &&
+                    <div>
+                    <RadioButtonSet
+                      selectOption={(id) => {
+                        selectedVariant = {
+                          ...variants[id]
+                        };
+                      }
+                      }
+                      className="pricing"
+                      >
+                        {
+                          variants.map(
+                            ({
+                              id,
+                              isDigital,
+                              pricing: {
+                                price: {
+                                  gross: {
+                                    currency,
+                                    amount,
+                                  },
+                                },
                               },
-                            },
-                          },
-                        }) => (
-                            <PriceWrapper key={id}>
-                              {
-                                isDigital ?
-                                  <div className="medium-name">Digital</div>
-                                  :
-                                  <div className="medium-name">Print</div>
-                              }
-                              <div className="price">{currency}&nbsp;{amount}</div>
-                            </PriceWrapper>
+                            }) => (
+                                <PriceWrapper key={id}>
+                                  {
+                                    isDigital ?
+                                      <div className="medium-name">Digital</div>
+                                      :
+                                      <div className="medium-name">Print</div>
+                                  }
+                                  <div className="price">{currency}&nbsp;{amount}</div>
+                                </PriceWrapper>
+                              )
                           )
-                      )
-                    }
-                  </RadioButtonSet>
-                  <RaisedButton
-                    onClick={
-                      () => saveVariant({
-                        variant: selectedVariant,
-                        quantity: DEFAULT_QUANTITY,
-                      })
-                    }
-                    className="add-to-bag"
-                  >
-                    Add to bag
-                  </RaisedButton>
-                  <div className="availability">Available to ship within 2 business days</div>
+                        }
+                      </RadioButtonSet>
+                      <RaisedButton
+                        onClick={
+                          () => saveVariant({
+                            variant: selectedVariant,
+                            quantity: DEFAULT_QUANTITY,
+                          })
+                        }
+                        className="add-to-bag"
+                      >
+                        Add to bag
+                      </RaisedButton>
+                      <div className="availability">Available to ship within 2 business days</div>
+                    </div>
+                  }
                 </Col>
               </Row>
               <Row>
