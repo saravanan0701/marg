@@ -479,7 +479,31 @@ const PriceWrapper = styled.div`
   }
 `
 
+const DEL_PRODUCT = gql(`
+  mutation DelProduct($id: ID!) {
+    productDelete(id: $id){
+      errors {
+        message 
+      }
+      product{
+        id
+      }
+    }
+  }
+`)
 
+const GET_PRODS = gql(`
+  query GetProds($first:Int){
+    products(first:$first){
+      totalCount
+      edges{
+        node {
+          id
+        }
+      }
+    }
+  }
+`)
 
 const ProductDetails = ({
   match: {
