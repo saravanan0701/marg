@@ -9,6 +9,9 @@ const INITIAL_CART_STATE = {
   availableShippingMethods: [],
   shippingMethod: {},
 }
+
+const getTotalQuantity = (lines) => lines.reduce((acc, it) => acc + it.quantity, 0);
+
 export const CartReducers = (state = INITIAL_CART_STATE, action) => {
   switch (action.type) {
 
@@ -18,7 +21,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         checkoutId: action.checkout.id,
         lines: action.checkout.lines.concat(),
         token: action.checkout.token,
-        totalQuantity: action.checkout.quantity,
+        totalQuantity: getTotalQuantity(action.checkout.lines),
         totalPrice: action.checkout.totalPrice,
         shippingAddress: {
           ...action.checkout.shippingAddress
@@ -35,8 +38,8 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
     case 'UPDATE_CHECKOUT_LINES':
       return {
         ...state,
-        totalQuantity: action.checkout.quantity,
         lines: action.checkout.lines.concat(),
+        totalQuantity: getTotalQuantity(action.checkout.lines),
         totalPrice: action.checkout.totalPrice,
         error: false,
       }
