@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
+import styled from 'styled-components';
 
+
+const Container = styled.div`
+  & > .icon {
+    cursor: pointer;
+  }
+`;
 
 const QuantityEditor = ({ quantity, modifyQuantity }) => {
   const [ quant, setQuant ] = useState(quantity);
@@ -22,11 +29,11 @@ const QuantityEditor = ({ quantity, modifyQuantity }) => {
       setQuant(quant-1);
     })
   }
-  return <div>
-    <div onClick={decr}>-</div>
-    {quant}
-    <div onClick={incr}>+</div>
-  </div>;
+  return <Container className="row col-md-4">
+    <div onClick={decr} className="col-4 icon">-</div>
+    <div className="col-4">{quant}</div>
+    <div onClick={incr} className="col-4 icon">+</div>
+  </Container>;
 }
 
 export default QuantityEditor;
