@@ -112,7 +112,7 @@ const Header = ({
         </Col>
         <Col lg="4" className="d-flex align-items-center justify-content-end">
           <UserMenu />
-          <FlatButton onClick={(e) => push('/checkout')} className="ml-4" colorType="primary">
+          <FlatButton onClick={(e) => cartQuantity > 0 && push('/checkout')} className="ml-4" colorType="primary">
             <span className="color-black">Cart—</span>{cartQuantity}
           </FlatButton>
         </Col>
