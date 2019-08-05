@@ -75,7 +75,28 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         availableShippingMethods: [
           ...action.availableShippingMethods,
         ],
-      }
+      };
+
+    case 'SET_LINE_QUANTITY':
+      const { id: lineId, quantity }={} = action.line;
+      return {
+        ...state,
+        lines: state.lines.map((line) => {
+          if(line.id === lineId) {
+            return {
+              ...line,
+              quantity,
+            };
+          }
+          return {...line};
+        })
+      };
+
+    case 'SET_TOTAL_QUANTITY':
+      return {
+        ...state,
+        totalQuantity: action.totalQuantity,
+      };
 
     default:
       return state

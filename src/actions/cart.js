@@ -52,6 +52,16 @@ const updateShippingMethod = shippingMethod => ({
 const setAvailableShippingMethods = availableShippingMethods => ({
   type: 'SET_AVAILABLE_SHIPPING_METHODS',
   availableShippingMethods,
+});
+
+const setLineQuantity = (line) => ({
+  type: 'SET_LINE_QUANTITY',
+  line,
+});
+
+const setTotalQuantity = (totalQuantity) => ({
+  type: 'SET_TOTAL_QUANTITY',
+  totalQuantity,
 })
 
 export default {
@@ -64,4 +74,6 @@ export default {
   updateShippingAddress,
   updateShippingMethod,
   setAvailableShippingMethods,
+  setLineQuantity,
+  setTotalQuantity,
 }
