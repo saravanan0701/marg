@@ -101,6 +101,17 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         totalQuantity: action.totalQuantity,
       };
 
+    case 'REMOVE_LINE_ITEM':
+      return {
+        ...state,
+        lines: state.lines.reduce((acc, line) => {
+          if(line.id === action.lineId) {
+            return acc;
+          }
+          return acc.concat(line);
+        }, [])
+      }
+
     default:
       return state
   }

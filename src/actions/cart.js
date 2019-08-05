@@ -62,6 +62,11 @@ const setLineQuantity = (line) => ({
 const setTotalQuantity = (totalQuantity) => ({
   type: 'SET_TOTAL_QUANTITY',
   totalQuantity,
+});
+
+const removeLineItem = (lineId) => ({
+  type: 'REMOVE_LINE_ITEM',
+  lineId,
 })
 
 export default {
@@ -76,4 +81,5 @@ export default {
   setAvailableShippingMethods,
   setLineQuantity,
   setTotalQuantity,
+  removeLineItem,
 }
