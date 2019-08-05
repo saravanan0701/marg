@@ -36,12 +36,6 @@ const Wrapper = styled.div`
     margin-bottom: 1.5rem;
   }
 
-  .out-of-stock {
-    color: ${props => props.theme.primaryColor};
-    font-size: ${props => props.theme['$font-size-xs']};
-    font-weight: ${props => props.theme['$weight-regular']};
-  }
-
   .medium-name {
     color: #37312f;
     font-size: ${props => props.theme['$font-size-xxs']};
@@ -215,6 +209,12 @@ const Wrapper = styled.div`
   } */
 `;
 
+const OutOfStock = styled.div`
+  color: ${props => props.theme.primaryColor};
+  font-size: ${props => props.theme['$font-size-xs']};
+  font-weight: ${props => props.theme['$weight-regular']};
+`;
+
 const ArticleWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -227,6 +227,11 @@ const ArticleWrapper = styled.div`
 
   .body {
     display: none;
+
+    & > .cart-info > .out-of-stock {
+      text-align: right;
+    }
+
   }
 
   .body.isOpen{
@@ -358,6 +363,7 @@ const LOAD_PRODUCT = gql`
           id
           name
           description
+          isAvailable
           price{
             currency
             amount
@@ -417,6 +423,7 @@ class Article extends Component {
       name,
       editors,
       description,
+      isAvailable,
       price: {
         currency,
         amount,
@@ -443,13 +450,20 @@ class Article extends Component {
             </Col>
           </Row>
           <Row className={`body py-4 ${isOpen ? 'isOpen' : ''}`}>
-            <Col lg="4" className="order-lg-2">
-              <div className="action text-lg-center mb-3">
-                <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
-                  Add to cart
-                </RaisedButton>
-                <div className="hint mt-3">This is a digital article. You can read it on the Marg website using any device.</div>
-              </div>
+            <Col lg="4" className="order-lg-2 cart-info">
+              {
+                !isAvailable &&
+                  <OutOfStock className="out-of-stock">Out of stock</OutOfStock>
+              }
+              {
+                isAvailable &&
+                  <div className="action text-lg-center mb-3">
+                    <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
+                      Add to cart
+                    </RaisedButton>
+                    <div className="hint mt-3">This is a digital article. You can read it on the Marg website using any device.</div>
+                  </div>
+              }
             </Col>
             <Col lg="8" className="description">
               {ReactHtmlParser(description)}
@@ -601,7 +615,7 @@ const ProductDetails = ({
                   }
                   {
                     !isAvailable &&
-                      <div className="out-of-stock">Out of stock</div>
+                      <OutOfStock>Out of stock</OutOfStock>
                   }
                   {
                     isAvailable &&
