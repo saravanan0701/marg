@@ -13,6 +13,14 @@ import {
 
 const SEARCH = gql`
   query LoadSearch($name: String!, $first: Int!) {
+    editors(name: $name, first: $first){
+      edges{
+        node{
+          id
+          name
+        }
+      }
+    }
     products(query: $name, first: $first){
       edges{
         node{
@@ -70,32 +78,6 @@ const Container = styled.div`
 
 const SearchBox = ({client}) => {
 
-  const languages = [
-    {
-      title: '1970s',
-      languages: [
-        {
-          name: 'C',
-          year: 1972
-        }
-      ]
-    },
-    {
-      title: '1980s',
-      languages: [
-        {
-          name: 'C++',
-          year: 1983
-        },
-        {
-          name: 'Perl',
-          year: 1987
-        }
-      ]
-    },
-  ];
-
-
   const [ value, setValue ] = useState('');
   const [ suggestions, setSuggestions ] = useState([]);
   let searchSub$;
@@ -117,7 +99,7 @@ const SearchBox = ({client}) => {
 
   const renderSectionTitle = (section) => (<strong>{section.name}</strong>);
 
-  const getSectionSuggestions = (section) => (section.products)
+  const getSectionSuggestions = (section) => (section.items)
 
   const onChange = (event, { newValue }) => {
     setValue(newValue);
@@ -138,22 +120,27 @@ const SearchBox = ({client}) => {
         name: ob.value,
         first: 10,
       }
-    }).then(({ data: { products: {edges}={} }={} }={}, error) => {
+    }).then(({ data: { products: {edges: productEdges}={}, editors: {edges: editorEdges}={} }={} }={}, error) => {
       if(!error || error.length === 0) {
         const getCategoryOb = (arr, id) => arr.find(({id: categoryId}) => categoryId === id)
-        const categoriesArr = edges.reduce((acc, edge) => {
+        let categoriesArr = productEdges.reduce((acc, edge) => {
           const product = {...edge.node};
           const category = {...product.category};
           delete product.category;
           const existingCategory = getCategoryOb(acc, category.id);
           if(existingCategory) {
-            existingCategory.products = existingCategory.products.concat(product);
+            existingCategory.items = existingCategory.items.concat(product);
             return acc;
           } else {
-            category.products = [product];
+            category.items = [product];
             return acc.concat(category);
           }
         }, []);
+        categoriesArr = categoriesArr.concat({
+          id: "editors",
+          name: "Editors",
+          items: editorEdges.map(({node}) => ({...node}))
+        })
         setSuggestions(categoriesArr);
       }
     })
