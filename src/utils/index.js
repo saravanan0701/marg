@@ -67,3 +67,13 @@ export const checkIfSameAddress = (address1, address2) => {
     return address1[it] && address2[it] && address1[it].toLowerCase() === address2[it].toLowerCase()
   }, true)
 }
+
+export const getEditorName = (editors) => (
+  editors
+    .reduce(({ acc, name }) => {
+      if(name) {
+        return acc + ", " + name
+      }
+      return acc;
+    }, "")
+);
