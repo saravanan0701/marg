@@ -10,6 +10,7 @@ import {
   debounceTime,
   switchMap,
 } from 'rxjs/operators';
+import { withRouter } from 'react-router';
 
 const SEARCH = gql`
   query LoadSearch($name: String!, $first: Int!) {
@@ -76,7 +77,12 @@ const Container = styled.div`
   }
 `
 
-const SearchBox = ({client}) => {
+const SearchBox = ({
+  client,
+  history: {
+    push,
+  },
+}) => {
 
   const [ value, setValue ] = useState('');
   const [ suggestions, setSuggestions ] = useState([]);
@@ -146,6 +152,12 @@ const SearchBox = ({client}) => {
     })
   };
 
+  const suggestionSelected = (e, {  suggestion, sectionIndex }) => {
+    if(suggestions[sectionIndex].name === "Magazines" || suggestions[sectionIndex].name === "Books") {
+      return push(`/product/${suggestion.id}`);
+    }
+  }
+
   const onSuggestionsClearRequested = () => {
     setSuggestions([]);
   };
@@ -168,10 +180,11 @@ const SearchBox = ({client}) => {
         renderSectionTitle={renderSectionTitle}
         getSectionSuggestions={getSectionSuggestions}
         inputProps={inputProps}
+        onSuggestionSelected={suggestionSelected}
       />
       <FontAwesome id="searchIcon" name='search' className='color-red' />
     </Container>
   );
 }
 
-export default withApollo(SearchBox)
+export default withApollo(withRouter(SearchBox));
