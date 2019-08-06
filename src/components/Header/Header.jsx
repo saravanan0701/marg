@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import FontAwesome from 'react-fontawesome';
 import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.svg'
 import headerImg from './../../images/header-left.jpg'
 import { FlatButton, Menu } from './../commons/';
 import { Container, Row, Col } from 'reactstrap';
+import SearchBox from './../SearchBox';
 
 const HeaderContainer = styled.div`
 
@@ -48,45 +48,6 @@ const HeaderContainer = styled.div`
       &.active {
         border-bottom: 1px solid ${props => props.theme['primaryColor']};
       }
-    }
-  }
-
-  .search {
-    position: absolute;
-    right: 0;
-    margin-right: 0px;
-
-    input {
-      ::-webkit-input-placeholder { 
-        text-align:right;
-        color: #000000;
-        font-size: ${props => props.theme['$font-size-xxs']};
-        font-weight: ${props => props.theme['$weight-bold']};
-        letter-spacing: 3px;
-        text-transform: uppercase;
-      }
-
-      input:-moz-placeholder { 
-        text-align:right;
-        color: #000000;
-        font-size: ${props => props.theme['$font-size-xxs']};
-        font-weight: ${props => props.theme['$weight-bold']};
-        letter-spacing: 3px;
-        text-transform: uppercase;
-      }
-
-      padding: 10px 20px;
-      padding-right: 40px;
-
-      outline: none;
-      border: none;
-
-      background-color: #f8f8f8;
-    }
-
-    #searchIcon {
-      position: absolute;
-      right: 5%;
     }
   }
 `
@@ -142,10 +103,7 @@ const Header = ({
             <Link>Submit Proposals</Link>
             <Link>Film Archive</Link>
           </Menu>
-          <div className="search d-flex align-items-center">
-            <input type="text" placeholder="Search" />
-            <FontAwesome id="searchIcon" name='search' className='color-red' />
-          </div>
+          <SearchBox />
         </Col>
       </Row>
     </Container>
