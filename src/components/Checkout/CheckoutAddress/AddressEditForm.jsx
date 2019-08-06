@@ -166,6 +166,7 @@ class AddressEditForm extends Component {
               values.streetAddress2 = values.streetAddress1;
               values.country = self.state.country.slug;
               values.countryArea = self.state.state.name;
+              values.phone = `+91${values.phone}`;
               delete values.email;
               saveAddress(values)
                 .then((success) => {
@@ -174,6 +175,8 @@ class AddressEditForm extends Component {
                     toggleAddressForm();
                     resetForm();
                   }
+                }, () => {
+                  setSubmitting(false);
                 })
             }
           }
