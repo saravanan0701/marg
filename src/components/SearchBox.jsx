@@ -1,9 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withApollo } from 'react-apollo';
 import Autosuggest from 'react-autosuggest';
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
+import gql from 'graphql-tag';
+import { Subject } from 'rxjs';
+import {
+  distinctUntilChanged,
+  debounceTime,
+  switchMap,
+} from 'rxjs/operators';
 
+const SEARCH = gql`
+  query LoadSearch($name: String!, $first: Int!) {
+    products(query: $name, first: $first){
+      edges{
+        node{
+          id
+          name
+          thumbnail(size:10){
+            url
+          }
+          category{
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
 
 const Container = styled.div`
   margin-right: 0px;
@@ -67,107 +93,70 @@ const SearchBox = ({client}) => {
         }
       ]
     },
-    {
-      title: '1990s',
-      languages: [
-        {
-          name: 'Haskell',
-          year: 1990
-        },
-        {
-          name: 'Python',
-          year: 1991
-        },
-        {
-          name: 'Java',
-          year: 1995
-        },
-        {
-          name: 'Javascript',
-          year: 1995
-        },
-        {
-          name: 'PHP',
-          year: 1995
-        },
-        {
-          name: 'Ruby',
-          year: 1995
-        }
-      ]
-    },
-    {
-      title: '2000s',
-      languages: [
-        {
-          name: 'C#',
-          year: 2000
-        },
-        {
-          name: 'Scala',
-          year: 2003
-        },
-        {
-          name: 'Clojure',
-          year: 2007
-        },
-        {
-          name: 'Go',
-          year: 2009
-        }
-      ]
-    },
-    {
-      title: '2010s',
-      languages: [
-        {
-          name: 'Elm',
-          year: 2012
-        }
-      ]
-    }
   ];
 
 
   const [ value, setValue ] = useState('');
   const [ suggestions, setSuggestions ] = useState([]);
+  let searchSub$;
+
+  useEffect(() => {
+    searchSub$ = new Subject();
+    
+
+    return () => {
+      searchSub$.complete();
+    }
+  }, [])
 
   const escapeRegexCharacters = (str) => (str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-
-  const getSuggestions = value => {
-    const escapedValue = escapeRegexCharacters(value.trim());
-    if (escapedValue === '') {
-      return [];
-    }
-
-    const regex = new RegExp('^' + escapedValue, 'i');
-
-    return languages
-      .map(section => {
-        return {
-          title: section.title,
-          languages: section.languages.filter(language => regex.test(language.name))
-        };
-      })
-      .filter(section => section.languages.length > 0);
-  };
 
   const getSuggestionValue = suggestion => suggestion.name;
 
   const renderSuggestion = suggestion => (<div>{suggestion.name}</div>);
 
-  const renderSectionTitle = (section) => (<strong>{section.title}</strong>);
+  const renderSectionTitle = (section) => (<strong>{section.name}</strong>);
 
-  const getSectionSuggestions = (section) => (section.languages)
+  const getSectionSuggestions = (section) => (section.products)
 
   const onChange = (event, { newValue }) => {
     setValue(newValue);
+    // searchSub$.pipe(
+    //   debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap(searchData),
+    // ).subscribe((options) => {
+    //   this.setState({ options })
+
+    // });
   };
 
   const onSuggestionsFetchRequested = (ob) => {
-    setTimeout(() => {
-      setSuggestions(getSuggestions(ob.value));
-    }, 1000);
+    client.query({
+      query: SEARCH,
+      variables: {
+        name: ob.value,
+        first: 10,
+      }
+    }).then(({ data: { products: {edges}={} }={} }={}, error) => {
+      if(!error || error.length === 0) {
+        const getCategoryOb = (arr, id) => arr.find(({id: categoryId}) => categoryId === id)
+        const categoriesArr = edges.reduce((acc, edge) => {
+          const product = {...edge.node};
+          const category = {...product.category};
+          delete product.category;
+          const existingCategory = getCategoryOb(acc, category.id);
+          if(existingCategory) {
+            existingCategory.products = existingCategory.products.concat(product);
+            return acc;
+          } else {
+            category.products = [product];
+            return acc.concat(category);
+          }
+        }, []);
+        setSuggestions(categoriesArr);
+      }
+    })
   };
 
   const onSuggestionsClearRequested = () => {
