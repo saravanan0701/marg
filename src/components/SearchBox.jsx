@@ -196,6 +196,7 @@ const SearchBox = ({
     value,
     onChange,
     placeholder: 'Search',
+    onBlur: () => setIsLoading(false),
   };
 
   return (
