@@ -222,12 +222,12 @@ export const ProductListFilter = ({
 }) => {
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
-  let urlEditorId;
+  let urlEditorId, urlCategoryId, foundCategoryValue;
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
     } else if(queryKeys[0] === "category-id") {
-      //TODO: 
+      urlCategoryId = queryObj['category-id'];
     }
   }
   const applyFilter = (attribute) => {
@@ -236,6 +236,22 @@ export const ProductListFilter = ({
       return addFilter(attribute);
     }
   }
+
+  useEffect(() => {
+    if(foundCategoryValue) {
+      addFilter({
+        type: "category",
+        filter: foundCategoryValue
+      });
+    }
+  }, []);
+  if(urlCategoryId) {
+    const category = filters.find((filter) => filter.slug === "category")
+    if(category) {
+      foundCategoryValue = category.values.find((value) => (value.id === urlCategoryId));
+    }
+  }
+
   return <Wrapper className="d-none d-lg-flex">
     <div className="header">Filter By:</div>
     <EditorSearch
@@ -259,6 +275,13 @@ export const ProductListFilter = ({
             enableSearch={true}
             loadData={filterObj.values}
             multiSelect = {true}
+            defaultOption={
+              (() => {
+                if(filterObj.slug === "category") {
+                  return foundCategoryValue;
+                }
+              })()
+            }
             onOptionSelect={
               (option) => (
                 applyFilter({
