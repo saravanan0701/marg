@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Collapse } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import { DropDown } from './../../commons/';
+import { getParamsObjFromString } from './../../../utils/';
 
 const SORT_BY = [
   {
@@ -69,6 +70,19 @@ const EDITORS_QUERY = gql`
   }
 `;
 
+const FETCH_EDITOR = gql`
+  query FilterEditors($first:Int, $id: ID) {
+    editors(first:$first, ids: [$id]) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const EditorSearch = withApollo(
   ({
     client,
@@ -78,9 +92,17 @@ const EditorSearch = withApollo(
     addEditor,
     removeEditor,
     selectedEditors,
+    //Redux related variable which makes sure
+    // a selected item is not selected again and again.
+    // even if there's an inconsistency redux is not affected by it
     removeAllEditors,
     className,
+    urlEditorId,
+    // This editor-id is fetched from the URL.
+    // We fetch editor details and set it as selected.
   }) => {
+    const [showEditorDropDown, setShowEditorDropDown] = useState(false);
+    const [urlSelectedEditor, setUrlSelectedEditors] = useState();
     const searchEditors = (name) => client.query({
       query: EDITORS_QUERY,
       variables: {
@@ -109,15 +131,46 @@ const EditorSearch = withApollo(
           )
         )
       )
+    );
+
+    const loadEditor = () => (
+      client.query({
+        query: FETCH_EDITOR,
+        variables: {
+          id: urlEditorId,
+          first: 1
+        }
+      }).then(({data:{editors: { edges }={} }={} }, errors) => {
+        if(edges.length > 0 && (!errors || errors.length === 0)) {
+          setUrlSelectedEditors(edges[0].node);
+          addEditor(edges[0].node);
+        }
+        setShowEditorDropDown(true);
+      })
     )
+
+    useEffect(() => {
+      if(urlEditorId) {
+        setShowEditorDropDown(false);
+        loadEditor();
+      } else {
+        setShowEditorDropDown(true);
+      }
+    }, []);
+
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({id: selectedId}) => selectedId === id).length > 0
+    if(!showEditorDropDown){
+      return <div>Loading..</div>;
+    }
+
     return <DropDown
       className={className}
       label={"Editors"}
       enableSearch={true}
       loadData={editors}
-      searchData = {searchEditors}
-      multiSelect = {true}
+      defaultOption={urlSelectedEditor}
+      searchData={searchEditors}
+      multiSelect={true}
       onOptionSelect={
         (option) => {
           if(checkIfEditorAlreadySelected(option)) {
@@ -163,7 +216,20 @@ export const ProductListFilter = ({
   removeAllEditors,
   selectedAttributes,
   selectedEditors,
+  location: {
+    search
+  }
 }) => {
+  const queryObj = getParamsObjFromString(search);
+  const queryKeys = Object.keys(queryObj);
+  let urlEditorId;
+  if(queryKeys.length > 0) {
+    if(queryKeys[0] === "editor-id") {
+      urlEditorId = queryObj['editor-id'];
+    } else if(queryKeys[0] === "category-id") {
+      //TODO: 
+    }
+  }
   const applyFilter = (attribute) => {
     const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
     if(!filterFound) {
@@ -180,6 +246,7 @@ export const ProductListFilter = ({
       removeAllEditors={removeAllEditors}
       editors={editors}
       selectedEditors={selectedEditors}
+      urlEditorId={urlEditorId}
     >
     </EditorSearch>
     {

@@ -82,7 +82,7 @@ const ProductList = () => (
             categories,
             attributes,
             editors,
-          }
+          }={}
         }) => {
           const productVariants = {};
           if(loading) {
