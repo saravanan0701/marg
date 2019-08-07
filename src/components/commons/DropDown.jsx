@@ -112,7 +112,7 @@ class DropDown extends Component {
       dontClose: false,
       options: [],
       error: false,
-      selectedOptions: [],
+      selectedOptions: props.defaultOption? [props.defaultOption]: [],
     }
     this.labelClicked = this.labelClicked.bind(this);
     this.labelBlured = this.labelBlured.bind(this);
@@ -273,6 +273,7 @@ class DropDown extends Component {
     const {
       loadData,
       searchData,
+      defaultOption,
     } = this.props;
 
     if(searchData) {
@@ -282,6 +283,9 @@ class DropDown extends Component {
           distinctUntilChanged(),
           switchMap(searchData),
         ).subscribe((options) => {
+          if(options.find((option) => defaultOption && option.id !== defaultOption.id)) {
+            options = options.concat([this.props.defaultOption]);  
+          }
           this.setState({ options })
         });
     }

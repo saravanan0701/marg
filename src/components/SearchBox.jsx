@@ -142,11 +142,13 @@ const SearchBox = ({
             return acc.concat(category);
           }
         }, []);
-        categoriesArr = categoriesArr.concat({
-          id: "editors",
-          name: "Editors",
-          items: editorEdges.map(({node}) => ({...node}))
-        })
+        if(editorEdges && editorEdges.length > 0) {
+          categoriesArr = categoriesArr.concat({
+            id: "editors",
+            name: "Editors",
+            items: editorEdges.map(({node}) => ({...node}))
+          });
+        }
         setSuggestions(categoriesArr);
       }
     })
@@ -155,6 +157,8 @@ const SearchBox = ({
   const suggestionSelected = (e, {  suggestion, sectionIndex }) => {
     if(suggestions[sectionIndex].name === "Magazines" || suggestions[sectionIndex].name === "Books") {
       return push(`/product/${suggestion.id}`);
+    } else if(suggestions[sectionIndex].name === "Editors") {
+      return push(`/categories/?editor-id=${suggestion.id}`);
     }
   }
 

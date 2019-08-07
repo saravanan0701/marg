@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
 import actions from './../../../actions/'
 import { ProductListFilter as Component } from './ProductListFilterComponent'
@@ -32,4 +33,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(Component));
+)(withApollo(withRouter(Component)));
