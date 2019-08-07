@@ -42,6 +42,7 @@ const SEARCH = gql`
 
 const Container = styled.div`
   margin-right: 0px;
+  position: relative;
 
   input {
     ::-webkit-input-placeholder { 
@@ -86,11 +87,17 @@ const SearchBox = ({
 
   const [ value, setValue ] = useState('');
   const [ suggestions, setSuggestions ] = useState([]);
-  let searchSub$;
+  const [ searchSub$ ] = useState(new Subject());
+
 
   useEffect(() => {
-    searchSub$ = new Subject();
-    
+    searchSub$.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap(searchQuery),
+    ).subscribe((options) => {
+      setSuggestions(options);
+    });
 
     return () => {
       searchSub$.complete();
@@ -107,23 +114,11 @@ const SearchBox = ({
 
   const getSectionSuggestions = (section) => (section.items)
 
-  const onChange = (event, { newValue }) => {
-    setValue(newValue);
-    // searchSub$.pipe(
-    //   debounceTime(300),
-    //   distinctUntilChanged(),
-    //   switchMap(searchData),
-    // ).subscribe((options) => {
-    //   this.setState({ options })
-
-    // });
-  };
-
-  const onSuggestionsFetchRequested = (ob) => {
+  const searchQuery = (searchVal) => (
     client.query({
       query: SEARCH,
       variables: {
-        name: ob.value,
+        name: searchVal,
         first: 10,
       }
     }).then(({ data: { products: {edges: productEdges}={}, editors: {edges: editorEdges}={} }={} }={}, error) => {
@@ -149,9 +144,17 @@ const SearchBox = ({
             items: editorEdges.map(({node}) => ({...node}))
           });
         }
-        setSuggestions(categoriesArr);
+        return categoriesArr;
       }
     })
+  );
+
+  const onChange = (event, { newValue }) => {
+    setValue(newValue);
+  };
+
+  const onSuggestionsFetchRequested = (ob) => {
+    searchSub$.next(ob.value);
   };
 
   const suggestionSelected = (e, {  suggestion, sectionIndex }) => {
