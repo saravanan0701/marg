@@ -9,6 +9,7 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { withRouter } from 'react-router';
 
@@ -76,6 +77,19 @@ const Container = styled.div`
     position: absolute;
     right: 5%;
   }
+
+  .no-results{
+    position: absolute;
+    left: 0px;
+    top: 100%;
+    text-transform: capitalize;
+    font-weight: 300;
+    width: 280px;
+    border: 1px solid #aaa;
+    padding: 10px 20px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
 `
 
 const SearchBox = ({
@@ -87,15 +101,24 @@ const SearchBox = ({
 
   const [ value, setValue ] = useState('');
   const [ suggestions, setSuggestions ] = useState([]);
+  const [ noResults, setNoResults ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ searchSub$ ] = useState(new Subject());
 
 
   useEffect(() => {
     searchSub$.pipe(
+      tap(() => setIsLoading(true)),
       debounceTime(400),
       distinctUntilChanged(),
       switchMap(searchQuery),
     ).subscribe((options) => {
+      if(options.length === 0) {
+        setNoResults(true);
+      } else {
+        setNoResults(false);
+      }
+      setIsLoading(false)
       setSuggestions(options);
     });
 
@@ -189,7 +212,16 @@ const SearchBox = ({
         inputProps={inputProps}
         onSuggestionSelected={suggestionSelected}
       />
-      <FontAwesome id="searchIcon" name='search' className='color-red' />
+      {
+        noResults &&
+          <div className="no-results">No Results</div>
+      }
+      {
+        isLoading ?
+          <FontAwesome id="searchIcon" name='spinner' spin className='color-red' />:
+          <FontAwesome id="searchIcon" name='search' className='color-red' />
+
+      }
     </Container>
   );
 }
