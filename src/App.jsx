@@ -32,7 +32,7 @@ import Theme from './Theme';
 import './App.scss';
 import Checkout from './components/Checkout/';
 import ProtectedRoute from './components/commons/ProtectedRoute';
-import Account from './components/Account/Account.jsx';
+import Account from './components/Account/';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
