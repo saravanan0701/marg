@@ -107,17 +107,17 @@ const Header = ({
 
     <Container className="py-4 d-none d-lg-block px-0">
       <Row style={{minHeight: 110}}>
-        <Col lg="4" className="d-flex justify-content-center flex-column align-items-start">
+        <Col lg="5" className="d-flex justify-content-center flex-column align-items-start">
           <div id="leftCol" style={{minHeight: "100%"}} className="text-center d-flex justify-content-center flex-column">
             <div id="leftColText">A Pathmaking Tradition</div>
             <div id="leftColDate">Since 1946</div>
             <img src="../../images/emblem.png" alt=""/>
           </div>
         </Col>
-        <Col lg="4" className="d-flex align-items-center justify-content-center flex-column">
+        <Col lg="2" className="d-flex align-items-center justify-content-center flex-column">
           <Link id="headerLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
         </Col>
-        <Col id="rightCol" lg="4" className="d-flex align-items-center justify-content-end">
+        <Col id="rightCol" lg="5" className="d-flex align-items-center justify-content-end">
           <FlatButton className="mr-4">Subscribe to Marg</FlatButton>
           <UserMenu />
           <FlatButton onClick={(e) => cartQuantity > 0 && push('/checkout')} className="ml-4" colorType="primary">
