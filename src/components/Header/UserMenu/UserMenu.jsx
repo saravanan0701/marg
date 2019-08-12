@@ -8,10 +8,8 @@ export const UserMenu = ({
   logout,
   history: {
     push,
-    location: {
-      pathname,
-    }
-  }
+  },
+  location,
 }) => (
   <div>
   {
@@ -27,10 +25,10 @@ export const UserMenu = ({
       :
         <FlatButton colorType="#000000" onClick={
           () => {
-            if(pathname.match(/login/)){
+            if(location.pathname.match(/login/)){
               return push(`/login`)
             }
-            return push(`/login?returnUrl=${pathname}`)
+            return push(`/login`, {from: location})
           }
         } href="/login">
           Sign in

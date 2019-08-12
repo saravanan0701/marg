@@ -116,25 +116,19 @@ export default class Login extends Component {
     const {
       email,
       history: {
-        location: {
-          search,
-        },
         push,
       },
+      location: {
+        state: {
+          from: {
+            pathname = "/",
+          } = {}
+        } = {},        
+      },
     } = this.props;
-    if(email) {
+    if(email && pathname) {
       //User has loggedin
-      let returnUrl = search
-        .slice(1)
-        .split('&')
-        .map(q => q.split('='))
-        .reduce((retPath, it) => {
-          if(it[0] == "returnUrl") {
-            return it[1];
-          }
-          return retPath;
-        }, null);
-      push(returnUrl == null? "/": returnUrl);
+      push(pathname);
     }
   }
 
