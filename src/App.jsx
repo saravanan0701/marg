@@ -31,6 +31,8 @@ import background from './images/textile.jpg';
 import Theme from './Theme';
 import './App.scss';
 import Checkout from './components/Checkout/';
+import ProtectedRoute from './components/commons/ProtectedRoute';
+import Account from './components/Account/';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
@@ -124,6 +126,7 @@ class App extends Component {
                       <Route exact path="/contactus" component={ContactusForm} />
                       <Route exact path="/donate" component={Donate} />
                       <Route path="/checkout" component={Checkout} />
+                      <ProtectedRoute exact path="/myaccount" component={Account} />
                     </Switch>
                     <Footer />
                   </div>

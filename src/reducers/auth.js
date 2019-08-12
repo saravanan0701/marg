@@ -6,9 +6,10 @@ const INITIAL_USER_STATE = {
   lastName: null,
   addresses: [],
   isLoading: true,
+  orders: [],
 }
 //TODO: Use above object, make sure it doesnt break anything else
-export const AuthReducers = (state = {isLoading: true}, action) => {
+export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
   switch (action.type) {
 
     case 'PERSIST_AUTHENTICATED_USER_TO_STATE':
@@ -17,7 +18,7 @@ export const AuthReducers = (state = {isLoading: true}, action) => {
         email: action.user.email,
         authToken: action.user.authToken,
         isLoading: false,
-      }
+      };
 
     case 'SET_USER_DETAILS':
       return {
@@ -30,22 +31,30 @@ export const AuthReducers = (state = {isLoading: true}, action) => {
           ({firstName}) => !firstName.toLowerCase().match(new RegExp(/\.\.\./gi))
         ),
         isLoading: false,
-      }
+      };
 
     case 'ADD_NEW_ADDRESS':
       return {
         ...state,
         addresses: state.addresses.concat(action.address),
-      }
+      };
 
     case 'LOGOUT':
       return {
-        ...state,
-        email: '',
-        authToken: '',
-        firstName: '',
-        lastName: '',
+        ...INITIAL_USER_STATE,
         isLoading: false,
+      };
+
+    case 'LOGIN_FAILURE':
+      return {
+        ...INITIAL_USER_STATE,
+        isLoading: false,
+      };
+
+    case 'SET_ORDERS':
+      return {
+        ...state,
+        orders: state.orders.concat(action.orders),
       }
 
     default:

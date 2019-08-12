@@ -92,6 +92,36 @@ const QUERY_ME = gql`
           }
         }
       }
+      orders(first:100) {
+        edges {
+          node {
+            id
+            statusDisplay
+            total {
+              net{
+                currency
+                amount
+              }
+            }
+            lines {
+              id
+              productName
+              productSku
+              isShippingRequired
+              quantity
+              thumbnail(size:100){
+                url
+              }
+              unitPrice{
+                net{
+                  currency
+                  amount
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 `;
@@ -116,6 +146,9 @@ function* setCurrenUserDetails() {
           lastName,
           checkout,
           addresses,
+          orders: {
+            edges: orders,
+          } = {},
         }
       }
     } = yield call(queryUserDetails, client);
@@ -131,6 +164,12 @@ function* setCurrenUserDetails() {
       yield put(
         actions.initCheckout(checkout)
         // Set state with current checkout object, if present.
+      );
+    }
+    if(orders && orders.length > 0) {
+      yield put(
+        actions.setOrders(orders.map(({node}) => ({...node})))
+        // Set state with order, if present.
       );
     }
     yield put(
