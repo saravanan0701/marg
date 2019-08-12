@@ -28,6 +28,11 @@ const logout = () => ({
   type: 'LOGOUT',
 })
 
+const setOrders = (orders) => ({
+  type: 'SET_ORDERS',
+  orders,
+})
+
 export default {
   persistAuthenticatedUserToState,
   persistAuthenticatedUser,
@@ -35,4 +40,5 @@ export default {
   logout,
   setUserDetails,
   addNewAddress,
+  setOrders
 }

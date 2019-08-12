@@ -6,6 +6,7 @@ const INITIAL_USER_STATE = {
   lastName: null,
   addresses: [],
   isLoading: true,
+  orders: [],
 }
 //TODO: Use above object, make sure it doesnt break anything else
 export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
@@ -48,6 +49,12 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
       return {
         ...INITIAL_USER_STATE,
         isLoading: false,
+      };
+
+    case 'SET_ORDERS':
+      return {
+        ...state,
+        orders: state.orders.concat(action.orders),
       }
 
     default:
