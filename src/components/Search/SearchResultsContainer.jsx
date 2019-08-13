@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchResults from './SearchResults';
 import { Container, Row, Col } from 'reactstrap';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
 import gql from 'graphql-tag';
 import { Subject } from 'rxjs';
 import {
@@ -43,22 +43,12 @@ const SEARCH = gql`
 `;
 
 const StyledWrapper = styled.div`
-
-  position: absolute;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  background-color: white;
-  z-index: 100;
-
-  #close {
-    cursor: pointer;
-    float: right;
-    #cross {
-      font-size: 40px;
-    }
+  
+  input {
+    padding: 10px 20px;
+    outline: none;
   }
+
 `;
 
  const SearchResultsContainer = ({
@@ -69,7 +59,6 @@ const StyledWrapper = styled.div`
 }) => {
 
   const [ value, setValue ] = useState('');
-  const [ suggestions, setSuggestions ] = useState([]);
   const [ noResults, setNoResults ] = useState(false);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ searchSub$ ] = useState(new Subject());
@@ -88,7 +77,6 @@ const StyledWrapper = styled.div`
         setNoResults(false);
       }
       setIsLoading(false)
-      setSuggestions(options);
     });
 
     return () => {
@@ -138,23 +126,22 @@ const StyledWrapper = styled.div`
     })
   );
 
-  const onSuggestionsClearRequested = () => {
-    setSuggestions([]);
-  };
-
   return (
-    <StyledWrapper id="searchResults">
+    <StyledWrapper id="searchResults" className="py-5">
       <Container>
         <Row>
-          <Col>
-            <input onChange={(event) => searchSub$.next(event.target.value)} type="text"/>
-            <div id="close" onClick={returnToPreviousPage}>
-              <span id="cross">&times;</span>
-            </div>
+          <Col xs="12" lg="7" className="mx-auto">
+            <input 
+              onChange={(event) => searchSub$.next(event.target.value)} 
+              type="text"
+              className="w-100"
+              placeholder="Start typing..."
+            />
+            { isLoading && <LinearProgress color="secondary" /> }
           </Col>
         </Row>
       </Container>
-      <SearchResults resultsArr={resultsArr} />
+      { !isLoading && <SearchResults resultsArr={resultsArr} />}
     </StyledWrapper>
   )
 }

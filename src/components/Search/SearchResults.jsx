@@ -74,10 +74,6 @@ function SearchResults({ resultsArr }) {
     setValue(newValue);
   }
 
-  const onSearchResultClick = (event) => {
-    console.log(event.currentTarget);
-  }
-  
   return (
     <div className={classes.root}>
       <Tabs
@@ -96,15 +92,12 @@ function SearchResults({ resultsArr }) {
         return (
           <TabPanel value={value} index={index} key={index}>
             {resultType.items.map(item => {
-              console.log(item);
               return (
                 <Link
                   to={item.url} 
                   id={item.id} 
                   class="search-result" 
-                  onClick={(event) => onSearchResultClick(event)} 
                   key={item.id}
-                  data-result-type={item.__typename}
                 >
                   <h3>{item.name}</h3>
                 </Link>
