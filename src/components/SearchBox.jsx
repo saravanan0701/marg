@@ -174,6 +174,7 @@ const SearchBox = ({
   };
 
   const onSuggestionsFetchRequested = (ob) => {
+    console.log(ob);
     searchSub$.next(ob.value);
   };
 

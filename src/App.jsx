@@ -34,7 +34,7 @@ import Checkout from './components/Checkout/';
 import ProtectedRoute from './components/commons/ProtectedRoute';
 import Account from './components/Account/';
 
-// import SearchResultsContainer from './components/Search/SearchResultsContainer';
+import SearchResultsContainer from './components/Search/SearchResultsContainer';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
@@ -129,7 +129,7 @@ class App extends Component {
                       <Route exact path="/donate" component={Donate} />
                       <Route path="/checkout" component={Checkout} />
                       <ProtectedRoute exact path="/myaccount" component={Account} />
-                      {/* <Route exact path="/search" component={SearchResultsContainer} /> */}
+                      <Route exact path="/search" component={SearchResultsContainer} />
                     </Switch>
                     <Footer />
                   </div>

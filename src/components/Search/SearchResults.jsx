@@ -1,0 +1,120 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Link, withRouter } from 'react-router-dom'
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`scrollable-auto-tabpanel-${index}`}
+      aria-labelledby={`scrollable-auto-tab-${index}`}
+      {...other}
+    >
+      <Box p={3}>{children}</Box>
+    </Typography>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+
+  tabPanel: {
+    '& .MuiTabs-scroller': {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    '& button': {
+      outline: 'none'
+    },
+    '& span': {
+      fontFamily: "Lato",
+      color: '#ec1d24',
+      fontSize: 16,
+      fontWeight: 700,
+      letterSpacing: 3,
+      textTransform: `uppercase`
+    },
+    '& span.MuiTabs-indicator': {
+      backgroundColor: '#ec1d24' 
+    }
+  }
+}));
+
+function SearchResults({ resultsArr }) {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  function handleChange(event, newValue) {
+    setValue(newValue);
+  }
+
+  const onSearchResultClick = (event) => {
+    console.log(event.currentTarget);
+  }
+  
+  return (
+    <div className={classes.root}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="scrollable"
+        scrollButtons="auto"
+        className={classes.tabPanel}
+      >
+        {resultsArr.map((resultType, index) => <Tab key={index} label={resultType.name} {...a11yProps(index)} />)}
+      </Tabs>
+
+      {resultsArr.map((resultType, index) => {
+        return (
+          <TabPanel value={value} index={index} key={index}>
+            {resultType.items.map(item => {
+              console.log(item);
+              return (
+                <Link
+                  to={item.url} 
+                  id={item.id} 
+                  class="search-result" 
+                  onClick={(event) => onSearchResultClick(event)} 
+                  key={item.id}
+                  data-result-type={item.__typename}
+                >
+                  <h3>{item.name}</h3>
+                </Link>
+              )
+            })}
+          </TabPanel>
+        )
+      })}
+    </div>
+  );
+}
+
+export default withRouter(SearchResults);
