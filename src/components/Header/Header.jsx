@@ -3,11 +3,12 @@ import { Link, withRouter } from 'react-router-dom'
 import UserMenu from './UserMenu'
 import styled from 'styled-components';
 import logo from './../../images/logo.svg'
-import headerImg from './../../images/header-left.jpg'
 import { FlatButton, Menu } from './../commons/';
 import { Container, Row, Col } from 'reactstrap';
 import SearchBox from './../SearchBox';
 import emblem from '../../images/emblem.png'
+import FontAwesome from 'react-fontawesome';
+
 
 const HeaderContainer = styled.div`
 
@@ -150,7 +151,10 @@ const Header = ({
             <Link>Film Archive</Link>
           </Menu>
         </div>
-        <SearchBox />
+        <div className="menu">
+          <Link to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
+        </div>
+        {/* <SearchBox /> */}
       </Row>
     </Container>
     </div>
