@@ -47,6 +47,22 @@ const StyledWrapper = styled.div`
   input {
     padding: 10px 20px;
     outline: none;
+
+    ::-webkit-input-placeholder { 
+      color: #000000;
+      font-size: 14px;
+      font-weight: ${props => props.theme['$weight-bold']};
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    input:-moz-placeholder { 
+      color: #000000;
+      font-size: 14px;
+      font-weight: ${props => props.theme['$weight-bold']};
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
   }
 
 `;
@@ -66,9 +82,9 @@ const StyledWrapper = styled.div`
 
   useEffect(() => {
     searchSub$.pipe(
-      tap(() => setIsLoading(true)),
       debounceTime(400),
       distinctUntilChanged(),
+      tap(() => setIsLoading(true)),
       switchMap(searchQuery),
     ).subscribe((options) => {
       if(options.length === 0) {
@@ -126,22 +142,51 @@ const StyledWrapper = styled.div`
     })
   );
 
+  const handleInputChange = (event) => {
+    searchSub$.next(event.target.value);
+    setValue(event.target.value);
+  }
+
   return (
     <StyledWrapper id="searchResults" className="py-5">
       <Container>
         <Row>
           <Col xs="12" lg="7" className="mx-auto">
             <input 
-              onChange={(event) => searchSub$.next(event.target.value)} 
+              onChange={(event) => handleInputChange(event)} 
               type="text"
               className="w-100"
-              placeholder="Start typing..."
+              placeholder="Search"
             />
             { isLoading && <LinearProgress color="secondary" /> }
           </Col>
         </Row>
       </Container>
-      { !isLoading && <SearchResults resultsArr={resultsArr} />}
+
+      <Container className="my-5">
+        <Row>
+          <Col xs="12" lg="10" className="mx-auto text-center">
+            { 
+              value.length !=0 && noResults &&
+              <div>
+                <h5>Oops! We didn't find anything matching your query</h5>
+                <h4>Try searching for something else</h4> 
+              </div>
+            }
+            { value.length == 0 && 
+              <div>
+                <h4>Search for magazines, articles, books and editors</h4>
+                <h5>Start typing into the search field</h5>
+              </div>
+            }
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" lg="10" className="mx-auto">
+            { !isLoading && value.length != 0 && <SearchResults resultsArr={resultsArr} />}
+          </Col>
+        </Row>
+      </Container>
     </StyledWrapper>
   )
 }

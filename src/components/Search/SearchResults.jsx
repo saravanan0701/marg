@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     '& span': {
       fontFamily: "Lato",
       color: '#ec1d24',
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: 700,
       letterSpacing: 3,
       textTransform: `uppercase`
