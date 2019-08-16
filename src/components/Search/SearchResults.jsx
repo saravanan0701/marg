@@ -6,6 +6,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Link, withRouter } from 'react-router-dom'
+import ProductCard from '../ProductList/ProductListWrapper/ProductCard';
+import { Container, Row, Col } from 'reactstrap';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -91,18 +93,30 @@ function SearchResults({ resultsArr }) {
       {resultsArr.map((resultType, index) => {
         return (
           <TabPanel value={value} index={index} key={index}>
-            {resultType.items.map(item => {
-              return (
-                <Link
-                  to={item.url} 
-                  id={item.id} 
-                  class="search-result" 
-                  key={item.id}
-                >
-                  <h3>{item.name}</h3>
-                </Link>
-              )
-            })}
+            <Row>
+              {resultType.items.map(item => {
+                if (resultType.name == 'Editors') {
+                  return (
+                    <div className="d-block col-12 col-lg-4 my-3 text-center">
+                      <Link
+                      to={item.url} 
+                      id={item.id} 
+                      key={item.id}
+                      >
+                        <h3 className="search-result editor">{item.name}</h3>
+                      </Link>
+                    </div>
+                  )
+                } else if (resultType.name == 'Magazines') {
+                  return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
+                } else if (resultType.name == 'Articles') {
+                  return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
+                } else if (resultType.name == 'Books') {
+                  return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
+                }
+                
+              })}
+            </Row>
           </TabPanel>
         )
       })}

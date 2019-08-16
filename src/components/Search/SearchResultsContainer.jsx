@@ -29,11 +29,26 @@ const SEARCH = gql`
         node{
           id
           name
-          thumbnail(size:10){
+          images {
             url
           }
           category{
             id
+            name
+          }
+          price {
+            amount,
+            currency
+          },
+          attributes {
+            attribute {
+              slug
+            },
+            value {
+              name
+            }
+          }
+          editors {
             name
           }
         }
@@ -47,10 +62,11 @@ const StyledWrapper = styled.div`
   input {
     padding: 10px 20px;
     outline: none;
+    font-size: 22px;
 
     ::-webkit-input-placeholder { 
       color: #000000;
-      font-size: 14px;
+      font-size: 22px;
       font-weight: ${props => props.theme['$weight-bold']};
       letter-spacing: 3px;
       text-transform: uppercase;
@@ -58,11 +74,16 @@ const StyledWrapper = styled.div`
 
     input:-moz-placeholder { 
       color: #000000;
-      font-size: 14px;
+      font-size: 22px;
       font-weight: ${props => props.theme['$weight-bold']};
       letter-spacing: 3px;
       text-transform: uppercase;
     }
+  }
+
+  .editor {
+    font-size: 18px;
+    color: black !important;
   }
 
 `;
@@ -82,6 +103,7 @@ const StyledWrapper = styled.div`
 
   useEffect(() => {
     searchSub$.pipe(
+      //TODO - Do not send query if search string is blank
       debounceTime(400),
       distinctUntilChanged(),
       tap(() => setIsLoading(true)),
@@ -109,7 +131,7 @@ const StyledWrapper = styled.div`
       query: SEARCH,
       variables: {
         name: searchVal,
-        first: 10,
+        first: 30,
       }
     }).then(({ data: { products: {edges: productEdges}={}, editors: {edges: editorEdges}={} }={} }={}, error) => {
       if(!error || error.length === 0) {
@@ -158,7 +180,7 @@ const StyledWrapper = styled.div`
               className="w-100"
               placeholder="Search"
             />
-            { isLoading && <LinearProgress color="secondary" /> }
+            { isLoading && value.length !=0 && <LinearProgress color="secondary" /> }
           </Col>
         </Row>
       </Container>
@@ -169,8 +191,8 @@ const StyledWrapper = styled.div`
             { 
               value.length !=0 && noResults &&
               <div>
-                <h5>Oops! We didn't find anything matching your query</h5>
-                <h4>Try searching for something else</h4> 
+                <h4>Oops! We didn't find anything matching your query</h4>
+                <h5>Try searching for something else</h5> 
               </div>
             }
             { value.length == 0 && 
