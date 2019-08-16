@@ -74,7 +74,7 @@ const ProductCard = ({
   const cardEditors = editors.reduce(
     (acc, {name}={}) => {
       if(name) {
-        return acc + " , " + name;
+        return acc ? acc + " , " + name: name;
       }
     }, ""
   )
@@ -89,7 +89,10 @@ const ProductCard = ({
       <div className="name">{name}</div>
       <div className="meta">
         <div>{cardEditors}</div>
-        <div className="spacer">|</div>
+        {
+          cardEditors && year &&
+            <div className="spacer">|</div>
+        }
         <div>{year}</div>
       </div>
       <div className="price">{currency}.&nbsp;{amount}</div>
