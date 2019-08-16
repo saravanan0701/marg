@@ -59,12 +59,14 @@ const ProductCard = ({
   attributes,
   className,
   thumbnailUrl,
+  images,
   editors,
   history: {
     push,
   },
 }) => {
   let year;
+  const imageUrl = images.reduce((acc, {url}={}) => url, "");
   attributes.forEach((it) => {
     if(it.attribute.slug == 'year') {
       year = it.value.name
@@ -85,7 +87,7 @@ const ProductCard = ({
 
   return (
     <CardContainer onClick={(e) => openProductDetails(id)} className={`${className} mb-5`}>
-      <img className="img-fluid w-100" src={replaceStaticUrl(thumbnailUrl)} />
+      <img className="img-fluid w-100" src={replaceStaticUrl(imageUrl)} />
       <div className="name">{name}</div>
       <div className="meta">
         <div>{cardEditors}</div>

@@ -33,6 +33,9 @@ const LOAD_PRODUCTS = gql`
             currency
           }
           thumbnailUrl(size:500)
+          images{
+            url
+          }
           editors {
             id
             name
