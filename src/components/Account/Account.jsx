@@ -33,13 +33,18 @@ const Account = ({
                         currency
                       }
                     },
+                    created,
+                    statusDisplay,
                     lines,
                   }
                 ) => (
                   <ExpansionPanel key={orderId}>
                     <ExpansionPanelSummary>
                       <div className="row justify-content-between col-12">
-                        <div>{orderId}</div>
+                        <div>
+                          <div>{new Date(created).toDateString()}</div>
+                          <div>{statusDisplay}</div>
+                        </div>
                         <div>{currency}.{amount}</div>
                       </div>
                     </ExpansionPanelSummary>
