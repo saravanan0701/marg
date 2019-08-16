@@ -20,7 +20,7 @@ const HeaderContainer = styled.div`
 
   #headerLogoLink {
     cursor: pointer;
-    max-width: 126px;
+    max-width: 160px;
   }
 
   .logo-text {
