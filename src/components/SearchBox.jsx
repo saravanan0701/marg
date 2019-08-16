@@ -47,18 +47,16 @@ const Container = styled.div`
 
   input {
     ::-webkit-input-placeholder { 
-      text-align:right;
       color: #000000;
-      font-size: ${props => props.theme['$font-size-xxs']};
+      font-size: 14px;
       font-weight: ${props => props.theme['$weight-bold']};
       letter-spacing: 3px;
       text-transform: uppercase;
     }
 
     input:-moz-placeholder { 
-      text-align:right;
       color: #000000;
-      font-size: ${props => props.theme['$font-size-xxs']};
+      font-size: 14px;
       font-weight: ${props => props.theme['$weight-bold']};
       letter-spacing: 3px;
       text-transform: uppercase;
@@ -70,7 +68,6 @@ const Container = styled.div`
     outline: none;
     border: none;
 
-    background-color: #f8f8f8;
   }
 
   #searchIcon {
@@ -177,6 +174,7 @@ const SearchBox = ({
   };
 
   const onSuggestionsFetchRequested = (ob) => {
+    console.log(ob);
     searchSub$.next(ob.value);
   };
 

@@ -34,6 +34,8 @@ import Checkout from './components/Checkout/';
 import ProtectedRoute from './components/commons/ProtectedRoute';
 import Account from './components/Account/';
 
+import SearchResultsContainer from './components/Search/SearchResultsContainer';
+
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
 
@@ -108,7 +110,7 @@ class App extends Component {
             <ConnectedRouter history={history}>
               <ThemeProvider theme={Theme}>
                 <MainContainer>
-                  <div id="app" className='mx-auto'>
+                  <div id="app" className='mx-auto position-relative'>
                     <MobileHeader />
                     <Header />
                     <Switch>
@@ -127,6 +129,7 @@ class App extends Component {
                       <Route exact path="/donate" component={Donate} />
                       <Route path="/checkout" component={Checkout} />
                       <ProtectedRoute exact path="/myaccount" component={Account} />
+                      <Route exact path="/search" component={SearchResultsContainer} />
                     </Switch>
                     <Footer />
                   </div>
