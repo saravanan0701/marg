@@ -97,6 +97,7 @@ const QUERY_ME = gql`
           node {
             id
             statusDisplay
+            created
             total {
               net{
                 currency
