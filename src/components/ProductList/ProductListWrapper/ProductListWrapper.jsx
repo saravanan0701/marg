@@ -25,7 +25,7 @@ export default class ProductListWrapper extends Component {
         {
           !loadProductsError
             && loadingAllProducts
-            && <h3>Loading products please wait(TO be changed).....</h3>
+            && <h3>Loading products.....</h3>
         }
         {
           !loadProductsError

@@ -311,7 +311,7 @@ export const ProductListFilter = ({
         );
       })
     }
-    <DropDown
+    {/*<DropDown
       className="dropdown"
       key={"sort"}
       label={"Sort by:"}
@@ -327,6 +327,6 @@ export const ProductListFilter = ({
         )
       }
     >
-    </DropDown>
+    </DropDown>*/}
   </Wrapper>
 }

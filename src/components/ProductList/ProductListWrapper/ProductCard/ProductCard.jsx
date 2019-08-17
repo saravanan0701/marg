@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
-import { replaceStaticUrl } from './../../../../utils/';
+import { replaceStaticUrl, getEditorName } from './../../../../utils/';
 
 const CardContainer = styled.div`
 
@@ -73,13 +73,7 @@ const ProductCard = ({
     }
   });
 
-  const cardEditors = editors.reduce(
-    (acc, {name}={}) => {
-      if(name) {
-        return acc ? acc + " , " + name: name;
-      }
-    }, ""
-  )
+  const cardEditors = getEditorName(editors);
 
   const openProductDetails = (id) => {
     return push(`/product/${id}`);
@@ -97,7 +91,7 @@ const ProductCard = ({
         }
         <div>{year}</div>
       </div>
-      <div className="price">{currency}.&nbsp;{amount}</div>
+      <div className="price">{currency}.&nbsp;{amount === 0 ? 175: amount}</div>
     </CardContainer>
   );
 };
