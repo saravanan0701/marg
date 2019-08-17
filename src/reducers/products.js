@@ -10,7 +10,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
   },
   sortBy: null,
   pagination: {
-    first: 5,
+    first: 9,
     after: null,
     hasNextPage: false,
   },
