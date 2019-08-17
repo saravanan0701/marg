@@ -151,7 +151,7 @@ const Header = ({
             <Link>Film Archive</Link>
           </Menu>
         </div>
-        <div className="menu">
+        <div className="menu mr-0">
           <Link to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
         </div>
         {/* <SearchBox /> */}
