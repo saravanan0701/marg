@@ -35,6 +35,19 @@ const Wrapper = styled.div`
     margin-bottom: 50px;
   }
 
+  .product-type {
+    font-family: "Cormorant Garamond Medium";
+    font-size: ${props => props.theme['$font-size-sm']};
+    line-height: ${props => props.theme['$font-size-sm']};
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-lg']};
+      line-height: ${props => props.theme['$font-size-lg']};
+    }
+    font-weight: ${props => props.theme['$weight-regular']};
+    font-weight: 500;
+    letter-spacing: 1px;
+  }
+
   .editor-name {
     font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
@@ -269,7 +282,7 @@ const ProductDetails = ({
                   />
                 </Col>
                 <Col className="details" lg="6">
-                  <div>{singularCategoryName}</div>
+                  <div className="product-type">{singularCategoryName}</div>
                   <div className="row m-0">
                     {
                       volumeInfo &&
