@@ -70,12 +70,13 @@ export const checkIfSameAddress = (address1, address2) => {
 
 export const getEditorName = (editors) => (
   editors
-    .reduce(({ acc, name }) => {
-      if(name) {
-        return acc + ", " + name
-      }
-      return acc;
-    }, "")
+    .reduce(
+      (acc, {name}={}) => {
+        if(name) {
+          return acc ? acc + " , " + name: name;
+        }
+      }, ""
+    )
 );
 
 export const getParamsObjFromString = (queryString) => (
