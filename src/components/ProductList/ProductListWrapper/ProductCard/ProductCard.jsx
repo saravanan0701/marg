@@ -91,7 +91,7 @@ const ProductCard = ({
         }
         <div>{year}</div>
       </div>
-      <div className="price">{currency}.&nbsp;{amount}</div>
+      <div className="price">{currency}.&nbsp;{amount === 0 ? 175: amount}</div>
     </CardContainer>
   );
 };
