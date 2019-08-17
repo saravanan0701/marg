@@ -16,16 +16,23 @@ const Wrapper = styled.div`
     padding: 50px 100px 100px;
   }
 
+  .img-fluid {
+    width: 100%;
+  }
+
   .name {
     font-family: "Cormorant Garamond Medium";
     font-size: ${props => props.theme['$font-size-sm']};
+    line-height: ${props => props.theme['$font-size-sm']};
     @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
       font-size: ${props => props.theme['$font-size-lg']};
+      line-height: ${props => props.theme['$font-size-lg']};
     }
     font-weight: ${props => props.theme['$weight-regular']};
     font-weight: 500;
     letter-spacing: 1px;
     margin-top: 20px;
+    margin-bottom: 50px;
   }
 
   .editor-name {
@@ -47,7 +54,6 @@ const Wrapper = styled.div`
   }
 
   .pricing {
-    /* width: 60%; */
     color: #37312f;
     font-family: ${props => props.theme['$font-primary-medium']};
     font-size: ${props => props.theme['$font-size-xxs']};
@@ -98,115 +104,6 @@ const Wrapper = styled.div`
       border-bottom: 1px solid #9d9d9d;
     }
   }
-
-  /* & > .product-details {
-    
-    display: flex;
-    flex-direction: column;
-
-    & > .details {
-      display: flex;
-      flex-direction: row;
-      min-height: 80vh;
-      height: 80vh;
-
-      & > .image-container {
-        width: 60%;
-
-        & > img {
-          height: 100%;
-          width: 100%;
-          object-fit: contain;
-        }
-      }
-
-      & > .details {
-        width: 40%;
-        display: flex;
-        flex-direction: column; */
-
-        /* & > .name {
-          font-family: "Cormorant Garamond Medium";
-          font-size: ${props => props.theme['$font-size-lg']};
-          font-weight: ${props => props.theme['$weight-regular']};
-          font-size: 42px;
-          font-weight: 500;
-          letter-spacing: 1px;
-          line-height: 57px;
-        }
-
-        & > .editor-name {
-          font-size: ${props => props.theme['$font-size-xxs']};
-          font-weight: ${props => props.theme['$weight-regular']};
-          letter-spacing: 1px;
-          line-height: 28px;
-          padding-bottom: 45px;
-        }
-
-        & > .pricing {
-          width: 60%;
-          color: #37312f;
-          font-family: ${props => props.theme['$font-primary-medium']};
-          font-size: ${props => props.theme['$font-size-xs']};
-          font-weight: ${props => props.theme['$weight-regular']};
-          padding-bottom: 20px;
-        }
-
-        & > .add-to-bag {
-          align-self: flex-start;
-          margin-bottom: 20px;
-        }
-
-        & > .availability {
-          font-size: ${props => props.theme['$font-size-xxs']};
-          font-weight: ${props => props.theme['$weight-regular']};
-          letter-spacing: 0.59px;
-          line-height: 23px;
-        }
-      }
-    }
-
-    & > .description {
-
-      padding-top: 50px;
-      width: 60%;
-      max-width: 60%;
-      margin-bottom: 100px;
-
-      & > .label {
-        color: #37312f;
-        font-family: Lato;
-        font-size: ${props => props.theme['$font-size-xxs']};
-        font-weight: ${props => props.theme['$weight-bold']};
-        letter-spacing: 2px;
-        text-transform: uppercase;
-      }
-
-    }
-
-    & > .contents {
-
-      width: 80%;
-      max-width: 80%;
-
-
-      & > .heading {
-        font-family: "Cormorant Garamond Medium";
-        font-size: ${props => props.theme['$font-size-lg']};
-        font-weight: ${props => props.theme['$weight-regular']};
-        padding-bottom: 60px;
-        color: ${props => props.theme.mainTextColor};
-      }
-
-      & > div:not(.heading) {
-        border-top: 1px solid #9d9d9d;
-      }
-
-      & > div:last-child {
-        border-bottom: 1px solid #9d9d9d;
-      }
-    }
-  } */
 `;
 
 const OutOfStock = styled.div`
@@ -226,26 +123,20 @@ const LOAD_PRODUCT = gql`
       category{
         name
       }
-      price{
-        currency
-        amount
-      }
       images{
         url
       }
-      thumbnail{
-        url
-      }
       attributes{
+        value{
+          id
+          name
+          value
+          slug
+        }
         attribute{
           id
           name
           slug
-          values{
-            id
-            name
-            slug
-          }
         }
       }
       editors{
@@ -316,32 +207,6 @@ const PriceWrapper = styled.div`
   }
 `
 
-const DEL_PRODUCT = gql(`
-  mutation DelProduct($id: ID!) {
-    productDelete(id: $id){
-      errors {
-        message 
-      }
-      product{
-        id
-      }
-    }
-  }
-`)
-
-const GET_PRODS = gql(`
-  query GetProds($first:Int){
-    products(first:$first){
-      totalCount
-      edges{
-        node {
-          id
-        }
-      }
-    }
-  }
-`)
-
 const ProductDetails = ({
   match: {
     params: {
@@ -353,34 +218,6 @@ const ProductDetails = ({
 }) => {
 
   let selectedVariant = {};
-
-  const deleteAll = () => {
-    client.query({
-      query: GET_PRODS,
-      variables: {
-        first: 100
-      }
-    }).then(
-      ({data: { products: { totalCount, edges } }}) => {
-        edges.forEach(
-          ({node: {id}}) => {
-              client.mutate({
-                mutation: DEL_PRODUCT,
-                variables: {
-                  id
-                }
-              })
-          }
-        )
-        if(totalCount > 0) {
-          deleteAll()
-        }
-      }
-    )
-  }
-
-  // deleteAll();
-  // TODO: REMOVE fter migrations are stable...
 
   return <Wrapper>
     <Query
@@ -400,23 +237,24 @@ const ProductDetails = ({
               description,
               images,
               isAvailable,
-              thumbnail: {
-                url: thumbnailUrl
-              } = {},
-              price: {
-                currency,
-                amount,
-              } = {},
-              attributes,
               editors,
               sections,
               variants = [],
+              attributes,
+              category
             } = {},
           },
         }) => {
           if (loading) {
             return <h1>Loading...</h1>;
           }
+
+          const metaInfo = attributes.reduce((acc, {value, attribute} = {} ) => {
+            acc[attribute.slug]=value.name
+            return acc;
+          }, {})
+
+          const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
 
           const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
           return (
@@ -426,11 +264,26 @@ const ProductDetails = ({
                 <Col className="text-lg-center" lg="6">
                   <img
                     className="img-fluid"
-                    src={images && images.length > 0 ? replaceStaticUrl(images[0].url) : replaceStaticUrl(thumbnailUrl)}
+                    
+                    src={replaceStaticUrl(images[0].url)}
                   />
                 </Col>
                 <Col className="details" lg="6">
-                  <div>{volumeInfo}</div>
+                  <div>{singularCategoryName}</div>
+                  <div className="row m-0">
+                    {
+                      volumeInfo &&
+                      <div>{volumeInfo}</div>
+                    }
+                    {
+                      volumeInfo && metaInfo && metaInfo.year &&
+                      <div>,&nbsp;</div>
+                    }
+                    {
+                      metaInfo && metaInfo.year &&
+                      <div>{metaInfo.year}</div>
+                    }
+                  </div>
                   <div className="name">{name}</div>
                   {
                     getEditorName(editors) && 
@@ -520,7 +373,7 @@ const ProductDetails = ({
                 <div className="details">
                   <div className="image-container">
                     <img
-                      src={images && images.length > 0 ? replaceStaticUrl(images[0].url) : replaceStaticUrl(thumbnailUrl)}
+                      src={replaceStaticUrl(images[0].url)}
                     />
                   </div>
                   <div className="details">
