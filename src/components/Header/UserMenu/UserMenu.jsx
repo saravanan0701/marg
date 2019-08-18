@@ -18,7 +18,7 @@ export const UserMenu = ({
         <div>
           <Menu label={"MY ACCOUNT"}>
             <Link to="/myaccount">ORDERS & PROFILE</Link>
-            <Link to="">MY SUBSCRIPTIONS</Link>
+            {/* <Link to="">MY SUBSCRIPTIONS</Link> */}
             <Link onClick={() => {logout()}}>SIGN OUT</Link>
           </Menu>
         </div>

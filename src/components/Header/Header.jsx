@@ -138,18 +138,18 @@ const Header = ({
           <Link className={pathname.match('donate') ? 'active' : ''} to="/donate">Donate</Link>
           <Menu label="About Marg">
             <Link to="/aboutus">About Marg</Link>
-            <Link to="/collaborate">Historical Timeline</Link>
+            {/* <Link to="/collaborate">Historical Timeline</Link> */}
             <Link to="/team">Marg team</Link>
             <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
             <Link to="/trustees">TRUSTEES/ADVISORY</Link>
           </Menu>
           <Link className={pathname.match('contactus') ? 'active' : ''} to="/contactus">Contact</Link>
-          <Menu label="More">
+          {/* <Menu label="More">
             <Link>Marg Events</Link>
             <Link to="/collaborate">Collaborate</Link>
             <Link>Submit Proposals</Link>
             <Link>Film Archive</Link>
-          </Menu>
+          </Menu> */}
         </div>
         <div className="menu mr-0">
           <Link className="m-0" to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
