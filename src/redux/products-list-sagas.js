@@ -40,6 +40,10 @@ const LOAD_PRODUCTS = gql`
             id
             name
           }
+          description
+          category{
+            name
+          }
           attributes{
             attribute{
               name
