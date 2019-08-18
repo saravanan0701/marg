@@ -111,6 +111,18 @@ const QUERY_ME = gql`
               variant{
                 isDigital
                 product{
+                  name
+                  editors {
+                    name
+                  }
+                  attributes {
+                    attribute {
+                      slug
+                    }
+                    value {
+                      name
+                    }
+                  }
                   images{
                     url
                   }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import actions from './../../actions/'
-import Account from './Account.jsx'
+import AccountTabs from './AccountTabs.jsx'
 
 
 const mapStateToProps = ({
@@ -19,4 +19,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({})
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(Account));
+)(withApollo(AccountTabs));
+
