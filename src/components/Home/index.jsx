@@ -4,7 +4,7 @@ import { Query, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { RaisedButton } from './../commons/';
-import about from './../../images/about.jpg';
+import about from './../../images/aboutus.png';
 import { ProductsSection } from './ProductsSection.jsx';
 import { ProductCategories } from './ProductCategories.jsx';
 import HeroCarousel from './HeroCarousel.jsx';
