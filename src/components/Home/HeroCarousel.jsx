@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { RaisedButton } from './../commons/';
 import FontAwesome from 'react-fontawesome';
-import Hero1 from '../../images/Hero1.jpg';
-import Hero2 from '../../images/Hero2.jpg';
+import Hero1 from '../../images/Magazine Banner Option 1 for Home Page.jpg';
+import Hero2 from '../../images/Contemporary Hindu Temple LR.jpg';
 import { Link } from 'react-router-dom';
 import {
   Carousel,
@@ -19,22 +19,22 @@ const items = [
   {
     positiom: '1',
     label: "Current Issue",
-    title: "The Weight of a Petal: Ars Botanica",
-    subtitle: "Edited by: Sita Reddy",
-    description: "This article explores the botanical illustrations produced by Sir Joseph Dalton Hooker during his travels in Sikkim and the Himalayan regions in the 19th century.",
-    imageSrc: "https://www.marg-art.org/images/005_DEC_VOL_70_No_2_BOTANICAL_ART.jpg",
+    title: "Gandhara: A Confluence of Cultures",
+    subtitle: "Edited by: Naman P. Ahuja",
+    description: "",
+    imageSrc: Hero1,
     ctaText: "View This Issue",
-    ctaUrl: "/product/UHJvZHVjdDoxMg=="
+    ctaUrl: "/product/UHJvZHVjdDozMDQz"
   },
   {
     position: '2',
     label: "QUARTERLY BOOK",
-    title: "Scent upon a Southern Breeze",
-    subtitle: "Edited by: Kavita Singh",
-    description: "The arts of the Deccan remained understudied for a long while, possibly due to their complex and hybrid nature. This was a coveted region, and many powers fought over its control.",
+    title: "The Contemporary Hindu Temple: Fragments for a History",
+    subtitle: "Edited by: Annapurna Garimella, Shriya Sridharan, A. Srivathsan",
+    description: "This book presents the Hindu temple from the perspectives of institutions and individuals, including priests, building practitioners and worshippers, to consider what it means when the temple is no longer at the centre of Indic life.",
     imageSrc: Hero2,
     ctaText: "View This Book",
-    ctaUrl: "/product/UHJvZHVjdDoyNg=="
+    ctaUrl: "/product/UHJvZHVjdDo1MjUy"
   }
 ];
 
@@ -88,6 +88,9 @@ const CarouselWrapper = styled.div`
       background-color: #cccccc;
       cursor: pointer;
       margin: 0px 5px;
+      border-radius: 100%;
+    width: 10px;
+    height: 10px;
     }
   }
 
