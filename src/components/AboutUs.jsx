@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { RaisedButton } from './commons/';
 import { Link } from 'react-router-dom';
 import aboutUs from './../images/aboutus.png';
+import Team from './../images/team.jpg';
+import Timeline from './../images/timeline.jpg';
 
 const Wrapper = styled.div`
 
@@ -82,7 +84,7 @@ const Wrapper = styled.div`
 export const AboutUs = props => (
   <Wrapper>
     <div className="header">
-      <img src={aboutUs} />
+      <img src={Team} />
       <div className="sub-header">
         <div className="title">The Marg Foundation</div>
         <div className="description">
@@ -101,7 +103,7 @@ export const AboutUs = props => (
     </div>
     <div className="footer">
       <div className="img-container">
-        <img src={aboutUs} />
+        <img src={Timeline} />
       </div>
       <div className="content">
         <div className="header">Historical Timeline</div>
