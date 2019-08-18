@@ -152,7 +152,7 @@ const Header = ({
           </Menu>
         </div>
         <div className="menu mr-0">
-          <Link to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
+          <Link className="m-0" to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
         </div>
         {/* <SearchBox /> */}
       </Row>
