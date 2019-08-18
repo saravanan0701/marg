@@ -4,7 +4,34 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 import { RaisedButton, FlatButton } from './commons/';
 import { Link } from 'react-router-dom';
+
 import anand from './../images/anand.png';
+import Rizio from './../images/RIZIO 20190731_161734-04.jpg';
+import Jain from './../images/J Jain 20190731_161734-04.jpg';
+import Ahuja from './../images/N Ahuja 20190731_161734-04.jpg';
+import Latika from './../images/LATIKA 20190731_161734-04.jpg';
+// import Jyotsna from './../images/';
+import Gautam from './../images/GAUTAM 20190731_161734-04.jpg';
+import Suvarna from './../images/SUVARNA 20190731_161734-04.jpg';
+import Almitra from './../images/ALMITRA 20190731_161734-04.jpg';
+import Anjana from './../images/ANJANA 20190731_161734-04.jpg';
+import Asha from './../images/ASHA 20190731_161734-04.jpg';
+import Baptist from './../images/BAPTIST 20190731_161734-04.jpg';
+import Chetan from './../images/CHETAN 20190731_161734-04.jpg';
+import Mary from './../images/MARY 20190731_161734-04.jpg';
+import Mrinalini from './../images/MRINALINI 20190731_161734-04.jpg';
+import Naju from './../images/NAJU 20190731_161734-04.jpg';
+import Neeta from './../images/NEETA 20190731_161734-04.jpg';
+import Ravi from './../images/RAVI 20190731_161734-04.jpg';
+import Sada from './../images/SADA 20190731_161734-04.jpg';
+import Shyla from './../images/SHYLA 20190731_161734-04.jpg';
+import Usha from './../images/USHA 20190731_161734-04.jpg';
+
+import Rivka from './../images/RIVKA 20190731_161734-04.jpg';
+import Rohinton from './../images/ROHINTON 20190731_161734-04.jpg';
+import Savita from './../images/SAVITA 20190731_161734-04.jpg';
+
+
 import default_profile from './../images/default_profile.jpeg';
 
 const Wrapper = styled.div`
@@ -12,7 +39,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0px 150px;
-
+  
   & > div.hero-content {
 
     & > div.header {
@@ -126,11 +153,11 @@ const PersonWrapper = styled.div`
   }
 `;
 
-const PersonDetails = ({name, bio, designation, openBio}) => {
+const PersonDetails = ({name, bio, designation, openBio, image}) => {
   const [ isOpen, setIsOpen ] = useState(false);
 
   return (<PersonWrapper className="my-4 px-2">
-    <img src={default_profile} />
+    <img className="img-fluid w-100" src={image} />
     {/*<div className="sub-info">
       1046 - Current
     </div>*/}
@@ -160,16 +187,19 @@ const DIRECTORS = [
   {
     name: "RIZIO B. YOHANNAN",
     designation: "CEO",
+    image: Rizio,
     bio: "She is a writer, educationist, translator and governance thinker whose broad professional experience spans two decades of work in journalism, book publishing, academics and institution-building. She is currently Chief Executive Officer at The Marg Foundation, Mumbai, and Founder and Patron of LILA Foundation for Translocal Initiatives. She was earlier affiliated to the Malayala Manorama Group, Macmillan India, Navneet Publications, and Katha, and the Universities of Madras, Mumbai, and Kerala; and Shiv Nadar University. She has published collections of poetry, novels, critical and edited volumes, research papers and translations with reputed publishers, journals and magazines across the world."
   },
   {
     name: "JYOTINDRA JAIN",
     designation: "EDITOR",
+    image: Jain,
     bio: "Formerly Director of the National Crafts Museum; Professor at the School of Arts & Aesthetics, Jawaharlal Nehru University; and Member Secretary of the Indira Gandhi National Centre for the Arts, all New Delhi, was a Visiting Professor at Harvard University and a Rudolf-Arnheim Professor at Humboldt University, Berlin. An eminent scholar and curator, his major publications include: Tradition and Expression in Mithila Painting (1996); Other Masters: Five Contemporary Folk and Tribal Artists of India (1998); Picture Showmen: Insights into the Narrative Tradition in Indian Art (1998); Kalighat Painting: Images from a Changing World (1999); Indian Popular Culture: “The Conquest of the World as Picture” (2004), and  Francesco Clemente: Made in India (2005). He was a recipient of the 1998 Prince Claus Award for Culture and presently is a Member of the International Advisory Board of the Humboldt-Forum, Berlin."
   },
   {
     name: "NAMAN P. AHUJA",
     designation: "EDITOR",
+    image: Ahuja,
     bio: "He is Professor at Jawaharlal Nehru University, New Delhi and is a widely published authority on the history and aesthetics of Indian art and design. He has held curatorial charge of Indian sculpture at the British Museum apart from curating several exhibitions of both classical and modern Indian art in India and internationally. Previously, as Fellow at the Ashmolean Museum, Oxford, he authored a comprehensive catalogue of their ancient Indian collections and at Fellowships at the Getty Institute he has explored the multicultural nature of the art of Gandhara. He is invited to speak at conferences and universities all over the world and has been a Visiting Professor at the University of Zurich, the Kunsthistorisches Institute in Florence, the University of Alberta in Edmonton and at SOAS, his alma mater."
   },
 ]
@@ -177,83 +207,103 @@ const DIRECTORS = [
 const EMPLOYEES = [
   {
     name: "Latika Gupta",
-    designation: "Associate Editor"
+    designation: "Associate Editor",
+    image: Latika
   },
   {
     name: "Jyotsna Nambiar",
-    designation: "Assistant Editor"
+    designation: "Assistant Editor",
+    image: default_profile
   },
   {
     name: "Mrinalini Vasudevan",
-    designation: "Assistant Editor"
+    designation: "Assistant Editor",
+    image: Mrinalini
   },
   {
     name: "Nisha S. Nair",
-    designation: "Editorial Executive"
+    designation: "Editorial Executive",
+    image: default_profile
   },
   {
     name: "Rivka Israel",
-    designation: "Text Editor (Consultant)"
+    designation: "Text Editor (Consultant)",
+    image: Rivka
   },
   {
     name: "Naju Hirani",
-    designation: "Designer"
+    designation: "Designer",
+    image: Naju
   },
   {
     name: "Gautam V. Jadhav",
-    designation: "Senior Production Executive"
+    designation: "Senior Production Executive",
+    image: Gautam
   },
   {
     name: "Chetan S. More",
-    designation: "Production Executive"
+    designation: "Production Executive",
+    image: Chetan
   },
   {
     name: "Rohinton B. Anklesaria",
-    designation: "Financial Consultant"
+    designation: "Financial Consultant",
+    image: Rohinton
   },
   {
     name: "Usha V. Shenoy",
-    designation: "Accounts Head"
+    designation: "Accounts Head",
+    image: Usha
   },
   {
     name: "Neeta Suvarna",
-    designation: "Executive Accounts"
+    designation: "Executive Accounts",
+    image: Neeta
   },              
   {
     name: "Almitra Billimoria",
-    designation: "Marketing & Sales Head"
+    designation: "Marketing & Sales Head",
+    image: Almitra
   },              
   {
     name: "Baptist Sequeira",
-    designation: "Senior Manager Marketing & Sales"
+    designation: "Senior Manager Marketing & Sales",
+    image: Baptist
   },              
   {
     name: "Mary Abraham",
-    designation: "Manager Marketing & Sales"
+    designation: "Manager Marketing & Sales",
+    image: Mary
   },            
   {
     name: "Anjana Premchand",
-    designation: "Manager Digital Marketing & Branding"
+    designation: "Manager Digital Marketing & Branding",
+    image: Anjana
   },
   {
     name: "Asha Shiralikar",
-    designation: "Administrative Consultant"
+    designation: "Administrative Consultant",
+    image: Asha
   },
   {
     name: "Shyla Serrao",
-    designation: "Manager Administration &nCirculation"
+    designation: "Manager Administration &nCirculation",
+    image: Shyla
   },              
   {
     name: "Sadanand I. Salian",
-    designation: "Office Assistant"
+    designation: "Office Assistant",
+    image: Sada
   },
   {
     name: "Ravindra K. Shewale",
-    designation: "Despatch Assistant"
+    designation: "Despatch Assistant",
+    image: default_profile
   },
   {
     name: "Rukmayya Suvarna", 
-    designation: "Despatch Assistant"
+    designation: "Despatch Assistant",
+    image: default_profile
   },
 ]
 
