@@ -67,19 +67,19 @@ const StyledWrapper = styled.div`
     font-size: 22px;
 
     ::-webkit-input-placeholder { 
-      color: #000000;
+      /* color: #000000; */
       font-size: 22px;
-      font-weight: ${props => props.theme['$weight-bold']};
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      /* font-weight: ${props => props.theme['$weight-bold']}; */
+      /* letter-spacing: 3px; */
+      /* text-transform: uppercase; */
     }
 
     input:-moz-placeholder { 
-      color: #000000;
+      /* color: #000000; */
       font-size: 22px;
-      font-weight: ${props => props.theme['$weight-bold']};
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      /* font-weight: ${props => props.theme['$weight-bold']}; */
+      /* letter-spacing: 3px; */
+      /* text-transform: uppercase; */
     }
   }
 
@@ -180,7 +180,7 @@ const StyledWrapper = styled.div`
               onChange={(event) => handleInputChange(event)} 
               type="text"
               className="w-100"
-              placeholder="Search"
+              placeholder="Search for magazines, articles, books and editors"
             />
             { isLoading && value.length !=0 && <LinearProgress color="secondary" /> }
           </Col>
@@ -195,12 +195,6 @@ const StyledWrapper = styled.div`
               <div>
                 <h4>Oops! We didn't find anything matching your query</h4>
                 <h5>Try searching for something else</h5> 
-              </div>
-            }
-            { value.length == 0 && 
-              <div>
-                <h4>Search for magazines, articles, books and editors</h4>
-                <h5>Start typing into the search field</h5>
               </div>
             }
           </Col>

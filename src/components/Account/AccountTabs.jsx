@@ -70,13 +70,13 @@ function AccountTabs({ isLoading, orders }) {
         scrollButtons="auto"
         className={`${classes.tabPanel} mt-4 mb-5`}
       >
-        <Tab label="My Orders" {...a11yProps(0)} />
-        <Tab label="My Digital Library" {...a11yProps(1)} />
+        <Tab label="My Digital Library" {...a11yProps(0)} />
+        <Tab label="My Orders" {...a11yProps(1)} />
         <Tab label="My Profile" {...a11yProps(2)} />
       </Tabs>
 
-      <Orders value={value} index={0} />
-      <Library orders={orders} value={value} index={1} />
+      <Library orders={orders} value={value} index={0} />
+      <Orders orders={orders} value={value} index={1} />
       <Profile value={value} index={2} />
 
     </div>

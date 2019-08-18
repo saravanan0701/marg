@@ -49,7 +49,7 @@ const CardContainer = styled.div`
   }
 `;
 
-const Library = ({ children, value, index, orders }) => {
+const Library = ({ value, index, orders }) => {
   return (
 
     <div
