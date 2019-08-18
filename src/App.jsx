@@ -33,7 +33,7 @@ import './App.scss';
 import Checkout from './components/Checkout/';
 import ProtectedRoute from './components/commons/ProtectedRoute';
 import Account from './components/Account/';
-
+import { ScrollTop } from './components/ScrollTop';
 import SearchResultsContainer from './components/Search/SearchResultsContainer';
 
 export const history = createBrowserHistory()
@@ -111,6 +111,7 @@ class App extends Component {
               <ThemeProvider theme={Theme}>
                 <MainContainer>
                   <div id="app" className='mx-auto position-relative'>
+                    <ScrollTop />
                     <MobileHeader />
                     <Header />
                     <Switch>
