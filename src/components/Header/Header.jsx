@@ -119,7 +119,7 @@ const Header = ({
           <Link id="headerLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
         </Col>
         <Col id="rightCol" lg="5" className="d-flex align-items-center justify-content-end">
-          <FlatButton className="mr-4">Subscribe to Marg</FlatButton>
+          {/* <FlatButton className="mr-4">Subscribe to Marg</FlatButton> */}
           <UserMenu />
           <FlatButton onClick={(e) => cartQuantity > 0 && push('/checkout')} className="ml-4" colorType="primary">
             <span className="color-black">Cart—</span>{cartQuantity}
