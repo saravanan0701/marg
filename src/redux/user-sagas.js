@@ -108,7 +108,14 @@ const QUERY_ME = gql`
               id
               productName
               productSku
-              isShippingRequired
+              variant{
+                isDigital
+                product{
+                  images{
+                    url
+                  }
+                }
+              }
               quantity
               thumbnail(size:100){
                 url

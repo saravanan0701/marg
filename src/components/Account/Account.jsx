@@ -43,7 +43,6 @@ const Account = ({
                       <div className="row justify-content-between col-12">
                         <div>
                           <div>{new Date(created).toDateString()}</div>
-                          <div>{statusDisplay}</div>
                         </div>
                         <div>{currency}.{amount}</div>
                       </div>
@@ -55,7 +54,12 @@ const Account = ({
                             {
                               id: lineId,
                               productName,
-                              isShippingRequired,
+                              variant: {
+                                isDigital = false,
+                                product: {
+                                  images,
+                                } = {},
+                              } = {},
                               quantity,
                               thumbnail: {
                                 url,
@@ -70,7 +74,7 @@ const Account = ({
                           ) => (
                             <div className="row col-12">
                               <div className="col-1 p-0">
-                                <img className="col-12 p-0" src={replaceStaticUrl(url)} />
+                                <img className="col-12 p-0" src={replaceStaticUrl(images && images.length > 0?images[0].url:'')} />
                               </div>
                               <div className="col-11 row p-0 m-0">
                                 <div className="col-9">
@@ -80,7 +84,7 @@ const Account = ({
                                 </div>
                                 <div className="col-3 p-0 text-right">
                                   {
-                                    isShippingRequired &&
+                                    isDigital &&
                                       <RaisedButton
                                         onClick={
                                           (e) => (
@@ -88,7 +92,7 @@ const Account = ({
                                           )
                                         }
                                       >
-                                        View Doc
+                                        Reader
                                       </RaisedButton>
                                   }
                                 </div>
