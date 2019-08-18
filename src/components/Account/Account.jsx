@@ -92,7 +92,7 @@ const Account = ({
                                           )
                                         }
                                       >
-                                        Reader
+                                        Read
                                       </RaisedButton>
                                   }
                                 </div>
