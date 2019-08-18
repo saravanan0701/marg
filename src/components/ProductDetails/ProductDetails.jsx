@@ -139,6 +139,9 @@ const LOAD_PRODUCT = gql`
       images{
         url
       }
+      thumbnail{
+        url
+      }
       attributes{
         value{
           id
@@ -254,7 +257,10 @@ const ProductDetails = ({
               sections,
               variants = [],
               attributes,
-              category
+              category,
+              thumbnail: {
+                url: thumbnailUrl,
+              } = {},
             } = {},
           },
         }) => {
@@ -268,6 +274,8 @@ const ProductDetails = ({
           }, {})
 
           const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
+          const artilesShouldBePurchasable = singularCategoryName === "Magazine"? true: false;
+          {/*console.log("artilesShouldBePurchasable: ", artilesShouldBePurchasable)*/}
 
           const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
           return (
@@ -277,8 +285,7 @@ const ProductDetails = ({
                 <Col className="text-lg-center" lg="6">
                   <img
                     className="img-fluid"
-                    
-                    src={replaceStaticUrl(images[0].url)}
+                    src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)}
                   />
                 </Col>
                 <Col className="details" lg="6">
@@ -386,7 +393,7 @@ const ProductDetails = ({
                 <div className="details">
                   <div className="image-container">
                     <img
-                      src={replaceStaticUrl(images[0].url)}
+                      src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)}
                     />
                   </div>
                   <div className="details">
@@ -456,7 +463,17 @@ const ProductDetails = ({
                   }
                   {
                     childProducts.map(
-                      (product) => <Article {...saveVariant} key={product.id} {...product} />
+                      (product) => {
+                        console.log("Reding,,,,,")
+                        product.artilesShouldBePurchasable = true;
+                        return <Article
+                          key={product.id}
+                          saveVariant={saveVariant}
+                          {
+                            ...product
+                          }
+                        />
+                      }
                     )
                   }
                 </div>
