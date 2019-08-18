@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
 const Profile = ({ children, value, index, ...other }) => {
   return (
@@ -8,7 +9,13 @@ const Profile = ({ children, value, index, ...other }) => {
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
     >
-      My Profile
+      <Container className="mb-5">
+        <Row>
+          <Col xs="10" lg="12" className="text-center">
+            <h4>COMING SOON</h4>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }
