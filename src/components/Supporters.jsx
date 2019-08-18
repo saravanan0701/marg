@@ -111,7 +111,7 @@ const MiscBlock = ({name}) => (
 
 export const Supporters = props => (
   <Wrapper>
-    <SupporterBlock name="Patrons">
+    {/* <SupporterBlock name="Patrons">
     </SupporterBlock>
     <SupporterBlock name="Institutional Sponsors">
     </SupporterBlock>
@@ -122,6 +122,73 @@ export const Supporters = props => (
     <SupporterBlock name="Venue Partners">
     </SupporterBlock>
     <MiscBlock name="Individual Partners">
-    </MiscBlock>
+    </MiscBlock> */}
+
+    <div className="container">
+      <div className="row my-5">
+        <div className="col-12 text-center">
+          <h3>2019-2020</h3>
+          <p>Good Earth India</p> 
+          <p>John Eskenazi</p>
+        </div>
+      </div>
+      <div className="row my-5">
+        <div className="col-12 text-center">
+          <h3>2018-2019</h3>
+          <p>Bahram Vakil (Trustee, Marg)</p>
+          <p>BNP Paribas</p>
+          <p>Eddie Dinshaw Foundation</p>
+          <p>GMR Group</p>
+          <p>Hemendra Kothari Foundation</p>
+          <p>Jagdish Trivedi & Kunj TrivediJagdish Trivedi & Kunj Trivedi</p>
+          <p>Jai & Sugandha Hiremath, Hikal Ltd</p>
+          <p>Murugappa Group</p>
+          <p>National Centre for the Performing Arts (NCPA)</p>
+          <p>Pirojsha Godrej Foundation</p>
+          <p>Shamina Talyarkhan</p>
+          <p>Shapoorji Pallonji and Company Pvt Ltd</p>
+          <p>Tata Trusts</p>
+          <p>The Corbett Foundation</p>
+          <p>The Duleep Matthai Nature Conservation Trust</p>
+          <p>The Himalaya Drug Company</p>
+          <p>The Narotam Sekhsaria Foundation</p>
+          <p>TVS Motor Company Limited</p>
+        </div>
+      </div>
+      <div className="row my-5">
+        <div className="col-12 text-center">
+          <h3>2017-2018</h3>
+          <p>Ahujasons</p> 
+          <p>BNP Paribas</p>
+          <p>Jai & Suganda Hiremath, Hikal Ltd</p>
+          <p>JSW Foundation</p>
+          <p>Pundole's</p>
+        </div>
+      </div>
+
+      <div className="row my-5">
+        <div className="col-12 text-center">
+          <h3>2016-2017</h3>
+          <p>Arumugam Suppiah</p>
+          <p>Fabindia Overseas Pvt Ltd</p>
+          <p>L'Affaire Designs (P) Ltd.</p>
+          <p>Raza Foundation</p>
+          <p>Shamina Talyarkhan</p>
+          <p>Tata Trusts</p> 
+          <p>YES BANK</p>
+        </div>
+      </div>
+    </div>
+
   </Wrapper>
 )
+
+
+
+
+
+
+
+
+
+
