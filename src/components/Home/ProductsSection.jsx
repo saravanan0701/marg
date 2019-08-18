@@ -43,7 +43,7 @@ const Wrapper = styled.div`
 
 const LOAD_PRODUCTS = gql`
   query LoadProducts($first: Int, $categories: [ID]!) {
-    products(first: $first, categories: $categories) {
+    products(first: $first, categories: $categories, sortBy:{ field:DATE,direction:DESC }) {
       totalCount
       edges {
         node {
