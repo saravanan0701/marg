@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import ProductCard from './ProductCard'
+import Article from './../../Article';
 
 const Wrapper = styled.div`
 
@@ -30,7 +31,13 @@ export default class ProductListWrapper extends Component {
         {
           !loadProductsError
             && !loadingAllProducts
-            && products.map((product, id) => (<ProductCard key={id} className="col-6 col-lg-4" {...product} />))
+            && products.map((product, id) => {
+              if(product.category.name === "Articles") {
+                return <Article key={id} className="col-12 p-0" {...product} />;
+              } else {
+                return <ProductCard key={id} className="col-6 col-lg-4" {...product} />;
+              }
+            })
         }
         {
           !loadProductsError

@@ -36,10 +36,12 @@ const SEARCH = gql`
             id
             name
           }
+          description
           price {
             amount,
             currency
           },
+          isAvailable
           attributes {
             attribute {
               slug

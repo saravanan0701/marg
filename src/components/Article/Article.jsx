@@ -147,6 +147,7 @@ export default class Article extends Component {
       },
       variants = [],
       saveVariant,
+      className,
     } = this.props;
 
     const {
@@ -154,14 +155,14 @@ export default class Article extends Component {
     } = this.state;
 
     return (
-      <ArticleWrapper>
+      <ArticleWrapper className={className}>
         <Container className="py-3 px-0">
           <Row onClick={this.toggleBody} className="header">
             <Col xs="9" lg="10">
               <h3 className="title">{name}</h3>
               <span>{getEditorName(editors)}</span>
             </Col>
-            <Col xs="3" lg="2" className="d-flex flex-column align-items-center justify-content-center">
+            <Col xs="3" lg="2" className="d-flex flex-column align-items-end justify-content-center">
               {currency}&nbsp;{amount}
               <FontAwesome name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
             </Col>

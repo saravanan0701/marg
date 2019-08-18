@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import { Link, withRouter } from 'react-router-dom'
 import ProductCard from '../ProductList/ProductListWrapper/ProductCard';
 import { Container, Row, Col } from 'reactstrap';
+import Article from './../Article';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -110,7 +111,7 @@ function SearchResults({ resultsArr }) {
                 } else if (resultType.name == 'Magazines') {
                   return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
                 } else if (resultType.name == 'Articles') {
-                  return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
+                  return <Article key={item.id} className="col-12 p-0" {...item} />
                 } else if (resultType.name == 'Books') {
                   return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
                 }
