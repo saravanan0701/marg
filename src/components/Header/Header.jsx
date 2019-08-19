@@ -133,7 +133,7 @@ const Header = ({
       <Row className="d-flex justify-content-between">
         <div className="menu d-flex align-items-center flex-wrap px-0">
           <Link className={pathname.match('categories') ? 'active' : ''} to="/categories">Publications</Link>
-          <Link hidden={true} className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
+          <Link className={pathname.match('blog') ? 'active' : ''} to="/categories">Blog</Link>
           <Link className={pathname.match('advertise') ? 'active' : ''} to="/advertise">Advertise</Link>
           <Link className={pathname.match('donate') ? 'active' : ''} to="/donate">Donate</Link>
           <Menu label="About Marg">
@@ -144,12 +144,12 @@ const Header = ({
             <Link to="/trustees">TRUSTEES/ADVISORY</Link>
           </Menu>
           <Link className={pathname.match('contactus') ? 'active' : ''} to="/contactus">Contact</Link>
-          {/* <Menu label="More">
+          <Menu label="More">
             <Link>Marg Events</Link>
             <Link to="/collaborate">Collaborate</Link>
             <Link>Submit Proposals</Link>
             <Link>Film Archive</Link>
-          </Menu> */}
+          </Menu>
         </div>
         <div className="menu mr-0">
           <Link className="m-0" to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
