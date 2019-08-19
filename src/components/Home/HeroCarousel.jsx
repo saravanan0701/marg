@@ -21,9 +21,7 @@ const items = [
     label: "Current Issue",
     title: "Gandhara: A Confluence of Cultures",
     subtitle: "Edited by: Naman P. Ahuja",
-    description: "This issue presents the latest finds from recent excavations and on advances in Gandhara Art  Studies and examines migrations from different periods — from Bronze Age to the movements of Ghaznavids and Mughals.
-
-    ",
+    description: "This issue presents the latest finds from recent excavations and on advances in Gandhara Art  Studies and examines migrations from different periods — from Bronze Age to the movements of Ghaznavids and Mughals.",
     imageSrc: Hero1,
     ctaText: "View This Issue",
     ctaUrl: "/product/UHJvZHVjdDozMDQz"
