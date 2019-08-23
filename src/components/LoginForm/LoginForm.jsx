@@ -24,12 +24,18 @@ const GET_AUTH_TOKEN = gql(`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 100px 100px;
+  padding: 20px;
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 100px;
+  }
 
   & > form{
-    width: 50%;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      width: 50%;
+    }
 
     & > .heading {
       color: #000000;

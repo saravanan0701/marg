@@ -21,11 +21,17 @@ const GENERATE_RESET_PASSWORD_EMAIL = gql(`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 100px 100px;
+  padding: 20px;
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 100px;
+  }
 
   & > form{
-    width: 50%;
+    width: 100%;
     display: flex;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      width: 50%;
+    }
     flex-direction: column;
 
     & > .heading {
