@@ -197,7 +197,7 @@ export default class Login extends Component {
                     />
                   <div>{errors.password && touched.password && errors.password}</div>
                 </div>
-                <FlatButton className="forgot-button">Forgot password</FlatButton>
+                <FlatButton onClick={(e) => push("/forgot-password/generate/")} className="forgot-button">Forgot password</FlatButton>
                 <div className="login-button">
                   <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>{ isSubmitting ? 'Logging in...' : 'Sign in'}</RaisedButton>
                 </div>
