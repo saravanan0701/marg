@@ -10,6 +10,7 @@ export const NotificationReducer = (state = INITIAL_NOTIFICATION_STATE, action) 
         messages: state.messages.concat({
           key: action.notification.key,
           message: action.notification.message,
+          type: action.notification.type,
         }),
       };
     case 'REMOVE_NOTIFICATION':
