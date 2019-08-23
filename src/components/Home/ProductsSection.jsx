@@ -89,7 +89,7 @@ export const ProductsSection = ({name, categoryId}) => (
         variables={
           {
             sortBy: "updatedAt",
-            first: 3,
+            first: 4,
             categories: [categoryId],
           }
         }
@@ -107,7 +107,7 @@ export const ProductsSection = ({name, categoryId}) => (
             }
             return data.products.edges.map(
               (product, id) => (
-                <ProductCard key={id} className="col-12 col-md-4" {...product.node} />
+                <ProductCard key={id} className="col-12 col-lg-3" {...product.node} />
               )
             )
           }

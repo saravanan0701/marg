@@ -35,7 +35,7 @@ export default class ProductListWrapper extends Component {
               if(product.category.name === "Articles") {
                 return <Article key={id} className="col-12 p-0" {...product} />;
               } else {
-                return <ProductCard key={id} className="col-6 col-lg-4" {...product} />;
+                return <ProductCard key={id} className="col-6 col-lg-3" {...product} />;
               }
             })
         }
