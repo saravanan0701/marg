@@ -1,0 +1,2 @@
+import ForgotPasswordEmailGenerateContainer from './ForgotPasswordEmailGenerateContainer';
+export default ForgotPasswordEmailGenerateContainer;
