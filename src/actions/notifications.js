@@ -1,16 +1,18 @@
-const addNotification = notification => ({
+const addNotification = message => ({
   type: 'ADD_NOTIFICATION',
-  notification
+  notification: {
+    message,
+    id: Date.now(),
+  }
 });
 
 const removeNotification = notificationId => ({
 	type: 'REMOVE_NOTIFICATION',
-	id,
+	id: notificationId,
 });
 
-const clearAllNotification = notificationId => ({
+const clearAllNotification = () => ({
 	type: 'CLEAR_ALL_NOTIFICATION',
-	id,
 });
 
 
