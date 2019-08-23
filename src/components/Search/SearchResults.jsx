@@ -109,11 +109,11 @@ function SearchResults({ resultsArr }) {
                     </div>
                   )
                 } else if (resultType.name == 'Magazines') {
-                  return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
+                  return <ProductCard key={item.id} className="col-6 col-lg-3" {...item} />
                 } else if (resultType.name == 'Articles') {
                   return <Article key={item.id} className="col-12 p-0" {...item} />
                 } else if (resultType.name == 'Books') {
-                  return <ProductCard key={item.id} className="col-6 col-lg-4" {...item} />
+                  return <ProductCard key={item.id} className="col-6 col-lg-3" {...item} />
                 }
                 
               })}
