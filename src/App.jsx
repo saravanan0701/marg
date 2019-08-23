@@ -5,6 +5,7 @@ import client from './apollo';
 
 import { Provider } from 'react-redux';
 import { StoreFactory } from './redux';
+import { SnackbarProvider } from 'notistack';
 
 import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'connected-react-router';
@@ -36,6 +37,7 @@ import Account from './components/Account/';
 import { ScrollTop } from './components/ScrollTop';
 import SearchResultsContainer from './components/Search/SearchResultsContainer';
 import ForgotPassword from './components/ForgotPassword/index.jsx';
+import NotificationManager from './components/NotificationManager/';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
@@ -110,33 +112,36 @@ class App extends Component {
         <Provider store={store}>
             <ConnectedRouter history={history}>
               <ThemeProvider theme={Theme}>
-                <MainContainer>
-                  <div id="app" className='mx-auto position-relative'>
-                    <ScrollTop />
-                    <MobileHeader />
-                    <Header />
-                    <Switch>
-                      <Route exact path="/" component={Home} />
-                      <Route exact path="/categories" component={ProductList} />
-                      <Route exact path="/product/:id" component={ProductDetails} />
-                      <Route exact path="/login" component={LoginForm} />
-                      <Route exact path="/signup" component={SignupForm} />
-                      <Route exact path="/aboutus" component={AboutUs} />
-                      <Route exact path="/team" component={Team} />
-                      <Route exact path="/advertise" component={Advertise} />
-                      <Route exact path="/collaborate" component={Collaborate} />
-                      <Route exact path="/supporters" component={Supporters} />
-                      <Route exact path="/trustees" component={Trustees} />
-                      <Route exact path="/contactus" component={ContactusForm} />
-                      <Route exact path="/donate" component={Donate} />
-                      <Route path="/checkout" component={Checkout} />
-                      <ProtectedRoute exact path="/myaccount" component={Account} />
-                      <Route exact path="/search" component={SearchResultsContainer} />
-                      <Route path="/forgot-password" component={ForgotPassword} />
-                    </Switch>
-                    <Footer />
-                  </div>
-                </MainContainer>
+                <SnackbarProvider>
+                  <MainContainer>
+                    <div id="app" className='mx-auto position-relative'>
+                      <ScrollTop />
+                      <MobileHeader />
+                      <Header />
+                      <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/categories" component={ProductList} />
+                        <Route exact path="/product/:id" component={ProductDetails} />
+                        <Route exact path="/login" component={LoginForm} />
+                        <Route exact path="/signup" component={SignupForm} />
+                        <Route exact path="/aboutus" component={AboutUs} />
+                        <Route exact path="/team" component={Team} />
+                        <Route exact path="/advertise" component={Advertise} />
+                        <Route exact path="/collaborate" component={Collaborate} />
+                        <Route exact path="/supporters" component={Supporters} />
+                        <Route exact path="/trustees" component={Trustees} />
+                        <Route exact path="/contactus" component={ContactusForm} />
+                        <Route exact path="/donate" component={Donate} />
+                        <Route path="/checkout" component={Checkout} />
+                        <ProtectedRoute exact path="/myaccount" component={Account} />
+                        <Route exact path="/search" component={SearchResultsContainer} />
+                        <Route path="/forgot-password" component={ForgotPassword} />
+                      </Switch>
+                      <Footer />
+                      <NotificationManager />
+                    </div>
+                  </MainContainer>
+                </SnackbarProvider>
               </ThemeProvider>
             </ConnectedRouter>
         </Provider>
