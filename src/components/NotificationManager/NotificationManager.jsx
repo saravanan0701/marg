@@ -6,13 +6,11 @@ const NotificationManager = ({
   messages = [],
   removeNotification,
   enqueueSnackbar,
+  closeSnackbar,
 }) => {
 
   const [ localMessages, setLocalMessages ] = useState([]);
-  const checkIfLocalMessage = (key) => localMessages.find(({key: localKey}) => {
-    console.log(key, localKey);
-    return key === localKey
-  });
+  const checkIfLocalMessage = (key) => localMessages.find(({key: localKey}) => (key === localKey));
 
   messages.forEach(
     ({key, message}) => {
@@ -26,8 +24,6 @@ const NotificationManager = ({
           message
         },
       ]);
-      console.log("..........................");
-      console.log(key, message);
       return enqueueSnackbar(
         message,
         {
@@ -35,7 +31,12 @@ const NotificationManager = ({
           variant: "success",
           onClose: () => removeNotification(key),
           action: key => (
-            <FontAwesome name="close" onClick={() => removeNotification(key)} />
+            <FontAwesome className="cursor-pointer" name="close" onClick={
+              () => {
+                closeSnackbar(key);
+                removeNotification(key);
+              }
+            } />
           )
         }
       )
