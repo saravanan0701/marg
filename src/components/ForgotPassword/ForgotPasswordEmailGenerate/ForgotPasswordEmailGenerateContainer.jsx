@@ -10,7 +10,8 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addNotification: (message) => dispatch(actions.addNotification(message)),
+    successNotification: (message) => dispatch(actions.successNotification(message)),
+    errorNotification: (message) => dispatch(actions.errorNotification(message)),
   }
 }
 

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import FontAwesome from 'react-fontawesome';
 import { withSnackbar } from 'notistack';
 
+const TYPES = ["info", "success", "error", "warning"]
+
+const validateType = (type) => TYPES.find((typeIt) => typeIt === type) || TYPES[0]
+
 const NotificationManager = ({
   messages = [],
   removeNotification,
@@ -13,7 +17,7 @@ const NotificationManager = ({
   const checkIfLocalMessage = (key) => localMessages.find(({key: localKey}) => (key === localKey));
 
   messages.forEach(
-    ({key, message}) => {
+    ({key, message, type}) => {
       if(checkIfLocalMessage(key)) {
         return;
       }
@@ -21,14 +25,15 @@ const NotificationManager = ({
         ...messages,
         {
           key,
-          message
+          message,
+          type,
         },
       ]);
       return enqueueSnackbar(
         message,
         {
           key,
-          variant: "success",
+          variant: validateType(type),
           onClose: () => removeNotification(key),
           action: key => (
             <FontAwesome className="cursor-pointer" name="close" onClick={

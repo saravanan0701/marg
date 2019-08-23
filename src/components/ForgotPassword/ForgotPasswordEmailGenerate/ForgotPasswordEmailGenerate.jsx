@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import { Formik } from 'formik';
-import { withApollo } from 'react-apollo';
 
 import { FlatButton, RaisedButton } from '../../commons';
 
@@ -94,7 +92,8 @@ export default class ForgotPasswordEmailGenerate extends Component {
   sendPasswordResetEmail(email) {
     const {
       client,
-      addNotification,
+      successNotification,
+      errorNotification,
     } = this.props;
 
     return client.mutate({
@@ -104,10 +103,9 @@ export default class ForgotPasswordEmailGenerate extends Component {
       },
     }).then(({ data: { customerPasswordReset: {errors} = {} } = {} }) => {
       if(errors && errors.length > 0) {
-        console.log("Something went wrong.....")
-        return addNotification(errors[0].message);
+        return errorNotification(errors[0].message);
       } else {
-        return addNotification("An email is being sent to reset password.");
+        return successNotification("An email is being sent to reset password.");
       }
     })
   }
