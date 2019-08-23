@@ -2,13 +2,13 @@ const addNotification = message => ({
   type: 'ADD_NOTIFICATION',
   notification: {
     message,
-    id: Date.now(),
+    key: Date.now(),
   }
 });
 
 const removeNotification = notificationId => ({
 	type: 'REMOVE_NOTIFICATION',
-	id: notificationId,
+	key: notificationId,
 });
 
 const clearAllNotification = () => ({

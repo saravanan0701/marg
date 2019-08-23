@@ -8,15 +8,15 @@ export const NotificationReducer = (state = INITIAL_NOTIFICATION_STATE, action) 
       return {
         ...state,
         messages: state.messages.concat({
-          id: action.notification.id,
+          key: action.notification.key,
           message: action.notification.message,
         }),
       };
     case 'REMOVE_NOTIFICATION':
       return {
         ...state,
-        message: state.reduce((acc, it) => {
-          if(it.id !== action.id) {
+        messages: state.messages.reduce((acc, it) => {
+          if(it.key !== action.key) {
             return acc.concat(it);
           }
           return acc;
