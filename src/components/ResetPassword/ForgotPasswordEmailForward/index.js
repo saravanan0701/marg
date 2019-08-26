@@ -1,0 +1,2 @@
+import ForgotPasswordEmailForwardContainer from './ForgotPasswordEmailForwardContainer.js';
+export default ForgotPasswordEmailForwardContainer;

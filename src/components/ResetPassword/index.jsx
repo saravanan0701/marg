@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route } from 'react-router';
 import ForgotPasswordEmailGenerate from './ForgotPasswordEmailGenerate';
+import ForgotPasswordEmailForward from './ForgotPasswordEmailForward';
 
 class ForgotPassword extends Component {
 
@@ -11,7 +12,8 @@ class ForgotPassword extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/forgot-password/generate/" component={ForgotPasswordEmailGenerate} />
+        <Route exact path="/reset-password/generate/" component={ForgotPasswordEmailGenerate} />
+        <Route exact path="/reset-password/" component={ForgotPasswordEmailForward} />
       </div>
     )
   }
