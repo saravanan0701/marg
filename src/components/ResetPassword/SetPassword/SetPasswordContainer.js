@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import actions from '../../../actions'
-import ForgotPasswordEmailForward from './ForgotPasswordEmailForward.jsx'
-
+import SetPassword from './SetPassword.jsx'
 
 const mapStateToProps = ({
 }, ownProps) => ({
@@ -18,4 +17,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(ForgotPasswordEmailForward));
+)(withApollo(SetPassword));
