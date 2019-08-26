@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import actions from '../../../actions'
-import ForgotPasswordEmailGenerate from './ForgotPasswordEmailGenerate.jsx'
+import GenerateEmail from './GenerateEmail.jsx'
 
 
 const mapStateToProps = ({
@@ -18,4 +18,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(ForgotPasswordEmailGenerate));
+)(withApollo(GenerateEmail));

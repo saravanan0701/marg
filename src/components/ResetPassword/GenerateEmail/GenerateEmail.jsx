@@ -87,7 +87,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class ForgotPasswordEmailGenerate extends Component {
+export default class GenerateEmail extends Component {
 
   sendPasswordResetEmail(email) {
     const {
