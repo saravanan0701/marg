@@ -1,2 +1,2 @@
-import ForgotPasswordEmailGenerateContainer from './ForgotPasswordEmailGenerateContainer';
+import ForgotPasswordEmailGenerateContainer from './ForgotPasswordEmailGenerateContainer.js';
 export default ForgotPasswordEmailGenerateContainer;
