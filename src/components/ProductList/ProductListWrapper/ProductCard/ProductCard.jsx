@@ -101,7 +101,20 @@ export default ({
         }
         <div>{year}</div>
       </div>
-      <div className="price">{digitalPrice}, {printablePrice}</div>
+      <div className="price">
+        {
+          printablePrice &&
+            <span>Print: {printablePrice}</span>
+        }
+        {
+          digitalPrice && printablePrice && 
+          <span>&nbsp;/&nbsp;</span>
+        }
+        {
+          digitalPrice && 
+            <span>Digital: {digitalPrice}</span>
+        }
+      </div>
     </CardContainer>
   );
 };
