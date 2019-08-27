@@ -5,7 +5,11 @@ import Article from './Article.jsx'
 
 
 const mapStateToProps = ({
+  auth: {
+    currency,
+  }
 }, ownProps) => ({
+  currency,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

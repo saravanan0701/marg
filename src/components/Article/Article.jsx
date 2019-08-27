@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import ReactHtmlParser from 'react-html-parser';
-import { replaceStaticUrl, getEditorName } from './../../utils/';
+import { getEditorName, getLocalizedAmount } from './../../utils/';
 import { RaisedButton } from './../commons/';
 
 const ArticleWrapper = styled.div`
@@ -141,14 +141,20 @@ export default class Article extends Component {
       editors,
       description,
       isAvailable,
-      price: {
-        currency,
-        amount,
-      },
       variants = [],
       saveVariant,
       className,
+      currency,
     } = this.props;
+
+    const {
+      inrPrice: {
+        localized: inrLocalized,
+      } = {},
+      usdPrice: {
+        localized: usdLocalized,
+      } = {},
+    } = variants && variants.length > 0? variants[0]: {};
 
     const {
       isOpen,
@@ -163,7 +169,9 @@ export default class Article extends Component {
               <span>{getEditorName(editors)}</span>
             </Col>
             <Col xs="3" lg="2" className="d-flex flex-column align-items-end justify-content-center">
-              {currency}&nbsp;{amount}
+              {
+                getLocalizedAmount({currency, inr: inrLocalized, usd: usdLocalized})
+              }
               <FontAwesome name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
             </Col>
           </Row>
