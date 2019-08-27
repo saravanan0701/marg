@@ -31,21 +31,15 @@ const Wrapper = styled.div`
     font-weight: ${props => props.theme['$weight-regular']};
     font-weight: 500;
     letter-spacing: 1px;
-    margin-top: 20px;
-    margin-bottom: 50px;
   }
 
   .product-type {
-    font-family: "Cormorant Garamond Medium";
-    font-size: ${props => props.theme['$font-size-sm']};
-    line-height: ${props => props.theme['$font-size-sm']};
-    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-      font-size: ${props => props.theme['$font-size-lg']};
-      line-height: ${props => props.theme['$font-size-lg']};
-    }
-    font-weight: ${props => props.theme['$weight-regular']};
-    font-weight: 500;
-    letter-spacing: 1px;
+    color: #37312f;
+    font-family: Lato;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 
   .editor-name {
@@ -289,7 +283,7 @@ const ProductDetails = ({
                   />
                 </Col>
                 <Col className="details" lg="6">
-                  <div className="product-type">{singularCategoryName}</div>
+                  <div className="product-type mt-3 mt-lg-0">{singularCategoryName}</div>
                   <div className="row m-0">
                     {
                       volumeInfo &&
@@ -304,7 +298,7 @@ const ProductDetails = ({
                       <div>{metaInfo.year}</div>
                     }
                   </div>
-                  <div className="name">{name}</div>
+                  <div className="name my-3">{name}</div>
                   {
                     getEditorName(editors) && 
                       <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
@@ -315,7 +309,7 @@ const ProductDetails = ({
                   }
                   {
                     isAvailable &&
-                    <div>
+                    <div className="my-3 my-lg-5">
                     <RadioButtonSet
                       selectOption={(id) => {
                         selectedVariant = {
@@ -363,7 +357,7 @@ const ProductDetails = ({
                       >
                         Add to bag
                       </RaisedButton>
-                      <div className="availability">Available to ship within 2 business days</div>
+                      {/* <div className="availability">Available to ship within 2 business days</div> */}
                     </div>
                   }
                 </Col>
