@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import ReactHtmlParser from 'react-html-parser';
 import { RaisedButton, RadioButtonSet } from './../commons/';
 import FontAwesome from 'react-fontawesome';
-import { replaceStaticUrl, getEditorName } from './../../utils/';
+import { replaceStaticUrl, getEditorName, getLocalizedAmount } from './../../utils/';
 import { Container, Row, Col } from 'reactstrap';
 import Article from './../Article';
 
@@ -159,10 +159,6 @@ const LOAD_PRODUCT = gql`
           name
           description
           isAvailable
-          price{
-            currency
-            amount
-          }
           editors {
             id
             name
@@ -170,13 +166,15 @@ const LOAD_PRODUCT = gql`
           variants{
             id
             isDigital
-            pricing{
-              price{
-                gross{
-                  currency
-                  amount
-                }
-              }
+            inrPrice {
+              amount
+              currency
+              localized
+            }
+            usdPrice {
+              amount
+              currency
+              localized
             }
           }
         }
@@ -184,13 +182,15 @@ const LOAD_PRODUCT = gql`
       variants{
         id
         isDigital
-        pricing{
-          price{
-            gross{
-              currency
-              amount
-            }
-          }
+        inrPrice {
+          amount
+          currency
+          localized
+        }
+        usdPrice {
+          amount
+          currency
+          localized
         }
       }
     }
@@ -212,9 +212,6 @@ const PriceWrapper = styled.div`
     width: 40%;
   }
 
-  & > .price {
-
-  }
 `
 
 const ProductDetails = ({
@@ -224,7 +221,7 @@ const ProductDetails = ({
     }
   },
   saveVariant,
-  client
+  currency,
 }) => {
 
   let selectedVariant = {};
@@ -269,7 +266,6 @@ const ProductDetails = ({
 
           const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
           const artilesShouldBePurchasable = singularCategoryName === "Magazine"? true: false;
-          {/*console.log("artilesShouldBePurchasable: ", artilesShouldBePurchasable)*/}
 
           const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
           return (
@@ -324,14 +320,12 @@ const ProductDetails = ({
                             ({
                               id,
                               isDigital,
-                              pricing: {
-                                price: {
-                                  gross: {
-                                    currency,
-                                    amount,
-                                  },
-                                },
-                              },
+                              inrPrice: {
+                                localized: localizedInr,
+                              } = {},
+                              usdPrice: {
+                                localized: localizedUsd
+                              } = {},
                             }) => (
                                 <PriceWrapper key={id}>
                                   {
@@ -340,7 +334,11 @@ const ProductDetails = ({
                                       :
                                       <div className="medium-name">Print</div>
                                   }
-                                  <div className="price">{currency}&nbsp;{amount}</div>
+                                  <div className="price">
+                                  {
+                                    getLocalizedAmount({currency, inr: localizedInr, usd: localizedUsd})
+                                  }
+                                  </div>
                                 </PriceWrapper>
                               )
                           )
@@ -357,7 +355,6 @@ const ProductDetails = ({
                       >
                         Add to bag
                       </RaisedButton>
-                      {/* <div className="availability">Available to ship within 2 business days</div> */}
                     </div>
                   }
                 </Col>
@@ -383,96 +380,6 @@ const ProductDetails = ({
                   </div>
                 </Col>
               </Row>
-              <div className="product-details d-none">
-                <div className="details">
-                  <div className="image-container">
-                    <img
-                      src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)}
-                    />
-                  </div>
-                  <div className="details">
-                    <div className="name">{name}</div>
-                    <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
-                    <div className="my-4">
-                      <RadioButtonSet
-                        selectOption={(id) => {
-                          selectedVariant = {
-                            ...variants[id]
-                          };
-                        }
-                        }
-                        className="pricing"
-                      >
-                        {
-                          variants.map(
-                            ({
-                              id,
-                              isDigital,
-                              pricing: {
-                                price: {
-                                  gross: {
-                                    currency,
-                                    amount,
-                                  },
-                                },
-                              },
-                            }) => (
-                                <PriceWrapper key={id}>
-                                  {
-                                    isDigital ?
-                                      <div className="name">Digital</div>
-                                      :
-                                      <div className="name">Print</div>
-                                  }
-                                  <div className="price">{currency}&nbsp;{amount}</div>
-                                </PriceWrapper>
-                              )
-                          )
-                        }
-                      </RadioButtonSet>
-                    </div>
-
-                    <RaisedButton
-                      onClick={
-                        () => saveVariant({
-                          variant: selectedVariant,
-                          quantity: DEFAULT_QUANTITY,
-                        })
-                      }
-                      className="add-to-bag"
-                    >
-                      Add to bag
-                  </RaisedButton>
-                    <div className="availability">Available to ship within 2 business days</div>
-                  </div>
-                </div>
-                <div className="description">
-                  <div className="label">Description</div>
-                  {ReactHtmlParser(description)}
-                </div>
-                <div className="contents">
-                  {
-                    childProducts && childProducts.length > 0 &&
-                    <div key="heading" className="heading">Contents</div>
-                  }
-                  {
-                    childProducts.map(
-                      (product) => {
-                        console.log("Reding,,,,,")
-                        product.artilesShouldBePurchasable = true;
-                        return <Article
-                          key={product.id}
-                          saveVariant={saveVariant}
-                          {
-                            ...product
-                          }
-                        />
-                      }
-                    )
-                  }
-                </div>
-              </div>
-
             </Container>
           )
         }

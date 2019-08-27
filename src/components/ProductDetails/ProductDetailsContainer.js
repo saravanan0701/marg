@@ -5,7 +5,11 @@ import ProductDetails from './ProductDetails'
 
 
 const mapStateToProps = ({
+  auth: {
+    currency,
+  }
 }, ownProps) => ({
+  currency,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
