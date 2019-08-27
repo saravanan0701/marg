@@ -82,3 +82,7 @@ export const getEditorName = (editors) => (
 export const getParamsObjFromString = (queryString) => (
   queryString.slice(1).split('&').map(q => q.split('=')).reduce((a, c) => { a[c[0]] = c[1]; return a; }, {})
 );
+
+export const getLocalizedAmount = ({ currency, inr, usd }) => (
+  currency === "INR"? inr: usd
+)

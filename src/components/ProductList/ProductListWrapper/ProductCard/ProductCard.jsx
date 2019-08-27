@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { withRouter } from 'react-router';
-import { replaceStaticUrl, getEditorName } from './../../../../utils/';
+import { replaceStaticUrl, getEditorName, getLocalizedAmount } from './../../../../utils/';
 
 const CardContainer = styled.div`
 
@@ -49,13 +48,10 @@ const CardContainer = styled.div`
 `;
 
 
-const ProductCard = ({
+export default ({
   id,
   name,
-  price: {
-    amount,
-    currency,
-  },
+  variants,
   attributes,
   className,
   thumbnailUrl,
@@ -64,6 +60,7 @@ const ProductCard = ({
   history: {
     push,
   },
+  currency,
 }) => {
   let year;
   const imageUrl = images.reduce((acc, {url}={}) => url, "");
@@ -79,6 +76,19 @@ const ProductCard = ({
     return push(`/product/${id}`);
   }
 
+  // const localizedAmount = currency === "INR"? localizedInr: localizedUsd;
+  const { digitalPrice, printablePrice } = variants.reduce((acc, {inrPrice, usdPrice, isDigital}) => {
+    const { localized: localizedInr } = inrPrice;
+    const { localized: localizedUsd } = usdPrice;
+    const localizedAmount = getLocalizedAmount({currency, inr: localizedInr, usd: localizedUsd});
+    if(isDigital) {
+      acc.digitalPrice = localizedAmount;
+    } else {
+      acc.printablePrice = localizedAmount;
+    }
+    return acc;
+  }, {});
+
   return (
     <CardContainer onClick={(e) => openProductDetails(id)} className={`${className} mb-5`}>
       <img className="img-fluid w-100" src={replaceStaticUrl(imageUrl)} />
@@ -91,9 +101,7 @@ const ProductCard = ({
         }
         <div>{year}</div>
       </div>
-      <div className="price">{currency}.&nbsp;{amount === 0 ? 175: amount}</div>
+      <div className="price">{digitalPrice}, {printablePrice}</div>
     </CardContainer>
   );
 };
-
-export default withRouter(ProductCard);

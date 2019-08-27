@@ -1,2 +1,2 @@
-import ProductCard from './ProductCard';
-export default ProductCard;
+import ProductCardContainer from './ProductCardContainer';
+export default ProductCardContainer;
