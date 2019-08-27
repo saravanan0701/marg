@@ -19,6 +19,10 @@ const CREATE_NEW_CHECKOUT = gql(`
     checkoutCreate(input: {
       lines: $lines,
     }) {
+      errors{
+        field
+        message
+      }
       checkout{
         id
         token
@@ -96,6 +100,10 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
       checkoutId: $checkoutId,
       lines: $lines
     ) {
+      errors{
+        field
+        message
+      }
       checkout{
         id
         token
@@ -167,13 +175,26 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
 export const getUserFromState = (state) => state.auth;
 export const getCartFromState = (state) => state.cart;
 
+function *showCartNotification(errors) {
+  if(errors && errors.length > 0) {
+    yield put(
+      actions.errorNotification("Error adding item to cart")
+    );
+  } else {
+    yield put(
+      actions.successNotification("Added item to cart")
+    ); 
+  }
+}
+
 function* createCheckoutAndLines(lines) {
   const {
     data: {
       checkoutCreate: {
         checkout,
-      }
-    }
+        errors,
+      }={}
+    }={},
   } = yield call(
     () => (
       client.mutate({
@@ -184,6 +205,9 @@ function* createCheckoutAndLines(lines) {
       })
     )
   );
+  yield call(
+    () => showCartNotification(errors)
+  );
   return checkout;
 }
 
@@ -192,8 +216,9 @@ function* addCheckoutLines(checkoutId, lines) {
     data: {
       checkoutLinesAdd: {
         checkout,
-      }
-    }
+        errors,
+      } = {}
+    },
   } = yield call(
     () => (
       client.mutate({
@@ -205,6 +230,9 @@ function* addCheckoutLines(checkoutId, lines) {
       })
     )
   );
+  yield call(
+    () => showCartNotification(errors)
+  )
   return checkout;  
 }
 
@@ -268,8 +296,11 @@ function* saveVariant({
     }
   
   } catch (e) {
-    // Something went wrong while updating cart.
-    // yield put(actions.loginFailure());
+    if(e) {
+      yield put(
+        actions.errorNotification("Failed to item to cart")
+      )
+    }
   }
 }
 
