@@ -7,6 +7,7 @@ const INITIAL_USER_STATE = {
   addresses: [],
   isLoading: true,
   orders: [],
+  currency: "INR",
 }
 //TODO: Use above object, make sure it doesnt break anything else
 export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
