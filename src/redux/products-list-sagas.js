@@ -28,9 +28,19 @@ const LOAD_PRODUCTS = gql`
         node {
           id
           name
-          price {
-            amount
-            currency
+          variants{
+            sku
+            isDigital
+            inrPrice {
+              amount
+              currency
+              localized
+            }
+            usdPrice {
+              amount
+              currency
+              localized
+            }
           }
           thumbnailUrl(size:500)
           images{
