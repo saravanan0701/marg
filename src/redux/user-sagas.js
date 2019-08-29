@@ -58,8 +58,12 @@ const QUERY_ME = gql`
             id
             name
             sku
+            isDigital
             product{
               name
+              images {
+                url
+              }
               thumbnail{
                 url
                 alt

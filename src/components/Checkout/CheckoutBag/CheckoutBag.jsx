@@ -1,48 +1,61 @@
-import React from 'react'
-import { Link, Route } from "react-router-dom"
-import styled from 'styled-components';
-import FontAwesome from 'react-fontawesome';
-import gql from 'graphql-tag';
-import { Container, Row, Col } from 'reactstrap';
-import { replaceStaticUrl } from './../../../utils/';
-import { RaisedButton, QuantityEditor } from './../../commons/';
-
+import React from "react";
+import { Link, Route } from "react-router-dom";
+import styled from "styled-components";
+import FontAwesome from "react-fontawesome";
+import gql from "graphql-tag";
+import { Container, Row, Col } from "reactstrap";
+import { replaceStaticUrl } from "./../../../utils/";
+import CheckoutSidebar from '../CheckoutSidebar/';
+import {
+  RaisedButton,
+  QuantityEditor,
+  CollapseContainer
+} from "./../../commons/";
 
 const ImgContainer = styled.div`
-  & > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  img {
+    height: 256px;
   }
 `;
 
 const NameContainer = styled.div`
-  margin-left: 2%;
-  & > div.name-placeholder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    & > div.main-name {
-      font-size: ${props => props.theme['$font-size-sm']};
-      font-weight: ${props => props.theme['$weight-bold']};
-      margin-right: 10px;
-    }
-    & > div.quantity {
-      margin-left: 10px;
-      font-size: ${props => props.theme['$font-size-xs']};
-      font-weight: ${props => props.theme['$weight-regular']};
-    }
+  .main-name {
+    color: #000000;
+    font-family: Lato;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.66px;
+    line-height: 23px;
   }
 
-  & > div.sub-heading {
-    font-size: ${props => props.theme['$font-size-xs']};
-    font-weight: ${props => props.theme['$weight-regular']};
-    opacity: 0.9;
+  .sub-heading {
+    color: #3a3a3a;
+    font-family: Lato;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.59px;
+    line-height: 23px;
+  }
+
+  .delete-item {
+    color: #ec1d24;
+    font-family: Lato;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.7px;
+    line-height: 34px;
+    text-transform: uppercase;
   }
 `;
 
 const LinePrice = styled.div`
   text-align: right;
+  color: #000000;
+  font-family: Lato;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.66px;
+  line-height: 23px;
 `;
 
 const PriceContainer = styled.div`
@@ -55,15 +68,15 @@ const PriceContainer = styled.div`
 `;
 
 const ActionButton = styled.div`
-  padding-bottom: 10px
+  padding-bottom: 10px;
   & > .button-wrapper {
     padding-right: 0px;
   }
 `;
 
 const OrderLine = styled.div`
-  margin-bottom: 10px;
-`
+  border-bottom: 1px solid #9d9d9d;
+`;
 
 const UPDATE_QUANTITY = gql(`
   mutation UpdateQuantity(
@@ -110,173 +123,161 @@ const DELETE_LINE = gql(`
       }
     }
   }
-`)
-
+`);
 
 const Checkout = ({
   cart: {
     checkoutId,
     lines,
     totalQuantity,
-    totalPrice: {
-      gross: {
-        amount,
-        currency,
-      } = {},
-    } = {}
+    totalPrice: { gross: { amount, currency } = {} } = {}
   } = {},
   client,
   setLineQuantity,
   updateCartQuantity,
-  removeLineItem,
+  removeLineItem
 }) => {
-
-
-  const getQuantityFromLines = (lines) => lines.reduce((acc, line) => (acc + line.quantity), 0)
-  const modifyQuantity = (id) => {
-    return (quantity) => {
-      return client.mutate({
-        mutation: UPDATE_QUANTITY,
-        variables: {
-          checkoutId,
-          lines: lines.map(({ id: lineId , quantity: lineQuantity , variant: { id: variantId } = {} }) => {
-            if(lineId === id) {
-              return {
-                quantity,
-                variantId,
-              }
-            }
-            return {
-              variantId,
-              quantity: lineQuantity,
-            };
-          })
-        }
-      }).then(({
-          data: {
-            checkoutLinesUpdate: {
-              checkout: { lines }={}
-            },
-          }
-        }={}) => {
-          setLineQuantity({id, quantity})
-          updateCartQuantity(getQuantityFromLines(lines));
-          return;
-        }
-      )
-    }
-  }
-
-  const deleteLineItem = (lineId) => {
-    client.mutate({
-      mutation: DELETE_LINE,
-      variables: {
-        checkoutId,
-        lineId,
-      }
-    }).then(({
-      data: {
-        checkoutLineDelete: {
-          checkout: { lines }
-        },
-        errors,
-      }
-    }) => {
-      if(!errors || errors.length === 0 ) {
-        removeLineItem(lineId);
-        updateCartQuantity(getQuantityFromLines(lines));
-      }
-    })
-  }
-
-  return (
-    <div>
-      {
-        lines && lines.length === 0 &&
-          <h3>No products in cart</h3>
-      }
-      {
-        lines && lines.length > 0 &&
-        <Container>
-          {
-            lines.map(
-              (
-                {
-                  id,
-                  quantity,
-                  totalPrice: {
-                    gross: {
-                      amount,
-                      currency,
-                    },
-                  },
-                  variant: {
-                    sku,
-                    product: {
-                      name,
-                      thumbnail: {
-                        url
-                      },
-                    }
-                  }
+  const getQuantityFromLines = lines =>
+    lines.reduce((acc, line) => acc + line.quantity, 0);
+  const modifyQuantity = id => {
+    return quantity => {
+      return client
+        .mutate({
+          mutation: UPDATE_QUANTITY,
+          variables: {
+            checkoutId,
+            lines: lines.map(
+              ({
+                id: lineId,
+                quantity: lineQuantity,
+                variant: { id: variantId } = {}
+              }) => {
+                if (lineId === id) {
+                  return {
+                    quantity,
+                    variantId
+                  };
                 }
-              ) => (
-                <OrderLine key={sku} className="row">
-                  <Col xs='8' sm='10'>
-                    <Row>
-                      <Col xs='12' sm='2'>
-                        <ImgContainer>
-                          <img src={replaceStaticUrl(url)} />
-                        </ImgContainer>
-                      </Col>
-                      <Col xs='12' sm='10'>
-                        <NameContainer>
-                          <div className="name-placeholder">
-                            <div className="main-name">
-                              {name}
-                            </div>
-                          </div>
-                          <div className="sub-heading">
-                            {sku}
-                          </div>
-                          <QuantityEditor quantity={quantity} modifyQuantity={modifyQuantity(id)} />
-                          {
-                            quantity > 0 &&                            
-                              <FontAwesome name="trash" onClick={(e) => deleteLineItem(id)}  className='color-red' />
-                          }
-                        </NameContainer>
-                      </Col>
-                    </Row>
-                  </Col>
-                  <Col xs='4' sm='2' className="row align-items-center align-items-md-start justify-content-end">
-                    <LinePrice>
-                      {currency}.&nbsp;{amount}
-                    </LinePrice>
-                  </Col>
-                </OrderLine>
-              )
+                return {
+                  variantId,
+                  quantity: lineQuantity
+                };
+              }
             )
           }
-          <PriceContainer className="row">
-            <Col xs="8" sm="10"></Col>
-            <Col xs="4" sm="2" className="price-details row align-items-center align-items-md-start justify-content-end">
-              {currency}.&nbsp;{amount}
-            </Col>
-          </PriceContainer>
-          <ActionButton className="row">
-              <Col sm={{offset:8, size: 4}} className="button-wrapper row justify-content-end">
-                {
-                  totalQuantity > 0 && 
-                  <Link to="/checkout/address" className="link button">
-                    <RaisedButton>Checkout</RaisedButton>
-                  </Link>
+        })
+        .then(
+          ({
+            data: {
+              checkoutLinesUpdate: { checkout: { lines } = {} }
+            }
+          } = {}) => {
+            setLineQuantity({ id, quantity });
+            updateCartQuantity(getQuantityFromLines(lines));
+            return;
+          }
+        );
+    };
+  };
+
+  const deleteLineItem = lineId => {
+    client
+      .mutate({
+        mutation: DELETE_LINE,
+        variables: {
+          checkoutId,
+          lineId
+        }
+      })
+      .then(
+        ({
+          data: {
+            checkoutLineDelete: {
+              checkout: { lines }
+            },
+            errors
+          }
+        }) => {
+          if (!errors || errors.length === 0) {
+            removeLineItem(lineId);
+            updateCartQuantity(getQuantityFromLines(lines));
+          }
+        }
+      );
+  };
+
+  return (
+    <Container>
+      {lines && lines.length === 0 && <h3>No products in cart</h3>}
+      {lines && lines.length > 0 && (
+        <Row className="px-lg-5">
+          <Col xs="12">
+            {lines.map(
+              ({
+                id,
+                quantity,
+                totalPrice: {
+                  gross: { amount, currency }
+                },
+                variant: {
+                  isDigital,
+                  sku,
+                  product: {
+                    name,
+                    images
+                  }
                 }
-              </Col>
-          </ActionButton>
-        </Container>
-      }
-    </div>
-  )
-}
+              }) => (
+                <OrderLine key={sku} className="row py-4">
+                  <Col xs="4">
+                    <ImgContainer className="text-right">
+                      <img src={replaceStaticUrl(images[0].url)} />
+                    </ImgContainer>
+                  </Col>
+                  <Col xs="6">
+                    <NameContainer>
+                      <div className="name-placeholder">
+                        <div className="main-name my-2">{name}</div>
+                      </div>
+                      <div className="sub-heading">
+                        <span>Type: </span>
+                        <span>
+                          {isDigital ? (
+                            <span>Digital</span>
+                          ) : (
+                            <span>Print</span>
+                          )}
+                        </span>
+                      </div>
+
+                      {quantity > 0 && (
+                        <span className="delete-item">REMOVE THIS ITEM</span>
+                      )}
+                    </NameContainer>
+                  </Col>
+                  <Col
+                    xs="2"
+                    className="align-items-center align-items-md-start justify-content-end"
+                  >
+                    <LinePrice className="mb-3">
+                      <span className="price">
+                        {currency}&nbsp;{amount}
+                      </span>
+                    </LinePrice>
+                    <QuantityEditor
+                      quantity={quantity}
+                      modifyQuantity={modifyQuantity(id)}
+                    />
+                  </Col>
+                  <hr />
+                </OrderLine>
+              )
+            )}
+          </Col>
+        </Row>
+      )}
+    </Container>
+  );
+};
 
 export default Checkout;

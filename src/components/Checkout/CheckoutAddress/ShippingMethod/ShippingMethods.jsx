@@ -10,6 +10,10 @@ const SAVE_SHIPPING_TO_CHECKOUT = gql`
         shippingMethod{
           id
           name
+          price {
+            amount
+            currency
+          }
         }
       }
       errors{

@@ -48,9 +48,13 @@ const CREATE_NEW_CHECKOUT = gql(`
           }
           variant{
             id
+            isDigital
             product{
               id
               name
+              images {
+                url
+              }
               thumbnail{
                 url
                 alt
@@ -125,9 +129,13 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
           }
           variant{
             id
+            isDigital
             product{
               id
               name
+              images {
+                url
+              }
               thumbnail{
                 url
                 alt
