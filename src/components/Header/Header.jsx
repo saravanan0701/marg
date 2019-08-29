@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import logo from './../../images/logo.svg'
 import { FlatButton, Menu } from './../commons/';
 import { Container, Row, Col } from 'reactstrap';
-import SearchBox from './../SearchBox';
 import emblem from '../../images/emblem.png'
 import FontAwesome from 'react-fontawesome';
 
@@ -121,7 +120,7 @@ const Header = ({
         <Col id="rightCol" lg="5" className="d-flex align-items-center justify-content-end">
           {/* <FlatButton className="mr-4">Subscribe to Marg</FlatButton> */}
           <UserMenu />
-          <FlatButton onClick={(e) => cartQuantity > 0 && push('/checkout')} className="ml-4" colorType="primary">
+          <FlatButton onClick={(e) => cartQuantity > 0 && push('/checkout/cart')} className="ml-4" colorType="primary">
             <span className="color-black">Cart—</span>{cartQuantity}
           </FlatButton>
         </Col>
@@ -154,7 +153,6 @@ const Header = ({
         <div className="menu mr-0">
           <Link className="m-0" to="/search">SEARCH<FontAwesome id="searchIcon" name='search' className='color-red ml-2' /></Link>
         </div>
-        {/* <SearchBox /> */}
       </Row>
     </Container>
     </div>
