@@ -96,6 +96,7 @@ const QUERY_ME = gql`
         edges {
           node {
             id
+            visibleOrderId
             statusDisplay
             created
             total {
