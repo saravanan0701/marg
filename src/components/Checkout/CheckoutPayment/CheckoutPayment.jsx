@@ -28,6 +28,7 @@ const COMPLETE_CHECKOUT = gql`
       }
       order {
         id
+        visibleOrderId
         fulfillments{
           fulfillmentOrder
           status
@@ -226,6 +227,7 @@ export default class CheckoutPayment extends Component {
         checkoutComplete: {
           order: {
             id,
+            visibleOrderId,
             shippingAddress,
             total: {
               net
@@ -238,6 +240,7 @@ export default class CheckoutPayment extends Component {
       if(errors.length === 0) {
         self.setState({
           shippingAddress,
+          visibleOrderId,
           totalPrice: net,
           orderId: id,
           status: "PAYMENT_PERSISTED",
@@ -255,6 +258,7 @@ export default class CheckoutPayment extends Component {
     const {
       status,
       orderId,
+      visibleOrderId,
       shippingAddress,
       totalPrice: {
         amount,
@@ -280,7 +284,7 @@ export default class CheckoutPayment extends Component {
           {
             status === "PAYMENT_PERSISTED" && 
               <div className="success row col-12">
-                <div className="header col-12">Order successful, your order #{orderId}.</div>
+                <div className="header col-12">Order successful, your order #{visibleOrderId}.</div>
                 <div className="body col-12 row">
                   <div className="address col-12 col-md-6">
                     <div>Your order will be delivered</div>

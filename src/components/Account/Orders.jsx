@@ -31,6 +31,7 @@ const Orders = ({ value, index, isLoading, orders }) => {
                 (
                   {
                     id: orderId,
+                    visibleOrderId,
                     total: {
                       net: {
                         amount,
@@ -46,6 +47,7 @@ const Orders = ({ value, index, isLoading, orders }) => {
                     <ExpansionPanelSummary>
                       <div className="row justify-content-between col-12">
                         <div>
+                          <div>#{visibleOrderId}</div>
                           <div>{new Date(created).toDateString()}</div>
                         </div>
                         <div>{currency} {amount}</div>

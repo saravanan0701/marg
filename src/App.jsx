@@ -36,7 +36,7 @@ import ProtectedRoute from './components/commons/ProtectedRoute';
 import Account from './components/Account/';
 import { ScrollTop } from './components/ScrollTop';
 import SearchResultsContainer from './components/Search/SearchResultsContainer';
-import ForgotPassword from './components/ForgotPassword/index.jsx';
+import ResetPassword from './components/ResetPassword/index.jsx';
 import NotificationManager from './components/NotificationManager/';
 
 export const history = createBrowserHistory()
@@ -135,7 +135,7 @@ class App extends Component {
                         <Route path="/checkout" component={Checkout} />
                         <ProtectedRoute exact path="/myaccount" component={Account} />
                         <Route exact path="/search" component={SearchResultsContainer} />
-                        <Route path="/forgot-password" component={ForgotPassword} />
+                        <Route path="/reset-password" component={ResetPassword} />
                       </Switch>
                       <Footer />
                       <NotificationManager />

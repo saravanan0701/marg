@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import gql from 'graphql-tag';
-import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 
-import { FlatButton, RaisedButton } from './../commons/';
+import { FlatButton, RaisedButton } from '../../commons';
 
 
-const GET_AUTH_TOKEN = gql(`
-  mutation LoginMutation($email: String!, $password: String!) {
-    tokenCreate(email: $email, password: $password) {
-      token,
-      user {
-        email
-      }
+const GENERATE_RESET_PASSWORD_EMAIL = gql(`
+  mutation ResetPasswordEmailMutation($email: String!) {
+    customerPasswordReset(input: {email: $email}) {
       errors {
         message 
       }
@@ -30,12 +25,12 @@ const Wrapper = styled.div`
   }
 
   & > form{
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    display: flex;
     @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
       width: 50%;
     }
+    flex-direction: column;
 
     & > .heading {
       color: #000000;
@@ -67,24 +62,21 @@ const Wrapper = styled.div`
         width: 100%
       }
 
-      & > div {
+      & > div.msg {
+        color: ${props => props.theme.primaryColor};
+        padding: 5px;
         position: absolute;
-        bottom: -22px;
+        bottom: -30px;
       }
     }
 
-    & > .forgot-button {
-      align-self: flex-end;
-      padding-top: 10px;
-      padding-right: 0px !important;
-    }
-
-    & > .login-button {
+    & > .reset-button {
       align-self: flex-start;
+      padding-top: 30px;
     }
 
     & > .signup {
-      padding-top: 50px;
+      padding-top: 20px;
       display: flex;
       flex-direction: row;
 
@@ -95,47 +87,27 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class Login extends Component {
+export default class GenerateEmail extends Component {
 
-  handleLogin(data) {
-    if (data.tokenCreate.errors && data.tokenCreate.errors.length > 0) {
-      return this.props.loginFailure();
-    }
-    const { token, user: { email } } = data.tokenCreate;
-    this.props.loginSuccess({
-      email: email,
-      authToken: token
-    });
-  }
-
-  loginAttempt(values) {
+  sendPasswordResetEmail(email) {
     const {
       client,
+      successNotification,
+      errorNotification,
     } = this.props;
-    return client.mutate({
-      mutation: GET_AUTH_TOKEN,
-      variables: values,
-    }).then(({ data }) => this.handleLogin(data));
-  }
 
-  componentDidUpdate() {
-    const {
-      email,
-      history: {
-        push,
+    return client.mutate({
+      mutation: GENERATE_RESET_PASSWORD_EMAIL,
+      variables: {
+        email,
       },
-      location: {
-        state: {
-          from: {
-            pathname = "/",
-          } = {}
-        } = {},        
-      },
-    } = this.props;
-    if(email && pathname) {
-      //User has loggedin
-      push(pathname);
-    }
+    }).then(({ data: { customerPasswordReset: {errors} = {} } = {} }) => {
+      if(errors && errors.length > 0) {
+        return errorNotification(errors[0].message);
+      } else {
+        return successNotification("An email is being sent to reset password.");
+      }
+    })
   }
 
   render() {
@@ -163,7 +135,7 @@ export default class Login extends Component {
           onSubmit={
             (values, { setSubmitting }) => (
               this
-                .loginAttempt(values)
+                .sendPasswordResetEmail(values.email)
                 .then(() => setSubmitting(false))
             )
           }
@@ -180,7 +152,7 @@ export default class Login extends Component {
             }) => 
             (
               <form onSubmit={handleSubmit}>
-                <div className="heading">Sign In</div>
+                <div className="heading">Forgot password</div>
                 <div className="label">Email</div>
                 <div className="input-container">
                   <input
@@ -190,22 +162,23 @@ export default class Login extends Component {
                     onBlur={handleBlur}
                     value={values.email}
                     />
-                  <div>{errors.email && touched.email && errors.email}</div>
+                  <div className="msg">{errors.email && touched.email && errors.email}</div>
                 </div>
-                <div className="label">Password</div>
-                <div className="input-container">
-                  <input
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                    />
-                  <div>{errors.password && touched.password && errors.password}</div>
+                <div className="reset-button">
+                  <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>{ isSubmitting ? 'Sending...' : 'Send email'}</RaisedButton>
                 </div>
-                <FlatButton onClick={(e) => push("/reset-password/generate/")} className="forgot-button">Forgot password</FlatButton>
-                <div className="login-button">
-                  <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>{ isSubmitting ? 'Logging in...' : 'Sign in'}</RaisedButton>
+                <div className="signup">
+                  <div>Have an account? </div>
+                  <FlatButton
+                    onClick={
+                      () => {
+                          return push(`/login`)
+                      }
+                    }
+                    className="button"
+                  >
+                    Login
+                  </FlatButton>
                 </div>
                 <div className="signup">
                   <div>Don’t have an account? </div>

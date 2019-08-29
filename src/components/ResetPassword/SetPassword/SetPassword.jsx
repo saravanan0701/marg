@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Formik } from 'formik';
+import queryString from 'query-string';
 
 import { FlatButton, RaisedButton } from '../../commons';
 
 
-const GENERATE_RESET_PASSWORD_EMAIL = gql(`
-  mutation ResetPasswordEmailMutation($email: String!) {
-    customerPasswordReset(input: {email: $email}) {
+const RESET_PASSWORD = gql(`
+  mutation ResetPasswordMutation($id: ID!, $token: String!, $password:String!) {
+    setPassword(id:$id,input:{token:$token,password:$password}) {
       errors {
         message 
       }
@@ -87,92 +88,96 @@ const Wrapper = styled.div`
   }
 `;
 
-export default class ForgotPasswordEmailGenerate extends Component {
+export default ({ client, location:{ search }, history: { push }, errorNotification, successNotification }) => {
 
-  sendPasswordResetEmail(email) {
-    const {
-      client,
-      successNotification,
-      errorNotification,
-    } = this.props;
-
+  const sendPasswordResetEmail = (password) => {
+    const { uid:id, token } = queryString.parse(search);
     return client.mutate({
-      mutation: GENERATE_RESET_PASSWORD_EMAIL,
+      mutation: RESET_PASSWORD,
       variables: {
-        email,
+        id,
+        token,
+        password
       },
-    }).then(({ data: { customerPasswordReset: {errors} = {} } = {} }) => {
+    }).then(({ data: { setPassword: {errors} = {} } = {} }) => {
       if(errors && errors.length > 0) {
         return errorNotification(errors[0].message);
       } else {
-        return successNotification("An email is being sent to reset password.");
+        return successNotification("Password has been reset.");
       }
-    })
+    }, (err) => errorNotification("Something went wrong, please try again!"))
   }
 
-  render() {
-
-    const {
-      history: {
-        push,
-      },
-    } = this.props;
-    return (
-      <Wrapper>
-        <Formik
-          initialValues={{email: '', password: ''}}
-          validate={values => {
-            const errors = {};
-            if (!values.email) {
-              errors.email = 'Required';
-            } else if (
-              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-              errors.email = 'Invalid email address';
-            }
-            return errors;
-          }}
-          onSubmit={
-            (values, { setSubmitting }) => (
-              this
-                .sendPasswordResetEmail(values.email)
-                .then(() => setSubmitting(false))
-            )
+  return (
+    <Wrapper>
+      <Formik
+        initialValues={{ password1: '', password2: '' }}
+        validate={values => {
+          const errors = {};
+          if(!values.password1 || !values.password2 || values.password1 !== values.password2) {
+            errors.passwordDonotMatch = true;
           }
-        >
-          {
-            ({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => 
+          return errors;
+        }}
+        onSubmit={
+          (values, { setSubmitting }) => (
+            sendPasswordResetEmail(values.password1)
+            .then(() => setSubmitting(false))
+          )
+        }
+      >
+        {
+          ({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) =>
             (
               <form onSubmit={handleSubmit}>
-                <div className="heading">Forgot password</div>
-                <div className="label">Email</div>
+                <div className="heading">Reset password</div>
+                <div className="label">New password</div>
                 <div className="input-container">
                   <input
-                    type="email"
-                    name="email"
+                    type="password"
+                    name="password1"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
-                    />
-                  <div className="msg">{errors.email && touched.email && errors.email}</div>
+                  />
+                </div>
+                <div className="label">Confirm password</div>
+                <div className="input-container">
+                  <input
+                    type="password"
+                    name="password2"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                  />
+                  <div className="msg">{
+                    errors.passwordDonotMatch && touched.password1 && touched.password2 && 
+                      "Passwords donot match!"
+                  }</div>
                 </div>
                 <div className="reset-button">
-                  <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>{ isSubmitting ? 'Sending...' : 'Send email'}</RaisedButton>
+                  <RaisedButton
+                    type="submit"
+                    colortype="primary"
+                    disabled={isSubmitting && errors.passwordDonotMatch}
+                    >
+                    {isSubmitting ? 'Saving...' : 'Reset'}
+                  </RaisedButton>
                 </div>
                 <div className="signup">
                   <div>Have an account? </div>
                   <FlatButton
                     onClick={
                       () => {
-                          return push(`/login`)
+                        return push(`/login`)
                       }
                     }
                     className="button"
@@ -185,7 +190,7 @@ export default class ForgotPasswordEmailGenerate extends Component {
                   <FlatButton
                     onClick={
                       () => {
-                          return push(`/signup`)
+                        return push(`/signup`)
                       }
                     }
                     className="button"
@@ -195,9 +200,8 @@ export default class ForgotPasswordEmailGenerate extends Component {
                 </div>
               </form>
             )
-          }
-        </Formik>
-      </Wrapper>
-    )
-  }
+        }
+      </Formik>
+    </Wrapper>
+  )
 }
