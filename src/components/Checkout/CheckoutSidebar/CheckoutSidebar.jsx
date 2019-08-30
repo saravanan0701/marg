@@ -52,8 +52,7 @@ const PROCEED_BUTTON_PARAMS = {
   "/checkout/address": {
     url: "/checkout/payment",
     buttonText: "Make Payment",
-    disabled: (selectedShippingAddress, selectedShippingMethod) =>
-      selectedShippingAddress && selectedShippingMethod
+    disabled: (selectedShippingAddress, selectedShippingMethod) => Object.entries(selectedShippingAddress).length === 0 || Object.entries(selectedShippingMethod).length === 0
   },
   "/checkout/payment": {
     url: "/checkout/payment",
