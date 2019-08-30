@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { RaisedButton } from './../../commons/';
 import styled from 'styled-components';
 import logo from './../../../images/logo.png';
-import ShippingAddress from './../CheckoutAddress/ShippingAddress.jsx';
+import AddressBox from '../CheckoutAddress/AddressBox';
 
 const SAVE_PAYMENT = gql`
   mutation SavePayment($checkoutId: ID!, $input: PaymentInput!) {
@@ -288,7 +288,7 @@ export default class CheckoutPayment extends Component {
                 <div className="body col-12 row">
                   <div className="address col-12 col-md-6">
                     <div>Your order will be delivered</div>
-                    <ShippingAddress size="col-12" {...shippingAddress}></ShippingAddress>
+                    <AddressBox size="col-12" {...shippingAddress} />
                   </div>
                   <div className="payment col-12 col-md-6">
                     <div>You have payed&nbsp;{currency}.&nbsp;{amount}</div>

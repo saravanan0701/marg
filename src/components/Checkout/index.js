@@ -24,7 +24,7 @@ class Checkout extends Component {
 
   render() {
     return (
-      <Row>
+      <Row className="my-5">
          <Col lg="9">
           <Route exact path="/checkout/cart/" component={CheckoutBag} />
           <Route exact path="/checkout/address/" component={CheckoutAddress} />

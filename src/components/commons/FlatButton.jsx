@@ -10,6 +10,10 @@ const ButtonWrapper = styled.div`
   cursor: pointer;
   border-bottom: 1px solid transparent;
 
+  &:disabled {
+    background-color: #cccccc;
+  }
+
   &:hover, &:active {
     color: ${props => props.theme[props.colorType? `${props.colorType}HoverColor`: "primaryHoverColor"]};
     ${props => props.theme[`${props.colorType}HoverUnderLineColor`] !== undefined && css`
