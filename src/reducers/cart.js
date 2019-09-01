@@ -5,6 +5,7 @@ const INITIAL_CART_STATE = {
   error: false,
   totalQuantity: 0,
   totalPrice: {},
+  subtotalPrice: {},
   shippingAddress: {},
   availableShippingMethods: [],
   shippingMethod: {},
@@ -22,7 +23,8 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         lines: action.checkout.lines.concat(),
         token: action.checkout.token,
         totalQuantity: getTotalQuantity(action.checkout.lines),
-        totalPrice: action.checkout.totalPrice,
+        totalPrice: {...action.checkout.totalPrice},
+        subtotalPrice: {...action.checkout.subtotalPrice},
         shippingAddress: {
           ...action.checkout.shippingAddress
         },
@@ -40,7 +42,8 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         ...state,
         lines: action.checkout.lines.concat(),
         totalQuantity: getTotalQuantity(action.checkout.lines),
-        totalPrice: action.checkout.totalPrice,
+        totalPrice: {...action.checkout.totalPrice},
+        subtotalPrice: {...action.checkout.subtotalPrice},
         error: false,
       }
 
