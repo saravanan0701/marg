@@ -65,7 +65,7 @@ const CheckoutSidebar = ({
   currency_preference,
   cart: {
     checkoutId,
-    totalPrice: { gross: { amount, currency, localized } = {} } = {},
+    subtotalPrice: { gross: { amount, currency, localized } = {} } = {},
     shippingMethod,
     shippingAddress
   } = {}
