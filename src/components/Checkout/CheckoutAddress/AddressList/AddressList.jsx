@@ -74,10 +74,12 @@ const SAVE_ADDRESS_TO_CHECKOUT = gql`
           priceInr{
             currency
             amount
+            localized
           }
           priceUsd{
             currency
             amount
+            localized
           }
         }
       }
@@ -123,9 +125,15 @@ const SAVE_SHIPPING_TO_CHECKOUT = gql`
         shippingMethod{
           id
           name
-          price {
+          priceInr {
             amount
             currency
+            localized
+          }
+          priceUsd {
+            amount
+            currency
+            localized
           }
         }
       }

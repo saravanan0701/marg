@@ -31,10 +31,12 @@ const CREATE_NEW_CHECKOUT = gql(`
           gross{
             currency
             amount
+            localized
           }
           net{
             currency
             amount
+            localized
           }
         }
         lines{
@@ -44,10 +46,12 @@ const CREATE_NEW_CHECKOUT = gql(`
             gross{
               currency
               amount
+              localized
             }
             net{
               currency
               amount
+              localized
             }
           }
           variant{
@@ -88,10 +92,12 @@ const CREATE_NEW_CHECKOUT = gql(`
           priceInr{
             currency
             amount
+            localized
           }
           priceUsd{
             currency
             amount
+            localized
           }
         }
       }
@@ -120,10 +126,12 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
           gross{
             currency
             amount
+            localized
           }
           net{
             currency
             amount
+            localized
           }
         }
         lines{
@@ -133,10 +141,12 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
             gross{
               currency
               amount
+              localized
             }
             net{
               currency
               amount
+              localized
             }
           }
           variant{
@@ -177,10 +187,12 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
           priceInr{
             currency
             amount
+            localized
           }
           priceUsd{
             currency
             amount
+            localized
           }
         }
       }

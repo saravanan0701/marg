@@ -35,10 +35,12 @@ const QUERY_ME = gql`
           net{
             currency
             amount
+            localized
           }
           gross{
             currency
             amount
+            localized
           }
         }
         lines{
@@ -47,10 +49,12 @@ const QUERY_ME = gql`
             net{
               currency
               amount
+              localized
             }
             gross{
               currency
               amount
+              localized
             }
           }
           quantity
@@ -93,10 +97,12 @@ const QUERY_ME = gql`
           priceInr{
             currency
             amount
+            localized
           }
           priceUsd{
             currency
             amount
+            localized
           }
         }
       }
@@ -111,6 +117,7 @@ const QUERY_ME = gql`
               net{
                 currency
                 amount
+                localized
               }
             }
             lines {
@@ -145,6 +152,7 @@ const QUERY_ME = gql`
                 net{
                   currency
                   amount
+                  localized
                 }
               }
             }

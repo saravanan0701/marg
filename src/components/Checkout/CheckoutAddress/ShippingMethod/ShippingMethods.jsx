@@ -13,6 +13,7 @@ const SAVE_SHIPPING_TO_CHECKOUT = gql`
           price {
             amount
             currency
+            localized
           }
         }
       }

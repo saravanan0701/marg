@@ -62,9 +62,10 @@ const PROCEED_BUTTON_PARAMS = {
 
 const CheckoutSidebar = ({
   location,
+  currency_preference,
   cart: {
     checkoutId,
-    totalPrice: { gross: { amount, currency } = {} } = {},
+    totalPrice: { gross: { amount, currency, localized } = {} } = {},
     shippingMethod,
     shippingAddress
   } = {}
@@ -81,7 +82,7 @@ const CheckoutSidebar = ({
             <p>
               SUBTOTAL:{" "}
               <span className="float-right">
-                {currency} {amount}
+              {localized}
               </span>
             </p>
             <p>
@@ -93,7 +94,7 @@ const CheckoutSidebar = ({
                 </span>
               ) : (
                 <span className="float-right">
-                  {shippingMethod.price.amount}
+                  {currency_preference === "USD"? shippingMethod.priceUsd.localized: shippingMethod.priceInr.localized}
                 </span>
               )}
             </p>

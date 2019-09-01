@@ -4,8 +4,12 @@ import CheckoutSidebar from './CheckoutSidebar.jsx';
 
 const mapStateToProps = ({
   cart,
+  auth: {
+    currency,
+  },
 }, ownProps) => ({
   cart,
+  currency_preference: currency,
 })
 
 export default connect(
