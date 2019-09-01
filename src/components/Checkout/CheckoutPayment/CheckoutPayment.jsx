@@ -153,9 +153,9 @@ export default class CheckoutPayment extends Component {
           net: {
             amount,
             currency,
-          },
-        },
-      },
+          } = {},
+        } = {},
+      } = {},
     } = this.props;
     this.options.currency = currency;
     this.options.amount = amount * 100;
