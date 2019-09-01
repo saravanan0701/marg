@@ -10,6 +10,9 @@ const ButtonWrapper = styled.button`
   font-size: ${props => props.theme['$font-size-xxs']};
   font-weight: ${props => props.theme['$weight-bold']};
   border: none;
+  &:disabled {
+    background-color: #cccccc;
+  }
 `;
 
 const RaisedButton = (props) => (

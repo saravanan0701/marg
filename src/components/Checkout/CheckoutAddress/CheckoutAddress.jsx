@@ -21,14 +21,12 @@ const CheckoutAddress = ({
 
   <Wrapper>
     <AddressList />
-    <ShippingMethod />
-        
-    {
+    {/* {
       shippingAddress && shippingMethod && shippingAddress.id && shippingMethod.id &&
           <RaisedButton onClick={() => push("/checkout/payment")} colortype="primary">
             Next
           </RaisedButton>
-    }
+    } */}
   </Wrapper>
 )
 

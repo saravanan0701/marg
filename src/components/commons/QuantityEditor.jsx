@@ -1,11 +1,33 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
+import plus from '../../images/plus.svg';
+import minus from '../../images/minus.svg';
 
 
-const Container = styled.div`
-  & > .icon {
+const QuantityEditorWrapper = styled.div`
+
+  /* width: 110px; */
+  display: flex;
+  justify-content: space-evenly;
+  border: 1px solid #4a4a4a;
+  padding: 8px 0px;
+
+  .icon, .quantity {
+    display: flex;
     cursor: pointer;
+    width: 35%;
+    justify-content: center;
+    align-items: center;
   }
+
+  .quantity {
+    color: #4a4a4a;
+    font-family: Lato;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+  }
+
 `;
 
 const QuantityEditor = ({ quantity, modifyQuantity }) => {
@@ -29,11 +51,14 @@ const QuantityEditor = ({ quantity, modifyQuantity }) => {
       setQuant(quant-1);
     })
   }
-  return <Container className="row col-md-4">
-    <div onClick={decr} className="col-4 icon">-</div>
-    <div className="col-4">{quant}</div>
-    <div onClick={incr} className="col-4 icon">+</div>
-  </Container>;
+  return (
+
+    <QuantityEditorWrapper>
+      <div onClick={decr} className="icon"><img src={minus} alt=""/></div>
+      <div className="quantity">{quant}</div>
+      <div onClick={incr} className="icon"><img src={plus} alt=""/></div>
+    </QuantityEditorWrapper>
+  )
 }
 
 export default QuantityEditor;

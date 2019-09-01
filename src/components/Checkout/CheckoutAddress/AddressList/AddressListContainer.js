@@ -8,6 +8,7 @@ const mapStateToProps = ({
     checkoutId,
     shippingAddress,
     availableShippingMethods,
+    shippingMethod
   },
   auth: {
     id: userId,
@@ -24,6 +25,7 @@ const mapStateToProps = ({
   firstName,
   lastName,
   email,
+  shippingMethod,
   availableShippingMethods,
 })
 
@@ -31,6 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   addNewAddress: (address) => dispatch(actions.addNewAddress(address)),
   updateShippingAddress: (shippingAddress) => dispatch(actions.updateShippingAddress(shippingAddress)),
   setAvailableShippingMethods: (shippingMethods) => dispatch(actions.setAvailableShippingMethods(shippingMethods)),
+  updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod))
 })
 
 export default connect(

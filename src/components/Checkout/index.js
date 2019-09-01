@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router';
+import { Route } from 'react-router';
+import { Row, Col } from 'reactstrap';
+import CheckoutSidebar from './CheckoutSidebar/';
 import CheckoutAddress from './CheckoutAddress/';
 import CheckoutBag from './CheckoutBag/';
 import CheckoutPayment from './CheckoutPayment/';
@@ -22,11 +24,16 @@ class Checkout extends Component {
 
   render() {
     return (
-      <div>
-        <Route exact path="/checkout/" component={CheckoutBag} />
-        <Route exact path="/checkout/address/" component={CheckoutAddress} />
-        <Route exact path="/checkout/payment/" component={CheckoutPayment} />
-      </div>
+      <Row className="my-5">
+         <Col lg="9">
+          <Route exact path="/checkout/cart/" component={CheckoutBag} />
+          <Route exact path="/checkout/address/" component={CheckoutAddress} />
+          <Route exact path="/checkout/payment/" component={CheckoutPayment} />
+         </Col>
+         <Col lg="3">
+            <CheckoutSidebar />
+         </Col>
+      </Row>
     )
   }
 

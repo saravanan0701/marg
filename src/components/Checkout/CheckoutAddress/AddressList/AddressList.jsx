@@ -1,32 +1,31 @@
-import React, { Component, useState } from 'react';
-import styled from 'styled-components';
-import { Query } from "react-apollo";
-import gql from 'graphql-tag';
-import { checkIfSameAddress } from './../../../../utils';
-import ShippingAddress from './../ShippingAddress.jsx';
-import AddressEditForm from './../AddressEditForm.jsx';
-import { RaisedButton } from './../../../commons/';
+import React, { Component, useState } from "react";
+import styled from "styled-components";
+import gql from "graphql-tag";
+import { checkIfSameAddress } from "./../../../../utils";
+import AddressBox from "../AddressBox";
+import AddressEditForm from "./../AddressEditForm.jsx";
+import { RaisedButton, FlatButton } from "./../../../commons/";
+import { Row, Col } from "reactstrap";
 
 const ListingWrapper = styled.div`
-  margin-bottom: 30px;
-  & > * {
-    margin-right: 10px;
-  }
-  & > .header {
-    padding: 0px;
-    font-family: "Cormorant Garamond Medium";
-    font-size: ${props => props.theme['$font-size-lg']};
+  .section-label {
+    color: #000000;
+    font-family: Lato;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
   }
 `;
 
 const SAVE_NEW_ADDRESS = gql`
   mutation SaveAddress($userId: ID!, $input: AddressInput!) {
     addressCreate(userId: $userId, input: $input) {
-      errors{
+      errors {
         field
         message
       }
-      address{
+      address {
         id
         firstName
         lastName
@@ -35,7 +34,7 @@ const SAVE_NEW_ADDRESS = gql`
         city
         cityArea
         postalCode
-        country{
+        country {
           country
           code
         }
@@ -48,9 +47,12 @@ const SAVE_NEW_ADDRESS = gql`
 
 const SAVE_ADDRESS_TO_CHECKOUT = gql`
   mutation SaveAddress($checkoutId: ID!, $shippingAddress: AddressInput!) {
-    checkoutShippingAddressUpdate(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
-      checkout{
-        shippingAddress{
+    checkoutShippingAddressUpdate(
+      checkoutId: $checkoutId
+      shippingAddress: $shippingAddress
+    ) {
+      checkout {
+        shippingAddress {
           id
           firstName
           lastName
@@ -59,14 +61,14 @@ const SAVE_ADDRESS_TO_CHECKOUT = gql`
           city
           cityArea
           postalCode
-          country{
+          country {
             country
             code
           }
           countryArea
           phone
         }
-        availableShippingMethods{
+        availableShippingMethods {
           id
           name
           priceInr{
@@ -79,14 +81,17 @@ const SAVE_ADDRESS_TO_CHECKOUT = gql`
           }
         }
       }
-      errors{
+      errors {
         field
         message
       }
     }
-    checkoutBillingAddressUpdate(checkoutId: $checkoutId, billingAddress: $shippingAddress) {
-      checkout{
-        billingAddress{
+    checkoutBillingAddressUpdate(
+      checkoutId: $checkoutId
+      billingAddress: $shippingAddress
+    ) {
+      checkout {
+        billingAddress {
           id
           firstName
           lastName
@@ -95,12 +100,33 @@ const SAVE_ADDRESS_TO_CHECKOUT = gql`
           city
           cityArea
           postalCode
-          country{
+          country {
             country
             code
           }
           countryArea
           phone
+        }
+      }
+      errors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+const SAVE_SHIPPING_TO_CHECKOUT = gql`
+  mutation SaveAddress($checkoutId: ID!, $shippingMethodId: ID!) {
+    checkoutShippingMethodUpdate(checkoutId: $checkoutId, shippingMethodId: $shippingMethodId) {
+      checkout{
+        shippingMethod{
+          id
+          name
+          price {
+            amount
+            currency
+          }
         }
       }
       errors{
@@ -124,127 +150,152 @@ export const AddressList = ({
   addNewAddress,
   setAvailableShippingMethods,
   updateShippingAddress,
+  updateShippingMethod
 }) => {
+  const [showAddressForm, setShowAddressForm] = useState(false);
 
-  const [ showAddressForm, setShowAddressForm ] = useState(false);
-
-  const saveAddress = (shippingAddress) => {
-    return client.mutate({
-      mutation: SAVE_NEW_ADDRESS,
-      variables: {
-        userId,
-        input: shippingAddress,
-      },
-    }).then((
-      {
-        data: {
-          addressCreate: {
-            address,
-            errors,
-          }
+  const saveAddress = shippingAddress => {
+    return client
+      .mutate({
+        mutation: SAVE_NEW_ADDRESS,
+        variables: {
+          userId,
+          input: shippingAddress
         }
-      }
-    ) => {
-      if(errors && errors.length > 0) {
-        return false;
-      }
-      addNewAddress(address);
-      return address;
-    })
-  }
+      })
+      .then(({ data: { addressCreate: { address, errors } } }) => {
+        if (errors && errors.length > 0) {
+          return false;
+        }
+        addNewAddress(address);
+        return address;
+      });
+  };
 
-  const saveAddressToCart = (shippingAddress) => {
-    const updatableShipping = {...shippingAddress};
+  const saveAddressToCart = shippingAddress => {
+    const updatableShipping = { ...shippingAddress };
     delete updatableShipping.__typename;
-    if(updatableShipping.phone.length === 10) {
-      updatableShipping.phone = `+91{updatableShipping.phone}`
+    if (updatableShipping.phone.length === 10) {
+      updatableShipping.phone = `+91{updatableShipping.phone}`;
     }
     updatableShipping.country = updatableShipping.country.code;
     delete updatableShipping.id;
-    client.mutate({
-      mutation: SAVE_ADDRESS_TO_CHECKOUT,
+    client
+      .mutate({
+        mutation: SAVE_ADDRESS_TO_CHECKOUT,
+        variables: {
+          checkoutId,
+          shippingAddress: updatableShipping
+        }
+      })
+      .then(
+        ({
+          data: {
+            checkoutShippingAddressUpdate: {
+              checkout: {
+                shippingAddress: updatedShippingAddress,
+                availableShippingMethods
+              } = {},
+              errors: checkoutShippingAddressErrors
+            } = {},
+            checkoutBillingAddressUpdate: {
+              checkout: { billingAddress } = {},
+              errors: checkoutBillingAddressErrors
+            } = {}
+          }
+        }) => {
+          if (
+            (checkoutShippingAddressErrors &&
+              checkoutShippingAddressErrors.length > 0) ||
+            (checkoutBillingAddressErrors &&
+              checkoutBillingAddressErrors.length > 0)
+          ) {
+            //TODO: show errors.
+            return false;
+          }
+          updateShippingAddress(updatedShippingAddress);
+          // setAvailableShippingMethods(availableShippingMethods);
+          persistShippingMethod(availableShippingMethods[0]);
+          //TODO: Optional update billing address.
+          return true;
+        }
+      )
+  };
+
+  const persistShippingMethod = (shippingMethod) => {
+    return client.mutate({
+      mutation: SAVE_SHIPPING_TO_CHECKOUT,
       variables: {
         checkoutId,
-        shippingAddress: updatableShipping,
+        shippingMethodId: shippingMethod.id,
       },
     }).then(
       (
         {
           data: {
-            checkoutShippingAddressUpdate: {
+            checkoutShippingMethodUpdate: {
               checkout: {
-                shippingAddress: updatedShippingAddress,
-                availableShippingMethods,
-              }={},
-              errors: checkoutShippingAddressErrors,
-            }={},
-            checkoutBillingAddressUpdate: {
-              checkout: {
-                billingAddress,
-              }={},
-              errors: checkoutBillingAddressErrors,
-            }={},
+                shippingMethod: updatedShippingMethod,
+              },
+              errors: checkoutShippingMethodErrors,
+            },
           }
         }
       ) => {
-        if(
-            (checkoutShippingAddressErrors && checkoutShippingAddressErrors.length > 0)
-            ||
-            (checkoutBillingAddressErrors && checkoutBillingAddressErrors.length > 0)
-          ){
-          //TODO: show errors.
-          return false;
+        if(checkoutShippingMethodErrors.length > 0) {
+          return;
         }
-        updateShippingAddress(updatedShippingAddress);
-        setAvailableShippingMethods(availableShippingMethods);
-        //TODO: Optional update billing address.
-        return true;
+        updateShippingMethod(updatedShippingMethod);
       }
-    )
+    );
   }
 
   return (
-    <ListingWrapper className="row">
-      <div className="header col-12">Please select an address</div>
-      {
-        addresses &&
-          addresses
-            .map((address, id) => (
-              <ShippingAddress
-                size="col-12 col-md-3"
-                key={address && address.id}
-                onClick={() => saveAddressToCart(address)}
-                selected={
-                  (() => {
-                    return cartShippingAddress && checkIfSameAddress(address, cartShippingAddress);
-                  })()
-                }
-                {...address}
-              >
-              </ShippingAddress>
-            ))
-            .concat(
-              <ShippingAddress size="col-12 col-md-3" addNew={true}>
-                <RaisedButton onClick={(e) => setShowAddressForm(!showAddressForm)} colortype="primary">
-                  Add new address
-                </RaisedButton>
-              </ShippingAddress>
-            )
-      }
-      { 
-        showAddressForm &&
-          <AddressEditForm
-            firstName={firstName}
-            lastName={lastName}
-            email={email}
-            saveAddress={(values) => saveAddress(values)}
-            toggleAddressForm={() => setShowAddressForm(!showAddressForm)}
-          >
-          </AddressEditForm>
-      }
+    <ListingWrapper>
+      <Row>
+        <Col xs="12">
+          <p className="section-label">
+            SAVED ADDRESSES
+            <FlatButton
+              onClick={e => setShowAddressForm(true)}
+              className={`ml-4 ${showAddressForm ? "d-none" : "d-inline"}`}
+            >
+              ADD A NEW ADDRESS
+            </FlatButton>
+          </p>
+        </Col>
+      </Row>
+      <Row>
+        {addresses &&
+          addresses.map((address, id) => (
+            <AddressBox
+              size="col-12 col-md-3"
+              key={address && address.id}
+              onClick={() => saveAddressToCart(address)}
+              selected={(() => {
+                return (
+                  cartShippingAddress &&
+                  checkIfSameAddress(address, cartShippingAddress)
+                );
+              })()}
+              {...address}
+            />
+          ))}
+      </Row>
+
+      <Row>
+        <Col xs="12">
+          {showAddressForm && (
+            <AddressEditForm
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              saveAddress={values => saveAddress(values)}
+              toggleAddressForm={() => setShowAddressForm(!showAddressForm)}
+            />
+          )}
+        </Col>
+      </Row>
     </ListingWrapper>
   );
-}
-
-
-
+};
