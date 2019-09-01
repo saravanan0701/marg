@@ -43,6 +43,18 @@ const QUERY_ME = gql`
             localized
           }
         }
+        subtotalPrice{
+          gross{
+            currency
+            amount
+            localized
+          }
+          net{
+            currency
+            amount
+            localized
+          }
+        }
         lines{
           id
           totalPrice{
@@ -90,6 +102,20 @@ const QUERY_ME = gql`
           }
           countryArea
           phone          
+        }
+        shippingMethod{
+          id
+          name
+          priceInr{
+            currency
+            amount
+            localized
+          }
+          priceUsd{
+            currency
+            amount
+            localized
+          }
         }
         availableShippingMethods{
           id

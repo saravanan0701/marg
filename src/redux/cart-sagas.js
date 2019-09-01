@@ -39,6 +39,18 @@ const CREATE_NEW_CHECKOUT = gql(`
             localized
           }
         }
+        subtotalPrice{
+          gross{
+            currency
+            amount
+            localized
+          }
+          net{
+            currency
+            amount
+            localized
+          }
+        }
         lines{
           id
           quantity
@@ -123,6 +135,18 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
         token
         quantity
         totalPrice{
+          gross{
+            currency
+            amount
+            localized
+          }
+          net{
+            currency
+            amount
+            localized
+          }
+        }
+        subtotalPrice{
           gross{
             currency
             amount
