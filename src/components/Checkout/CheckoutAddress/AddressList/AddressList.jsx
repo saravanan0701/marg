@@ -69,7 +69,11 @@ const SAVE_ADDRESS_TO_CHECKOUT = gql`
         availableShippingMethods{
           id
           name
-          price{
+          priceInr{
+            currency
+            amount
+          }
+          priceUsd{
             currency
             amount
           }

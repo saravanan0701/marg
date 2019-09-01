@@ -86,7 +86,11 @@ const QUERY_ME = gql`
         availableShippingMethods{
           id
           name
-          price{
+          priceInr{
+            currency
+            amount
+          }
+          priceUsd{
             currency
             amount
           }

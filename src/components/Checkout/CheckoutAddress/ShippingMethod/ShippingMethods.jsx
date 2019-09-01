@@ -46,10 +46,14 @@ const AddressWrapper = styled.div`
 
 const ShippingMethod = ({
   name,
-  price:{
-    currency,
-    amount,
-  },
+  priceInr:{
+    currency: currencyInr,
+    amount: amountInr,
+  } = {},
+  priceUsd: {
+    currency: currencyUsd,
+    amount: amountUsd,
+  } = {},
   onClick,
   selected,
 }) => (
@@ -59,7 +63,7 @@ const ShippingMethod = ({
   >
     <div>
       <div className="col-12">{name}</div>
-      <div className="col-12">{currency}.&nbsp;{amount}</div>
+      <div className="col-12">{currencyInr}.&nbsp;{amountInr}</div>
     </div>
   </AddressWrapper>
 );
@@ -69,7 +73,6 @@ export const ShippingMethods = ({
   checkoutId,
   shippingMethod,
   availableShippingMethods,
-
   updateShippingMethod,
 }) => {
   const persistShippingMethod = (shippingMethod) => {

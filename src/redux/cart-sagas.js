@@ -81,7 +81,11 @@ const CREATE_NEW_CHECKOUT = gql(`
         availableShippingMethods{
           id
           name
-          price{
+          priceInr{
+            currency
+            amount
+          }
+          priceUsd{
             currency
             amount
           }
@@ -162,7 +166,11 @@ const SAVE_VARIANT_TO_CHECKOUT = gql(`
         availableShippingMethods{
           id
           name
-          price{
+          priceInr{
+            currency
+            amount
+          }
+          priceUsd{
             currency
             amount
           }
