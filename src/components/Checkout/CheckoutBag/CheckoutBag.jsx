@@ -224,14 +224,17 @@ const Checkout = ({
                   sku,
                   product: {
                     name,
-                    images
+                    images,
+                    thumbnail: {
+                      url: thumbnailUrl
+                    }
                   }
                 }
               }) => (
                 <OrderLine key={sku} className="row py-4">
                   <Col xs="4">
                     <ImgContainer className="text-right">
-                      <img src={replaceStaticUrl(images[0].url)} />
+                      <img src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)} />
                     </ImgContainer>
                   </Col>
                   <Col xs="6">
