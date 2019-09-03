@@ -126,6 +126,7 @@ export const Footer = () => (
         </Row>
         <Row className="my-4">
           <Col lg="6">
+            <p className="legal">Designed and built by <a target="_blank" href="https://1stmain.co">1stMain</a></p>
             <p className="legal">The digitization of the Magazine has been supported by Tata Trusts</p>
           </Col>
           <Col lg="6">
