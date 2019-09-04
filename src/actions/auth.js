@@ -33,6 +33,11 @@ const setOrders = (orders) => ({
   orders,
 })
 
+const setCurrency = (currencyCode) => ({
+  type: 'SET_CURRENCY_CODE',
+  currencyCode,
+})
+
 export default {
   persistAuthenticatedUserToState,
   persistAuthenticatedUser,
@@ -40,5 +45,6 @@ export default {
   logout,
   setUserDetails,
   addNewAddress,
-  setOrders
+  setOrders,
+  setCurrency,
 }

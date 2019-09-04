@@ -57,6 +57,12 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
         ...state,
         orders: state.orders.concat(action.orders),
       }
+    
+    case 'SET_CURRENCY_CODE':
+      return {
+        ...state,
+        currency: action.currencyCode,
+      }
 
     default:
       return state
