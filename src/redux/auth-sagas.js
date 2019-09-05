@@ -1,5 +1,6 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import gql from 'graphql-tag';
+import axios from 'axios';
 
 import actions from './../actions';
 
@@ -27,6 +28,10 @@ function fetchLoggedInUser(client) {
       token: authToken,
     }
   })
+}
+
+function getCountryInfo() {
+  return axios.get("https://api.ipdata.co/?api-key=fa7bbaa2558cd8503c27325d947c3edf9065aa07cbc6006791a27c0b")
 }
 
 function* rehyderateUserFromSession({ client }) {
@@ -57,6 +62,20 @@ function* rehyderateUserFromSession({ client }) {
     yield put(
       actions.updateCartQuantity(cart.length)
     );
+  }
+  try {
+    const {
+      data: {
+        country_code,
+      }
+    } = yield call(getCountryInfo);
+    yield put(
+      actions.setCurrency(country_code === "IN"? "INR": "USD")
+    )
+  } catch (e) {
+    yield put(
+      actions.setCurrency("INR")
+    )
   }
 }
 

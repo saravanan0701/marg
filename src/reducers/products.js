@@ -8,9 +8,12 @@ const INITIAL_PRODUCT_LIST_STATE = {
     editors: [],
     categories: [],
   },
-  sortBy: null,
+  sortBy: {
+    key: "DATE",
+    val: "DESC",
+  },
   pagination: {
-    first: 9,
+    first: 8,
     after: null,
     hasNextPage: false,
   },

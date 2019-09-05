@@ -130,7 +130,7 @@ const Checkout = ({
     checkoutId,
     lines,
     totalQuantity,
-    totalPrice: { gross: { amount, currency } = {} } = {}
+    totalPrice: { gross: { localized } = {} } = {}
   } = {},
   client,
   setLineQuantity,
@@ -217,7 +217,7 @@ const Checkout = ({
                 id,
                 quantity,
                 totalPrice: {
-                  gross: { amount, currency }
+                  gross: { localized }
                 },
                 variant: {
                   isDigital,
@@ -264,7 +264,7 @@ const Checkout = ({
                   >
                     <LinePrice className="mb-3">
                       <span className="price">
-                        {currency}&nbsp;{amount}
+                        {localized}
                       </span>
                     </LinePrice>
                     <QuantityEditor
