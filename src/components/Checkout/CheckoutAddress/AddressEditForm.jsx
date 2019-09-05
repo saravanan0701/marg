@@ -29,7 +29,7 @@ const FormWrapper = styled.div`
   }
 
   & > div.address-block {
-    width: 50%;
+    width: 70%;
 
     & > form {
       & .label {
@@ -128,12 +128,6 @@ class AddressEditForm extends Component {
 
     return (
       <FormWrapper>
-        <div className="header">
-          Add new shipping Address
-        </div>
-        <div className="description">
-          You order will be delivered at this address
-        </div>
         <Formik
           enableReinitialize
           initialValues={{
@@ -165,6 +159,8 @@ class AddressEditForm extends Component {
             (values, { setSubmitting, resetForm }) => {
               values.streetAddress2 = values.streetAddress1;
               values.country = self.state.country.slug;
+              console.log(values);
+              console.log(self.state.country);
               values.countryArea = self.state.state.name;
               values.phone = `+91${values.phone}`;
               delete values.email;

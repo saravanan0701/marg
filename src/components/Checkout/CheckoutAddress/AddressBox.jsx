@@ -41,7 +41,7 @@ const AddressBox = ({
   size
 }) => {
   return (
-    <Col md="4">
+    <Col md="4" className="my-3">
       <AddressWrapper
         onClick={onClick}
         className={`${selected ? "selected" : ""}`}

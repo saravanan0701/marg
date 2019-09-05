@@ -16,6 +16,7 @@ const mapStateToProps = ({
     firstName,
     lastName,
     email,
+    isLoading,
   }
 }, ownProps) => ({
   userId,
@@ -27,6 +28,7 @@ const mapStateToProps = ({
   email,
   shippingMethod,
   availableShippingMethods,
+  isLoading
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
