@@ -15,9 +15,11 @@ export function* persistCartFromCache() {
 const CREATE_NEW_CHECKOUT = gql(`
   mutation SaveVariant(
     $lines: [CheckoutLineInput]!,
+    $currencyPreference: String,
   ) {
     checkoutCreate(input: {
       lines: $lines,
+      currencyPreference: $currencyPreference,
     }) {
       errors{
         field
@@ -240,6 +242,7 @@ function *showCartNotification(errors) {
 }
 
 function* createCheckoutAndLines(lines) {
+  const {currency} = yield select(getUserFromState);
   const {
     data: {
       checkoutCreate: {
@@ -253,6 +256,7 @@ function* createCheckoutAndLines(lines) {
         mutation: CREATE_NEW_CHECKOUT,
         variables: {
           lines,
+          currencyPreference: currency,
         }
       })
     )
