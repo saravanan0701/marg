@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Container, Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
+import CheckoutPayment from "../CheckoutPayment/";
 import { withRouter } from "react-router-dom";
 import { RaisedButton } from "./../../commons/";
 
@@ -66,6 +67,11 @@ const CheckoutSidebar = ({
   cart: {
     checkoutId,
     subtotalPrice: { gross: { amount, currency, localized } = {} } = {},
+    totalPrice: {
+      gross: {
+        localized: totalLocalized
+      } = {}
+    } = {},
     shippingMethod,
     shippingAddress
   } = {}
@@ -99,6 +105,19 @@ const CheckoutSidebar = ({
               )}
             </p>
             <hr />
+            <p>
+              TOTAL: 
+              {Object.entries(shippingMethod).length === 0 &&
+              shippingMethod.constructor === Object ? (
+                <span className="shipping-pending float-right">
+                  To be determined
+                </span>
+              ) : (
+                <span className="float-right">
+                  {totalLocalized}
+                </span>
+              )}
+            </p>
             <Link to={buttonParams.url} class="checkout-proceed-button">
               <RaisedButton
                 disabled={

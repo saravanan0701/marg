@@ -201,6 +201,7 @@ const SAVE_SHIPPING_TO_CHECKOUT = gql`
             localized
           }
         }
+        totalPrice
       }
       errors {
         field
@@ -223,7 +224,8 @@ export const AddressList = ({
   addNewAddress,
   setAvailableShippingMethods,
   updateShippingAddress,
-  updateShippingMethod
+  updateShippingMethod,
+  updateCartTotalPrice
 }) => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [billingAddressIsSame, setBillingAddressIsSame] = useState(true);
@@ -356,7 +358,7 @@ export const AddressList = ({
         ({
           data: {
             checkoutShippingMethodUpdate: {
-              checkout: { shippingMethod: updatedShippingMethod },
+              checkout: { shippingMethod: updatedShippingMethod, totalPrice },
               errors: checkoutShippingMethodErrors
             }
           }
@@ -365,6 +367,7 @@ export const AddressList = ({
             return;
           }
           updateShippingMethod(updatedShippingMethod);
+          updateCartTotalPrice(totalPrice);
         }
       );
   };

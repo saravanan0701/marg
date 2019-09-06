@@ -69,6 +69,11 @@ const removeLineItem = (lineId) => ({
   lineId,
 })
 
+const updateCartTotalPrice = (cartTotalPrice) => ({
+  type: 'UPDATE_CART_TOTAL_PRICE',
+  cartTotalPrice,
+})
+
 export default {
   saveVariant,
   initCheckout,
@@ -82,4 +87,5 @@ export default {
   setLineQuantity,
   setTotalQuantity,
   removeLineItem,
+  updateCartTotalPrice
 }
