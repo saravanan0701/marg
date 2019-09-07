@@ -303,7 +303,9 @@ export const AddressList = ({
           }
           updateShippingAddress(updatedShippingAddress);
           // setAvailableShippingMethods(availableShippingMethods);
-          persistShippingMethod(availableShippingMethods[0]);
+          if (availableShippingMethods.length > 0) {
+            persistShippingMethod(availableShippingMethods[0]);
+          }
           //TODO: Optional update billing address.
           return true;
         }
