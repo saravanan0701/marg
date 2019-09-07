@@ -201,9 +201,11 @@ const SAVE_SHIPPING_TO_CHECKOUT = gql`
         }
         totalPrice {
           net {
+            amount,
             localized
           }
           gross {
+            amount,
             localized
           }
         }
