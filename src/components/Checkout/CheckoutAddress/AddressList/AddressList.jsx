@@ -10,7 +10,6 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { Row, Col } from "reactstrap";
 
 const ListingWrapper = styled.div`
-
   .section-title {
     color: #000000;
     font-family: Lato;
@@ -179,7 +178,6 @@ const SAVE_BILLING_ADDRESS_TO_CHECKOUT = gql`
   }
 `;
 
-
 const SAVE_SHIPPING_TO_CHECKOUT = gql`
   mutation SaveAddress($checkoutId: ID!, $shippingMethodId: ID!) {
     checkoutShippingMethodUpdate(
@@ -201,7 +199,14 @@ const SAVE_SHIPPING_TO_CHECKOUT = gql`
             localized
           }
         }
-        totalPrice
+        totalPrice {
+          net {
+            localized
+          }
+          gross {
+            localized
+          }
+        }
       }
       errors {
         field
@@ -234,7 +239,7 @@ export const AddressList = ({
     if (!isLoading && addresses.length === 0) {
       setShowAddressForm(true);
     }
-  }, [addresses])
+  }, [addresses]);
 
   const saveAddress = shippingAddress => {
     return client
@@ -330,8 +335,8 @@ export const AddressList = ({
           } = {}
         }) => {
           if (
-            (checkoutBillingAddressErrors &&
-              checkoutBillingAddressErrors.length > 0)
+            checkoutBillingAddressErrors &&
+            checkoutBillingAddressErrors.length > 0
           ) {
             //TODO: show errors.
             return false;
@@ -373,7 +378,7 @@ export const AddressList = ({
   };
 
   if (isLoading) {
-    return <h2>Loading...</h2>
+    return <h2>Loading...</h2>;
   }
 
   return (
@@ -384,21 +389,23 @@ export const AddressList = ({
           <span className="section-title mx-3">SHIPPING ADDRESS</span>
           <hr />
         </Col>
-        { addresses.length > 0 &&
-        <Col xs="12">
-          <p className="section-label">
-            SAVED ADDRESSES
-            <FlatButton
-              onClick={e => setShowAddressForm(true)}
-              className={`ml-4 ${showAddressForm ? "d-none" : "d-inline"}`}
-            >
-              ADD A NEW ADDRESS
-            </FlatButton>
-          </p>
-        </Col>}
+        {addresses.length > 0 && (
+          <Col xs="12">
+            <p className="section-label">
+              SAVED ADDRESSES
+              <FlatButton
+                onClick={e => setShowAddressForm(true)}
+                className={`ml-4 ${showAddressForm ? "d-none" : "d-inline"}`}
+              >
+                ADD A NEW ADDRESS
+              </FlatButton>
+            </p>
+          </Col>
+        )}
       </Row>
       <Row>
-        {addresses && addresses.length > 0 &&
+        {addresses &&
+          addresses.length > 0 &&
           addresses.map((address, id) => (
             <AddressBox
               size="col-12 col-md-3"
@@ -454,7 +461,9 @@ export const AddressList = ({
               lastName={lastName}
               email={email}
               saveAddress={values => updateBillingAddressToCart(values)}
-              toggleAddressForm={() => setBillingAddressIsSame(!billingAddressIsSame)}
+              toggleAddressForm={() =>
+                setBillingAddressIsSame(!billingAddressIsSame)
+              }
             />
           )}
         </Col>
