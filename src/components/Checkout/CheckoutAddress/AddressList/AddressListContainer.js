@@ -16,6 +16,7 @@ const mapStateToProps = ({
     firstName,
     lastName,
     email,
+    isLoading,
   }
 }, ownProps) => ({
   userId,
@@ -27,13 +28,15 @@ const mapStateToProps = ({
   email,
   shippingMethod,
   availableShippingMethods,
+  isLoading
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   addNewAddress: (address) => dispatch(actions.addNewAddress(address)),
   updateShippingAddress: (shippingAddress) => dispatch(actions.updateShippingAddress(shippingAddress)),
   setAvailableShippingMethods: (shippingMethods) => dispatch(actions.setAvailableShippingMethods(shippingMethods)),
-  updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod))
+  updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod)),
+  updateCartTotalPrice: (cartTotalPrice) => dispatch(actions.updateCartTotalPrice(cartTotalPrice))
 })
 
 export default connect(
