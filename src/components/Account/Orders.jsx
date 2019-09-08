@@ -32,10 +32,15 @@ const Orders = ({ value, index, isLoading, orders }) => {
                   {
                     id: orderId,
                     visibleOrderId,
-                    total: {
+                    currencyPreference,
+                    totalUsd: {
                       net: {
-                        amount,
-                        currency
+                        localized: usdLocalized
+                      }
+                    },
+                    totalInr: {
+                      net: {
+                        localized: inrLocalized,
                       }
                     },
                     created,
@@ -50,7 +55,7 @@ const Orders = ({ value, index, isLoading, orders }) => {
                           <div>#{visibleOrderId}</div>
                           <div>{new Date(created).toDateString()}</div>
                         </div>
-                        <div>{currency} {amount}</div>
+                        <div>{currencyPreference == "INR"? inrLocalized: usdLocalized}</div>
                       </div>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -70,12 +75,16 @@ const Orders = ({ value, index, isLoading, orders }) => {
                               thumbnail: {
                                 url,
                               } = {},
-                              unitPrice: {
+                              unitPriceUsd: {
                                 net:{
-                                  amount,
-                                  currency
+                                  localized: unitLocalizedUsd
                                 } = {}
-                              } = {}
+                              } = {},
+                              unitPriceInr: {
+                                net:{
+                                  localized: unitLocalizedInr
+                                } = {}
+                              } = {},
                             }
                           ) => (
                             <div className="row col-12">
@@ -86,7 +95,7 @@ const Orders = ({ value, index, isLoading, orders }) => {
                                 <div className="col-9">
                                   <div>{productName}</div>
                                   <div>Quantity:&nbsp;&nbsp;{quantity}</div>
-                                  <div>Price:&nbsp;&nbsp;{currency}&nbsp;{amount}</div>
+                                  <div>Price:&nbsp;&nbsp;{currencyPreference === "INR"? unitLocalizedInr: unitLocalizedUsd}</div>
                                 </div>
                                 <div className="col-3 p-0 text-right">
                                   {

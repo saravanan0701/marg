@@ -137,6 +137,7 @@ const QUERY_ME = gql`
           node {
             id
             visibleOrderId
+            currencyPreference
             statusDisplay
             created
             totalInr {
