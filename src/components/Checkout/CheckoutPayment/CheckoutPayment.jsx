@@ -53,10 +53,18 @@ const COMPLETE_CHECKOUT = gql`
           countryArea
           phone
         }
-        total{
+        totalInr{
           net{
             amount
             currency
+            localized
+          }
+        }
+        totalUsd{
+          net{
+            amount
+            currency
+            localized
           }
         }
       }
@@ -229,9 +237,12 @@ export default class CheckoutPayment extends Component {
             id,
             visibleOrderId,
             shippingAddress,
-            total: {
-              net
+            totalInr: {
+              net: netInr,
             },
+            totalUsd: {
+              net: netUsd,
+            }
           },
           errors,
         }
@@ -241,7 +252,7 @@ export default class CheckoutPayment extends Component {
         self.setState({
           shippingAddress,
           visibleOrderId,
-          totalPrice: net,
+          totalPrice: netInr.amount > 0? netInr: netUsd,
           orderId: id,
           status: "PAYMENT_PERSISTED",
         });

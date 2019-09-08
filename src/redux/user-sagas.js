@@ -139,7 +139,14 @@ const QUERY_ME = gql`
             visibleOrderId
             statusDisplay
             created
-            total {
+            totalInr {
+              net{
+                currency
+                amount
+                localized
+              }
+            }
+            totalUsd {
               net{
                 currency
                 amount
@@ -174,7 +181,14 @@ const QUERY_ME = gql`
               thumbnail(size:100){
                 url
               }
-              unitPrice{
+              unitPriceInr{
+                net{
+                  currency
+                  amount
+                  localized
+                }
+              }
+              unitPriceUsd{
                 net{
                   currency
                   amount
