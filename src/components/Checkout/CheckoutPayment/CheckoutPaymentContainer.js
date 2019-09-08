@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
 import CheckoutPayment from './CheckoutPayment.jsx'
 import actions from './../../../actions/';
+import { withRouter } from 'react-router';
 
 
 const mapStateToProps = ({
@@ -17,4 +18,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(CheckoutPayment));
+)(withApollo(withRouter(CheckoutPayment)));

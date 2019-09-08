@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Row, Col } from "reactstrap";
@@ -53,7 +53,9 @@ const PROCEED_BUTTON_PARAMS = {
   "/checkout/address": {
     url: "/checkout/payment",
     buttonText: "Make Payment",
-    disabled: (selectedShippingAddress, selectedShippingMethod) => Object.entries(selectedShippingAddress).length === 0 || Object.entries(selectedShippingMethod).length === 0
+    disabled: (selectedShippingAddress, selectedShippingMethod) =>
+      Object.entries(selectedShippingAddress).length === 0 ||
+      Object.entries(selectedShippingMethod).length === 0
   },
   "/checkout/payment": {
     url: "/checkout/payment",
@@ -66,73 +68,81 @@ const CheckoutSidebar = ({
   currency_preference,
   cart: {
     checkoutId,
+    lines,
     subtotalPrice: { gross: { amount, currency, localized } = {} } = {},
-    totalPrice: {
-      gross: {
-        localized: totalLocalized
-      } = {}
-    } = {},
+    totalPrice: { gross: { localized: totalLocalized } = {} } = {},
     shippingMethod,
     shippingAddress
-  } = {}
+  } = {},
+  setCheckoutStatus
 }) => {
-
   const buttonParams = PROCEED_BUTTON_PARAMS[location.pathname];
+  const [requiresShipping, setRequiresShipping] = useState(false);
+
+  useEffect(() => {
+    lines.map(lineItem => {
+      if (!lineItem.variant.isDigital) {
+        setRequiresShipping(true);
+      }
+    });
+  }, [lines]);
 
   return (
     <Wrapper>
-      <Row>
-        <Col xs="12">
-          <h2 style={{ margin: 15 }}>ORDER SUMMARY</h2>
-          <div className="bg-gray px-3 py-4">
-            <p>
-              SUBTOTAL:{" "}
-              <span className="float-right">
-              {localized}
-              </span>
-            </p>
-            <p>
-              SHIPPING:
-              {Object.entries(shippingMethod).length === 0 &&
-              shippingMethod.constructor === Object ? (
-                <span className="shipping-pending float-right">
-                  To be determined
-                </span>
-              ) : (
-                <span className="float-right">
-                  {currency_preference === "USD"? shippingMethod.priceUsd.localized: shippingMethod.priceInr.localized}
-                </span>
+      {checkoutId != null && (
+        <Row>
+          <Col xs="12">
+            <h2 style={{ margin: 15 }}>ORDER SUMMARY</h2>
+            <div className="bg-gray px-3 py-4">
+              <p>
+                SUBTOTAL: <span className="float-right">{localized}</span>
+              </p>
+              <p>
+                SHIPPING:
+                {Object.entries(shippingMethod).length === 0 &&
+                shippingMethod.constructor === Object ? (
+                  <span className="shipping-pending float-right">
+                    {!requiresShipping ? "FREE" : "To be determined"}
+                  </span>
+                ) : (
+                  <span className="float-right">
+                    {currency_preference === "USD"
+                      ? shippingMethod.priceUsd.localized
+                      : shippingMethod.priceInr.localized}
+                  </span>
+                )}
+              </p>
+              <hr />
+              <p>
+                TOTAL:
+                {Object.entries(shippingMethod).length === 0 &&
+                shippingMethod.constructor === Object ? (
+                  <span className="shipping-pending float-right">
+                    {!requiresShipping ? localized : "To be determined"}
+                  </span>
+                ) : (
+                  <span className="float-right">{totalLocalized}</span>
+                )}
+              </p>
+              {location.pathname === "/checkout/cart" && (
+                <Link to={buttonParams.url} class="checkout-proceed-button">
+                  <RaisedButton
+                    disabled={
+                      buttonParams.disabled
+                        ? buttonParams.disabled(shippingAddress, shippingMethod)
+                        : false
+                    }
+                    className="w-100"
+                  >
+                    {buttonParams.buttonText}
+                  </RaisedButton>
+                </Link>
               )}
-            </p>
-            <hr />
-            <p>
-              TOTAL: 
-              {Object.entries(shippingMethod).length === 0 &&
-              shippingMethod.constructor === Object ? (
-                <span className="shipping-pending float-right">
-                  To be determined
-                </span>
-              ) : (
-                <span className="float-right">
-                  {totalLocalized}
-                </span>
-              )}
-            </p>
-            <Link to={buttonParams.url} class="checkout-proceed-button">
-              <RaisedButton
-                disabled={
-                  buttonParams.disabled
-                    ? buttonParams.disabled(shippingAddress, shippingMethod)
-                    : false
-                }
-                className="w-100"
-              >
-                {buttonParams.buttonText}
-              </RaisedButton>
-            </Link>
-          </div>
-        </Col>
-      </Row>
+              {location.pathname === "/checkout/address" && <CheckoutPayment setCheckoutStatus={setCheckoutStatus}/>}
+            </div>
+          </Col>
+        </Row>
+      )}
     </Wrapper>
   );
 };
