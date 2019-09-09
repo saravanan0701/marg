@@ -292,8 +292,8 @@ const Checkout = ({
                 id,
                 quantity,
                 totalPrice: {
-                  gross: { localized }
-                },
+                  gross: { localized } = {}
+                } = {},
                 variant: {
                   isDigital,
                   sku,
@@ -302,9 +302,9 @@ const Checkout = ({
                     images,
                     thumbnail: {
                       url: thumbnailUrl
-                    }
-                  }
-                }
+                    } = {}
+                  } = {}
+                } = {}
               }) => (
                 <OrderLine key={sku} className="row py-4">
                   <Col xs="4">

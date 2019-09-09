@@ -81,7 +81,7 @@ const CheckoutSidebar = ({
 
   useEffect(() => {
     lines.map(lineItem => {
-      if (!lineItem.variant.isDigital) {
+      if (lineItem && lineItem.variant && !lineItem.variant.isDigital) {
         setRequiresShipping(true);
       }
     });
