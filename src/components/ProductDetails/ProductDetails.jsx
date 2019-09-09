@@ -90,8 +90,6 @@ const Wrapper = styled.div`
   }
 
   .contents {
-    /* width: 80%;
-    max-width: 80%; */
     & > .heading {
       font-family: "Cormorant Garamond Medium";
       font-size: ${props => props.theme['$font-size-sm']};
@@ -99,7 +97,6 @@ const Wrapper = styled.div`
         font-size: ${props => props.theme['$font-size-lg']};
       }
       font-weight: ${props => props.theme['$weight-regular']};
-      /* padding-bottom: 60px; */
       color: ${props => props.theme.mainTextColor};
     }
 
@@ -347,8 +344,16 @@ const ProductDetails = ({
                       <RaisedButton
                         onClick={
                           () => saveVariant({
-                            variant: selectedVariant,
+                            variant: {
+                              ...selectedVariant,
+                              product: {
+                                name,
+                                images,
+                                thumbnailUrl
+                              }
+                            },
                             quantity: DEFAULT_QUANTITY,
+
                           })
                         }
                         className="add-to-bag"

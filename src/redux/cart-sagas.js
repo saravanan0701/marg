@@ -298,6 +298,7 @@ function* saveVariant({
     quantity: variantQuantity,
     variant: {
       id,
+      product,
     },
   }
 }) {
@@ -308,17 +309,40 @@ function* saveVariant({
     } = yield select(getCartFromState);
 
     if(!auth.email) {
+      
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({
-        quantity: variantQuantity,
-        variantId: id,
-      });
+      let foundItem = false;
+      cart.map((it) => {
+        if(it.variantId === id) {
+          foundItem = true;
+          ++it.quantity;
+        }
+        return it;
+      })
+      if(!foundItem) {
+        cart.push({
+          quantity: variantQuantity,
+          variantId: id,
+        });
+      }
       localStorage.setItem('cart', JSON.stringify(cart));
+
       if(cart.length > 0) {
         yield put(
           actions.updateCartQuantity(cart.length)
         );
       }
+
+
+      yield put(
+        actions.updateCheckoutLine({
+          quantity: variantQuantity,
+          variant: {
+            id,
+            product,
+          }
+        })
+      );
       //Use local cache
     } else if(checkoutId) {
       const createdCheckout = yield call(
