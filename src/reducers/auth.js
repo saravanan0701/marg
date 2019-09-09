@@ -49,6 +49,7 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
     case 'LOGIN_FAILURE':
       return {
         ...INITIAL_USER_STATE,
+        currency: state.currency,
         isLoading: false,
       };
 
