@@ -238,8 +238,8 @@ export default class CheckoutPayment extends Component {
           orderId: id,
           status: "PAYMENT_PERSISTED",
         });
-        return resetCart();
         this.props.setCheckoutStatus('SUCCESS', visibleOrderId)
+        return resetCart();
       }
       self.setState({
         status: "PAYMENT_PERSISTENCE_FAILURE",
