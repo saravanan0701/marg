@@ -37,7 +37,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         error: false,
       }
 
-    case 'UPDATE_CHECKOUT_LINES':
+    case 'UPDATE_ALL_CHECKOUT_LINES':
       return {
         ...state,
         lines: action.checkout.lines.concat(),
@@ -45,6 +45,21 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         totalPrice: {...action.checkout.totalPrice},
         subtotalPrice: {...action.checkout.subtotalPrice},
         error: false,
+      }
+    
+    case 'UPDATE_CHECKOUT_LINE':
+      let lineFound = false;
+      const lines = state.lines.map((it) => {
+        if(it.variant.id === action.line.variant.id) {
+          lineFound = true;
+          ++it.quantity;
+          return it
+        }
+        return it;
+      })
+      return {
+        ...state,
+        lines: lineFound ? [...lines]: state.lines.concat(action.line),
       }
 
     case 'UPDATE_CART_QUANTITY':

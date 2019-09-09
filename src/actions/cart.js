@@ -26,8 +26,13 @@ const initCheckout = checkout => ({
 })
 
 const updateCheckoutLines = checkout => ({
-  type: 'UPDATE_CHECKOUT_LINES',
+  type: 'UPDATE_ALL_CHECKOUT_LINES',
   checkout,
+})
+
+const updateCheckoutLine = line => ({
+  type: 'UPDATE_CHECKOUT_LINE',
+  line,
 })
 
 const updateCartQuantity = totalQuantity => ({
@@ -89,6 +94,7 @@ export default {
   saveVariant,
   initCheckout,
   updateCheckoutLines,
+  updateCheckoutLine,
   updateCartQuantity,
   persistCartFromLocalCache,
   resetCart,
