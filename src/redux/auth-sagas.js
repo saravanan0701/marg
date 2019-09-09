@@ -19,6 +19,16 @@ const GET_VARIANTS = gql`
         node{
           id
           isDigital
+          inrPrice{
+            currency
+            amount
+            localized
+          }
+          usdPrice{
+            currency
+            amount
+            localized
+          }
           product{
             name
             thumbnail{

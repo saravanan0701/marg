@@ -193,6 +193,7 @@ const Checkout = ({
     lines,
     totalPrice: { gross: { localized } = {} } = {}
   } = {},
+  currency,
   client,
   setLineQuantity,
   updateCartQuantity,
@@ -297,6 +298,12 @@ const Checkout = ({
                 variant: {
                   isDigital,
                   sku,
+                  inrPrice: {
+                    localized: inrLocalized,
+                  },
+                  usdPrice: {
+                    localized: usdLocalized,
+                  },
                   product: {
                     name,
                     images,
@@ -339,7 +346,20 @@ const Checkout = ({
                   >
                     <LinePrice className="mb-3">
                       <span className="price">
-                        {localized}
+                        {
+                          (
+                            () => {
+                              // This block displays prices for logged-in user and guest user.
+                              if(localized)
+                                return localized
+                              if(currency === "INR") {
+                                return inrLocalized
+                              } else {
+                                return usdLocalized
+                              }
+                            }
+                          )()
+                        }
                       </span>
                     </LinePrice>
                     <QuantityEditor
