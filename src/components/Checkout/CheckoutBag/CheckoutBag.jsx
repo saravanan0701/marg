@@ -93,6 +93,42 @@ const UPDATE_QUANTITY = gql(`
         lines{
           id
           quantity
+          totalPrice{
+            net{
+              currency
+              amount
+              localized
+            }
+            gross{
+              currency
+              amount
+              localized
+            }
+          }
+        }
+        totalPrice{
+          net{
+            currency
+            amount
+            localized
+          }
+          gross{
+            currency
+            amount
+            localized
+          }
+        }
+        subtotalPrice{
+          gross{
+            currency
+            amount
+            localized
+          }
+          net{
+            currency
+            amount
+            localized
+          }
         }
       }
       errors{
@@ -163,6 +199,7 @@ const Checkout = ({
   removeLineItem,
   updateCartTotalPrice,
   updateCartSubTotalPrice,
+  updateCartLineTotalPrice,
 }) => {
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
@@ -196,12 +233,21 @@ const Checkout = ({
         .then(
           ({
             data: {
-              checkoutLinesUpdate: { checkout: { lines } = {} }
+              checkoutLinesUpdate: { checkout: { lines, totalPrice, subtotalPrice  } = {} },
+              errors
             }
           } = {}) => {
-            setLineQuantity({ id, quantity });
-            updateCartQuantity(getQuantityFromLines(lines));
-            return;
+            if(!errors || errors.length === 0) {
+              setLineQuantity({ id, quantity });
+              const line = lines.find(({id: lineId}) => id === lineId);
+              if(line) {
+                updateCartLineTotalPrice(id, line.totalPrice);
+              }
+              updateCartQuantity(getQuantityFromLines(lines));
+              updateCartTotalPrice(totalPrice)
+              updateCartSubTotalPrice(subtotalPrice)
+              return;
+            }
           }
         );
     };
