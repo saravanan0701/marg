@@ -116,6 +116,31 @@ const DELETE_LINE = gql(`
         id
         lines{
           id
+          quantity
+        }
+        totalPrice{
+          net{
+            currency
+            amount
+            localized
+          }
+          gross{
+            currency
+            amount
+            localized
+          }
+        }
+        subtotalPrice{
+          gross{
+            currency
+            amount
+            localized
+          }
+          net{
+            currency
+            amount
+            localized
+          }
         }
       }
       errors{
@@ -130,13 +155,14 @@ const Checkout = ({
   cart: {
     checkoutId,
     lines,
-    totalQuantity,
     totalPrice: { gross: { localized } = {} } = {}
   } = {},
   client,
   setLineQuantity,
   updateCartQuantity,
-  removeLineItem
+  removeLineItem,
+  updateCartTotalPrice,
+  updateCartSubTotalPrice,
 }) => {
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
@@ -194,7 +220,7 @@ const Checkout = ({
         ({
           data: {
             checkoutLineDelete: {
-              checkout: { lines }
+              checkout: { lines, totalPrice, subtotalPrice }
             },
             errors
           }
@@ -202,6 +228,8 @@ const Checkout = ({
           if (!errors || errors.length === 0) {
             removeLineItem(lineId);
             updateCartQuantity(getQuantityFromLines(lines));
+            updateCartTotalPrice(totalPrice)
+            updateCartSubTotalPrice(subtotalPrice)
           }
         }
       );

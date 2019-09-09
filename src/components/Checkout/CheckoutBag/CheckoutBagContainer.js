@@ -9,6 +9,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   setLineQuantity: (updatedLine) => dispatch(actions.setLineQuantity(updatedLine)),
   updateCartQuantity: (totalQuantity) => dispatch(actions.updateCartQuantity(totalQuantity)),
   removeLineItem: (lineId) => dispatch(actions.removeLineItem(lineId)),
+  updateCartTotalPrice: (totalPrice) => dispatch(actions.updateCartTotalPrice(totalPrice)),
+  updateCartSubTotalPrice: (subTotalPrice) => dispatch(actions.updateCartSubTotalPrice(subTotalPrice)),
 })
 
 export default connect(
