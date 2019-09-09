@@ -2,6 +2,9 @@ import { CountryRegionData } from 'react-country-region-selector';
 const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
 
 export const replaceStaticUrl = (url) => {
+  if(!url) {
+    return;
+  }
   const replaceExps = [
     {
       key: 'http://backend/',
