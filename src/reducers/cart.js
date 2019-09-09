@@ -131,6 +131,18 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         }
       }
 
+    case 'UPDATE_CART_LINE_TOTAL_PRICE':
+      return {
+        ...state,
+        lines: state.lines.reduce((acc, line) => {
+          if(line.id !== action.lineId) {
+            return acc.concat(line);
+          }
+          line.totalPrice = { ...action.lineTotalPrice };
+          return acc.concat(line);
+        }, []),
+      }
+
     default:
       return state
   }

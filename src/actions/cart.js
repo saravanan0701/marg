@@ -79,6 +79,12 @@ const updateCartSubTotalPrice = (cartSubTotalPrice) => ({
   cartSubTotalPrice,
 })
 
+const updateCartLineTotalPrice = (lineId, lineTotalPrice) => ({
+  type: 'UPDATE_CART_LINE_TOTAL_PRICE',
+  lineId,
+  lineTotalPrice,
+});
+
 export default {
   saveVariant,
   initCheckout,
@@ -93,5 +99,6 @@ export default {
   setTotalQuantity,
   removeLineItem,
   updateCartTotalPrice,
-  updateCartSubTotalPrice
+  updateCartSubTotalPrice,
+  updateCartLineTotalPrice
 }
