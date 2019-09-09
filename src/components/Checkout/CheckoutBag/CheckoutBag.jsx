@@ -38,6 +38,7 @@ const NameContainer = styled.div`
   }
 
   .delete-item {
+    cursor: pointer;
     color: #ec1d24;
     font-family: Lato;
     font-size: 16px;
@@ -254,7 +255,7 @@ const Checkout = ({
                       </div>
 
                       {quantity > 0 && (
-                        <span className="delete-item">REMOVE THIS ITEM</span>
+                        <span className="delete-item" onClick={(e) => deleteLineItem(id)}>REMOVE THIS ITEM</span>
                       )}
                     </NameContainer>
                   </Col>
