@@ -122,6 +122,14 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
           ...action.cartTotalPrice
         }
       }
+    
+    case 'UPDATE_CART_SUB_TOTAL_PRICE':
+      return {
+        ...state,
+        subtotalPrice: {
+          ...action.cartSubTotalPrice,
+        }
+      }
 
     default:
       return state
