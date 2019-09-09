@@ -89,7 +89,7 @@ const CheckoutSidebar = ({
 
   return (
     <Wrapper>
-      {checkoutId != null && (
+      { lines && lines.length > 0 && (
         <Row>
           <Col xs="12">
             <h2 style={{ margin: 15 }}>ORDER SUMMARY</h2>
