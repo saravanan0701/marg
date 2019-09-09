@@ -69,7 +69,7 @@ const CheckoutSidebar = ({
   cart: {
     checkoutId,
     lines,
-    subtotalPrice: { gross: { amount, currency, localized } = {} } = {},
+    subtotalPrice: { gross: { localized } = {} } = {},
     totalPrice: { gross: { localized: totalLocalized } = {} } = {},
     shippingMethod,
     shippingAddress
