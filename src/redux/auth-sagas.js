@@ -126,6 +126,9 @@ function* rehyderateUserFromSession({ client }) {
     
     //if user is not loggedin, cart length is set as `totalQuantity`.
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if(cart.length === 0) {
+      return;
+    }
     const variantIds = cart.map(({variantId}) => variantId);
     const totalQuantity = cart.reduce((acc, {quantity}) => (acc + quantity), 0)
     let {
@@ -149,15 +152,15 @@ function* rehyderateUserFromSession({ client }) {
         amount = variant.inrPrice.amount;
         return {
           currency,
-          amount: amount * cartVariant.quantity,
-          localized: getLocalizedAmountBySymbol({currency, amount: amount * cartVariant.quantity}),
+          amount: amount * (cartVariant? cartVariant.quantity: 1),
+          localized: getLocalizedAmountBySymbol({currency, amount: amount * (cartVariant? cartVariant.quantity: 1)}),
         }
       } else {
         amount = variant.usdPrice.amount;
         return {
           currency,
-          amount: amount * cartVariant.quantity,
-          localized: getLocalizedAmountBySymbol({currency, amount: amount * cartVariant.quantity}),
+          amount: amount * (cartVariant? cartVariant.quantity: 1),
+          localized: getLocalizedAmountBySymbol({currency, amount: amount * (cartVariant? cartVariant.quantity: 1)}),
         }
       }
     }

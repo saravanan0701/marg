@@ -205,7 +205,8 @@ export default class CheckoutPayment extends Component {
     const {
       client,
       cart: { checkoutId },
-      resetCart
+      resetCart,
+      clearCartCache,
     } = this.props;
     client.mutate({
       mutation: COMPLETE_CHECKOUT,
@@ -239,6 +240,7 @@ export default class CheckoutPayment extends Component {
           status: "PAYMENT_PERSISTED",
         });
         this.props.setCheckoutStatus('SUCCESS', visibleOrderId)
+        clearCartCache();
         return resetCart();
       }
       self.setState({

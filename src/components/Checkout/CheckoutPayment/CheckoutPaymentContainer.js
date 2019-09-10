@@ -13,6 +13,7 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   resetCart: () => dispatch(actions.resetCart()),
+  clearCartCache: () => dispatch(actions.clearCartCache()),
 })
 
 export default connect(

@@ -90,6 +90,15 @@ const updateCartLineTotalPrice = (lineId, lineTotalPrice) => ({
   lineTotalPrice,
 });
 
+const createGuestCheckout = (checkoutDetails) => ({
+  type: 'CREATE_GUEST_CHECKOUT',
+  checkoutDetails,
+})
+
+const clearCartCache = () => ({
+  type: "CLEAR_CART_CACHE",
+})
+
 export default {
   saveVariant,
   initCheckout,
@@ -106,5 +115,7 @@ export default {
   removeLineItem,
   updateCartTotalPrice,
   updateCartSubTotalPrice,
-  updateCartLineTotalPrice
+  updateCartLineTotalPrice,
+  createGuestCheckout,
+  clearCartCache,
 }

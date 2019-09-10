@@ -6,6 +6,7 @@ import { stateRehydrateSaga, sessionPersistanceSaga, logoutUser } from "./auth-s
 import { loadProducts } from "./products-list-sagas";
 import { fetchUserDetails } from "./user-sagas";
 import { saveVariantInCart, persistCartFromCache } from "./cart-sagas";
+import { createGuestCheckout, clearCartCache } from "./cart-guest-create-saga";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -26,6 +27,8 @@ export function StoreFactory(history) {
   sagaMiddleware.run(fetchUserDetails);
   sagaMiddleware.run(saveVariantInCart);
   sagaMiddleware.run(persistCartFromCache);
+  sagaMiddleware.run(createGuestCheckout);
+  sagaMiddleware.run(clearCartCache);
 	return store;
 };
 

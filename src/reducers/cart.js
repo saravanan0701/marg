@@ -66,6 +66,8 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         return state.lines.concat(action.line)
       })();
 
+      const totalQuantity = lines.reduce((acc, {quantity}) => acc + quantity, 0);
+
       const totalAmount = lines.reduce((acc, {totalPrice: {gross : {amount=0, currency} ={} } ={} }={}) => acc + amount, 0)
 
       const totalMoney = {
@@ -76,7 +78,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
 
       return {
         ...state,
-        totalQuantity: action.line.totalQuantity,
+        totalQuantity,
         lines: [...lines],
         totalPrice: {
           net: {...totalMoney},

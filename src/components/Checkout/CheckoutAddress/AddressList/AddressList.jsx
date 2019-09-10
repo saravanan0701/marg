@@ -232,7 +232,8 @@ export const AddressList = ({
   setAvailableShippingMethods,
   updateShippingAddress,
   updateShippingMethod,
-  updateCartTotalPrice
+  updateCartTotalPrice,
+  createGuestCheckout,
 }) => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [billingAddressIsSame, setBillingAddressIsSame] = useState(true);
@@ -241,23 +242,27 @@ export const AddressList = ({
     if (!isLoading && addresses.length === 0) {
       setShowAddressForm(true);
     }
-  }, [addresses]);
+  }, [isLoading, addresses]);
 
-  const saveAddress = shippingAddress => {
-    return client
-      .mutate({
-        mutation: SAVE_NEW_ADDRESS,
-        variables: {
-          input: shippingAddress
-        }
-      })
-      .then(({ data: { addressCreate: { address, errors } } }) => {
-        if (errors && errors.length > 0) {
-          return false;
-        }
-        addNewAddress(address);
-        return address;
-      });
+  const saveAddress = (shippingAddress, email = null) => {
+    if(userId) {
+      return client
+        .mutate({
+          mutation: SAVE_NEW_ADDRESS,
+          variables: {
+            input: shippingAddress
+          }
+        })
+        .then(({ data: { addressCreate: { address, errors } } }) => {
+          if (errors && errors.length > 0) {
+            return false;
+          }
+          addNewAddress(address);
+          return address;
+        });
+    } else {
+      return createGuestCheckout({shippingAddress, email});
+    }
   };
 
   const saveAddressToCart = shippingAddress => {
@@ -433,7 +438,7 @@ export const AddressList = ({
               firstName={firstName}
               lastName={lastName}
               email={email}
-              saveAddress={values => saveAddress(values)}
+              saveAddress={(address, email) => saveAddress(address, email)}
               toggleAddressForm={() => setShowAddressForm(!showAddressForm)}
             />
           )}
