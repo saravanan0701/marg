@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import gql from "graphql-tag";
 import { Container, Row, Col } from "reactstrap";
 import AddressBox from "../Checkout/CheckoutAddress/AddressBox";
@@ -62,12 +62,25 @@ const Profile = ({
   updateUserEmail,
   ...other
 }) => {
+  
   const [editingName, setEditingName] = useState(false);
   const [firstNameInputValue, setFirstNameInputValue] = useState(firstName);
   const [lastNameInputValue, setLastNameInputValue] = useState(lastName);
 
   const [editingEmail, setEditingEmail] = useState(false);
   const [emailInputValue, setEmailInputValue] = useState(email);
+
+  useEffect(() => {
+    setFirstNameInputValue(firstName);
+  }, [firstName]);
+
+  useEffect(() => {
+    setLastNameInputValue(lastName);
+  }, [lastName]);
+
+  useEffect(() => {
+    setEmailInputValue(email);
+  }, [email]);
 
   const saveAddress = newAddress => {
     return client
@@ -106,7 +119,6 @@ const Profile = ({
         updateUserName(user);
         setEditingEmail(false);
         setEditingName(false);
-        alert("Your detauls have been successfully saved!");
         return user;
       });
   };
@@ -123,19 +135,33 @@ const Profile = ({
         <hr />
         <Row>
           {/* FIRST & LAST NAME */}
-          <div className="col-12">
-            <p>
+          <div className="col-12 col-lg-4 mb-3">
+            <p style={{fontSize: 22}}>
               {firstName}&nbsp;{lastName}&nbsp;
               <FlatButton
-                className="mx-3"
+                className="mx-3 d-inline"
                 onClick={() => setEditingName(!editingName)}
               >
                 EDIT
               </FlatButton>
             </p>
             <div hidden={!editingName}>
-              <input type="text" value={firstNameInputValue} onChange={event => setFirstNameInputValue(event.target.value)} />
-              <input type="text" value={lastNameInputValue} onChange={event => setLastNameInputValue(event.target.value)} />
+              <label htmlFor="first-name">First Name</label>
+              <input
+                name="first-name"
+                className="form-control mb-3"
+                type="text"
+                value={firstNameInputValue}
+                onChange={event => setFirstNameInputValue(event.target.value)}
+              />
+              <label htmlFor="last-name">Last Name</label>
+              <input
+                name="last-name"
+                className="form-control mb-3"
+                type="text"
+                value={lastNameInputValue}
+                onChange={event => setLastNameInputValue(event.target.value)}
+              />
               <RaisedButton
                 onClick={() =>
                   updatePersonalDetails({
@@ -148,21 +174,25 @@ const Profile = ({
               </RaisedButton>
             </div>
           </div>
-
+        </Row>
+        <Row>
           {/* EMAIL */}
-          <div className="col-12">
-            <p>
+          <div className="col-12 col-lg-4 mb-3">
+            <p style={{fontSize: 22}}>
               {email}&nbsp;
               <FlatButton
-                className="mx-3"
+                className="mx-3 d-inline"
                 onClick={() => setEditingEmail(!editingEmail)}
               >
                 EDIT
               </FlatButton>
             </p>
             <div hidden={!editingEmail}>
+              <label htmlFor="email">Email</label>
               <input
                 type="email"
+                name="email"
+                className="form-control mb-3"
                 value={emailInputValue}
                 onChange={event => setEmailInputValue(event.target.value)}
               />
@@ -177,7 +207,7 @@ const Profile = ({
           </div>
         </Row>
 
-        <h4>MY ADDRESSES</h4>
+        <h4 className="mt-5">MY ADDRESSES</h4>
         <hr />
         <Row>
           {addresses &&
