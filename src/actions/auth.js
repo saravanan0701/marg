@@ -19,6 +19,16 @@ const setUserDetails = user => ({
   user
 })
 
+const updateUserName = user => ({
+  type: 'UPDATE_USER_NAME',
+  user
+})
+
+const updateUserEmail = user => ({
+  type: 'UPDATE_USER_EMAIL',
+  user
+})
+
 const addNewAddress = address => ({
   type: 'ADD_NEW_ADDRESS',
   address,
@@ -47,4 +57,6 @@ export default {
   addNewAddress,
   setOrders,
   setCurrency,
+  updateUserName,
+  updateUserEmail
 }

@@ -17,55 +17,71 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
       return {
         ...state,
         email: action.user.email,
-        authToken: action.user.authToken,
-        isLoading: false,
+          authToken: action.user.authToken,
+          isLoading: false,
       };
 
     case 'SET_USER_DETAILS':
       return {
         ...state,
         id: action.user.id,
+          firstName: action.user.firstName,
+          lastName: action.user.lastName,
+          //Address will have `...` in it so avoiding those addresses while adding user details.
+          addresses: action.user.addresses.filter(
+            ({
+              firstName
+            }) => !firstName.toLowerCase().match(new RegExp(/\.\.\./gi))
+          ),
+          isLoading: false,
+      };
+
+    case 'UPDATE_USER_NAME':
+      return {
+        ...state,
         firstName: action.user.firstName,
-        lastName: action.user.lastName,
-        //Address will have `...` in it so avoiding those addresses while adding user details.
-        addresses: action.user.addresses.filter(
-          ({firstName}) => !firstName.toLowerCase().match(new RegExp(/\.\.\./gi))
-        ),
-        isLoading: false,
-      };
-
-    case 'ADD_NEW_ADDRESS':
-      return {
-        ...state,
-        addresses: state.addresses.concat(action.address),
-      };
-
-    case 'LOGOUT':
-      return {
-        ...INITIAL_USER_STATE,
-        isLoading: false,
-      };
-
-    case 'LOGIN_FAILURE':
-      return {
-        ...INITIAL_USER_STATE,
-        isLoading: false,
-      };
-
-    case 'SET_ORDERS':
-      return {
-        ...state,
-        orders: state.orders.concat(action.orders),
-      }
-    
-    case 'SET_CURRENCY_CODE':
-      return {
-        ...state,
-        currency: action.currencyCode,
+          lastName: action.user.lastName,
+          isLoading: false
       }
 
-    default:
-      return state
+      case 'UPDATE_USER_EMAIL':
+        return {
+          ...state,
+          email: action.user.email,
+            isLoading: false
+        }
+
+        case 'ADD_NEW_ADDRESS':
+          return {
+            ...state,
+            addresses: state.addresses.concat(action.address),
+          };
+
+        case 'LOGOUT':
+          return {
+            ...INITIAL_USER_STATE,
+            isLoading: false,
+          };
+
+        case 'LOGIN_FAILURE':
+          return {
+            ...INITIAL_USER_STATE,
+            isLoading: false,
+          };
+
+        case 'SET_ORDERS':
+          return {
+            ...state,
+            orders: state.orders.concat(action.orders),
+          }
+
+          case 'SET_CURRENCY_CODE':
+            return {
+              ...state,
+              currency: action.currencyCode,
+            }
+
+            default:
+              return state
   }
 }
-
