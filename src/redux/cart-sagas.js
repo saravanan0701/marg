@@ -360,6 +360,9 @@ function* saveVariant({
           }
         })
       );
+      yield put(
+        actions.successNotification("Added item to cart")
+      );
       //Use local cache
     } else if(checkoutId) {
       const createdCheckout = yield call(
