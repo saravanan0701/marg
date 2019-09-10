@@ -145,7 +145,6 @@ function* rehyderateUserFromSession({ client }) {
     const getTotalPrice = (variant) => {
       const cartVariant = cart.find(({variantId}) => variant.id === variantId);
       let amount;
-      console.log(variant)
       if(currency === "INR") {
         amount = variant.inrPrice.amount;
         return {
