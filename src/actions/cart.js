@@ -26,8 +26,13 @@ const initCheckout = checkout => ({
 })
 
 const updateCheckoutLines = checkout => ({
-  type: 'UPDATE_CHECKOUT_LINES',
+  type: 'UPDATE_ALL_CHECKOUT_LINES',
   checkout,
+})
+
+const updateCheckoutLine = line => ({
+  type: 'UPDATE_CHECKOUT_LINE',
+  line,
 })
 
 const updateCartQuantity = totalQuantity => ({
@@ -85,10 +90,20 @@ const updateCartLineTotalPrice = (lineId, lineTotalPrice) => ({
   lineTotalPrice,
 });
 
+const createGuestCheckout = (checkoutDetails) => ({
+  type: 'CREATE_GUEST_CHECKOUT',
+  checkoutDetails,
+})
+
+const clearCartCache = () => ({
+  type: "CLEAR_CART_CACHE",
+})
+
 export default {
   saveVariant,
   initCheckout,
   updateCheckoutLines,
+  updateCheckoutLine,
   updateCartQuantity,
   persistCartFromLocalCache,
   resetCart,
@@ -100,5 +115,7 @@ export default {
   removeLineItem,
   updateCartTotalPrice,
   updateCartSubTotalPrice,
-  updateCartLineTotalPrice
+  updateCartLineTotalPrice,
+  createGuestCheckout,
+  clearCartCache,
 }

@@ -8,11 +8,11 @@ const mapStateToProps = ({
     checkoutId,
     shippingAddress,
     availableShippingMethods,
-    shippingMethod
+    shippingMethod,
   },
   auth: {
     id: userId,
-    addresses,
+    addresses: userAddresses,
     firstName,
     lastName,
     email,
@@ -21,14 +21,21 @@ const mapStateToProps = ({
 }, ownProps) => ({
   userId,
   checkoutId,
-  addresses,
+  addresses: (() => {
+    if(userAddresses && userAddresses.length > 0) {
+      return userAddresses;
+    } else if(shippingAddress && Object.keys(shippingAddress).length > 0) {
+      return [shippingAddress];
+    }
+    return [];
+  })(),
   shippingAddress,
   firstName,
   lastName,
   email,
   shippingMethod,
   availableShippingMethods,
-  isLoading
+  isLoading,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -36,7 +43,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateShippingAddress: (shippingAddress) => dispatch(actions.updateShippingAddress(shippingAddress)),
   setAvailableShippingMethods: (shippingMethods) => dispatch(actions.setAvailableShippingMethods(shippingMethods)),
   updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod)),
-  updateCartTotalPrice: (cartTotalPrice) => dispatch(actions.updateCartTotalPrice(cartTotalPrice))
+  updateCartTotalPrice: (cartTotalPrice) => dispatch(actions.updateCartTotalPrice(cartTotalPrice)),
+  createGuestCheckout: (checkoutDetails) => dispatch(actions.createGuestCheckout(checkoutDetails)),
 })
 
 export default connect(

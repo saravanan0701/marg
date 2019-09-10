@@ -56,14 +56,14 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
             ...state,
             addresses: state.addresses.concat(action.address),
           };
-
-        case 'LOGOUT':
+        case 'LOGIN_FAILURE':
           return {
             ...INITIAL_USER_STATE,
-            isLoading: false,
+            currency: state.currency,
+              isLoading: false,
           };
 
-        case 'LOGIN_FAILURE':
+        case 'LOGOUT':
           return {
             ...INITIAL_USER_STATE,
             isLoading: false,

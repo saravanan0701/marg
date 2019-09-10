@@ -159,13 +159,13 @@ class AddressEditForm extends Component {
             (values, { setSubmitting, resetForm }) => {
               values.streetAddress2 = values.streetAddress1;
               values.country = self.state.country.slug;
-              console.log(values);
-              console.log(self.state.country);
               values.countryArea = self.state.state.name;
               values.phone = `+91${values.phone}`;
+              const email = values.email;
               delete values.email;
-              saveAddress(values)
-                .then((success) => {
+              const addressSaved = saveAddress(values, email);
+              if(addressSaved && addressSaved.then) {
+                addressSaved.then((success) => {
                   setSubmitting(false);
                   if(success){
                     toggleAddressForm();
@@ -174,6 +174,7 @@ class AddressEditForm extends Component {
                 }, () => {
                   setSubmitting(false);
                 })
+              }
             }
           }
           >

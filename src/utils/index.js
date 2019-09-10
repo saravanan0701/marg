@@ -2,6 +2,9 @@ import { CountryRegionData } from 'react-country-region-selector';
 const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
 
 export const replaceStaticUrl = (url) => {
+  if(!url) {
+    return;
+  }
   const replaceExps = [
     {
       key: 'http://backend/',
@@ -85,4 +88,8 @@ export const getParamsObjFromString = (queryString) => (
 
 export const getLocalizedAmount = ({ currency, inr, usd }) => (
   currency === "INR"? inr: usd
+)
+
+export const getLocalizedAmountBySymbol = ({currency, amount}) => (
+  currency === "INR"? `₹${amount}`: `$${amount}`
 )
