@@ -298,12 +298,6 @@ const Checkout = ({
                 variant: {
                   isDigital,
                   sku,
-                  inrPrice: {
-                    localized: inrLocalized,
-                  },
-                  usdPrice: {
-                    localized: usdLocalized,
-                  },
                   product: {
                     name,
                     images,
@@ -334,6 +328,9 @@ const Checkout = ({
                           )}
                         </span>
                       </div>
+                      <div>
+                        Quantity:&nbsp;{quantity}
+                      </div>
 
                       {quantity > 0 && (
                         <span className="delete-item" onClick={(e) => deleteLineItem(id)}>REMOVE THIS ITEM</span>
@@ -347,18 +344,7 @@ const Checkout = ({
                     <LinePrice className="mb-3">
                       <span className="price">
                         {
-                          (
-                            () => {
-                              // This block displays prices for logged-in user and guest user.
-                              if(localized)
-                                return localized
-                              if(currency === "INR") {
-                                return inrLocalized
-                              } else {
-                                return usdLocalized
-                              }
-                            }
-                          )()
+                          localized
                         }
                       </span>
                     </LinePrice>

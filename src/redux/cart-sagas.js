@@ -2,6 +2,7 @@ import { takeEvery, call, put, select } from "redux-saga/effects";
 import gql from 'graphql-tag';
 import client from './../apollo/';
 import actions from './../actions';
+import { getLocalizedAmountBySymbol } from "./../utils/";
 
 
 export function* saveVariantInCart() {
@@ -299,6 +300,8 @@ function* saveVariant({
     variant: {
       id,
       product,
+      inrPrice,
+      usdPrice,
     },
   }
 }) {
@@ -306,6 +309,7 @@ function* saveVariant({
     const auth = yield select(getUserFromState);
     const {
       checkoutId,
+      lines,
     } = yield select(getCartFromState);
 
     if(!auth.email) {
@@ -327,16 +331,29 @@ function* saveVariant({
       }
       localStorage.setItem('cart', JSON.stringify(cart));
 
-      if(cart.length > 0) {
-        yield put(
-          actions.updateCartQuantity(cart.length)
-        );
-      }
-
+      let price = auth.currency === "INR"? inrPrice: usdPrice;
+      let {
+        quantity = 0,
+        totalPrice: {
+          gross: {
+            amount = 0,
+          } = {},
+        } = {},
+      } = lines.find(({variant: {id: variantId} = {} }) => id === variantId) || {};
+      let totalQuantity = lines.reduce((acc, { quantity }) => {
+        return acc + quantity;
+      }, 0);
+      price.amount = price.amount + amount;
+      price.localized = getLocalizedAmountBySymbol({currency: auth.currency, amount: price.amount});
 
       yield put(
         actions.updateCheckoutLine({
-          quantity: variantQuantity,
+          quantity: ++quantity,
+          totalQuantity: ++totalQuantity,
+          totalPrice: {
+            gross: price,
+            net: price,
+          },
           variant: {
             id,
             product,
