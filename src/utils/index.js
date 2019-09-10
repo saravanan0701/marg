@@ -89,3 +89,7 @@ export const getParamsObjFromString = (queryString) => (
 export const getLocalizedAmount = ({ currency, inr, usd }) => (
   currency === "INR"? inr: usd
 )
+
+export const getLocalizedAmountBySymbol = ({currency, amount}) => (
+  currency === "INR"? `₹${amount}`: `$${amount}`
+)

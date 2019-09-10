@@ -1,3 +1,5 @@
+import { getLocalizedAmountBySymbol } from "./../utils/";
+
 const INITIAL_CART_STATE = {
   checkoutId: null,
   lines: [],
@@ -48,18 +50,42 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
       }
     
     case 'UPDATE_CHECKOUT_LINE':
+      // Only used by guest checkout.
       let lineFound = false;
-      const lines = state.lines.map((it) => {
+      let lines = state.lines.map((it) => {
         if(it.variant.id === action.line.variant.id) {
           lineFound = true;
           ++it.quantity;
+          it.totalPrice = action.line.totalPrice;
           return it
         }
         return it;
-      })
+      });
+      lines = lineFound ? [...lines]: (() => {
+        delete action.line.totalQuantity;
+        return state.lines.concat(action.line)
+      })();
+
+      const totalAmount = lines.reduce((acc, {totalPrice: {gross : {amount=0, currency} ={} } ={} }={}) => acc + amount, 0)
+
+      const totalMoney = {
+        currency: state.currency,
+        amount: totalAmount,
+        localized: getLocalizedAmountBySymbol({currency: state.currency, amount: totalAmount}),
+      }
+
       return {
         ...state,
-        lines: lineFound ? [...lines]: state.lines.concat(action.line),
+        totalQuantity: action.line.totalQuantity,
+        lines: [...lines],
+        totalPrice: {
+          net: {...totalMoney},
+          gross: {...totalMoney},
+        },
+        subtotalPrice: {
+          net: {...totalMoney},
+          gross: {...totalMoney},
+        }
       }
 
     case 'UPDATE_CART_QUANTITY':
