@@ -1,6 +1,7 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, select } from "redux-saga/effects";
 import gql from 'graphql-tag';
 import axios from 'axios';
+import { getLocalizedAmountBySymbol } from "./../utils/";
 
 import actions from './../actions';
 
@@ -44,6 +45,8 @@ const GET_VARIANTS = gql`
   }
 `
 
+export const getUserFromState = (state) => state.auth;
+
 export function* stateRehydrateSaga() {
   yield takeLatest("REHYDERATE_STATE_FROM_CACHE", rehyderateUserFromSession);
 }
@@ -77,7 +80,28 @@ function getCountryInfo() {
   return axios.get("https://api.ipdata.co/?api-key=fa7bbaa2558cd8503c27325d947c3edf9065aa07cbc6006791a27c0b")
 }
 
+function* setCurrencyPreference() {
+  try {
+    const {
+      data: {
+        country_code,
+      }
+    } = yield call(getCountryInfo);
+    yield put(
+      actions.setCurrency(country_code === "IN"? "INR": "USD")
+    )
+  } catch (e) {
+    yield put(
+      actions.setCurrency("INR")
+    )
+  }
+}
+
 function* rehyderateUserFromSession({ client }) {
+  yield call(
+    () => setCurrencyPreference()
+  );
+  const {currency} = yield select(getUserFromState);
   try {
     const {
       data: {
@@ -117,27 +141,72 @@ function* rehyderateUserFromSession({ client }) {
       const variant = cart.find(({variantId}) => id === variantId);
       return variant? variant.quantity: 0;
     }
-    variantEdges = variantEdges.map(({node}) => ({variant: {...node}, quantity: getVariantQuantity(node.id)}))
+
+    const getTotalPrice = (variant) => {
+      const cartVariant = cart.find(({variantId}) => variant.id === variantId);
+      let amount;
+      console.log(variant)
+      if(currency === "INR") {
+        amount = variant.inrPrice.amount;
+        return {
+          currency,
+          amount: amount * cartVariant.quantity,
+          localized: getLocalizedAmountBySymbol({currency, amount: amount * cartVariant.quantity}),
+        }
+      } else {
+        amount = variant.usdPrice.amount;
+        return {
+          currency,
+          amount: amount * cartVariant.quantity,
+          localized: getLocalizedAmountBySymbol({currency, amount: amount * cartVariant.quantity}),
+        }
+      }
+    }
+
+    variantEdges = variantEdges.map(({node}) => ({
+      variant: {...node},
+      quantity: getVariantQuantity(node.id),
+      totalPrice: {
+        gross: getTotalPrice(node),
+        net: getTotalPrice(node),
+      }
+    }))
+    const totalPriceForCart = variantEdges.reduce((acc, { totalPrice: { gross: { amount }={} } ={} }) => (
+      acc + amount
+    ), 0);
+
     yield put(
-      actions.updateCheckoutLines({lines: variantEdges})
+      actions.updateCheckoutLines({
+        lines: variantEdges,
+        subtotalPrice: {
+          gross: {
+            currency,
+            amount: totalPriceForCart,
+            localized: getLocalizedAmountBySymbol({currency, amount: totalPriceForCart}),
+          },
+          net: {
+            currency,
+            amount: totalPriceForCart,
+            localized: getLocalizedAmountBySymbol({currency, amount: totalPriceForCart}),
+          }
+        },
+        totalPrice: {
+          gross: {
+            currency,
+            amount: totalPriceForCart,
+            localized: getLocalizedAmountBySymbol({currency, amount: totalPriceForCart}),
+          },
+          net: {
+            currency,
+            amount: totalPriceForCart,
+            localized: getLocalizedAmountBySymbol({currency, amount: totalPriceForCart}),
+          }
+        }
+      })
     );
     yield put(
       actions.updateCartQuantity(totalQuantity)
     );
-  }
-  try {
-    const {
-      data: {
-        country_code,
-      }
-    } = yield call(getCountryInfo);
-    yield put(
-      actions.setCurrency(country_code === "IN"? "INR": "USD")
-    )
-  } catch (e) {
-    yield put(
-      actions.setCurrency("INR")
-    )
   }
 }
 
