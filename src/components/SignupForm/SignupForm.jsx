@@ -109,8 +109,7 @@ const Wrapper = styled.div`
 
 // TODO:
 // 1. Show/hide for password.
-// 2. Send (f/l)name to backend.
-// 3. Subscriber for newsletter.
+// 2. Subscriber for newsletter.
 
 class SignupForm extends Component {
 
@@ -130,6 +129,8 @@ class SignupForm extends Component {
         user: {
           email: values.email,
           password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName
         },
       },
     }).then(({ data, errors }) => {
