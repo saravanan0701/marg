@@ -193,6 +193,7 @@ const Checkout = ({
     lines,
     totalPrice: { gross: { localized } = {} } = {}
   } = {},
+  currency,
   client,
   setLineQuantity,
   updateCartQuantity,
@@ -292,8 +293,8 @@ const Checkout = ({
                 id,
                 quantity,
                 totalPrice: {
-                  gross: { localized }
-                },
+                  gross: { localized } = {}
+                } = {},
                 variant: {
                   isDigital,
                   sku,
@@ -302,9 +303,9 @@ const Checkout = ({
                     images,
                     thumbnail: {
                       url: thumbnailUrl
-                    }
-                  }
-                }
+                    } = {}
+                  } = {}
+                } = {}
               }) => (
                 <OrderLine key={sku} className="row py-4">
                   <Col xs="4">
@@ -327,6 +328,9 @@ const Checkout = ({
                           )}
                         </span>
                       </div>
+                      <div>
+                        Quantity:&nbsp;{quantity}
+                      </div>
 
                       {quantity > 0 && (
                         <span className="delete-item" onClick={(e) => deleteLineItem(id)}>REMOVE THIS ITEM</span>
@@ -339,7 +343,9 @@ const Checkout = ({
                   >
                     <LinePrice className="mb-3">
                       <span className="price">
-                        {localized}
+                        {
+                          localized
+                        }
                       </span>
                     </LinePrice>
                     <QuantityEditor

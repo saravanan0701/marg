@@ -81,7 +81,7 @@ const CheckoutSidebar = ({
 
   useEffect(() => {
     lines.map(lineItem => {
-      if (!lineItem.variant.isDigital) {
+      if (lineItem && lineItem.variant && !lineItem.variant.isDigital) {
         setRequiresShipping(true);
       }
     });
@@ -89,7 +89,7 @@ const CheckoutSidebar = ({
 
   return (
     <Wrapper>
-      {checkoutId != null && (
+      { lines && lines.length > 0 && (
         <Row>
           <Col xs="12">
             <h2 style={{ margin: 15 }}>ORDER SUMMARY</h2>
