@@ -365,10 +365,13 @@ const ProductDetails = ({
                 </Col>
               </Row>
               <Row>
-                <Col lg="6">
-                  <h3 id="description">Description</h3>
-                  {ReactHtmlParser(description)}
-                </Col>
+                {
+                  category && category.name === "Books" &&
+                  <Col lg="6">
+                    <h3 id="description">Description</h3>
+                    {ReactHtmlParser(description)}
+                  </Col>
+                }
               </Row>
               <Row>
                 <Col lg="9" className="px-0">
