@@ -8,13 +8,27 @@ const mapStateToProps = ({
 	auth: {
 		isLoading,
 		orders,
+		addresses,
+		firstName,
+		lastName,
+		email,
+		id
 	}
 }, ownProps) => ({
 	isLoading,
 	orders,
+	addresses,
+	firstName,
+	lastName,
+	email,
+	id
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({})
+const mapDispatchToProps = (dispatch, ownProps) => ({
+	addNewAddress: (address) => dispatch(actions.addNewAddress(address)),
+	updateUserName: (user) => dispatch(actions.updateUserName(user)),
+	updateUserEmail: (user) => dispatch(actions.updateUserEmail(user))
+})
 
 export default connect(
   mapStateToProps,
