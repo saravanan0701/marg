@@ -196,25 +196,7 @@ function* createCheckout({checkoutDetails: {shippingAddress, email} ={} }={}) {
         }
       })
     );
-    const {
-      data: {
-        checkoutShippingMethodUpdate: {
-          checkout: {
-            shippingMethod,
-            totalPrice,
-          },
-          errors: shippingMethodErrors,
-        }
-      }
-    } = yield call(
-      () => client.mutate({
-        mutation: SAVE_SHIPPING_TO_CHECKOUT,
-        variables: {
-          checkoutId: checkout.id,
-          shippingMethodId: checkout.availableShippingMethods[0].id
-        }
-      })
-    );
+    
     if(checkoutCreateErrors.length === 0) {
       yield put(
         actions.successNotification("Saved address")
@@ -222,13 +204,34 @@ function* createCheckout({checkoutDetails: {shippingAddress, email} ={} }={}) {
       yield put(
         actions.initCheckout(checkout)
       )
-      if(shippingMethodErrors.length === 0) {
-        yield put(
-          actions.updateShippingMethod(shippingMethod)
-        )
-        yield put(
-          actions.updateCartTotalPrice(totalPrice)
-        )
+      if(checkout && checkout.availableShippingMethods && checkout.availableShippingMethods.length > 0) {
+        const {
+          data: {
+            checkoutShippingMethodUpdate: {
+              checkout: {
+                shippingMethod,
+                totalPrice,
+              },
+              errors: shippingMethodErrors,
+            }
+          }
+        } = yield call(
+          () => client.mutate({
+            mutation: SAVE_SHIPPING_TO_CHECKOUT,
+            variables: {
+              checkoutId: checkout.id,
+              shippingMethodId: checkout.availableShippingMethods[0].id
+            }
+          })
+        );
+        if(shippingMethodErrors.length === 0) {
+          yield put(
+            actions.updateShippingMethod(shippingMethod)
+          )
+          yield put(
+            actions.updateCartTotalPrice(totalPrice)
+          )
+        }
       }
     } else {
       yield put(
