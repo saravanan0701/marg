@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import styled from "styled-components";
-import logo from "./../../images/logo.svg";
+import logo from "./../../images/logo_with_year.svg";
 import { FlatButton, Menu } from "./../commons/";
 import { Container, Row, Col } from "reactstrap";
 import emblem from "../../images/emblem.png";
