@@ -97,24 +97,24 @@ const Header = ({
                 >
                   Publications
                 </Link>
-                <Link
+                {/* <Link
                   className={pathname.match("blog") ? "active" : ""}
                   to="/categories"
                 >
                   Blog
-                </Link>
+                </Link> */}
                 <Link
                   className={pathname.match("advertise") ? "active" : ""}
                   to="/advertise"
                 >
                   Advertise
                 </Link>
-                <Link
+                {/* <Link
                   className={pathname.match("donate") ? "active" : ""}
                   to="/donate"
                 >
                   Donate
-                </Link>
+                </Link> */}
                 <Menu label="About Marg">
                   <Link to="/aboutus">About Marg</Link>
                   {/* <Link to="/collaborate">Historical Timeline</Link> */}
