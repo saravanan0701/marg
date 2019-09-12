@@ -26,7 +26,7 @@ import { Collaborate } from './components/Collaborate.jsx';
 import { Supporters } from './components/Supporters.jsx';
 import { Trustees } from './components/Trustees.jsx';
 import Donate from './components/Donate.jsx';
-import ContactusForm from './components/Contactus.jsx';
+import ContactusForm from './components/Contactus/';
 import ProductDetails from './components/ProductDetails/';
 import background from './images/textile.jpg';
 import Theme from './Theme';

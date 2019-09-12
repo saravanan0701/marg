@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 
-import { FlatButton, RaisedButton } from './commons/';
+import { FlatButton, RaisedButton } from './../commons/';
 
 const Wrapper = styled.div`
   display: flex;
@@ -81,12 +81,38 @@ const Wrapper = styled.div`
   }
 `;
 
-// TODO:
-// 1. Show/hide for password.
-// 2. Send (f/l)name to backend.
-// 3. Subscriber for newsletter.
+const MESSAGE_TYPES = {
+  'GENERAL_ENQUIRY': 'General Enquiry',
+  'ADVERTISING': 'Advertising',
+  'COLLABORATION': 'Collaboration',
+  'JOBS': 'Jobs/Internship',
+}
 
-class ContactusForm extends Component {
+const SEND_CONTACT_ENQUIRY = gql`
+  mutation SendContactEnquiry(
+    $firstName: String!,
+    $lastName: String!,
+    $email: String!,
+    $message: String!,
+    $contactType: String!
+  ) {
+    contact(
+      firstName: $firstName,
+      lastName: $lastName,
+      email: $email,
+      message: $message,
+      contactType: $contactType,
+    ) {
+      sent
+      errors {
+        field
+        message
+      }
+    }
+  }
+`
+
+export default class ContactusForm extends Component {
 
   constructor(props) {
     super(props);
@@ -97,7 +123,36 @@ class ContactusForm extends Component {
   }
 
   submitContactUs(values) {
-    
+    const {
+      firstName,
+      lastName,
+      email,
+      message,
+      contactType,
+    } = values
+    const {
+      messageType
+    } = this.state;
+    const {
+      successNotification,
+      errorNotification,
+    } = this.props;
+    return this.props.client.mutate({
+      mutation: SEND_CONTACT_ENQUIRY,
+      variables: {
+        firstName,
+        lastName,
+        email,
+        message,
+        contactType: MESSAGE_TYPES[messageType],
+      }
+    }).then(({data: {contact: {errors, sent}}}) => {
+      if(errors.length === 0) {
+        successNotification("We've recieved an email from you, we'll get in touch.")
+      } else {
+        errorNotification("Error sending email.");
+      }
+    })
   }
 
   setMessageType(messageType) {
@@ -121,7 +176,7 @@ class ContactusForm extends Component {
     return (
       <Wrapper>
         <Formik
-          initialValues={{email: '', password: ''}}
+          initialValues={{firstName:'', lastName:'', email:'', message:''}}
           validate={values => {
             const errors = {};
             if (!values.email) {
@@ -238,7 +293,7 @@ class ContactusForm extends Component {
                       <div>{errors.email && touched.email && errors.email}</div>
                     </div>
                     <div className="send-message">
-                      <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>
+                      <RaisedButton type="submit" colortype="primary" disabled={errors && errors.length > 0 && isSubmitting}>
                         { isSubmitting ? 'Sending...' : 'Send message'}
                       </RaisedButton>
                     </div>
@@ -252,5 +307,3 @@ class ContactusForm extends Component {
     )
   }
 }
-
-export default withApollo(ContactusForm);
