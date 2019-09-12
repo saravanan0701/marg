@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { RaisedButton } from "./../commons/";
 import FontAwesome from "react-fontawesome";
-import Hero1 from "../../images/Magazine Banner Option 1 for Home Page.jpg";
+import Hero1 from "../../images/Hero_new.jpg";
 import Hero2 from "../../images/Contemporary Hindu Temple LR.jpg";
 import { Link } from "react-router-dom";
 import {
