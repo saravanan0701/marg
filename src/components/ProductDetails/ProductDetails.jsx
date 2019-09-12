@@ -42,6 +42,16 @@ const Wrapper = styled.div`
     text-transform: uppercase;
   }
 
+  .current-issue {
+    padding-left: 20px;
+    color: ${props => props.theme.primaryColor};
+    font-family: Lato;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+
   .editor-name {
     font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
@@ -124,6 +134,7 @@ const LOAD_PRODUCT = gql`
       description
       volumeInfo
       isAvailable
+      isCurrenctIssue
       category{
         name
       }
@@ -239,6 +250,7 @@ const ProductDetails = ({
               name,
               volumeInfo,
               description,
+              isCurrenctIssue,
               images,
               isAvailable,
               editors,
@@ -276,7 +288,10 @@ const ProductDetails = ({
                   />
                 </Col>
                 <Col className="details" lg="6">
-                  <div className="product-type mt-3 mt-lg-0">{singularCategoryName}</div>
+                  <div className="row mt-3 mt-lg-0 ml-0">
+                  <div className="product-type ">{singularCategoryName}</div>
+                  <div className="current-issue">{isCurrenctIssue?"CURRENT ISSUE": ""}</div>
+                  </div>
                   <div className="row m-0">
                     {
                       volumeInfo &&
