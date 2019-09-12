@@ -115,14 +115,9 @@ const CheckoutSidebar = ({
               <hr />
               <p>
                 TOTAL:
-                {Object.entries(shippingMethod).length === 0 &&
-                shippingMethod.constructor === Object ? (
-                  <span className="shipping-pending float-right">
-                    {!requiresShipping ? localized : "To be determined"}
-                  </span>
-                ) : (
-                  <span className="float-right">{totalLocalized}</span>
-                )}
+                {
+                  <span className="float-right">{totalLocalized? totalLocalized: "To be determined"}</span>
+                }
               </p>
               {location.pathname === "/checkout/cart" && (
                 <Link to={buttonParams.url} class="checkout-proceed-button">
