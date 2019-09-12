@@ -7,6 +7,7 @@ import { loadProducts } from "./products-list-sagas";
 import { fetchUserDetails } from "./user-sagas";
 import { saveVariantInCart, persistCartFromCache } from "./cart-sagas";
 import { createGuestCheckout, clearCartCache } from "./cart-guest-create-saga";
+import { onRouteChange } from "./route-saga";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -29,6 +30,7 @@ export function StoreFactory(history) {
   sagaMiddleware.run(persistCartFromCache);
   sagaMiddleware.run(createGuestCheckout);
   sagaMiddleware.run(clearCartCache);
+  sagaMiddleware.run(onRouteChange);
 	return store;
 };
 
