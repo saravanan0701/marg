@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Formik } from 'formik';
 import queryString from 'query-string';
 
-import { FlatButton, RaisedButton } from '../../commons';
+import { FlatButton, RaisedButton, PasswordInput } from '../../commons';
 
 
 const RESET_PASSWORD = gql(`
@@ -57,7 +57,7 @@ const Wrapper = styled.div`
 
       position: relative;
 
-      & > input {
+      input {
         border: 1px solid #cccccc;
         padding: 10px;
         width: 100%
@@ -141,7 +141,7 @@ export default ({ client, location:{ search }, history: { push }, errorNotificat
                 <div className="heading">Reset password</div>
                 <div className="label">New password</div>
                 <div className="input-container">
-                  <input
+                  <PasswordInput
                     type="password"
                     name="password1"
                     onChange={handleChange}
@@ -151,8 +151,7 @@ export default ({ client, location:{ search }, history: { push }, errorNotificat
                 </div>
                 <div className="label">Confirm password</div>
                 <div className="input-container">
-                  <input
-                    type="password"
+                  <PasswordInput
                     name="password2"
                     onChange={handleChange}
                     onBlur={handleBlur}

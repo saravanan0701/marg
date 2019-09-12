@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 
-import { FlatButton, RaisedButton } from './../commons/';
+import { FlatButton, RaisedButton, PasswordInput } from './../commons/';
 
 
 const GET_AUTH_TOKEN = gql(`
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
     padding: 100px;
   }
 
-  & > form{
+  & > form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -61,13 +61,13 @@ const Wrapper = styled.div`
 
       position: relative;
 
-      & > input {
+      input {
         border: 1px solid #cccccc;
         padding: 10px;
         width: 100%
       }
 
-      & > div {
+      .input-errors {
         position: absolute;
         bottom: -22px;
       }
@@ -190,20 +190,19 @@ export default class Login extends Component {
                     onBlur={handleBlur}
                     value={values.email}
                     />
-                  <div>{errors.email && touched.email && errors.email}</div>
+                  <div className="input-errors">{errors.email && touched.email && errors.email}</div>
                 </div>
                 <div className="label">Password</div>
                 <div className="input-container">
-                  <input
-                    type="password"
+                  <PasswordInput
                     name="password"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.password}
                     />
-                  <div>{errors.password && touched.password && errors.password}</div>
+                  <div className="input-errors">{errors.password && touched.password && errors.password}</div>
                 </div>
-                <FlatButton onClick={(e) => push("/reset-password/generate/")} className="forgot-button">Forgot password</FlatButton>
+                <FlatButton onClick={(e) => push("/reset-password/generate/")} className="forgot-button">Forgot password?</FlatButton>
                 <div className="login-button">
                   <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>{ isSubmitting ? 'Logging in...' : 'Sign in'}</RaisedButton>
                 </div>
