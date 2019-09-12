@@ -5,6 +5,7 @@ import Menu from './Menu.jsx';
 import RadioButtonSet from './RadioButtonSet.jsx';
 import CollapseContainer from './CollapseContainer.jsx';
 import QuantityEditor from './QuantityEditor.jsx';
+import PasswordInput from './PasswordInput';
 
 
 export {
@@ -15,4 +16,5 @@ export {
   RadioButtonSet,
   CollapseContainer,
   QuantityEditor,
+  PasswordInput
 }

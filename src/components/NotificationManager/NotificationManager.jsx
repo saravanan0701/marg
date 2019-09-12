@@ -34,6 +34,7 @@ const NotificationManager = ({
         {
           key,
           variant: validateType(type),
+          anchorOrigin: { vertical: 'top', horizontal: 'right', },
           onClose: () => removeNotification(key),
           action: key => (
             <FontAwesome className="cursor-pointer" name="close" onClick={
