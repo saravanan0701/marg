@@ -217,17 +217,14 @@ class AddressEditForm extends Component {
                     </div>
                     <div className="label col-12">Phone</div>
                     <div className="input-container col-12">
-                      <div className="row align-items-center">
-                        <div class="col-1">+91</div>
-                        <input
-                          className="col-11"
-                          type="phone"
-                          name="phone"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.phone}
-                        />
-                      </div>
+                      <input
+                        className="col-12"
+                        type="phone"
+                        name="phone"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.phone}
+                      />
                       <div className="error">{errors.phone && touched.phone && errors.phone}</div>
                     </div>
                     <div className="label col-12">Your Email</div>
