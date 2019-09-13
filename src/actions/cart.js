@@ -105,6 +105,11 @@ const guestEditVariantQuantity = (variantId, quantity) => ({
   quantity,
 })
 
+const guestRemoveVariantQuantity = (variantId) => ({
+  type: "GUEST_REMOVE_VARIANT",
+  variantId,
+})
+
 
 export default {
   saveVariant,
@@ -126,4 +131,5 @@ export default {
   createGuestCheckout,
   clearCartCache,
   guestEditVariantQuantity,
+  guestRemoveVariantQuantity,
 }

@@ -204,6 +204,7 @@ const Checkout = ({
   updateCartSubTotalPrice,
   updateCartLineTotalPrice,
   guestEditVariantQuantity,
+  guestRemoveVariantQuantity,
   history: {
     push
   } = {},
@@ -273,6 +274,9 @@ const Checkout = ({
   };
 
   const deleteLineItem = lineId => {
+    if(!checkoutId) {
+      return guestRemoveVariantQuantity(lineId)
+    }
     client
       .mutate({
         mutation: DELETE_LINE,
@@ -353,7 +357,7 @@ const Checkout = ({
                       </div>
 
                       {quantity > 0 && (
-                        <span className="delete-item" onClick={(e) => deleteLineItem(id)}>REMOVE</span>
+                        <span className="delete-item" onClick={(e) => deleteLineItem(id? id : variantId)}>REMOVE</span>
                       )}
                     </NameContainer>
                   </Col>

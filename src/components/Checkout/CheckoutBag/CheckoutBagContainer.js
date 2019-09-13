@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateCartSubTotalPrice: (subTotalPrice) => dispatch(actions.updateCartSubTotalPrice(subTotalPrice)),
   updateCartLineTotalPrice: (lineId, totalPrice) => dispatch(actions.updateCartLineTotalPrice(lineId, totalPrice)),
   guestEditVariantQuantity: (variantId, quantity) => dispatch(actions.guestEditVariantQuantity(variantId, quantity)),
+  guestRemoveVariantQuantity: (lineId) => dispatch(actions.guestRemoveVariantQuantity(lineId)),
 })
 
 export default connect(

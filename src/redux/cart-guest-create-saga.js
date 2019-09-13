@@ -172,6 +172,19 @@ export function* clearCartCache() {
   });
 }
 
+const getCartTotal = (lines, currency) => {
+  const sumPrice = lines.reduce((acc, {totalPrice: {gross: {currency, amount}}}) => acc + amount, 0);
+  const sumTotal = {
+    currency,
+    amount: sumPrice,
+    localized: getLocalizedAmountBySymbol({ currency, amount: sumPrice }),
+  };
+  return {
+    gross: sumTotal,
+    net: sumTotal,
+  };
+}
+
 export function* editVariantQuantity() {
   yield takeEvery("GUEST_EDIT_VARIANT_QUANTITY", function*({ variantId, quantity }) {
     const {currency} = yield select(getUserFromState);
@@ -197,16 +210,7 @@ export function* editVariantQuantity() {
       }
       return line; 
     });
-    const sumPrice = lines.reduce((acc, {totalPrice: {gross: {currency, amount}}}) => acc + amount, 0);
-    const sumTotal = {
-      currency,
-      amount: sumPrice,
-      localized: getLocalizedAmountBySymbol({currency, amount: sumPrice}),
-    };
-    const cartTotalPrice = {
-      gross: sumTotal,
-      net: sumTotal,
-    };
+    const cartTotalPrice = getCartTotal(lines, currency);
     yield put(
       actions.updateCheckoutLines({
         lines,
@@ -224,6 +228,35 @@ export function* editVariantQuantity() {
       }
       return cart;
     })
+    localStorage.setItem("cart", JSON.stringify(cart))
+  });
+}
+
+export function* removeItemFromCart(){
+  yield takeEvery("GUEST_REMOVE_VARIANT", function*({variantId}) {
+    const { currency } = yield select(getUserFromState);
+    let { lines } = yield select(getCartFromState);
+    lines = lines.reduce((acc, line) => {
+      if(variantId === line.variant.id) {
+        return acc;
+      }
+      return acc.concat(line);
+    }, []);
+    const cartTotalPrice = getCartTotal(lines, currency);
+    yield put(
+      actions.updateCheckoutLines({
+        lines,
+        totalPrice: cartTotalPrice,
+        subtotalPrice: cartTotalPrice,
+      })
+    )
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart = cart.reduce((acc, cartIt) => {
+      if(variantId === cartIt.variantId) {
+        return acc;
+      }
+      return acc.concat(cartIt);
+    }, []);
     localStorage.setItem("cart", JSON.stringify(cart))
   });
 }
