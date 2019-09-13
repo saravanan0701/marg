@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
-import logo from './../../images/logo.svg'
+import logo from './../../images/Header_marg_transparent.gif'
 import { FlatButton, CollapseContainer } from './../commons/';
 import { Container, Row, Col, Button } from 'reactstrap';
 
