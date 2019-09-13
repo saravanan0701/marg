@@ -13,7 +13,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
     val: "DESC",
   },
   pagination: {
-    first: 8,
+    first: 12,
     after: null,
     hasNextPage: false,
   },

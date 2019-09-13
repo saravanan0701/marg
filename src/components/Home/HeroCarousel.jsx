@@ -25,7 +25,7 @@ const items = [
     imageSrc: Hero1,
     ctaText: "View This Issue",
     ctaUrl: "/product/UHJvZHVjdDozMDQz",
-    textColor: '#FFFFFF'
+    textColor: "#FFFFFF"
   },
   {
     position: "2",
@@ -37,7 +37,7 @@ const items = [
     imageSrc: Hero2,
     ctaText: "View This Book",
     ctaUrl: "/product/UHJvZHVjdDo1MjUy",
-    textColor: '#000000'
+    textColor: "#000000"
   }
 ];
 
@@ -60,18 +60,22 @@ const CarouselWrapper = styled.div`
 
   #carouselInfoCol {
     padding-bottom: 150px;
-    @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
+    @media (min-width: 1200px) {
       min-height: 450px;
+      position: absolute;
+      top: 20%;
+      max-width: 40%;
+      left: 5%;
     }
-    position: absolute;
-    top: 20%;
-    max-width: 40%;
-    left: 5%;
+
+    @media (max-width: 1200px) {
+      color: black !important;
+      padding: 1.5rem;
+    }
+
   }
 
   .controls {
-    /* position: absolute;
-    bottom: 5%; */
     display: inline-flex;
     align-items: center;
   }
@@ -144,9 +148,10 @@ const CarouselWrapper = styled.div`
   }
 
   .cta {
-    position: absolute;
-    bottom: 20%;
-
+    @media (min-width: 1200px) {
+      position: absolute;
+      bottom: 20%;
+    }
     a {
       color: white;
     }
@@ -209,11 +214,16 @@ class HeroCarousel extends Component {
             className="px-0 text-center"
             fluid="true"
             style={{
-              position: "relative",
+              position: "relative"
             }}
           >
             <img className="carousel-image" src={item.imageSrc} alt="" />
-            <div id="carouselInfoCol" lg="5" className="text-left" style={{ color: item.textColor }}>
+            <div
+              id="carouselInfoCol"
+              lg="5"
+              className="text-left"
+              style={{ color: item.textColor }}
+            >
               <span className="label my-3">{item.label}</span>
               <h1 className="title my-2">{item.title}</h1>
               <h3 className="subtitle mb-4">{item.subtitle}</h3>
@@ -222,7 +232,7 @@ class HeroCarousel extends Component {
                 <Link to={item.ctaUrl}>{item.ctaText}</Link>
               </RaisedButton>
             </div>
-            <div class="controls my-4">
+            <div class="controls mb-4 my-lg-4">
               <FontAwesome
                 className="icon"
                 name="chevron-left"

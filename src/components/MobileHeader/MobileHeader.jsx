@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
-import logo from './../../images/logo.svg'
+import logo from './../../images/Header_marg_transparent.gif'
 import { FlatButton, CollapseContainer } from './../commons/';
 import { Container, Row, Col, Button } from 'reactstrap';
 
@@ -185,7 +185,7 @@ class MobileHeader extends Component {
             <Col lg="12 d-flex justify-content-between align-items-center">
               <Link id="mobileHeaderLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
               <div className='d-flex align-items-center'>
-                <FlatButton className="mr-4 d-inline-block" colorType="primary">
+                <FlatButton onClick={e => this.props.cartQuantity > 0 && this.props.history.push("/checkout/cart")} className="mr-4 d-inline-block" colorType="primary">
                   <span className="color-black">Cart—</span>{this.props.cartQuantity}
                 </FlatButton>
                 <button

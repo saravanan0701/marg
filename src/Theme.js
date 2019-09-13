@@ -9,7 +9,7 @@ const Theme = {
   underlineColor: "#37312f",
   mainTextColor: "#000000",
 
-  mobileBreakpoint: "1290px",
+  mobileBreakpoint: "1000px",
   appHorizontalPadding: "1.5rem",
 
   '$weight-regular': '400',
