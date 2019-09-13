@@ -94,10 +94,18 @@ const ProductList = () => (
           categories = categories.edges.map(({node}) => node);
           attributes = attributes.edges.map(({node}) => node);
           editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
+          
+          // Filtering `mainCategories` here because DropDown component checks if loadData has changed,
+          // and if changed it set selectedOptions to []. Even after selecting an option its always unselected.
+          const mainCategories = categories.map(({id, name, slug}) => ({
+            id,
+            name,
+            slug,
+          })).filter(({slug}) => slug !== "articles")
           return (
             <div>
               <CategoryFilter categories={categories} />
-              <ProductListFilter filters={attributes} editors={editors}/>
+              <ProductListFilter categories={mainCategories} filters={attributes} editors={editors}/>
               <MobileProductFilter filters={attributes} />
               <ProductListWrapper />
               <ProductListPagination />
