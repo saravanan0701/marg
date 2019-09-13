@@ -117,7 +117,7 @@ export const ProductsSection = ({name, categoryId}) => (
             }
             return data.products.edges.map(
               (product, id) => (
-                <ProductCard key={id} className="col-12 col-lg-3" {...product.node} />
+                <ProductCard key={id} className="col-6 col-lg-3" {...product.node} />
               )
             )
           }
