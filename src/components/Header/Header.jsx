@@ -122,17 +122,17 @@ const Header = ({
                   <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
                   <Link to="/trustees">TRUSTEES/ADVISORY</Link>
                 </Menu>
-                <Link
-                  className={pathname.match("contactus") ? "active" : ""}
-                  to="/contactus"
-                >
-                  Contact
-                </Link>
                 <Menu label="More">
                   <Link>Marg Events</Link>
                   <Link to="/collaborate">Collaborate</Link>
                   <Link>Submit Proposals</Link>
                   <Link>Film Archive</Link>
+                  <Link
+                    className={pathname.match("contactus") ? "active" : ""}
+                    to="/contactus"
+                  >
+                    Contact
+                  </Link>
                 </Menu>
               </div>
               <div className="menu mr-0">
