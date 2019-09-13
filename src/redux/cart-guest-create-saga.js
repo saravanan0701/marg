@@ -4,7 +4,8 @@ import { takeEvery, call, put, select } from "redux-saga/effects";
 import gql from 'graphql-tag';
 import client from './../apollo/';
 import actions from './../actions';
-import { getLocalizedAmountBySymbol } from "./../utils/";
+import { getLocalizedAmountBySymbol, getLocalizedAmount } from "./../utils/";
+import cart from "../actions/cart";
 
 const CREATE_NEW_CHECKOUT = gql(`
   mutation CreateCheckout(
@@ -168,6 +169,62 @@ export function* createGuestCheckout() {
 export function* clearCartCache() {
   yield takeEvery("CLEAR_CART_CACHE", function*() {
     yield localStorage.removeItem('cart');
+  });
+}
+
+export function* editVariantQuantity() {
+  yield takeEvery("GUEST_EDIT_VARIANT_QUANTITY", function*({ variantId, quantity }) {
+    const {currency} = yield select(getUserFromState);
+    let { lines } = yield select(getCartFromState);
+    lines = lines.map((line) => {
+      const { totalPrice, variant: { id, inrPrice: {amount: inrAmount}={}, usdPrice: {amount: usdAmount}={} } = {} } = line;
+      if(variantId === id) {
+        const amount = getLocalizedAmount({currency, inr: inrAmount, usd: usdAmount});
+        const calcAmount = quantity * amount;
+        const price = {
+          currency,
+          amount: calcAmount,
+          localized: getLocalizedAmountBySymbol({currency, amount: calcAmount}),
+        };
+        return {
+          ...line,
+          quantity: quantity,
+          totalPrice: {
+            gross: price,
+            net: price,
+          }
+        };
+      }
+      return line; 
+    });
+    const sumPrice = lines.reduce((acc, {totalPrice: {gross: {currency, amount}}}) => acc + amount, 0);
+    const sumTotal = {
+      currency,
+      amount: sumPrice,
+      localized: getLocalizedAmountBySymbol({currency, amount: sumPrice}),
+    };
+    const cartTotalPrice = {
+      gross: sumTotal,
+      net: sumTotal,
+    };
+    yield put(
+      actions.updateCheckoutLines({
+        lines,
+        totalPrice: cartTotalPrice,
+        subtotalPrice: cartTotalPrice,
+      })
+    )
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart = cart.map((cart) => {
+      if(cart.variantId === variantId) {
+        return{
+          ...cart,
+          quantity
+        }
+      }
+      return cart;
+    })
+    localStorage.setItem("cart", JSON.stringify(cart))
   });
 }
 

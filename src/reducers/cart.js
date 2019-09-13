@@ -51,6 +51,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
     
     case 'UPDATE_CHECKOUT_LINE':
       // Only used by guest checkout.
+      const currency = action.line.currency;
       let lineFound = false;
       let lines = state.lines.map((it) => {
         if(it.variant.id === action.line.variant.id) {
@@ -71,9 +72,9 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
       const totalAmount = lines.reduce((acc, {totalPrice: {gross : {amount=0, currency} ={} } ={} }={}) => acc + amount, 0)
 
       const totalMoney = {
-        currency: state.currency,
+        currency,
         amount: totalAmount,
-        localized: getLocalizedAmountBySymbol({currency: state.currency, amount: totalAmount}),
+        localized: getLocalizedAmountBySymbol({currency, amount: totalAmount}),
       }
 
       return {

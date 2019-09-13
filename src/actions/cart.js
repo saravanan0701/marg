@@ -99,6 +99,13 @@ const clearCartCache = () => ({
   type: "CLEAR_CART_CACHE",
 })
 
+const guestEditVariantQuantity = (variantId, quantity) => ({
+  type: "GUEST_EDIT_VARIANT_QUANTITY",
+  variantId,
+  quantity,
+})
+
+
 export default {
   saveVariant,
   initCheckout,
@@ -118,4 +125,5 @@ export default {
   updateCartLineTotalPrice,
   createGuestCheckout,
   clearCartCache,
+  guestEditVariantQuantity,
 }

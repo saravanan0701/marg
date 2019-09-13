@@ -203,59 +203,72 @@ const Checkout = ({
   updateCartTotalPrice,
   updateCartSubTotalPrice,
   updateCartLineTotalPrice,
+  guestEditVariantQuantity,
   history: {
     push
   } = {},
 }) => {
+
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
-  const modifyQuantity = id => {
-    return quantity => {
-      return client
-        .mutate({
-          mutation: UPDATE_QUANTITY,
-          variables: {
-            checkoutId,
-            lines: lines.map(
-              ({
-                id: lineId,
-                quantity: lineQuantity,
-                variant: { id: variantId } = {}
-              }) => {
-                if (lineId === id) {
-                  return {
-                    quantity,
-                    variantId
-                  };
-                }
+
+  const modifyQuantityForCheckout = (id, quantity) => {
+    return client
+      .mutate({
+        mutation: UPDATE_QUANTITY,
+        variables: {
+          checkoutId,
+          lines: lines.map(
+            ({
+              id: lineId,
+              quantity: lineQuantity,
+              variant: { id: variantId } = {}
+            }) => {
+              if (lineId === id) {
                 return {
-                  variantId,
-                  quantity: lineQuantity
+                  quantity,
+                  variantId
                 };
               }
-            )
+              return {
+                variantId,
+                quantity: lineQuantity
+              };
+            }
+          )
+        }
+      })
+      .then(
+        ({
+          data: {
+            checkoutLinesUpdate: { checkout: { lines, totalPrice, subtotalPrice } = {} },
+            errors
           }
+        } = {}) => {
+          if (!errors || errors.length === 0) {
+            setLineQuantity({ id, quantity });
+            const line = lines.find(({ id: lineId }) => id === lineId);
+            if (line) {
+              updateCartLineTotalPrice(id, line.totalPrice);
+            }
+            updateCartQuantity(getQuantityFromLines(lines));
+            updateCartTotalPrice(totalPrice)
+            updateCartSubTotalPrice(subtotalPrice)
+            return;
+          }
+        }
+      );
+  }
+  const modifyQuantity = id => {
+    return quantity => {
+      if(checkoutId) {
+        return modifyQuantityForCheckout(id, quantity);
+      } else {
+        return new Promise((resolve, reject) => {
+          guestEditVariantQuantity(id, quantity);
+          resolve();
         })
-        .then(
-          ({
-            data: {
-              checkoutLinesUpdate: { checkout: { lines, totalPrice, subtotalPrice  } = {} },
-              errors
-            }
-          } = {}) => {
-            if(!errors || errors.length === 0) {
-              setLineQuantity({ id, quantity });
-              const line = lines.find(({id: lineId}) => id === lineId);
-              if(line) {
-                updateCartLineTotalPrice(id, line.totalPrice);
-              }
-              updateCartQuantity(getQuantityFromLines(lines));
-              updateCartTotalPrice(totalPrice)
-              updateCartSubTotalPrice(subtotalPrice)
-              return;
-            }
-          }
-        );
+      }
     };
   };
 
@@ -301,6 +314,7 @@ const Checkout = ({
                   gross: { localized } = {}
                 } = {},
                 variant: {
+                  id: variantId,
                   isDigital,
                   sku,
                   product: {
@@ -356,7 +370,7 @@ const Checkout = ({
                     </LinePrice>
                     <QuantityEditor
                       quantity={quantity}
-                      modifyQuantity={modifyQuantity(id)}
+                      modifyQuantity={modifyQuantity(id? id: variantId)}
                     />
                   </Col>
                   <hr />

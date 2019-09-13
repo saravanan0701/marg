@@ -348,6 +348,7 @@ function* saveVariant({
 
       yield put(
         actions.updateCheckoutLine({
+          currency: auth.currency,
           quantity: ++quantity,
           totalQuantity: ++totalQuantity,
           totalPrice: {
@@ -357,6 +358,8 @@ function* saveVariant({
           variant: {
             id,
             product,
+            inrPrice,
+            usdPrice,
           }
         })
       );
@@ -396,6 +399,7 @@ function* saveVariant({
     }
   
   } catch (e) {
+    console.log(e);
     if(e) {
       yield put(
         actions.errorNotification("Failed to item to cart")
