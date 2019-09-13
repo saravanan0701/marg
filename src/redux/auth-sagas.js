@@ -31,6 +31,7 @@ const GET_VARIANTS = gql`
             localized
           }
           product{
+            id
             name
             thumbnail{
               url

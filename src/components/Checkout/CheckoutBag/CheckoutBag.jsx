@@ -15,6 +15,7 @@ import {
 const ImgContainer = styled.div`
   img {
     height: 256px;
+    cursor: pointer;
   }
 `;
 
@@ -26,6 +27,7 @@ const NameContainer = styled.div`
     font-weight: 700;
     letter-spacing: 0.66px;
     line-height: 23px;
+    cursor: pointer;
   }
 
   .sub-heading {
@@ -201,6 +203,9 @@ const Checkout = ({
   updateCartTotalPrice,
   updateCartSubTotalPrice,
   updateCartLineTotalPrice,
+  history: {
+    push
+  } = {},
 }) => {
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
@@ -299,6 +304,7 @@ const Checkout = ({
                   isDigital,
                   sku,
                   product: {
+                    id: productId,
                     name,
                     images,
                     thumbnail: {
@@ -309,14 +315,14 @@ const Checkout = ({
               }) => (
                 <OrderLine key={sku} className="row py-4">
                   <Col xs="4">
-                    <ImgContainer className="text-right">
+                    <ImgContainer className="text-right" onClick={() => push(`/product/${productId}`)}>
                       <img src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)} />
                     </ImgContainer>
                   </Col>
                   <Col xs="6">
                     <NameContainer>
                       <div className="name-placeholder">
-                        <div className="main-name my-2">{name}</div>
+                        <div className="main-name my-2" onClick={() => push(`/product/${productId}`)}>{name}</div>
                       </div>
                       <div className="sub-heading">
                         <span>Type: </span>

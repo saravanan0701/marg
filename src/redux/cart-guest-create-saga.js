@@ -166,11 +166,9 @@ export function* createGuestCheckout() {
 }
 
 export function* clearCartCache() {
-  yield takeEvery("CLEAR_CART_CACHE", clearCart);
-}
-
-function* clearCart() {
-  yield localStorage.removeItem('cart');
+  yield takeEvery("CLEAR_CART_CACHE", function*() {
+    yield localStorage.removeItem('cart');
+  });
 }
 
 function* createCheckout({checkoutDetails: {shippingAddress, email} ={} }={}) {

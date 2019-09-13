@@ -362,6 +362,7 @@ const ProductDetails = ({
                             variant: {
                               ...selectedVariant,
                               product: {
+                                id,
                                 name,
                                 images,
                                 thumbnailUrl
