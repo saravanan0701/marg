@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import styled from "styled-components";
-import logo from "./../../images/logo_with_year.svg";
+import logo from "./../../images/Header_marg_transparent.gif";
 import { FlatButton, Menu } from "./../commons/";
 import { Container, Row, Col } from "reactstrap";
 import emblem from "../../images/emblem.png";
@@ -17,8 +17,8 @@ const HeaderContainer = styled.div`
 
   #headerLogoLink {
     cursor: pointer;
-    max-width: 160px;
-    margin-bottom: -72px;
+    max-width: 195px;
+    margin-bottom: -58px;
     z-index: 11;
   }
 
