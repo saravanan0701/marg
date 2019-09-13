@@ -76,6 +76,7 @@ const QUERY_ME = gql`
             sku
             isDigital
             product{
+              id
               name
               images {
                 url
@@ -161,6 +162,7 @@ const QUERY_ME = gql`
               variant{
                 isDigital
                 product{
+                  id
                   name
                   editors {
                     name
