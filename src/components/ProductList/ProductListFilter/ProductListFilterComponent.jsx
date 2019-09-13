@@ -264,7 +264,7 @@ export const ProductListFilter = ({
       <DropDown
         className="dropdown"
         key={"product-type"}
-        label={"Format:"}
+        label={"Format"}
         loadData={categories}
         onOptionSelect={
           (option) => (
