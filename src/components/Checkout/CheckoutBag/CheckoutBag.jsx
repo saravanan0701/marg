@@ -314,12 +314,12 @@ const Checkout = ({
                 } = {}
               }) => (
                 <OrderLine key={sku} className="row py-4">
-                  <Col xs="4">
+                  <Col xs="4" className="d-none d-lg-block">
                     <ImgContainer className="text-right" onClick={() => push(`/product/${productId}`)}>
-                      <img src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)} />
+                      <img alt="" src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)} />
                     </ImgContainer>
                   </Col>
-                  <Col xs="6">
+                  <Col xs="7" lg="6">
                     <NameContainer>
                       <div className="name-placeholder">
                         <div className="main-name my-2" onClick={() => push(`/product/${productId}`)}>{name}</div>
@@ -339,12 +339,13 @@ const Checkout = ({
                       </div>
 
                       {quantity > 0 && (
-                        <span className="delete-item" onClick={(e) => deleteLineItem(id)}>REMOVE THIS ITEM</span>
+                        <span className="delete-item" onClick={(e) => deleteLineItem(id)}>REMOVE</span>
                       )}
                     </NameContainer>
                   </Col>
                   <Col
-                    xs="2"
+                    xs="5"
+                    lg="2"
                     className="align-items-center align-items-md-start justify-content-end"
                   >
                     <LinePrice className="mb-3">
