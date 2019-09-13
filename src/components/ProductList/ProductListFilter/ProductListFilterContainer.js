@@ -10,11 +10,13 @@ const mapStateToProps = ({
     filter: {
       attributes,
       editors,
+      categories,
     }
   }
 }, ownProps) => ({
   selectedAttributes: attributes,
   selectedEditors: editors,
+  selectedCategories: categories,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -27,6 +29,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeAllEditors: () => dispatch(actions.removeAllEditors()),
     addSortBy: (sortBy) => dispatch(actions.addSortBy(sortBy)),
     resetSortBy: () => dispatch(actions.resetSortBy()),
+    replaceCategoryFilters: (categories) => dispatch(actions.replaceCategoryFilters(categories)),
   }
 }
 

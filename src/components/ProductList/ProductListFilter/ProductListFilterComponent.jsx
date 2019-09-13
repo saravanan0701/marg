@@ -216,6 +216,9 @@ export const ProductListFilter = ({
   removeAllEditors,
   selectedAttributes,
   selectedEditors,
+  selectedCategories,
+  categories,
+  replaceCategoryFilters,
   location: {
     search
   }
@@ -252,8 +255,35 @@ export const ProductListFilter = ({
     }
   }
 
+  const articlesIsSelected = selectedCategories.filter(({slug}) => (slug === "articles")).length > 0? true: false;
+
   return <Wrapper className="d-none d-lg-flex">
     <div className="header">Filter By:</div>
+    {
+      !articlesIsSelected &&
+      <DropDown
+        className="dropdown"
+        key={"product-type"}
+        label={"Type:"}
+        loadData={categories}
+        onOptionSelect={
+          (option) => (
+            replaceCategoryFilters([option])
+          )
+        }
+        onOptionClose={
+          (option) => (
+            replaceCategoryFilters(categories)
+          )
+        }
+        onUnselectAll={
+          (option) => (
+            replaceCategoryFilters(categories)
+          )
+        }
+      >
+      </DropDown>
+    }
     <EditorSearch
       className="dropdown"
       key={"editors"}
