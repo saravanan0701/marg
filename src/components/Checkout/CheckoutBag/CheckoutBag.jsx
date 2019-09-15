@@ -1,85 +1,10 @@
 import React from "react";
-import { Link, Route } from "react-router-dom";
 import styled from "styled-components";
-import FontAwesome from "react-fontawesome";
 import gql from "graphql-tag";
 import { Container, Row, Col } from "reactstrap";
 import { replaceStaticUrl } from "./../../../utils/";
-import CheckoutSidebar from '../CheckoutSidebar/';
-import {
-  RaisedButton,
-  QuantityEditor,
-  CollapseContainer
-} from "./../../commons/";
-
-const ImgContainer = styled.div`
-  img {
-    height: 256px;
-    cursor: pointer;
-  }
-`;
-
-const NameContainer = styled.div`
-  .main-name {
-    color: #000000;
-    font-family: Lato;
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.66px;
-    line-height: 23px;
-    cursor: pointer;
-  }
-
-  .sub-heading {
-    color: #3a3a3a;
-    font-family: Lato;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: 0.59px;
-    line-height: 23px;
-  }
-
-  .delete-item {
-    cursor: pointer;
-    color: #ec1d24;
-    font-family: Lato;
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: 0.7px;
-    line-height: 34px;
-    text-transform: uppercase;
-  }
-`;
-
-const LinePrice = styled.div`
-  text-align: right;
-  color: #000000;
-  font-family: Lato;
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.66px;
-  line-height: 23px;
-`;
-
-const PriceContainer = styled.div`
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-top: ${props => props.theme.underlineColor} solid 1px;
-  & > div.price-details {
-    text-align: right;
-  }
-`;
-
-const ActionButton = styled.div`
-  padding-bottom: 10px;
-  & > .button-wrapper {
-    padding-right: 0px;
-  }
-`;
-
-const OrderLine = styled.div`
-  border-bottom: 1px solid #9d9d9d;
-`;
+import { QuantityEditor } from "./../../commons/";
+import LineItem from "./LineItem";
 
 const UPDATE_QUANTITY = gql(`
   mutation UpdateQuantity(
@@ -209,7 +134,6 @@ const Checkout = ({
     push
   } = {},
 }) => {
-
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
 
@@ -242,7 +166,9 @@ const Checkout = ({
       .then(
         ({
           data: {
-            checkoutLinesUpdate: { checkout: { lines, totalPrice, subtotalPrice } = {} },
+            checkoutLinesUpdate: {
+              checkout: { lines, totalPrice, subtotalPrice } = {}
+            },
             errors
           }
         } = {}) => {
@@ -253,22 +179,22 @@ const Checkout = ({
               updateCartLineTotalPrice(id, line.totalPrice);
             }
             updateCartQuantity(getQuantityFromLines(lines));
-            updateCartTotalPrice(totalPrice)
-            updateCartSubTotalPrice(subtotalPrice)
+            updateCartTotalPrice(totalPrice);
+            updateCartSubTotalPrice(subtotalPrice);
             return;
           }
         }
       );
-  }
+  };
   const modifyQuantity = id => {
     return quantity => {
-      if(checkoutId) {
+      if (checkoutId) {
         return modifyQuantityForCheckout(id, quantity);
       } else {
         return new Promise((resolve, reject) => {
           guestEditVariantQuantity(id, quantity);
           resolve();
-        })
+        });
       }
     };
   };
@@ -297,8 +223,8 @@ const Checkout = ({
           if (!errors || errors.length === 0) {
             removeLineItem(lineId);
             updateCartQuantity(getQuantityFromLines(lines));
-            updateCartTotalPrice(totalPrice)
-            updateCartSubTotalPrice(subtotalPrice)
+            updateCartTotalPrice(totalPrice);
+            updateCartSubTotalPrice(subtotalPrice);
           }
         }
       );
@@ -314,9 +240,7 @@ const Checkout = ({
               ({
                 id,
                 quantity,
-                totalPrice: {
-                  gross: { localized } = {}
-                } = {},
+                totalPrice: { gross: { localized } = {} } = {},
                 variant: {
                   id: variantId,
                   isDigital,
@@ -325,61 +249,25 @@ const Checkout = ({
                     id: productId,
                     name,
                     images,
-                    thumbnail: {
-                      url: thumbnailUrl
-                    } = {}
+                    thumbnail: { url: thumbnailUrl } = {}
                   } = {}
                 } = {}
               }) => (
-                <OrderLine key={sku} className="row py-4">
-                  <Col xs="4" className="d-none d-lg-block">
-                    <ImgContainer className="text-right" onClick={() => push(`/product/${productId}`)}>
-                      <img alt="" src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)} />
-                    </ImgContainer>
-                  </Col>
-                  <Col xs="7" lg="6">
-                    <NameContainer>
-                      <div className="name-placeholder">
-                        <div className="main-name my-2" onClick={() => push(`/product/${productId}`)}>{name}</div>
-                      </div>
-                      <div className="sub-heading">
-                        <span>Type: </span>
-                        <span>
-                          {isDigital ? (
-                            <span>Digital</span>
-                          ) : (
-                            <span>Print</span>
-                          )}
-                        </span>
-                      </div>
-                      <div>
-                        Quantity:&nbsp;{quantity}
-                      </div>
-
-                      {quantity > 0 && (
-                        <span className="delete-item" onClick={(e) => deleteLineItem(id? id : variantId)}>REMOVE</span>
-                      )}
-                    </NameContainer>
-                  </Col>
-                  <Col
-                    xs="5"
-                    lg="2"
-                    className="align-items-center align-items-md-start justify-content-end"
-                  >
-                    <LinePrice className="mb-3">
-                      <span className="price">
-                        {
-                          localized
-                        }
-                      </span>
-                    </LinePrice>
-                    <QuantityEditor
-                      quantity={quantity}
-                      modifyQuantity={modifyQuantity(id? id: variantId)}
-                    />
-                  </Col>
-                  <hr />
-                </OrderLine>
+                  <LineItem
+                    id={id}
+                    quantity={quantity}
+                    localized={localized}
+                    variantId={variantId}
+                    isDigital={isDigital}
+                    sku={sku}
+                    productId={productId}
+                    name={name}
+                    images={images}
+                    thumbnailUrl={thumbnailUrl}
+                    modifyQuantity={modifyQuantity}
+                    deleteLineItem={deleteLineItem}
+                    push={push}
+                  />
               )
             )}
           </Col>
