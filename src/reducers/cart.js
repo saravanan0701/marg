@@ -11,6 +11,7 @@ const INITIAL_CART_STATE = {
   shippingAddress: {},
   availableShippingMethods: [],
   shippingMethod: {},
+  addressSaved: false,
 }
 
 const getTotalQuantity = (lines) => lines.reduce((acc, it) => acc + it.quantity, 0);
@@ -185,6 +186,12 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
           line.totalPrice = { ...action.lineTotalPrice };
           return acc.concat(line);
         }, []),
+      }
+    
+    case 'SET_ADDRESS_SAVED_STATUS':
+      return {
+        ...state,
+        addressSaved: action.isSaved,
       }
 
     default:

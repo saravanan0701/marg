@@ -110,6 +110,10 @@ const guestRemoveVariantQuantity = (variantId) => ({
   variantId,
 })
 
+const setAddressSaved = (isSaved) => ({
+  type: "SET_ADDRESS_SAVED_STATUS",
+  isSaved,
+})
 
 export default {
   saveVariant,
@@ -132,4 +136,5 @@ export default {
   clearCartCache,
   guestEditVariantQuantity,
   guestRemoveVariantQuantity,
+  setAddressSaved,
 }

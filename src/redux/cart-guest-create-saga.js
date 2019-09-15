@@ -314,10 +314,16 @@ function* createCheckout({checkoutDetails: {shippingAddress, email} ={} }={}) {
         );
         if(shippingMethodErrors.length === 0) {
           yield put(
+            actions.setAddressSaved(true)
+          );
+          yield put(
             actions.updateShippingMethod(shippingMethod)
           )
           yield put(
             actions.updateCartTotalPrice(totalPrice)
+          )
+          yield put(
+            actions.setAddressSaved(false)
           )
         }
       }
