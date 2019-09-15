@@ -52,6 +52,7 @@ const FormWrapper = styled.div`
         & > div.error {
           position: absolute;
           bottom: -22px;
+          color: #ec1d24;
         }
       }
 
@@ -131,39 +132,77 @@ class AddressEditForm extends Component {
         <Formik
           enableReinitialize
           initialValues={{
-            firstName,
-            lastName,
-            email,
+            firstName:firstName?firstName:"",
+            lastName:lastName?lastName:"",
+            email:email?email:"",
+            phone:"",
+            city:"",
+            streetAddress1:"",
+            postalCode:"",
           }}
           validate={
             values => {
               const errors = {};
+              if(!values.firstName) {
+                errors.firstName = 'First name is mandatory';
+              }
+              if(!values.lastName) {
+                errors.lastName = 'Last name is mandatory';
+              }
               if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Email is mandatory';
               } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
               ) {
                 errors.email = 'Invalid email address';
               }
               if (!values.phone) {
-                errors.phone = 'Required';
+                errors.phone = 'Phone is mandatory';
               } else if (
-                !/^[0-9]{10}$/i.test(values.phone)
+                !/^\+{0,1}[0-9]{0,2}[0-9]{10}$/i.test(values.phone)
               ) {
-                errors.phone = 'Invalid phone number';
+                errors.phone = 'Invalid phone number, valid format +421234567890 or 9999999999';
+              }
+              if(!values.postalCode) {
+                errors.postalCode = 'Postal code is mandatory';
+              } else if(
+                !/^[0-9]+$/i.test(values.postalCode)
+              ) {
+                errors.postalCode = 'Postal code format is incorrect';
+              }
+              if(!values.city) {
+                errors.city = 'City is mandatory';
+              }
+              if(!values.streetAddress1) {
+                errors.streetAddress1 = 'Address is mandatory';
+              }
+              if(!self.state.state) {
+                errors.state = 'State is mandatory';
+              } else {
+                delete errors.state;
               }
               return errors;
             }
           }
           onSubmit={
-            (values, { setSubmitting, resetForm }) => {
-              values.streetAddress2 = values.streetAddress1;
-              values.country = self.state.country.slug;
-              values.countryArea = self.state.state.name;
-              values.phone = `+91${values.phone}`;
-              const email = values.email;
-              delete values.email;
-              const addressSaved = saveAddress(values, email);
+            (values, { setSubmitting, resetForm, setErrors }) => {
+              if(!self.state.state) {
+                setSubmitting(false);
+                return setErrors({
+                  state: "State is mandatory",
+                })
+              }
+              const retVals = {...values}
+              retVals.streetAddress2 = retVals.streetAddress1;
+              retVals.country = self.state && self.state.country ? self.state.country.slug: null;
+              retVals.countryArea = self.state && self.state.state? self.state.state.name: null;
+              if(retVals.phone.length === 10) {
+                retVals.phone = `+91${retVals.phone}`;
+              }
+              const email = retVals.email;
+              delete retVals.email;
+              const addressSaved = saveAddress(retVals, email);
+
               if(addressSaved && addressSaved.then) {
                 addressSaved.then((success) => {
                   setSubmitting(false);
@@ -171,9 +210,16 @@ class AddressEditForm extends Component {
                     toggleAddressForm();
                     resetForm();
                   }
-                }, () => {
+                }).catch((errors) => {
+                  errors.forEach(({field, message}) => {
+                    const err = {};
+                    err[field] = message;
+                    setErrors(err);
+                  });
                   setSubmitting(false);
                 })
+              } else {
+                setSubmitting(false);
               }
             }
           }
@@ -235,7 +281,7 @@ class AddressEditForm extends Component {
                         name="email"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.email}
+                        value={values.email || ""}
                       />
                       <div className="error">{errors.email && touched.email && errors.email}</div>
                     </div>
@@ -279,6 +325,7 @@ class AddressEditForm extends Component {
                             showSelectedOption="true"
                             className="dropdown"
                             onOptionSelect={(val) => this.selectState(val)} />
+                          <div className="error">{errors.state && errors.state}</div>
                         </div>
                       </div>
                     </div>

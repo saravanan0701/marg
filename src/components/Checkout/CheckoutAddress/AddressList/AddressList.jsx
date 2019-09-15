@@ -228,15 +228,25 @@ export const AddressList = ({
   addresses,
   shippingAddress: cartShippingAddress,
   isLoading,
+  addressSaved,
   addNewAddress,
   setAvailableShippingMethods,
   updateShippingAddress,
   updateShippingMethod,
   updateCartTotalPrice,
   createGuestCheckout,
+  errorNotification,
+  successNotification,
 }) => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [billingAddressIsSame, setBillingAddressIsSame] = useState(true);
+
+  useEffect(() => {
+    if(addressSaved) {
+      setShowAddressForm(false);
+      window.scrollTo(0, 0);
+    }
+  }, [addressSaved])
 
   useEffect(() => {
     if (!isLoading && addresses.length === 0) {
@@ -253,10 +263,19 @@ export const AddressList = ({
             input: shippingAddress
           }
         })
-        .then(({ data: { addressCreate: { address, errors } } }) => {
+        .then(({ data: { customerAddressCreate: { address, errors } } }) => {
           if (errors && errors.length > 0) {
-            return false;
+            errorNotification(
+              errors.reduce((acc, {field, message}) => {
+                if(field === "phone") {
+                  return message;
+                }
+                return acc;
+              }, "Error saving address, please try again.")
+            );
+            throw errors;
           }
+          successNotification("Address saved.");
           addNewAddress(address);
           return address;
         });
@@ -296,7 +315,7 @@ export const AddressList = ({
               errors: checkoutBillingAddressErrors
             } = {}
           }
-        }) => {
+        }={}) => {
           if (
             (checkoutShippingAddressErrors &&
               checkoutShippingAddressErrors.length > 0) ||
@@ -398,7 +417,6 @@ export const AddressList = ({
           <span className="section-title mx-3">SHIPPING ADDRESS</span>
           <hr />
         </Col>
-        {addresses.length > 0 && (
           <Col xs="12">
             <p className="section-label">
               SAVED ADDRESSES
@@ -410,7 +428,6 @@ export const AddressList = ({
               </FlatButton>
             </p>
           </Col>
-        )}
       </Row>
       <Row>
         {addresses &&

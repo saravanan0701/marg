@@ -9,6 +9,7 @@ const mapStateToProps = ({
     shippingAddress,
     availableShippingMethods,
     shippingMethod,
+    addressSaved,
   },
   auth: {
     id: userId,
@@ -36,6 +37,7 @@ const mapStateToProps = ({
   shippingMethod,
   availableShippingMethods,
   isLoading,
+  addressSaved,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -45,6 +47,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   updateShippingMethod: (shippingMethod) => dispatch(actions.updateShippingMethod(shippingMethod)),
   updateCartTotalPrice: (cartTotalPrice) => dispatch(actions.updateCartTotalPrice(cartTotalPrice)),
   createGuestCheckout: (checkoutDetails) => dispatch(actions.createGuestCheckout(checkoutDetails)),
+  errorNotification: (message) => dispatch(actions.errorNotification(message)),
+  successNotification: (message) => dispatch(actions.successNotification(message)),
 })
 
 export default connect(
