@@ -322,7 +322,7 @@ class AddressEditForm extends Component {
                             onClick={(e) => e.preventDefault()}
                             enableSearch="true"
                             loadData={country.states}
-                            showSelectedOption="true"
+                            showSelectedOption={false}
                             className="dropdown"
                             onOptionSelect={(val) => this.selectState(val)} />
                           <div className="error">{errors.state && errors.state}</div>
@@ -352,7 +352,7 @@ class AddressEditForm extends Component {
                             defaultOption={country}
                             enableSearch="true"
                             loadData={COUNTRIES}
-                            showSelectedOption="true"
+                            showSelectedOption={false}
                             className="dropdown"
                             onOptionSelect={(val) => this.selectCountry(val)} />
                         </div>
