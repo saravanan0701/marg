@@ -6,7 +6,8 @@ import minus from '../../images/minus.svg';
 
 const QuantityEditorWrapper = styled.div`
 
-  /* width: 110px; */
+  max-width: 110px;
+  min-width: 110px;
   display: flex;
   justify-content: space-evenly;
   border: 1px solid #4a4a4a;
