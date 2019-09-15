@@ -11,6 +11,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     loginSuccess: (user) => dispatch(actions.persistAuthenticatedUser(user)),
     loginFailure: () => dispatch(actions.loginFailure()),
+    errorNotification: (message) => dispatch(actions.errorNotification(message)),
   }
 }
 

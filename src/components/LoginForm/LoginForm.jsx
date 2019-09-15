@@ -98,7 +98,11 @@ const Wrapper = styled.div`
 export default class Login extends Component {
 
   handleLogin(data) {
+    const {
+      errorNotification
+    } = this.props;
     if (data.tokenCreate.errors && data.tokenCreate.errors.length > 0) {
+      errorNotification("Username or password incorrect");
       return this.props.loginFailure();
     }
     const { token, user: { email } } = data.tokenCreate;
