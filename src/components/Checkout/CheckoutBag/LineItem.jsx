@@ -28,11 +28,13 @@ const LineItem = ({
   return (
     <div>
       {quantity > 0 && (
-        <OrderLine key={sku} className="row py-3 mx-auto">
-          <Col xs="4" lg="3" className={images.length === 0 ? "d-none" : "pl-0"}>
-            <ImgContainer
-              onClick={() => push(`/product/${productId}`)}
-            >
+        <OrderLine key={sku} className="row py-4">
+          <Col
+            xs="4"
+            lg="3"
+            className={images.length === 0 ? "d-none" : "pl-0"}
+          >
+            <ImgContainer onClick={() => push(`/product/${productId}`)}>
               <img
                 alt=""
                 className="img-fluid"
@@ -63,6 +65,7 @@ const LineItem = ({
                 </span>
               </div>
             </NameContainer>
+
             <ActionsContainer className="row">
               <div className="col-6 px-0">
                 <LinePrice className="mb-3">
@@ -72,12 +75,13 @@ const LineItem = ({
                 {quantity > 0 && (
                   <span
                     className="delete-item"
-                    onClick={e => deleteLineItem(id)}
+                    onClick={e => deleteLineItem(id ? id : variantId)}
                   >
                     REMOVE
                   </span>
                 )}
               </div>
+
               {!isDigital && (
                 <div className="col-6 col-lg-3 offset-lg-3 px-0 d-flex flex-column justify-content-end align-items-end">
                   <QuantityEditor
