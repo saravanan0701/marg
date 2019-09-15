@@ -114,8 +114,18 @@ export default class CheckoutPayment extends Component {
     });
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     const self = this;
+    const {
+      email,
+      cart: {
+        shippingAddress: {
+          firstName,
+          lastName,
+          phone,
+        } = {}
+      } = {}
+    } = this.props;
     this.options = {
       key: "rzp_test_cP0b0TIREwm6li",
       //TODO: use this in .env file.
@@ -133,8 +143,9 @@ export default class CheckoutPayment extends Component {
         });
       },
       prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com"
+        email,
+        "contact": phone,
+        "name": `${firstName} ${lastName}`,
       },
       theme: {
         color: "#F37254"

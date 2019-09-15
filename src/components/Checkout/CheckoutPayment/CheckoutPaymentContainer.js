@@ -7,8 +7,12 @@ import { withRouter } from 'react-router';
 
 const mapStateToProps = ({
   cart,
+  auth: {
+    email,
+  }
 }, ownProps) => ({
   cart,
+  email,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
