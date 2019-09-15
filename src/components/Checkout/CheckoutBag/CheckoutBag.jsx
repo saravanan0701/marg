@@ -129,7 +129,10 @@ const Checkout = ({
   updateCartSubTotalPrice,
   updateCartLineTotalPrice,
   guestEditVariantQuantity,
-  history: { push } = {}
+  guestRemoveVariantQuantity,
+  history: {
+    push
+  } = {},
 }) => {
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
@@ -197,6 +200,9 @@ const Checkout = ({
   };
 
   const deleteLineItem = lineId => {
+    if(!checkoutId) {
+      return guestRemoveVariantQuantity(lineId)
+    }
     client
       .mutate({
         mutation: DELETE_LINE,

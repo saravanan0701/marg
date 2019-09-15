@@ -18,6 +18,7 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #979797;
     width: 100%;
     max-width: 100%;
+    position: relative;
 
     & > .main-label {
       background: transparent;
@@ -405,7 +406,12 @@ class DropDown extends Component {
             (
               selectedOptions && selectedOptions.length > 0
             ) &&
-            <div className="selected-options">
+            <div
+              className="selected-options"
+              style={{
+                position: label && !showSelectedOption? "relative": "absolute",
+                top: label && !showSelectedOption? "unset": "15px",
+              }}>
               {
                 selectedOptions && selectedOptions.map && selectedOptions.map((option) => option.name).join(', ')
               }

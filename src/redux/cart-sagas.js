@@ -299,6 +299,7 @@ function* saveVariant({
     quantity: variantQuantity,
     variant: {
       id,
+      isDigital,
       product,
       inrPrice,
       usdPrice,
@@ -357,6 +358,7 @@ function* saveVariant({
           },
           variant: {
             id,
+            isDigital,
             product,
             inrPrice,
             usdPrice,

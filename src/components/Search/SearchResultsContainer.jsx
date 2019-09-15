@@ -37,21 +37,43 @@ const SEARCH = gql`
             name
           }
           description
-          price {
-            amount,
+          inrPrice {
+            amount
             currency
-          },
+          }
+          usdPrice {
+            amount
+            currency
+          }
+          editors{
+            id
+            name
+          }
           isAvailable
           attributes {
             attribute {
               slug
-            },
+            }
             value {
               name
             }
           }
           editors {
             name
+          }
+          variants{
+            sku
+            isDigital
+            inrPrice {
+              amount
+              currency
+              localized
+            }
+            usdPrice {
+              amount
+              currency
+              localized
+            }
           }
         }
       }
