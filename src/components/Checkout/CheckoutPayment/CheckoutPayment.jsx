@@ -273,6 +273,9 @@ export default class CheckoutPayment extends Component {
     const {
       status,
     } = this.state;
+    const {
+      cart: { checkoutId = null } = {}
+    } = this.props;
     return (
       <Wrapper className="container">
         <div className="row align-items-center justify-content-center">
@@ -281,7 +284,7 @@ export default class CheckoutPayment extends Component {
               onClick={e => {
                 this.initiatePayment();
               }}
-              disabled={status === "PAYMENT_STARTED"}
+              disabled={!checkoutId || status === "PAYMENT_STARTED"}
             >
               {status === "PAYMENT_STARTED"
                 ? "PAYMENT IN PROGRESS..."
