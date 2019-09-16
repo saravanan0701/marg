@@ -123,10 +123,10 @@ const Header = ({
                   <Link to="/trustees">TRUSTEES/ADVISORY</Link>
                 </Menu>
                 <Menu label="More">
-                  <Link>Marg Events</Link>
-                  <Link to="/collaborate">Collaborate</Link>
+                  {/* <Link>Marg Events</Link> */}
+                  {/* <Link to="/collaborate">Collaborate</Link> */}
                   <Link>Submit Proposals</Link>
-                  <Link>Film Archive</Link>
+                  {/* <Link>Film Archive</Link> */}
                   <Link
                     className={pathname.match("contactus") ? "active" : ""}
                     to="/contactus"

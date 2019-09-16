@@ -168,10 +168,10 @@ class MobileHeader extends Component {
           <Link onClick={this.handleHamburgerClick} to="/donate">Donate</Link>
           <CollapseContainer trigger={this.collapseTriggerElementAbout} body={this.collapseBodyAbout}/>
           <Link onClick={this.handleHamburgerClick}  to="/contactus">Contact</Link>
-          <Link onClick={this.handleHamburgerClick}>Marg Events</Link>
-          <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link>
+          {/* <Link onClick={this.handleHamburgerClick}>Marg Events</Link> */}
+          {/* <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link> */}
           <Link onClick={this.handleHamburgerClick}>Submit Proposals</Link>
-          <Link onClick={this.handleHamburgerClick}>Film Archive</Link>
+          {/* <Link onClick={this.handleHamburgerClick}>Film Archive</Link> */}
         </Col>
       </Row>
     </Container>
