@@ -17,7 +17,7 @@ const HeaderContainer = styled.div`
   #headerLogoLink {
     cursor: pointer;
     max-width: 195px;
-    margin-bottom: -58px;
+    margin-bottom: -78px;
     z-index: 11;
   }
 
