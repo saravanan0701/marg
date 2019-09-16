@@ -269,6 +269,15 @@ export default class CheckoutPayment extends Component {
     })
   }
 
+  shippingAddressIsSelected() {
+    const {
+      cart: {
+        shippingAddress
+      } = {},
+    } = this.props;
+    return shippingAddress && Object.entries(shippingAddress).length > 0
+  }
+
   render() {
     const {
       status,
@@ -284,7 +293,7 @@ export default class CheckoutPayment extends Component {
               onClick={e => {
                 this.initiatePayment();
               }}
-              disabled={!checkoutId || status === "PAYMENT_STARTED"}
+              disabled={!checkoutId || status === "PAYMENT_STARTED" || !this.shippingAddressIsSelected()}
             >
               {status === "PAYMENT_STARTED"
                 ? "PAYMENT IN PROGRESS..."

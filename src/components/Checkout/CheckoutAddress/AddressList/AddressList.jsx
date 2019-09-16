@@ -256,10 +256,8 @@ export const AddressList = ({
 
   const saveAddressToAddressBook = (shippingAddress) => {
     const mutShippingAddress = {...shippingAddress};
-    console.log("mutShippingAddress: ", mutShippingAddress)
     delete mutShippingAddress.id;
     delete mutShippingAddress.__typename;
-    console.log("mutShippingAddress: ", mutShippingAddress)
     mutShippingAddress.country = mutShippingAddress.country.code? mutShippingAddress.country.code: mutShippingAddress.country;
     return client
       .mutate({
@@ -383,11 +381,14 @@ export const AddressList = ({
         ({
           data: {
             checkoutBillingAddressUpdate: {
-              checkout: { billingAddress } = {},
+              checkout: biCheckout,
               errors: checkoutBillingAddressErrors
             } = {}
           } = {}
         }) => {
+
+          const { billingAddress } = biCheckout || {};
+          
           if (
             checkoutBillingAddressErrors &&
             checkoutBillingAddressErrors.length > 0
@@ -395,6 +396,8 @@ export const AddressList = ({
             showAddressErrorToasts(checkoutBillingAddressErrors);
             throw checkoutBillingAddressErrors;
           }
+          successNotification("Saved billing address")
+          window.scrollTo(0,0);
           // updateShippingAddress(updatedShippingAddress);
           // setAvailableShippingMethods(availableShippingMethods);
           // persistShippingMethod(availableShippingMethods[0]);
