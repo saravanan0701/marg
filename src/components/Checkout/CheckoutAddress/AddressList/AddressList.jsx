@@ -419,12 +419,12 @@ export const AddressList = ({
         </Col>
           <Col xs="12">
             <p className="section-label">
-              SAVED ADDRESSES
+              {userId? "SAVED ADDRESSES": "CHECKOUT ADDRESS"}
               <FlatButton
                 onClick={e => setShowAddressForm(true)}
                 className={`ml-4 ${showAddressForm ? "d-none" : "d-inline"}`}
               >
-                ADD A NEW ADDRESS
+                {userId? "ADD A NEW ADDRESS": "ADD CHECKOUT ADDRESS"}
               </FlatButton>
             </p>
           </Col>
@@ -455,6 +455,7 @@ export const AddressList = ({
               firstName={firstName}
               lastName={lastName}
               email={email}
+              saveLabel = {userId? "SAVE ADDRESS": "ADD CHECKOUT ADDRESS"}
               saveAddress={(address, email) => saveAddress(address, email)}
               toggleAddressForm={() => setShowAddressForm(!showAddressForm)}
             />

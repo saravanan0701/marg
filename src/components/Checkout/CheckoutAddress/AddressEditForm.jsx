@@ -121,6 +121,7 @@ class AddressEditForm extends Component {
       email,
       saveAddress,
       toggleAddressForm,
+      saveLabel,
     } = this.props;
     const {
       country,
@@ -360,7 +361,7 @@ class AddressEditForm extends Component {
                     </div>
                     <div className="actions row align-items-center col-12 justify-content-around">
                       <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>
-                        { isSubmitting ? 'Saving...' : 'Save Address'}
+                        { isSubmitting ? 'Saving...' : saveLabel}
                       </RaisedButton>
                       <FlatButton colortype="primary" onClick={toggleAddressForm}>Cancel</FlatButton>
                     </div>
