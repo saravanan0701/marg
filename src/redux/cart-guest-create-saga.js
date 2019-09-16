@@ -328,9 +328,13 @@ function* createCheckout({checkoutDetails: {shippingAddress, email} ={} }={}) {
         }
       }
     } else {
-      yield put(
-        actions.errorNotification("Error saving address")
-      ); 
+      for(let i = 0; i < checkoutCreateErrors.length; i++) {
+        if (checkoutCreateErrors[i].field === "phone") {
+          yield put(actions.errorNotification("Phone number is invalid"));
+        } else if (checkoutCreateErrors[i].field === "postalCode") {
+          yield put(actions.errorNotification("Postal code is invalid for selected country/state"));
+        }
+      }
     }
   } catch (e) {
     yield put(
