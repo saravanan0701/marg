@@ -446,7 +446,7 @@ export const AddressList = ({
           <span className="section-title mx-3">SHIPPING ADDRESS</span>
           <hr />
         </Col>
-          <Col xs="12">
+          {/* <Col xs="12">
             <p className="section-label">
               {userId? "SAVED ADDRESSES": "CHECKOUT ADDRESS"}
               <FlatButton
@@ -456,7 +456,7 @@ export const AddressList = ({
                 {userId? "ADD A NEW ADDRESS": "ADD CHECKOUT ADDRESS"}
               </FlatButton>
             </p>
-          </Col>
+          </Col> */}
       </Row>
       <Row>
         {addresses &&

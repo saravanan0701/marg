@@ -10,7 +10,7 @@ import {
 
 const Wrapper = styled.div`
   position: relative;
-  width: fit-content;
+  /* width: fit-content; */
 
   & > .label {
     background: transparent;

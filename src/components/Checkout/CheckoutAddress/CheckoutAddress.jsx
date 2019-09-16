@@ -3,7 +3,9 @@ import styled from 'styled-components';
 
 import AddressList from './AddressList/';
 const Wrapper = styled.div`
-  padding: 50px;
+  @media (min-width: 992px) {
+    padding: 50px;
+  }
 `;
 
 const CheckoutAddress = ({
