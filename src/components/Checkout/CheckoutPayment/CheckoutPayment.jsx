@@ -114,7 +114,15 @@ export default class CheckoutPayment extends Component {
     });
   }
 
+  componentWillMount() {
+    this.updatePaymentOptions();
+  }
+
   componentDidUpdate() {
+    this.updatePaymentOptions();
+  }
+
+  updatePaymentOptions() {
     const self = this;
     const {
       email,
