@@ -162,16 +162,17 @@ class MobileHeader extends Component {
           </div>
         </Col>
         <Col lg="12" className="my-5">
+          <CollapseContainer trigger={this.collapseTriggerElementAbout} body={this.collapseBodyAbout}/>
           <CollapseContainer trigger={this.collapseTriggerElementPublications} body={this.collapseBodyPublications} />
           <Link hidden={true} onClick={this.handleHamburgerClick} to="/categories">Blog</Link>
           <Link onClick={this.handleHamburgerClick} to="/advertise">Advertise</Link>
-          <Link onClick={this.handleHamburgerClick} to="/donate">Donate</Link>
-          <CollapseContainer trigger={this.collapseTriggerElementAbout} body={this.collapseBodyAbout}/>
+          {/* <Link onClick={this.handleHamburgerClick} to="/donate">Donate</Link> */}
           <Link onClick={this.handleHamburgerClick}  to="/contactus">Contact</Link>
-          <Link onClick={this.handleHamburgerClick}>Marg Events</Link>
-          <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link>
-          <Link onClick={this.handleHamburgerClick}>Submit Proposals</Link>
-          <Link onClick={this.handleHamburgerClick}>Film Archive</Link>
+          {/* <Link onClick={this.handleHamburgerClick}>Marg Events</Link> */}
+          {/* <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link> */}
+          {/* <Link onClick={this.handleHamburgerClick}>Submit Proposals</Link> */}
+          {/* <Link onClick={this.handleHamburgerClick}>Film Archive</Link> */}
+          <Link onClick={this.handleHamburgerClick}  to="/myaccount">My Account</Link>
         </Col>
       </Row>
     </Container>
