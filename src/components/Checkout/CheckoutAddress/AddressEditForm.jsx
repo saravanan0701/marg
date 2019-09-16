@@ -121,7 +121,8 @@ class AddressEditForm extends Component {
       email,
       saveAddress,
       toggleAddressForm,
-      saveLabel,
+      saveLabel="SAVE ADDRESS",
+      showCancel=true,
     } = this.props;
     const {
       country,
@@ -159,10 +160,6 @@ class AddressEditForm extends Component {
               }
               if (!values.phone) {
                 errors.phone = 'Phone is mandatory';
-              } else if (
-                !/^\+{0,1}[0-9]{0,2}[0-9]{10}$/i.test(values.phone)
-              ) {
-                errors.phone = 'Invalid phone number, valid format +421234567890 or 9999999999';
               }
               if(!values.postalCode) {
                 errors.postalCode = 'Postal code is mandatory';
@@ -197,9 +194,6 @@ class AddressEditForm extends Component {
               retVals.streetAddress2 = retVals.streetAddress1;
               retVals.country = self.state && self.state.country ? self.state.country.slug: null;
               retVals.countryArea = self.state && self.state.state? self.state.state.name: null;
-              if(retVals.phone.length === 10) {
-                retVals.phone = `+91${retVals.phone}`;
-              }
               const email = retVals.email;
               delete retVals.email;
               const addressSaved = saveAddress(retVals, email);
@@ -212,11 +206,11 @@ class AddressEditForm extends Component {
                     resetForm();
                   }
                 }).catch((errors) => {
+                  const err = {};
                   errors.forEach(({field, message}) => {
-                    const err = {};
                     err[field] = message;
-                    setErrors(err);
                   });
+                  setErrors(err);
                   setSubmitting(false);
                 })
               } else {
@@ -363,7 +357,10 @@ class AddressEditForm extends Component {
                       <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>
                         { isSubmitting ? 'Saving...' : saveLabel}
                       </RaisedButton>
-                      <FlatButton colortype="primary" onClick={toggleAddressForm}>Cancel</FlatButton>
+                      {
+                        showCancel &&
+                        <FlatButton colortype="primary" onClick={toggleAddressForm}>Cancel</FlatButton>
+                      }
                     </div>
                   </form>
                 </div>

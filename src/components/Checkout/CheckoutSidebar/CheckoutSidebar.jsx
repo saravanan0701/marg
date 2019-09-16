@@ -59,7 +59,10 @@ const PROCEED_BUTTON_PARAMS = {
   },
   "/checkout/payment": {
     url: "/checkout/payment",
-    buttonText: "Make Payment"
+    buttonText: "Make Payment",
+    disabled: (selectedShippingAddress, selectedShippingMethod) =>
+      Object.entries(selectedShippingAddress).length === 0 ||
+      Object.entries(selectedShippingMethod).length === 0
   }
 };
 

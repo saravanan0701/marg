@@ -254,45 +254,53 @@ export const AddressList = ({
     }
   }, [isLoading, addresses]);
 
-  const saveAddress = (shippingAddress, email = null) => {
+  const saveAddressToAddressBook = (shippingAddress) => {
+    const mutShippingAddress = {...shippingAddress};
+    delete mutShippingAddress.id;
+    delete mutShippingAddress.__typename;
+    mutShippingAddress.country = mutShippingAddress.country.code? mutShippingAddress.country.code: mutShippingAddress.country;
+    return client
+      .mutate({
+        mutation: SAVE_NEW_ADDRESS,
+        variables: {
+          input: mutShippingAddress
+        }
+      })
+      .then(({ data: { customerAddressCreate: { address, errors } } }) => {
+        if (errors && errors.length > 0) {
+          errorNotification(
+            errors.reduce((acc, {field, message}) => {
+              if(field === "phone") {
+                return message;
+              }
+              return acc;
+            }, "Error saving address, please try again.")
+          );
+          throw errors;
+        }
+        successNotification("Address saved.");
+        addNewAddress(address);
+        return address;
+      });
+  }
+
+  const saveAddress = (shippingAddress, email = null, isNew = false) => {
     if(userId) {
-      return client
-        .mutate({
-          mutation: SAVE_NEW_ADDRESS,
-          variables: {
-            input: shippingAddress
-          }
-        })
-        .then(({ data: { customerAddressCreate: { address, errors } } }) => {
-          if (errors && errors.length > 0) {
-            errorNotification(
-              errors.reduce((acc, {field, message}) => {
-                if(field === "phone") {
-                  return message;
-                }
-                return acc;
-              }, "Error saving address, please try again.")
-            );
-            throw errors;
-          }
-          successNotification("Address saved.");
-          addNewAddress(address);
-          return address;
-        });
+      return saveAddressToCart(shippingAddress, isNew);
     } else {
       return createGuestCheckout({shippingAddress, email});
     }
   };
 
-  const saveAddressToCart = shippingAddress => {
+  const saveAddressToCart = (shippingAddress, isNew) => {
     const updatableShipping = { ...shippingAddress };
     delete updatableShipping.__typename;
     if (updatableShipping.phone.length === 10) {
       updatableShipping.phone = `+91{updatableShipping.phone}`;
     }
-    updatableShipping.country = updatableShipping.country.code;
+    updatableShipping.country = updatableShipping.country.code? updatableShipping.country.code: updatableShipping.country;
     delete updatableShipping.id;
-    client
+    return client
       .mutate({
         mutation: SAVE_SHIPPING_ADDRESS_TO_CHECKOUT,
         variables: {
@@ -304,18 +312,21 @@ export const AddressList = ({
         ({
           data: {
             checkoutShippingAddressUpdate: {
-              checkout: {
-                shippingAddress: updatedShippingAddress,
-                availableShippingMethods
-              } = {},
+              checkout: shCheckout,
               errors: checkoutShippingAddressErrors
             } = {},
             checkoutBillingAddressUpdate: {
-              checkout: { billingAddress } = {},
+              checkout: biCheckout,
               errors: checkoutBillingAddressErrors
             } = {}
           }
         }={}) => {
+          const {
+            shippingAddress: updatedShippingAddress,
+            availableShippingMethods
+          } = shCheckout || {};
+          const { billingAddress } = biCheckout || {};
+
           if (
             (checkoutShippingAddressErrors &&
               checkoutShippingAddressErrors.length > 0) ||
@@ -323,10 +334,15 @@ export const AddressList = ({
               checkoutBillingAddressErrors.length > 0)
           ) {
             //TODO: show errors.
-            return false;
+            showAddressErrorToasts(checkoutShippingAddressErrors);
+            throw checkoutShippingAddressErrors;
           }
+          if(isNew) {
+            saveAddressToAddressBook(updatedShippingAddress);
+          }
+          successNotification("Selected address.")
+          window.scrollTo(0,0);
           updateShippingAddress(updatedShippingAddress);
-          // setAvailableShippingMethods(availableShippingMethods);
           if (availableShippingMethods.length > 0) {
             persistShippingMethod(availableShippingMethods[0]);
           }
@@ -336,14 +352,22 @@ export const AddressList = ({
       );
   };
 
+  const showAddressErrorToasts = (errors) => errors.map((error) => {
+    const { field } = error;
+    if (field === "phone") {
+      errorNotification("Phone number is invalid");
+    } else if (field === "postalCode") {
+      errorNotification("Postal code is invalid for selected country/state");
+    }
+    return error;
+  })
+
   const updateBillingAddressToCart = billingAddress => {
     const updatableBilling = { ...billingAddress };
-    console.log(billingAddress);
     delete updatableBilling.__typename;
     if (updatableBilling.phone.length === 10) {
       updatableBilling.phone = `+91{updatableBilling.phone}`;
     }
-    console.log(updatableBilling);
     delete updatableBilling.id;
     return client
       .mutate({
@@ -357,18 +381,23 @@ export const AddressList = ({
         ({
           data: {
             checkoutBillingAddressUpdate: {
-              checkout: { billingAddress } = {},
+              checkout: biCheckout,
               errors: checkoutBillingAddressErrors
             } = {}
           } = {}
         }) => {
+
+          const { billingAddress } = biCheckout || {};
+          
           if (
             checkoutBillingAddressErrors &&
             checkoutBillingAddressErrors.length > 0
           ) {
-            //TODO: show errors.
-            return false;
+            showAddressErrorToasts(checkoutBillingAddressErrors);
+            throw checkoutBillingAddressErrors;
           }
+          successNotification("Saved billing address")
+          window.scrollTo(0,0);
           // updateShippingAddress(updatedShippingAddress);
           // setAvailableShippingMethods(availableShippingMethods);
           // persistShippingMethod(availableShippingMethods[0]);
@@ -455,8 +484,9 @@ export const AddressList = ({
               firstName={firstName}
               lastName={lastName}
               email={email}
-              saveLabel = {userId? "SAVE ADDRESS": "ADD CHECKOUT ADDRESS"}
-              saveAddress={(address, email) => saveAddress(address, email)}
+              saveLabel = {userId? "SAVE ADDRESS": "CONFIRM ADDRESS"}
+              showCancel={userId? true: false}
+              saveAddress={(address, email) => saveAddress(address, email, true)}
               toggleAddressForm={() => setShowAddressForm(!showAddressForm)}
             />
           )}

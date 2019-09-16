@@ -114,7 +114,15 @@ export default class CheckoutPayment extends Component {
     });
   }
 
+  componentWillMount() {
+    this.updatePaymentOptions();
+  }
+
   componentDidUpdate() {
+    this.updatePaymentOptions();
+  }
+
+  updatePaymentOptions() {
     const self = this;
     const {
       email,
@@ -261,10 +269,22 @@ export default class CheckoutPayment extends Component {
     })
   }
 
+  shippingAddressIsSelected() {
+    const {
+      cart: {
+        shippingAddress
+      } = {},
+    } = this.props;
+    return shippingAddress && Object.entries(shippingAddress).length > 0
+  }
+
   render() {
     const {
       status,
     } = this.state;
+    const {
+      cart: { checkoutId = null } = {}
+    } = this.props;
     return (
       <Wrapper className="container">
         <div className="row align-items-center justify-content-center">
@@ -273,7 +293,7 @@ export default class CheckoutPayment extends Component {
               onClick={e => {
                 this.initiatePayment();
               }}
-              disabled={status === "PAYMENT_STARTED"}
+              disabled={!checkoutId || status === "PAYMENT_STARTED" || !this.shippingAddressIsSelected()}
             >
               {status === "PAYMENT_STARTED"
                 ? "PAYMENT IN PROGRESS..."
