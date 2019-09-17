@@ -86,6 +86,9 @@ const FooterContainer = styled.div`
     font-weight: 400;
     letter-spacing: 0.52px;
     line-height: 21px;
+    a, a:visited {
+      color:#000000;
+    }
   }
 `
 
@@ -126,7 +129,6 @@ export const Footer = () => (
         </Row>
         <Row className="my-4">
           <Col lg="6">
-            <p className="legal">Designed and built by <a target="_blank" href="https://1stmain.co">1stMain</a></p>
             <p className="legal">The digitization of the Magazine has been supported by Tata Trusts</p>
           </Col>
           <Col lg="6">
@@ -136,6 +138,9 @@ export const Footer = () => (
             <Link to="terms-and-conditions">Privacy Policy</Link>
               &nbsp; | &nbsp;
             <p className="d-inline">© 2019 The Marg Foundation</p>
+            </span>
+            <span>
+              <p className="legal">Designed and built by <a target="_blank" href="https://1stmain.co">1stMain</a></p>
             </span>
           </Col>
         </Row>
