@@ -91,7 +91,7 @@ const CheckoutSidebar = ({
   }, [lines]);
 
   return (
-    <Wrapper>
+    <Wrapper className="sticky-top">
       { lines && lines.length > 0 && (
         <Row>
           <Col xs="12">
