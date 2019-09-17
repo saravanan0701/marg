@@ -28,7 +28,7 @@ import { Trustees } from './components/Trustees.jsx';
 import Donate from './components/Donate.jsx';
 import ContactusForm from './components/Contactus/';
 import ProductDetails from './components/ProductDetails/';
-import background from './images/textile.jpg';
+import background from './images/option3-web.jpg';
 import Theme from './Theme';
 import './App.scss';
 import Checkout from './components/Checkout/';
@@ -47,6 +47,7 @@ const MainContainer = styled.div`
   background-image: url(${background});
   background-attachment: fixed;
   background-position: center;
+  background-size: cover;
   padding-bottom: 25vh;
 
   @media (min-width: ${props => props.theme['mobileBreakpoint']}) {

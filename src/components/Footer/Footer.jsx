@@ -140,7 +140,7 @@ export const Footer = () => (
             <p className="d-inline">© 2019 The Marg Foundation</p>
             </span>
             <span>
-              <p className="legal">Designed and built by <a target="_blank" href="https://1stmain.co">1stMain</a></p>
+              <p className="legal">Designed and built by <a target="_blank" href="https://1stmain.co">1st Main</a></p>
             </span>
           </Col>
         </Row>
