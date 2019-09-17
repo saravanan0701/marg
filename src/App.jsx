@@ -115,7 +115,6 @@ class App extends Component {
                 <SnackbarProvider>
                   <MainContainer>
                     <div id="app" className='mx-auto position-relative'>
-                      <ScrollTop />
                       <MobileHeader />
                       <Header />
                       <Switch>
