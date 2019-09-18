@@ -8,6 +8,7 @@ import 'hamburgers/dist/hamburgers.css';
 import 'lato-font/css/lato-font.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'typeface-cormorant-garamond/index.css';
+import 'react-phone-number-input/style.css';
 
 ReactDOM.render(
   <App />,

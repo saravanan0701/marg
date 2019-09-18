@@ -8,6 +8,9 @@ import {
   DropDown,
   RadioButtonSet
 } from "./../../commons/";
+import PhoneInput from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
+
 
 const { countries, defaultCountry } = getAllCountries();
 const DEFAULT_COUNTRY = defaultCountry;
@@ -148,8 +151,12 @@ class AddressEditForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      country: DEFAULT_COUNTRY
+      country: DEFAULT_COUNTRY,
+      phone: "",
+      phoneError: "",
     };
+    this.selectPhone = this.selectPhone.bind(this);
+    this.phoneBlur = this.phoneBlur.bind(this);
   }
 
   selectCountry(country) {
@@ -162,6 +169,30 @@ class AddressEditForm extends Component {
     this.setState({
       state
     });
+  }
+
+  phoneBlur() {
+    if(!this.state.phone) {
+      this.setState({
+        phoneError: "Phone number is invalid."
+      })
+    } else {
+      this.setState({
+        phoneError: ""
+      })
+    }
+  }
+
+  selectPhone(phone) {
+    if(isValidPhoneNumber(phone)) {
+      this.setState({
+        phone
+      })
+    } else {
+      this.setState({
+        phone: ""
+      });
+    }
   }
 
   render() {
@@ -205,13 +236,8 @@ class AddressEditForm extends Component {
             ) {
               errors.email = "Invalid email address";
             }
-            if (!values.phone) {
-              errors.phone = "Phone is mandatory";
-            }
             if (!values.postalCode) {
               errors.postalCode = "Postal code is mandatory";
-            } else if (!/^[0-9]+$/i.test(values.postalCode)) {
-              errors.postalCode = "Postal code format is incorrect";
             }
             if (!values.city) {
               errors.city = "City is mandatory";
@@ -224,14 +250,19 @@ class AddressEditForm extends Component {
             } else {
               delete errors.state;
             }
+            console.log(errors);
             return errors;
           }}
           onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
+            console.log("Inside....")
             if (!self.state.state) {
               setSubmitting(false);
               return setErrors({
                 state: "State is mandatory"
               });
+            }
+            if(self.state.phoneError) {
+              return;
             }
             const retVals = { ...values };
             retVals.streetAddress2 = retVals.streetAddress1;
@@ -240,6 +271,7 @@ class AddressEditForm extends Component {
             retVals.countryArea =
               self.state && self.state.state ? self.state.state.name : null;
             const email = retVals.email;
+            retVals.phone = self.state.phone;
             delete retVals.email;
             const addressSaved = saveAddress(retVals, email);
 
@@ -311,16 +343,17 @@ class AddressEditForm extends Component {
 
                   <div className="form-group mb-5">
                     <label for="phone">Phone</label>
-                    <input
-                      className="form-control"
-                      type="text"
-                      name="phone"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phone}
-                    />
+                    <PhoneInput
+                        className="col-12"
+                        type="phone"
+                        name="phone"
+                        placeholder="Enter phone number"
+                        value={ values.phone }
+                        onBlur={this.phoneBlur}
+                        onChange={ this.selectPhone }
+                      />
                     <small className="error form-text text-muted">
-                      {errors.phone && touched.phone && errors.phone}
+                      {this.state.phoneError}
                     </small>
                   </div>
 
