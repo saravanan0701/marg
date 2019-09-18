@@ -238,7 +238,7 @@ export const AddressList = ({
   errorNotification,
   successNotification,
 }) => {
-  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [showAddressForm, setShowAddressForm] = useState(true);
   const [billingAddressIsSame, setBillingAddressIsSame] = useState(true);
 
   useEffect(() => {
@@ -446,17 +446,6 @@ export const AddressList = ({
           <span className="section-title mx-3">SHIPPING ADDRESS</span>
           <hr />
         </Col>
-          {/* <Col xs="12">
-            <p className="section-label">
-              {userId? "SAVED ADDRESSES": "CHECKOUT ADDRESS"}
-              <FlatButton
-                onClick={e => setShowAddressForm(true)}
-                className={`ml-4 ${showAddressForm ? "d-none" : "d-inline"}`}
-              >
-                {userId? "ADD A NEW ADDRESS": "ADD CHECKOUT ADDRESS"}
-              </FlatButton>
-            </p>
-          </Col> */}
       </Row>
       <Row>
         {addresses &&
