@@ -507,9 +507,6 @@ export const AddressList = ({
               lastName={lastName}
               email={email}
               saveAddress={values => updateBillingAddressToCart(values)}
-              toggleAddressForm={() =>
-                setBillingAddressIsSame(!billingAddressIsSame)
-              }
             />
           )}
         </Col>

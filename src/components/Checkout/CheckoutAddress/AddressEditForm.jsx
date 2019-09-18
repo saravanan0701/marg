@@ -280,7 +280,7 @@ class AddressEditForm extends Component {
               addressSaved
                 .then(success => {
                   setSubmitting(false);
-                  if (success) {
+                  if (success && toggleAddressForm) {
                     toggleAddressForm();
                     resetForm();
                   }
