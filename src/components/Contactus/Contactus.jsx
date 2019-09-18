@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import gql from 'graphql-tag';
-import {withApollo} from 'react-apollo';
-import {Mutation} from 'react-apollo';
 import {Container, Row, Col} from 'reactstrap';
 import styled from 'styled-components';
 import {Formik} from 'formik';
@@ -9,20 +7,6 @@ import {Formik} from 'formik';
 import {FlatButton, RaisedButton} from './../commons/';
 
 const Wrapper = styled.div`
-
-  padding-top:50px;
-
-      
-      .heading {
-        color: #000000;
-        font-family: "Cormorant Garamond Medium";
-        font-size: ${props => props.theme['$font-size-lg']};
-        font-weight: ${props => props.theme['$weight-regular']};
-        letter-spacing: 1px;
-        line-height: 57px;
-        text-align: center;
-        padding-bottom: 80px;
-      }
 
       .message-type {
         display: flex;
@@ -315,7 +299,7 @@ export default class ContactusForm extends Component {
                             <h5 className="mb-3">Email</h5>
                             <p className="mb-1">General Enquiries: <a
                                 href="mailto:foundation@marg-art.org">foundation@marg-art.org</a></p>
-                            <p className="mb-1">Sales & Marketing: <a
+                            <p className="mb-1">Orders: <a
                                 href="mailto:sales@marg-art.org">sales@marg-art.org</a></p>
                             <p className="mb-1">Subscriptions: <a
                                 href="mailto:subscriptions@marg-art.org">subscriptions@marg-art.org</a></p>

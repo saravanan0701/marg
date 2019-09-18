@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Container,Row,Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { RaisedButton, FlatButton } from './commons/';
 import { Link } from 'react-router-dom';
 import default_profile from './../images/default_profile.jpeg';
@@ -14,36 +14,18 @@ import Issat from './../images/trustees/Issat.jpg';
 import Kapila from './../images/trustees/Kapila.jpg';
 
 const Wrapper = styled.div`
-    padding: 50px 150px 100px;
 `
 
 const TrusteeWrapper = styled.div`
 
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 100px;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
-    & > div.name {
-      font-family: "Cormorant Garamond Medium";
-      font-size: ${props => props.theme['$font-size-lg']};
-      font-weight: ${props => props.theme['$weight-regular']};
-      letter-spacing: 1px;
-      line-height: 57px;
-      padding-bottom: 50px;
-    }
-
-    & > div.content {
+  div.content {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       width: 100%;
       justify-content: space-around;
     }
-  }
 `;
 
 const TrusteeDetailsWrapper = styled.div`
@@ -86,33 +68,7 @@ const TrusteeDetailsWrapper = styled.div`
   }
 `;
 
-const TrusteeDetails = ({name, bio, image}) => {
-  const [ isOpen, setIsOpen ] = useState(false);
 
-  return (
-    <TrusteeDetailsWrapper className="my-4">
-      <div className="img">
-        <img src={image} />
-      </div>
-      {/*<div className="date">
-        2011 - CURRENT
-      </div>*/}
-      <div className="name">
-        {name}
-      </div>
-      <FlatButton onClick={(e) => setIsOpen(!isOpen)}>Know More</FlatButton>
-      {/*<div className="designation">
-        Designation, title
-      </div>*/}
-      <Modal isOpen={isOpen} style={{marginTop: 100}}>
-        <ModalHeader toggle={() => setIsOpen(!isOpen)}>{name}</ModalHeader>
-        <ModalBody>
-          {bio}
-        </ModalBody>
-      </Modal>
-    </TrusteeDetailsWrapper>
-  );
-}
 
 const TRUSTEES = [
   {
@@ -152,10 +108,39 @@ const TRUSTEES = [
   }
 ]
 
+
+const TrusteeDetails = ({name, bio, image}) => {
+  const [ isOpen, setIsOpen ] = useState(false);
+
+  return (
+    <TrusteeDetailsWrapper className="col-6 col-md-4 col-lg-3 my-4">
+      <div className="img">
+        <img src={image} />
+      </div>
+      {/*<div className="date">
+        2011 - CURRENT
+      </div>*/}
+      <div className="name">
+        {name}
+      </div>
+      <FlatButton onClick={(e) => setIsOpen(!isOpen)}>Know More</FlatButton>
+      {/*<div className="designation">
+        Designation, title
+      </div>*/}
+      <Modal isOpen={isOpen} style={{marginTop: 100}}>
+        <ModalHeader toggle={() => setIsOpen(!isOpen)}>{name}</ModalHeader>
+        <ModalBody>
+          {bio}
+        </ModalBody>
+      </Modal>
+    </TrusteeDetailsWrapper>
+  );
+}
+
 const Trustee = ({name}) => (<TrusteeWrapper>
   <div>
-    <div className="name">{name}</div>
-    <div className="content">
+    <div className="heading">{name}</div>
+    <div className="row">
       {
         TRUSTEES.map((trustee) => (<TrusteeDetails {...trustee}></TrusteeDetails>))
       }
@@ -163,9 +148,13 @@ const Trustee = ({name}) => (<TrusteeWrapper>
   </div>    
 </TrusteeWrapper>);
 
+
+
 export const Trustees = props => (
   <Wrapper>
-    <Trustee name="Trustees">
-    </Trustee>
+    <Container className="my-5">
+        <Trustee name="Trustees">
+        </Trustee>
+    </Container>
   </Wrapper>
 )

@@ -1,25 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import { RaisedButton, FlatButton } from './commons/';
-import { Link } from 'react-router-dom';
+import {Container, Row, Col} from 'reactstrap';
 
 const Wrapper = styled.div`
-    padding: 50px 150px 100px;
 `
 
 const SupporterWrapper = styled.div`
 
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 100px;
-
-  & > div {
+  div {
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    & > div.name {
+    div.name {
       font-family: "Cormorant Garamond Medium";
       font-size: ${props => props.theme['$font-size-lg']};
       font-weight: ${props => props.theme['$weight-regular']};
@@ -28,14 +21,14 @@ const SupporterWrapper = styled.div`
       padding-bottom: 50px;
     }
 
-    & > div.supporters {
+    div.supporters {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
       width: 100%;
       justify-content: space-around;
 
-      & > div {
+      div {
         width: 30%;
         height: 60px;
         background-color: #d8d8d8;
