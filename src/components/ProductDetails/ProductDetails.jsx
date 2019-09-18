@@ -250,7 +250,7 @@ const ProductDetails = ({
               name,
               volumeInfo,
               description,
-              isCurrenctIssue,
+              isCurrentIssue,
               images,
               isAvailable,
               editors,
@@ -274,7 +274,7 @@ const ProductDetails = ({
           }, {})
 
           const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
-          const artilesShouldBePurchasable = singularCategoryName === "Magazine"? true: false;
+          const articlesShouldBePurchasable = singularCategoryName === "Magazine"? true: false;
 
           const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
           return (
@@ -290,7 +290,7 @@ const ProductDetails = ({
                 <Col className="details" lg="6">
                   <div className="row mt-3 mt-lg-0 ml-0">
                   <div className="product-type ">{singularCategoryName}</div>
-                  <div className="current-issue">{isCurrenctIssue?"CURRENT ISSUE": ""}</div>
+                  <div className="current-issue">{isCurrentIssue?"CURRENT ISSUE": ""}</div>
                   </div>
                   <div className="row m-0">
                     {
@@ -398,7 +398,7 @@ const ProductDetails = ({
                     }
                     {
                       childProducts.map(
-                        (product) => <Article saveVariant={saveVariant} key={product.id} {...product} />
+                        (product) => <Article saveVariant={saveVariant} key={product.id} purchasable={articlesShouldBePurchasable} {...product} />
                       )
                     }
                   </div>
