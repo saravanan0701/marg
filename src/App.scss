@@ -76,5 +76,6 @@ a {
   border: none !important;
   & > img {
     vertical-align: unset;
+    border: grey solid 1px;
   }
 }

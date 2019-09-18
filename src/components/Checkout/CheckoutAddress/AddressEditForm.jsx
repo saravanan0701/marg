@@ -262,6 +262,7 @@ class AddressEditForm extends Component {
               });
             }
             if(self.state.phoneError) {
+              setSubmitting(false);
               return;
             }
             const retVals = { ...values };
