@@ -88,8 +88,20 @@ const EDITORS_QUERY = gql`
       edges {
         node {
           id
-          firstName
-          lastName
+          name
+        }
+      }
+    }
+  }
+`;
+
+const FETCH_EDITOR = gql`
+  query FilterEditors($first:Int, $id: ID) {
+    editors(first:$first, ids: [$id]) {
+      edges {
+        node {
+          id
+          name
         }
       }
     }
@@ -105,10 +117,17 @@ const EditorSearch = withApollo(
     addEditor,
     removeEditor,
     selectedEditors,
+    //Redux related variable which makes sure
+    // a selected item is not selected again and again.
+    // even if there's an inconsistency redux is not affected by it
     removeAllEditors,
     className,
+    urlEditorId,
+    // This editor-id is fetched from the URL.
+    // We fetch editor details and set it as selected.
   }) => {
-    const getVisibleName = (firstName, lastName) => `${firstName} ${lastName}`;
+    const [showEditorDropDown, setShowEditorDropDown] = useState(false);
+    const [urlSelectedEditor, setUrlSelectedEditors] = useState();
     const searchEditors = (name) => client.query({
       query: EDITORS_QUERY,
       variables: {
@@ -127,16 +146,32 @@ const EditorSearch = withApollo(
           edges.map(
             (
               {
-                node: { id, firstName, lastName }
+              node: { id, name }
               }
             ) => (
                 {
                   id,
-                  name: getVisibleName(firstName, lastName),
+              name
                 }
               )
           )
         )
+    );
+
+    const loadEditor = () => (
+      client.query({
+        query: FETCH_EDITOR,
+        variables: {
+          id: urlEditorId,
+          first: 1
+        }
+      }).then(({data:{editors: { edges }={} }={} }, errors) => {
+        if(edges.length > 0 && (!errors || errors.length === 0)) {
+          setUrlSelectedEditors(edges[0].node);
+          addEditor(edges[0].node);
+        }
+        setShowEditorDropDown(true);
+      })
     )
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
     return <DropDown
@@ -144,6 +179,7 @@ const EditorSearch = withApollo(
       label={"Editors"}
       enableSearch={true}
       loadData={editors}
+      defaultOption={urlSelectedEditor}
       searchData={searchEditors}
       multiSelect={true}
       onOptionSelect={
