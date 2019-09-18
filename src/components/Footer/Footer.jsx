@@ -75,7 +75,8 @@ const FooterContainer = styled.div`
       font-weight: ${props => props.theme['$weight-regular']};
       letter-spacing: 0.59px;
       line-height: 23px;
-      max-width: 350px;
+      max-width: 550px;
+      width: 100%;
     }
   }
 
@@ -94,7 +95,7 @@ const FooterContainer = styled.div`
 
 export const Footer = () => (
   <FooterContainer>
-    <div id="magazineSubscribe" className='text-center py-5 full-width'>
+    <div id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
       <Link to="/subscribe">SUBSCRIBE TO MARG</Link>
       <p className="mx-auto my-3">Founded in 1946, Marg magazine has consistently published original research on Indian art and culture, combining scholarly analysis with high-quality, evocative images. </p>
     </div>

@@ -99,6 +99,18 @@ const MainContainer = styled.div`
   .bg-gray {
     background-color: #f8f8f8;
   }
+  
+  .heading {
+    color: #000000;
+    font-family: "Cormorant Garamond Medium";
+    font-size: ${props => props.theme['$font-size-lg']};
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 1px;
+    line-height: 57px;
+    text-align: center;
+    padding-bottom: 80px;
+  }
+  
 `
 
 class App extends Component {

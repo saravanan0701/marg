@@ -39,7 +39,7 @@ const MenuWrapper = styled.div`
 
     & > a {
       color: #000000;
-      text-align: right;
+      text-align: left;
     }
   }
 `;
