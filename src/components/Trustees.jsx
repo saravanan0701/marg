@@ -84,7 +84,7 @@ const TRUSTEES = [
   {
     name: "Divyabhanusinh Chavda",
     image: Divya,
-    bio: 'He is the author of The End of a Trail: The Cheetah in India, The Story of Asia’s Lions and The Story of India’s Unicorns (the last two published by Marg). He is actively involved in conservation and was the president of WWF–India and Vice President of the Bombay Natural History Society. He is a member of the Species Survival Commission, Cat Specialist Group of World Conservation Union (IUCN). He was a member of the National Board for Wildlife from 2008 to 2013 and its Standing Committee. He had a long stint in the hospitality sector working with Indian Hotels Company Limited. '
+    bio: 'He is the author of The End of a Trail: The Cheetah in India, The Story of Asia’s Lions and The Story of India’s Unicorns (the last two published by Marg). He is actively involved in conservation and was the president of WWF–India and Vice President of the Bombay Natural History Society. He is a member of the Species Survival Commission, Cat Specialist Group of World Conservation Union (IUCN). He was a member of the National Board for Wildlife from 2008 to 2013 and its Standing Committee. He had a long stint in the hospitality sector working with Indian Hotels Company Limited.'
   },
   {
     name: "Cyrus Guzder",
@@ -106,7 +106,7 @@ const TRUSTEES = [
     image: Kapila,
     bio: 'She is a distinguished scholar of Indian classical dance, art, architecture, and art history. She has been a Member of the Rajya Sabha and a bureaucrat and served as Founding Director of the Indira Gandhi National Centre for the Arts. She is also a Trustee of the India international Centre and Chairperson of the IIC-Asia Project.'
   }
-]
+];
 
 
 const TrusteeDetails = ({name, bio, image}) => {

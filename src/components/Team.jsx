@@ -121,7 +121,6 @@ const PersonWrapper = styled.div`
 `;
 
 
-
 const DIRECTORS = [
     {
         name: "RIZIO B. YOHANNAN",
@@ -150,24 +149,9 @@ const EMPLOYEES = [
         image: Latika
     },
     {
-        name: "Jyotsna Nambiar",
-        designation: "Assistant Editor",
-        image: default_profile
-    },
-    {
         name: "Mrinalini Vasudevan",
         designation: "Assistant Editor",
         image: Mrinalini
-    },
-    {
-        name: "Nisha S. Nair",
-        designation: "Editorial Executive",
-        image: default_profile
-    },
-    {
-        name: "Rivka Israel",
-        designation: "Text Editor (Consultant)",
-        image: Rivka
     },
     {
         name: "Naju Hirani",
@@ -176,13 +160,58 @@ const EMPLOYEES = [
     },
     {
         name: "Gautam V. Jadhav",
-        designation: "Senior Production Executive",
+        designation: "Production Manager",
         image: Gautam
     },
     {
         name: "Chetan S. More",
-        designation: "Production Executive",
+        designation: "Design & Production Executive",
         image: Chetan
+    },
+    {
+        name: "Usha V. Shenoy",
+        designation: "Head of Accounts & Support Services",
+        image: Usha
+    },
+    {
+        name: "Neeta Suvarna",
+        designation: "Core Operations Manager",
+        image: Neeta
+    },
+    {
+        name: "Almitra Billimoria",
+        designation: "Head of Partnerships",
+        image: Almitra
+    },
+    {
+        name: "Baptist Sequeira",
+        designation: "Head of Sales & Subscriptions",
+        image: Baptist
+    },
+    {
+        name: "Mary Abraham",
+        designation: "Public Relationships & Communications Manager",
+        image: Mary
+    },
+    {
+        name: "Anjana Premchand",
+        designation: "Brand Manager",
+        image: Anjana
+    },
+    {
+        name: "Sadanand I. Salian",
+        designation: "Despatch Supervisor",
+        image: Sada
+    },
+    {
+        name: "Ravindra K. Shewale",
+        designation: "Despatch & Administration Assistant",
+        image: default_profile
+    },
+    {
+        name: "Rukmayya Suvarna",
+        designation: "Office Assistant",
+        image: default_profile
     },
     {
         name: "Rohinton B. Anklesaria",
@@ -190,34 +219,9 @@ const EMPLOYEES = [
         image: Rohinton
     },
     {
-        name: "Usha V. Shenoy",
-        designation: "Accounts Head",
-        image: Usha
-    },
-    {
-        name: "Neeta Suvarna",
-        designation: "Executive Accounts",
-        image: Neeta
-    },
-    {
-        name: "Almitra Billimoria",
-        designation: "Marketing & Sales Head",
-        image: Almitra
-    },
-    {
-        name: "Baptist Sequeira",
-        designation: "Senior Manager Marketing & Sales",
-        image: Baptist
-    },
-    {
-        name: "Mary Abraham",
-        designation: "Manager Marketing & Sales",
-        image: Mary
-    },
-    {
-        name: "Anjana Premchand",
-        designation: "Manager Digital Marketing & Branding",
-        image: Anjana
+        name: "Seby Thomas",
+        designation: "Management Consultant",
+        image: default_profile
     },
     {
         name: "Asha Shiralikar",
@@ -225,26 +229,23 @@ const EMPLOYEES = [
         image: Asha
     },
     {
-        name: "Shyla Serrao",
-        designation: "Manager Administration &nCirculation",
-        image: Shyla
+        name: "Savita Chandiramani",
+        designation: "Strategic Planning Consultant",
+        image: Savita
     },
     {
-        name: "Sadanand I. Salian",
-        designation: "Office Assistant",
-        image: Sada
-    },
-    {
-        name: "Ravindra K. Shewale",
-        designation: "Despatch Assistant",
-        image: default_profile
-    },
-    {
-        name: "Rukmayya Suvarna",
-        designation: "Despatch Assistant",
-        image: default_profile
+        name: "Rivka Israel",
+        designation: "Text Editor",
+        image: Rivka
     },
 ]
+
+
+
+
+
+
+
 
 const PersonDetails = ({name, bio, designation, openBio, image}) => {
     const [isOpen, setIsOpen] = useState(false);
