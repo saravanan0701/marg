@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
-import logo from './../../images/Header_marg_transparent.gif'
+import logo from './../../images/logo_with_year.svg'
 import { FlatButton, CollapseContainer } from './../commons/';
 import { Container, Row, Col, Button } from 'reactstrap';
 
@@ -22,9 +22,12 @@ const MobileHeaderContainer = styled.div`
 
   #mobileHeaderLogoLink {
     cursor: pointer;
+    margin-bottom: -30px;
+    width: 100px;
+    z-index: 11;
   }
 
-  img { width: 83px; }
+  img { width: 100%; }
 
   button.hamburger {
     outline: none;
@@ -94,12 +97,12 @@ const PUBLICATION_LINK_LIST = [
 const ABOUT_LINK_LIST = [
   { 
     label:'Our Story',
-    link:''
+    link:'/aboutus'
   },
-  {
-    label: 'Timeline',
-    link: ''
-  },
+  // {
+  //   label: 'Timeline',
+  //   link: ''
+  // },
   {
     label: 'Trustees',
     link: '/trustees'
@@ -181,7 +184,7 @@ class MobileHeader extends Component {
   render() {
     return (
       <MobileHeaderContainer>
-        <Container>
+        <Container className="px-0">
           <Row>
             <Col lg="12 d-flex justify-content-between align-items-center">
               <Link id="mobileHeaderLogoLink" to="/"><img className="img-fluid" src={logo} /></Link>
