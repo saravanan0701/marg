@@ -44,7 +44,7 @@ const ArticleWrapper = styled.div`
   
     .title {
       font-size: ${props => props.theme['$font-size-xxs']};
-      @media (min-with: ${props => props.theme['mobileBreakpoint']}) {
+      @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
         font-size: ${props => props.theme['$font-size-xs']};
       }
       font-weight: ${props => props.theme['$weight-bold']};
@@ -178,7 +178,7 @@ export default class Article extends Component {
           <Row className={`body py-4 ${isOpen ? 'isOpen' : ''}`}>
             <Col lg="4" className="order-lg-2 cart-info">
               {
-                !isAvailable &&
+                !isAvailable && this.props.purchasable &&
                   <OutOfStock className="out-of-stock">Out of stock</OutOfStock>
               }
               {

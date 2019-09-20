@@ -117,7 +117,9 @@ export const Supporters = props => (
     <MiscBlock name="Individual Partners">
     </MiscBlock> */}
 
-    <div className="container">
+    <div className="container mt-5">
+      <h1 className="heading">Supporters & Sponsors</h1>
+
       <div className="row my-5">
         <div className="col-12 text-center">
           <h3>2019-2020</h3>

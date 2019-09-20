@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import styled from "styled-components";
-import logo from "./../../images/Header_marg_transparent.gif";
+import logo from "./../../images/logo_with_year.svg";
 import { FlatButton, Menu } from "./../commons/";
 import { Container, Row, Col } from "reactstrap";
 import FontAwesome from "react-fontawesome";
@@ -16,8 +16,8 @@ const HeaderContainer = styled.div`
 
   #headerLogoLink {
     cursor: pointer;
-    max-width: 195px;
-    margin-bottom: -78px;
+    max-width: 190px;
+    margin-bottom: -58px;
     z-index: 11;
   }
 
@@ -35,6 +35,9 @@ const HeaderContainer = styled.div`
   }
 
   .menu {
+  
+    z-index:12;
+    
     & > * {
       color: #000000;
       font-size: 14px;
@@ -63,7 +66,7 @@ const Header = ({
       <Row style={{ minHeight: 110 }}>
         <Col
           lg="2"
-          className="d-flex align-items-center justify-content-center flex-column"
+          className="d-flex align-items-center justify-content-center flex-column px-0"
         >
           <Link id="headerLogoLink" to="/">
             <img alt="" className="img-fluid" src={logo} />
@@ -91,7 +94,7 @@ const Header = ({
             <Col xs="12" className="d-flex justify-content-end">
               <div className="menu d-flex align-items-center flex-wrap px-0">
                 <Menu label="About Marg">
-                  <Link to="/aboutus">About Marg</Link>
+                  <Link to="/aboutus">Our Story</Link>
                   {/* <Link to="/collaborate">Historical Timeline</Link> */}
                   <Link to="/team">Marg team</Link>
                   <Link to="/supporters">SUPPORTERS/SPONSORS</Link>

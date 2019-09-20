@@ -13,8 +13,8 @@ const Theme = {
   appHorizontalPadding: "1.5rem",
 
   '$weight-regular': '400',
-  '$weight-semibold': '600',
-  '$weight-bold': '700',
+  '$weight-semibold': '500',
+  '$weight-bold': '600',
 
    // FONT SIZES
   '$font-size-xxxs': '14px',
