@@ -29,6 +29,7 @@ const LOAD_PRODUCTS = gql`
           id
           name
           variants{
+            id
             sku
             isDigital
             inrPrice {

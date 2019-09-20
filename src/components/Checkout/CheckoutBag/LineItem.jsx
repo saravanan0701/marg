@@ -32,7 +32,7 @@ const LineItem = ({
           <Col
             xs="4"
             lg="3"
-            className={images.length === 0 ? "d-none" : "pl-0"}
+            className={!images || images.length === 0 ? "d-none" : "pl-0"}
           >
             <ImgContainer onClick={() => push(`/product/${productId}`)}>
               <img
@@ -45,7 +45,7 @@ const LineItem = ({
             </ImgContainer>
           </Col>
           <Col
-            xs={images.length === 0 ? "12" : "8"}
+            xs={images && images.length === 0 ? "12" : "8"}
             lg="9"
             className="d-flex flex-column justify-content-between"
           >
