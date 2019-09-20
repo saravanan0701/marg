@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { FlatButton } from '../../commons';
+import { getParamsObjFromString } from './../../../utils/';
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,12 +36,34 @@ const Wrapper = styled.div`
 
 class CategoryFilterComponent extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      urlProductType: null,
+    }
+    this.selectMainPublications = this.selectMainPublications.bind(this);
+  }
+
   componentDidMount(prevProps, nextProps) {
     const {
       categories,
       selectedCategories,
       replaceCategoryFilters,
+      location: {
+        search
+      }
     } = this.props;
+    const queryObj = getParamsObjFromString(search);
+    const queryKeys = Object.keys(queryObj);
+    let urlProductType;
+    if(queryKeys.length > 0) {
+      if(queryKeys[0] === "product-type") {
+        urlProductType = queryObj['product-type'];
+        this.setState({
+          urlProductType: queryObj['product-type'],
+        })
+      }
+    }
 
     this.allCategories = categories.filter((category) => {
       if(category.slug !== "articles") {
@@ -55,7 +78,26 @@ class CategoryFilterComponent extends Component {
       }
     });
 
+    if(urlProductType) {
+      return replaceCategoryFilters(categories.filter(({slug}) => slug === urlProductType));
+    }
+
     replaceCategoryFilters(this.allCategories);      
+  }
+
+  selectMainPublications() {
+    const {
+      categories,
+      replaceCategoryFilters,
+    } = this.props;
+    const {
+      urlProductType
+    } = this.state;
+    if(urlProductType) {
+      replaceCategoryFilters(categories.filter(({slug}) => slug === urlProductType));
+    } else {
+      replaceCategoryFilters(this.allCategories);
+    }
   }
   
   render() {
@@ -73,7 +115,7 @@ class CategoryFilterComponent extends Component {
         <FlatButton
           key="1"
           className={articlesIsNotSelected()? 'active': ''}
-          onMouseDown={() => replaceCategoryFilters(this.allCategories)}
+          onMouseDown={() => this.selectMainPublications()}
           type="secondary"
         >
           <span className="link">Magazines & Books</span>

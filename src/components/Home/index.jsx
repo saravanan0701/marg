@@ -202,11 +202,13 @@ export const Home = props => (
                 key={1}
                 name="Magazines"
                 categoryId={categoryOb.magazineId}
+                slug="magazines"
               />
               <ProductsSection
                 key={2}
                 name="Books"
                 categoryId={categoryOb.bookId}
+                slug="books"
               />
             </div>
           );

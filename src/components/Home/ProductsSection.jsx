@@ -85,12 +85,12 @@ const LOAD_PRODUCTS = gql`
   }
 `;
 
-export const ProductsSection = ({name, categoryId}) => (
+export const ProductsSection = ({name, categoryId, slug}) => (
   <Wrapper className="py-5">
     <div className="heading">
       Latest {name}
     </div>
-    <Link to="categories" className="link">
+    <Link to={`categories?product-type=${slug}`} className="link">
       <FlatButton colorType="primary">View All</FlatButton>
     </Link>
     <div className="row">

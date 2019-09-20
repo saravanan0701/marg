@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
+import { withRouter } from 'react-router';
 import actions from '../../../actions'
 import CategoryFilterComponent from './CategoryFilterComponent'
 
@@ -23,4 +24,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(CategoryFilterComponent));
+)(withApollo(withRouter(CategoryFilterComponent)));

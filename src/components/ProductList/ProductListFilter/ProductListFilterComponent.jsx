@@ -225,12 +225,14 @@ export const ProductListFilter = ({
 }) => {
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
-  let urlEditorId, urlCategoryId, foundCategoryValue;
+  let urlEditorId, urlCategoryId, foundCategoryValue, urlProductType;
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
     } else if(queryKeys[0] === "category-id") {
       urlCategoryId = queryObj['category-id'];
+    } else if(queryKeys[0] === "product-type") {
+      urlProductType = queryObj['product-type'];
     }
   }
   const applyFilter = (attribute) => {
@@ -266,6 +268,7 @@ export const ProductListFilter = ({
         key={"product-type"}
         label={"Format"}
         loadData={categories}
+        defaultOption={categories.find(({slug}) => slug === urlProductType)}
         onOptionSelect={
           (option) => (
             replaceCategoryFilters([option])
