@@ -345,14 +345,15 @@ class AddressEditForm extends Component {
                   <div className="form-group mb-5">
                     <label for="phone">Phone</label>
                     <PhoneInput
-                        className="col-12"
-                        type="phone"
-                        name="phone"
-                        placeholder="Enter phone number"
-                        value={ values.phone }
-                        onBlur={this.phoneBlur}
-                        onChange={ this.selectPhone }
-                      />
+                      country="IN"
+                      className="col-12"
+                      type="phone"
+                      name="phone"
+                      placeholder="Enter phone number"
+                      value={ values.phone }
+                      onBlur={this.phoneBlur}
+                      onChange={ this.selectPhone }
+                    />
                     <small className="error form-text text-muted">
                       {this.state.phoneError}
                     </small>
