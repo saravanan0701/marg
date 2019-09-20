@@ -250,7 +250,7 @@ const ProductDetails = ({
               name,
               volumeInfo,
               description,
-              isCurrentIssue,
+              isCurrenctIssue: isCurrentIssue,
               images,
               isAvailable,
               editors,
