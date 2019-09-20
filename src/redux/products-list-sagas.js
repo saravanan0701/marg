@@ -42,6 +42,7 @@ const LOAD_PRODUCTS = gql`
               localized
             }
           }
+          isAvailable
           thumbnailUrl(size:500)
           images{
             url
