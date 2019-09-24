@@ -171,6 +171,8 @@ const LOAD_PRODUCT = gql`
             id
             name
           }
+          pageNumber
+          order
           variants{
             id
             isDigital
@@ -276,7 +278,10 @@ const ProductDetails = ({
           const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
           const articlesShouldBePurchasable = singularCategoryName === "Magazine"? true: false;
 
-          const childProducts = sections.reduce((acc, section) => acc.concat(section.childProducts), []);
+          const childProducts = sections
+          .reduce((acc, section) => acc.concat(section.childProducts), [])
+          .sort(({order: orderA}, {order: orderB}) => orderA - orderB);
+
           return (
 
             <Container>

@@ -145,6 +145,7 @@ export default class Article extends Component {
       saveVariant,
       className,
       currency,
+      pageNumber,
     } = this.props;
 
     const {
@@ -167,6 +168,10 @@ export default class Article extends Component {
             <Col xs="9" lg="10">
               <h3 className="title">{name}</h3>
               <span>{getEditorName(editors)}</span>
+              {
+                pageNumber&&
+                <span>&nbsp;&nbsp;{pageNumber}</span>
+              }
             </Col>
             <Col xs="3" lg="2" className="d-flex flex-column align-items-end justify-content-center">
               {
