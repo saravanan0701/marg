@@ -106,8 +106,16 @@ export const Footer = () => (
             <div className="subscribe">
               <div className="subscribe-heading">Sign up to newsletters:</div>
               <div className="form my-3">
-                <input type="email" placeholder="Your email" className="subscribe" />
-                <RaisedButton colorType="primary">Sign up</RaisedButton>
+              <form
+                action="https://marg-art.us4.list-manage.com/subscribe/post?u=8139a0209298061024dba15b9&amp;id=cde13e71ed"
+                method="post" id="mc-embedded-subscribe-form" target="_blank"
+                name="mc-embedded-subscribe-form" class="validate" novalidate>
+                <div style={{position: `absolute`, left: `-5000px`}} aria-hidden="true">
+                  <input type="text" name="b_8139a0209298061024dba15b9_cde13e71ed" tabindex="-1" value="" />
+                </div>
+                <input type="email" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required placeholder="email address" required className="subscribe" />
+                <RaisedButton type="submit" colorType="primary">Sign up</RaisedButton>
+              </form>
               </div>
             </div>
           </Col>
