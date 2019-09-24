@@ -175,6 +175,10 @@ class MobileHeader extends Component {
           {/* <Link onClick={this.handleHamburgerClick}>Submit Proposals</Link> */}
           {/* <Link onClick={this.handleHamburgerClick}>Film Archive</Link> */}
           {
+            !this.props.isLoggedIn &&
+            <Link onClick={this.handleHamburgerClick}  to="/login">Login</Link>
+          }
+          {
             this.props.isLoggedIn &&
             <div>
             <Link onClick={this.handleHamburgerClick}  to="/myaccount">My Account</Link>
