@@ -155,7 +155,6 @@ class MobileHeader extends Component {
   )
 
   sideMenuList = () => (
-
     <Container id="sideMenuContainer" className="py-4">
       <Row>
         <Col lg="12">
@@ -175,7 +174,13 @@ class MobileHeader extends Component {
           {/* <Link onClick={this.handleHamburgerClick}  to="/categories">Collaborate</Link> */}
           {/* <Link onClick={this.handleHamburgerClick}>Submit Proposals</Link> */}
           {/* <Link onClick={this.handleHamburgerClick}>Film Archive</Link> */}
-          <Link onClick={this.handleHamburgerClick}  to="/myaccount">My Account</Link>
+          {
+            this.props.isLoggedIn &&
+            <div>
+            <Link onClick={this.handleHamburgerClick}  to="/myaccount">My Account</Link>
+            <Link onClick={() => {this.handleHamburgerClick();this.props.logout()}}>SIGN OUT</Link>
+            </div>
+          }
         </Col>
       </Row>
     </Container>
