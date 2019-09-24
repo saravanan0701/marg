@@ -10,6 +10,8 @@ import { SnackbarProvider } from 'notistack';
 import { Route, Switch } from 'react-router';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
+import ReactGA from 'react-ga';
+
 import styled, { ThemeProvider } from 'styled-components';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
@@ -38,6 +40,7 @@ import { ScrollTop } from './components/ScrollTop';
 import SearchResultsContainer from './components/Search/SearchResultsContainer';
 import ResetPassword from './components/ResetPassword/index.jsx';
 import NotificationManager from './components/NotificationManager/';
+import { NotFound } from './components/404.jsx';
 
 export const history = createBrowserHistory()
 const store = StoreFactory(history);
@@ -117,6 +120,7 @@ class App extends Component {
   
   componentDidMount() {
     store.dispatch(actions.rehyderateStateFromCache(client));
+    ReactGA.initialize("UA-111691833-1");
   }
 
   render() {
@@ -148,6 +152,7 @@ class App extends Component {
                         <ProtectedRoute exact path="/myaccount" component={Account} />
                         <Route exact path="/search" component={SearchResultsContainer} />
                         <Route path="/reset-password" component={ResetPassword} />
+                        <Route path="*" component={NotFound} />
                       </Switch>
                       <Footer />
                       <NotificationManager />
