@@ -205,7 +205,7 @@ class DropDown extends Component {
     }.bind(this), 100);
   }
 
-  optionUnselect(option) {
+  optionUnselect(option, e) {
     const {
       onOptionClose,
       multiSelect,
@@ -213,6 +213,8 @@ class DropDown extends Component {
     const {
       selectedOptions,
     } = this.state;
+
+    e.stopPropagation();
 
     this.setState({
       showBody: true,
@@ -446,11 +448,11 @@ class DropDown extends Component {
                 visibleOptions
                   .map(
                     (option) => (
-                      <div key={option.id} className="option">
-                        <div onMouseDown={() => this.optionsClicked(option)}>{option.name}</div>
+                      <div  onMouseDown={() => this.optionsClicked(option)} key={option.id} className="option">
+                        <div>{option.name}</div>
                         {
                           this.selectedOptionIndex(option) > -1 &&
-                            <FontAwesome className="icon" name='times' onMouseDown={() => this.optionUnselect(option)} />
+                            <FontAwesome className="icon" name='times' onMouseDown={(e) => this.optionUnselect(option, e)} />
                         }
                       </div>
                     )
