@@ -135,7 +135,7 @@ export default class CheckoutPayment extends Component {
       } = {}
     } = this.props;
     this.options = {
-      key: "rzp_test_cP0b0TIREwm6li",
+      key: "rzp_live_s8ZF2We2ioGSNf",
       //TODO: use this in .env file.
       name: "Marg",
       image: logo,
