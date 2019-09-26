@@ -24,7 +24,7 @@ const items = [
       "This issue presents the latest finds from recent excavations and on advances in Gandhara Art  Studies and examines migrations from different periods — from Bronze Age to the movements of Ghaznavids and Mughals.",
     imageSrc: Hero1,
     ctaText: "View This Issue",
-    ctaUrl: "/product/UHJvZHVjdDozMDQz",
+    ctaUrl: "/product/UHJvZHVjdDo1MTYy",
     textColor: "#FFFFFF"
   },
   {
@@ -36,7 +36,7 @@ const items = [
       "This book presents the Hindu temple from the perspectives of institutions and individuals, including priests, building practitioners and worshippers, to consider what it means when the temple is no longer at the centre of Indic life.",
     imageSrc: Hero2,
     ctaText: "View This Book",
-    ctaUrl: "/product/UHJvZHVjdDo1MjUy",
+    ctaUrl: "/product/UHJvZHVjdDozMDE5",
     textColor: "#000000"
   }
 ];
