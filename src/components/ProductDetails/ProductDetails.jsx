@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { Redirect } from 'react-router';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import ReactHtmlParser from 'react-html-parser';
@@ -247,28 +248,34 @@ const ProductDetails = ({
           loading,
           error,
           data: {
-            product: {
-              id: productId,
-              name,
-              volumeInfo,
-              description,
-              isCurrenctIssue: isCurrentIssue,
-              images,
-              isAvailable,
-              editors,
-              sections,
-              variants = [],
-              attributes,
-              category,
-              thumbnail: {
-                url: thumbnailUrl,
-              } = {},
-            } = {},
-          },
+            product,
+          }
         }) => {
           if (loading) {
             return <h1>Loading...</h1>;
           }
+          if (!loading && !product) {
+            return <Redirect to="/404" />
+          }
+
+
+          const {
+            id: productId,
+            name,
+            volumeInfo,
+            description,
+            isCurrenctIssue: isCurrentIssue,
+            images,
+            isAvailable,
+            editors,
+            sections,
+            variants = [],
+            attributes,
+            category,
+            thumbnail: {
+              url: thumbnailUrl,
+            } = {},
+          } = product || {};
 
           const metaInfo = attributes.reduce((acc, {value, attribute} = {} ) => {
             acc[attribute.slug]=value.name
