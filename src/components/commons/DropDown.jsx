@@ -317,7 +317,7 @@ class DropDown extends Component {
         if(!searchable) {
           return option;
         }
-        return option.name.toLocaleLowerCase().startsWith(searchable.toLocaleLowerCase());
+        return option.name.toLocaleLowerCase().search(searchable.toLocaleLowerCase()) > 0? true: false;
       })
       .slice(0, 10);
   }
