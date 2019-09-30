@@ -30,7 +30,7 @@ import { Trustees } from './components/Trustees.jsx';
 import Donate from './components/Donate.jsx';
 import ContactusForm from './components/Contactus/';
 import ProductDetails from './components/ProductDetails/';
-import background from './images/option3-web.jpg';
+import background from './images/background4.jpg';
 import Theme from './Theme';
 import './App.scss';
 import Checkout from './components/Checkout/';

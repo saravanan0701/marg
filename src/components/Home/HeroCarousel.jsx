@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { RaisedButton } from "./../commons/";
 import FontAwesome from "react-fontawesome";
 import Hero1 from "../../images/Hero_new.jpg";
-import Hero2 from "../../images/Contemporary Hindu Temple LR.jpg";
+import Hero2 from "../../images/medicated-magic-banner.png";
 import { Link } from "react-router-dom";
 import {
   Carousel,
@@ -30,14 +30,14 @@ const items = [
   {
     position: "2",
     label: "QUARTERLY BOOK",
-    title: "The Contemporary Hindu Temple: Fragments for a History",
-    subtitle: "Edited by: Annapurna Garimella, Shriya Sridharan, A. Srivathsan",
+    title: "A Mediated Magic: The Indian Presence in Modernism 1880–1930",
+    subtitle: "Edited by: Naman P. Ahuja and Louise Belfrage",
     description:
-      "This book presents the Hindu temple from the perspectives of institutions and individuals, including priests, building practitioners and worshippers, to consider what it means when the temple is no longer at the centre of Indic life.",
+      "The exchanges with ideas Indian, and with Indians themselves, had a decisive impact that contributed to the eruption and shape of Modernism in the West. This book, richly illustrated and including several unpublished artworks, reveals the great artists of Europe in a new light.",
     imageSrc: Hero2,
     ctaText: "View This Book",
-    ctaUrl: "/product/UHJvZHVjdDozMDE5",
-    textColor: "#000000"
+    ctaUrl: "/product/UHJvZHVjdDo1MjM5",
+    textColor: "#FFFFFF"
   }
 ];
 
