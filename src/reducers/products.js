@@ -159,6 +159,11 @@ export const ProductListReducers = (
         },
         loadingAllProducts: true,
       };
+    
+    case 'RESET_ALL_FILTERS':
+      return {
+        ...INITIAL_PRODUCT_LIST_STATE,
+      };
     default:
       return state
   }

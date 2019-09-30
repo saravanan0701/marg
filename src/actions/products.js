@@ -63,6 +63,10 @@ const removeEditorFilter = editor => ({
 
 const removeAllEditors = () => ({
   type: 'REMOVE_ALL_EDITOR_FILTERS',
+});
+
+const resetAllFilters = () => ({
+  type: 'RESET_ALL_FILTERS',
 })
 
 export default {
@@ -79,4 +83,5 @@ export default {
   addEditorFilter,
   removeEditorFilter,
   removeAllEditors,
+  resetAllFilters,
 }
