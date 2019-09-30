@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -251,6 +251,22 @@ export const MobileProductFilter = ({
     }
   }
 
+  useEffect(() => {
+    if(foundCategoryValue) {
+      addFilter({
+        type: "category",
+        filter: foundCategoryValue
+      });
+    }
+  }, []);
+
+  if(urlCategoryId) {
+    const category = filters.find((filter) => filter.slug === "category")
+    if(category) {
+      foundCategoryValue = category.values.find((value) => (value.id === urlCategoryId));
+    }
+  }
+
   const applyFilter = (attribute) => {
     const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
     if (!filterFound) {
@@ -327,6 +343,13 @@ export const MobileProductFilter = ({
                   enableSearch={true}
                   loadData={filterObj.values}
                   multiSelect={true}
+                  defaultOption={
+                    (() => {
+                      if(filterObj.slug === "category") {
+                        return foundCategoryValue;
+                      }
+                    })()
+                  }
                   onOptionSelect={
                     (option) => (
                       applyFilter({
