@@ -225,14 +225,12 @@ export const ProductListFilter = ({
 }) => {
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
-  let urlEditorId, urlCategoryId, foundCategoryValue, urlProductType;
+  let urlEditorId, urlCategoryId, foundCategoryValue;
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
     } else if(queryKeys[0] === "category-id") {
       urlCategoryId = queryObj['category-id'];
-    } else if(queryKeys[0] === "product-type") {
-      urlProductType = queryObj['product-type'];
     }
   }
   const applyFilter = (attribute) => {
@@ -250,6 +248,7 @@ export const ProductListFilter = ({
       });
     }
   }, []);
+
   if(urlCategoryId) {
     const category = filters.find((filter) => filter.slug === "category")
     if(category) {
@@ -258,17 +257,16 @@ export const ProductListFilter = ({
   }
 
   const articlesIsSelected = selectedCategories.filter(({slug}) => (slug === "articles")).length > 0? true: false;
-
   return <Wrapper className="d-none d-lg-flex">
     <div className="header">Filter By:</div>
     {
       !articlesIsSelected &&
       <DropDown
         className="dropdown"
-        key={"product-type"}
+        key={selectedCategories.length > 0? selectedCategories[0].slug: "product-type"}
         label={"Format"}
         loadData={categories}
-        defaultOption={categories.find(({slug}) => slug === urlProductType)}
+        defaultOption={selectedCategories.length > 0? selectedCategories[0]: null}
         onOptionSelect={
           (option) => (
             replaceCategoryFilters([option])
