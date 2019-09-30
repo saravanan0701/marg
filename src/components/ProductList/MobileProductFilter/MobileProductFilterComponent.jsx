@@ -176,6 +176,19 @@ const EditorSearch = withApollo(
     )
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
     
+    useEffect(() => {
+      if(urlEditorId) {
+        setShowEditorDropDown(false);
+        loadEditor();
+      } else {
+        setShowEditorDropDown(true);
+      }
+    }, []);
+
+    if(!showEditorDropDown){
+      return <div>Loading..</div>;
+    }
+
     return <DropDown
       className={className}
       label={"Editors"}
@@ -301,7 +314,7 @@ export const MobileProductFilter = ({
             !articlesIsSelected &&
             <DropDown
               className="dropdown"
-              key={"product-type"}
+              key={selectedCategories.length > 0? selectedCategories[0].slug: "product-type"}
               label={"Format"}
               loadData={categories}
               defaultOption={selectedCategories.length === 1? selectedCategories[0]: null}
@@ -331,12 +344,14 @@ export const MobileProductFilter = ({
             removeAllEditors={removeAllEditors}
             editors={editors}
             selectedEditors={selectedEditors}
+            urlEditorId={urlEditorId}
           >
           </EditorSearch>
           {
             filters.map((filterObj, id) => {
               return (
                 <DropDown
+                  key={id}
                   className="dropdown"
                   key={filterObj.slug}
                   label={filterObj.name}
@@ -379,7 +394,7 @@ export const MobileProductFilter = ({
               );
             })
           }
-          <DropDown
+          {/* <DropDown
             className="dropdown"
             key={"sort"}
             label={"Sort by:"}
@@ -395,7 +410,7 @@ export const MobileProductFilter = ({
               )
             }
           >
-          </DropDown>
+          </DropDown> */}
         </Wrapper>
       </SwipeableDrawer>
     </div>
