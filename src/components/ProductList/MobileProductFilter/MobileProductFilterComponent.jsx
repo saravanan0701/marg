@@ -9,6 +9,7 @@ import { FlatButton } from '../../commons';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { makeStyles } from '@material-ui/core/styles';
 import FontAwesome from 'react-fontawesome';
+import { getParamsObjFromString } from './../../../utils/';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -174,6 +175,7 @@ const EditorSearch = withApollo(
       })
     )
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
+    
     return <DropDown
       className={className}
       label={"Editors"}
@@ -227,10 +229,29 @@ export const MobileProductFilter = ({
   removeAllEditors,
   selectedAttributes,
   selectedEditors,
+  selectedCategories,
+  categories,
+  replaceCategoryFilters,
+  location: {
+    search
+  }
 }) => {
 
   const [filterOpen, setFilterState] = useState(false);
   const classes = useStyles();
+  let urlEditorId, urlCategoryId, foundCategoryValue, urlProductType;
+
+  const queryObj = getParamsObjFromString(search);
+  const queryKeys = Object.keys(queryObj);
+  if(queryKeys.length > 0) {
+    if(queryKeys[0] === "editor-id") {
+      urlEditorId = queryObj['editor-id'];
+    } else if(queryKeys[0] === "category-id") {
+      urlCategoryId = queryObj['category-id'];
+    } else if(queryKeys[0] === "product-type") {
+      urlProductType = queryObj['product-type'];
+    }
+  }
 
   const applyFilter = (attribute) => {
     const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
@@ -238,6 +259,7 @@ export const MobileProductFilter = ({
       return addFilter(attribute);
     }
   }
+  const articlesIsSelected = selectedCategories.filter(({slug}) => (slug === "articles")).length > 0? true: false;
 
   return (
     <div>
@@ -261,6 +283,32 @@ export const MobileProductFilter = ({
         }}
       >
         <Wrapper>
+          {
+            !articlesIsSelected &&
+            <DropDown
+              className="dropdown"
+              key={"product-type"}
+              label={"Format"}
+              loadData={categories}
+              defaultOption={categories.find(({ slug }) => slug === urlProductType)}
+              onOptionSelect={
+                (option) => (
+                  replaceCategoryFilters([option])
+                )
+              }
+              onOptionClose={
+                (option) => (
+                  replaceCategoryFilters(categories)
+                )
+              }
+              onUnselectAll={
+                (option) => (
+                  replaceCategoryFilters(categories)
+                )
+              }
+            >
+            </DropDown>
+          }
           <EditorSearch
             className="dropdown"
             key={"editors"}

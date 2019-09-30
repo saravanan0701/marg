@@ -106,7 +106,7 @@ const ProductList = () => (
             <div>
               <CategoryFilter categories={categories} />
               <ProductListFilter categories={mainCategories} filters={attributes} editors={editors}/>
-              <MobileProductFilter filters={attributes} />
+              <MobileProductFilter categories={mainCategories} filters={attributes} />
               <ProductListWrapper />
               <ProductListPagination />
             </div> 

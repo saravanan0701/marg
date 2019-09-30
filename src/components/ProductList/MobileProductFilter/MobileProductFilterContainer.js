@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { withApollo } from 'react-apollo';
+import { withRouter } from 'react-router';
 import actions from '../../../actions'
 import { MobileProductFilter as Component } from './MobileProductFilterComponent'
 
@@ -9,11 +10,13 @@ const mapStateToProps = ({
     filter: {
       attributes,
       editors,
+      categories,
     }
   }
 }, ownProps) => ({
   selectedAttributes: attributes,
   selectedEditors: editors,
+  selectedCategories: categories,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -26,10 +29,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     removeAllEditors: () => dispatch(actions.removeAllEditors()),
     addSortBy: (sortBy) => dispatch(actions.addSortBy(sortBy)),
     resetSortBy: () => dispatch(actions.resetSortBy()),
+    replaceCategoryFilters: (categories) => dispatch(actions.replaceCategoryFilters(categories)),
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(Component));
+)(withRouter(withApollo(Component)));
