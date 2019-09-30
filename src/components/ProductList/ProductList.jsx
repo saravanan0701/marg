@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { Query } from "react-apollo";
@@ -69,52 +69,62 @@ const LOAD_ALL_FILTERS = gql`
   }
 `
 
-const ProductList = () => (
-  <Wrapper className="mt-2 mb-2">
-    <div className="heading">All Publications</div>
-    <Query
-      query={LOAD_ALL_FILTERS}>
-      {
-        ({
-          loading,
-          error,
-          data: {
-            categories,
-            attributes,
-            editors,
-          }={}
-        }) => {
-          const productVariants = {};
-          if(loading) {
-            return <h1>Loading...</h1>;
+const ProductList = ({
+  resetAllFilters,
+}) => {
+
+  useEffect(() => () => {
+    // Hook to cleanup on unmount,
+    resetAllFilters();
+  })
+
+  return (
+    <Wrapper className="mt-2 mb-2">
+      <div className="heading">All Publications</div>
+      <Query
+        query={LOAD_ALL_FILTERS}>
+        {
+          ({
+            loading,
+            error,
+            data: {
+              categories,
+              attributes,
+              editors,
+            }={}
+          }) => {
+            const productVariants = {};
+            if(loading) {
+              return <h1>Loading...</h1>;
+            }
+            if(!categories || Object.keys(categories).length == 0) {
+              return <h1>No categories found</h1>;
+            }
+            categories = categories.edges.map(({node}) => node);
+            attributes = attributes.edges.map(({node}) => node);
+            editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
+            
+            // Filtering `mainCategories` here because DropDown component checks if loadData has changed,
+            // and if changed it set selectedOptions to []. Even after selecting an option its always unselected.
+            const mainCategories = categories.map(({id, name, slug}) => ({
+              id,
+              name,
+              slug,
+            })).filter(({slug}) => slug !== "articles")
+            return (
+              <div>
+                <CategoryFilter categories={categories} />
+                <ProductListFilter categories={mainCategories} filters={attributes} editors={editors}/>
+                <MobileProductFilter categories={mainCategories} filters={attributes} />
+                <ProductListWrapper />
+                <ProductListPagination />
+              </div> 
+            )
           }
-          if(!categories || Object.keys(categories).length == 0) {
-            return <h1>No categories found</h1>;
-          }
-          categories = categories.edges.map(({node}) => node);
-          attributes = attributes.edges.map(({node}) => node);
-          editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
-          
-          // Filtering `mainCategories` here because DropDown component checks if loadData has changed,
-          // and if changed it set selectedOptions to []. Even after selecting an option its always unselected.
-          const mainCategories = categories.map(({id, name, slug}) => ({
-            id,
-            name,
-            slug,
-          })).filter(({slug}) => slug !== "articles")
-          return (
-            <div>
-              <CategoryFilter categories={categories} />
-              <ProductListFilter categories={mainCategories} filters={attributes} editors={editors}/>
-              <MobileProductFilter categories={mainCategories} filters={attributes} />
-              <ProductListWrapper />
-              <ProductListPagination />
-            </div> 
-          )
         }
-      }
-    </Query>
-  </Wrapper>
-);
+      </Query>
+    </Wrapper>
+  );
+};
 
 export default ProductList;
