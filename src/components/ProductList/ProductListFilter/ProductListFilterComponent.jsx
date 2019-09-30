@@ -266,7 +266,7 @@ export const ProductListFilter = ({
         key={selectedCategories.length > 0? selectedCategories[0].slug: "product-type"}
         label={"Format"}
         loadData={categories}
-        defaultOption={selectedCategories.length > 0? selectedCategories[0]: null}
+        defaultOption={selectedCategories.length === 1? selectedCategories[0]: null}
         onOptionSelect={
           (option) => (
             replaceCategoryFilters([option])
