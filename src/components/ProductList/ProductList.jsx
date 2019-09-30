@@ -76,8 +76,9 @@ const ProductList = ({
   useEffect(() => () => {
     // Hook to cleanup on unmount,
     resetAllFilters();
-  })
+  }, [])
 
+  
   return (
     <Wrapper className="mt-2 mb-2">
       <div className="heading">All Publications</div>
