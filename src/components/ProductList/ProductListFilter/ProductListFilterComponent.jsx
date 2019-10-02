@@ -225,12 +225,10 @@ export const ProductListFilter = ({
 }) => {
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
-  let urlEditorId, urlCategoryId, foundCategoryValue;
+  let urlEditorId;
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
-    } else if(queryKeys[0] === "category-id") {
-      urlCategoryId = queryObj['category-id'];
     }
   }
   const applyFilter = (attribute) => {
@@ -240,20 +238,14 @@ export const ProductListFilter = ({
     }
   }
 
-  useEffect(() => {
-    if(foundCategoryValue) {
-      addFilter({
-        type: "category",
-        filter: foundCategoryValue
-      });
-    }
-  }, []);
-
-  if(urlCategoryId) {
-    const category = filters.find((filter) => filter.slug === "category")
-    if(category) {
-      foundCategoryValue = category.values.find((value) => (value.id === urlCategoryId));
-    }
+  let selectedCategoryValues = [];
+  if(selectedAttributes && selectedAttributes.length > 0) {
+    selectedCategoryValues = selectedAttributes.reduce((acc, {type, filter}) => {
+      if(type === "category") {
+        return acc.concat({...filter});
+      }
+      return acc;
+    }, []);
   }
 
   const articlesIsSelected = selectedCategories.filter(({slug}) => (slug === "articles")).length > 0? true: false;
@@ -301,7 +293,14 @@ export const ProductListFilter = ({
         return (
           <DropDown
             className="dropdown"
-            key={filterObj.slug}
+            key={
+              (() => {
+                if(filterObj.slug === "category") {
+                  return selectedCategoryValues.length > 0? selectedCategoryValues[0].id: filterObj.slug
+                }
+                return filterObj.slug;
+              })()
+            }
             label={filterObj.name}
             enableSearch={true}
             loadData={filterObj.values}
@@ -309,8 +308,9 @@ export const ProductListFilter = ({
             defaultOption={
               (() => {
                 if(filterObj.slug === "category") {
-                  return foundCategoryValue;
+                  return selectedCategoryValues;
                 }
+                return null;
               })()
             }
             onOptionSelect={

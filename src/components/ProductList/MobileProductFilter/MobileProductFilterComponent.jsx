@@ -252,33 +252,26 @@ export const MobileProductFilter = ({
 
   const [filterOpen, setFilterState] = useState(false);
   const classes = useStyles();
-  let urlEditorId, urlCategoryId, foundCategoryValue;
+  let urlEditorId, foundCategoryValue;
 
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
-    } else if(queryKeys[0] === "category-id") {
-      urlCategoryId = queryObj['category-id'];
     }
   }
 
-  useEffect(() => {
-    if(foundCategoryValue) {
-      addFilter({
-        type: "category",
-        filter: foundCategoryValue
-      });
-    }
-  }, []);
-
-  if(urlCategoryId) {
-    const category = filters.find((filter) => filter.slug === "category")
-    if(category) {
-      foundCategoryValue = category.values.find((value) => (value.id === urlCategoryId));
-    }
+  let selectedCategoryValues = [];
+  if(selectedAttributes && selectedAttributes.length > 0) {
+    selectedCategoryValues = selectedAttributes.reduce((acc, {type, filter}) => {
+      if(type === "category") {
+        return acc.concat({...filter});
+      }
+      return acc;
+    }, []);
   }
+
 
   const applyFilter = (attribute) => {
     const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
@@ -353,27 +346,24 @@ export const MobileProductFilter = ({
                 <DropDown
                   key={id}
                   className="dropdown"
-                  key={filterObj.slug}
+                  key={
+                    (() => {
+                      if(filterObj.slug === "category") {
+                        return selectedCategoryValues.length > 0? selectedCategoryValues[0].id: filterObj.slug
+                      }
+                      return filterObj.slug;
+                    })()
+                  }
                   label={filterObj.name}
                   enableSearch={true}
                   loadData={filterObj.values}
                   multiSelect={true}
                   defaultOption={
                     (() => {
-                      if(selectedAttributes && selectedAttributes.length > 0) {
-                        const selectedFilters = selectedAttributes.reduce((acc, {type, filter}) => {
-                          if(type === filterObj.slug) {
-                            return acc.concat({...filter});
-                          }
-                          return acc;
-                        }, []);
-                        if(selectedFilters.length > 0) {
-                          return selectedFilters;
-                        }
-                      }
                       if(filterObj.slug === "category") {
-                        return foundCategoryValue;
+                        return selectedCategoryValues;
                       }
+                      return null;
                     })()
                   }
                   onOptionSelect={

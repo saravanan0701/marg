@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
+import { withRouter } from "react-router";
 
 import ProductListFilter from './ProductListFilter';
 import MobileProductFilter from './MobileProductFilter';
@@ -10,6 +11,7 @@ import ProductListWrapper from './ProductListWrapper';
 import CategoryFilter from './CategoryFilter';
 import ProductListPagination from './ProductListPagination';
 import { FlatButton } from './../commons/';
+import { getParamsObjFromString } from './../../utils/';
 
 const Wrapper = styled.div`
   display: flex;
@@ -71,6 +73,10 @@ const LOAD_ALL_FILTERS = gql`
 
 const ProductList = ({
   resetAllFilters,
+  addFilter,
+  location: {
+    search,
+  },
 }) => {
 
   useEffect(() => () => {
@@ -101,10 +107,33 @@ const ProductList = ({
             if(!categories || Object.keys(categories).length == 0) {
               return <h1>No categories found</h1>;
             }
+
+            const queryObj = getParamsObjFromString(search);
+            const queryKeys = Object.keys(queryObj);
+            const urlAttrs = [];
+            if(queryKeys.length > 0) {
+              if(queryKeys[0] === "category-id") {
+                urlAttrs.push({
+                  type: "category",
+                  value: queryObj['category-id'],
+                });
+              }
+            }
+
             categories = categories.edges.map(({node}) => node);
             attributes = attributes.edges.map(({node}) => node);
             editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
             
+            urlAttrs.forEach(({type, value}) => {
+              const attr = attributes.find((filter) => filter.slug === type);
+              if(attr) {
+                addFilter({
+                  type: type,
+                  filter: attr.values.find(({id}) => (id === value))
+                });
+              }
+            })
+
             // Filtering `mainCategories` here because DropDown component checks if loadData has changed,
             // and if changed it set selectedOptions to []. Even after selecting an option its always unselected.
             const mainCategories = categories.map(({id, name, slug}) => ({
@@ -128,4 +157,4 @@ const ProductList = ({
   );
 };
 
-export default ProductList;
+export default withRouter(ProductList);
