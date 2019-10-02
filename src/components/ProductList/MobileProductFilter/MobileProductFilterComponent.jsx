@@ -360,6 +360,17 @@ export const MobileProductFilter = ({
                   multiSelect={true}
                   defaultOption={
                     (() => {
+                      if(selectedAttributes && selectedAttributes.length > 0) {
+                        const selectedFilters = selectedAttributes.reduce((acc, {type, filter}) => {
+                          if(type === filterObj.slug) {
+                            return acc.concat({...filter});
+                          }
+                          return acc;
+                        }, []);
+                        if(selectedFilters.length > 0) {
+                          return selectedFilters;
+                        }
+                      }
                       if(filterObj.slug === "category") {
                         return foundCategoryValue;
                       }
