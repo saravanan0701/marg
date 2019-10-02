@@ -114,11 +114,10 @@ class DropDown extends Component {
       options: [],
       error: false,
       selectedOptions: (
-        props.defaultOption && props.defaultOption.length > 0 ?
+        props.defaultOption && !isNaN(props.defaultOption.length) ?
           props.defaultOption:
             props.defaultOption? [props.defaultOption]: []
       ),
-
     }
     this.labelClicked = this.labelClicked.bind(this);
     this.labelBlured = this.labelBlured.bind(this);
