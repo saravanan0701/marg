@@ -242,10 +242,16 @@ export const ProductListFilter = ({
     }
   }
 
-  let selectedCategoryValues = [];
+  let selectedCategoryValues = [], selectedYearValues = [];
   if(selectedAttributes && selectedAttributes.length > 0) {
     selectedCategoryValues = selectedAttributes.reduce((acc, {type, filter}) => {
       if(type === "category") {
+        return acc.concat({...filter});
+      }
+      return acc;
+    }, []);
+    selectedYearValues = selectedAttributes.reduce((acc, {type, filter}) => {
+      if(type === "year") {
         return acc.concat({...filter});
       }
       return acc;
@@ -313,6 +319,8 @@ export const ProductListFilter = ({
               (() => {
                 if(filterObj.slug === "category") {
                   return selectedCategoryValues;
+                } else if(filterObj.slug === "year") {
+                  return selectedYearValues;
                 }
                 return null;
               })()
