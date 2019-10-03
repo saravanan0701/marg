@@ -76,6 +76,7 @@ const ProductList = ({
   addFilter,
   addEditor,
   selectedEditors,
+  selectedAttributes,
   location: {
     search,
   },
@@ -141,8 +142,10 @@ const ProductList = ({
             
             urlAttrs.forEach(({type, value}) => {
               const attr = attributes.find((filter) => filter.slug === type);
-              // const editor = editors.find((filter) => filter.slug === type);
               if(attr) {
+                if(selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
+                  return;
+                }
                 addFilter({
                   type: type,
                   filter: attr.values.find(({id}) => (id === value))

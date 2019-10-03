@@ -7,10 +7,12 @@ const mapStateToProps = ({
   productList: {
     filter: {
       editors,
+      attributes,
     }
   }
 }, ownProps) => ({
   selectedEditors: editors,
+  selectedAttributes: attributes,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
