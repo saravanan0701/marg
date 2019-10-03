@@ -224,6 +224,8 @@ export const ProductListFilter = ({
   categories,
   replaceCategoryFilters,
   replaceEditor,
+  canDehyderateUrl,
+  setUrlDeHyderation,
   location: {
     search
   }
@@ -251,7 +253,7 @@ export const ProductListFilter = ({
   urlAttrs.forEach(({type, value}) => {
     const attr = filters.find((filter) => filter.slug === type);
     if(attr) {
-      if(selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
+      if(canDehyderateUrl || selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
         return;
       }
       addFilter({
@@ -367,16 +369,20 @@ export const ProductListFilter = ({
               )
             }
             onOptionClose={
-              (option) => (
+              (option) => {
                 removeFilter(option.id)
+                if(filterObj.slug === "category" && selectedAttributes.find(({filter: {id: filterId}}) => filterId === option.id)) {
+                  setUrlDeHyderation(true);
+                }
                 // filter object which contains details is not required
                 // because we remove based on attribute.filter.id and not the filter type.
-              )
+              }
             }
             onUnselectAll={
-              () => (
+              () => {
                 removeAllAttributeFiltersBySlug(filterObj.slug)
-              )
+                setUrlDeHyderation(true);
+              }
             }
           >
           </DropDown>
