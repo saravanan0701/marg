@@ -73,7 +73,12 @@ const replaceEditor = (id, editor) => ({
   type: 'REPLACE_EDITOR',
   id,
   editor,
-})
+});
+
+const setUrlDeHyderation = (canDehyderate) => ({
+  type: "SET_URL_DEHYDERATION",
+  canDehyderate,
+});
 
 export default {
   loadProductsError,
@@ -91,4 +96,5 @@ export default {
   removeAllEditors,
   resetAllFilters,
   replaceEditor,
+  setUrlDeHyderation,
 }

@@ -7,6 +7,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
     attributes: [],
     editors: [],
     categories: [],
+    canDehyderateUrl: false,
   },
   sortBy: {
     key: "DATE",
@@ -179,6 +180,16 @@ export const ProductListReducers = (
           })
         }
       }
+    
+    case 'SET_URL_DEHYDERATION':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          canDehyderateUrl: true,
+        }
+      }
+
     default:
       return state
   }

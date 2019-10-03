@@ -11,9 +11,11 @@ const mapStateToProps = ({
       attributes,
       editors,
       categories,
+      canDehyderateUrl,
     }
   }
 }, ownProps) => ({
+  canDehyderateUrl,
   selectedAttributes: attributes,
   selectedEditors: editors,
   selectedCategories: categories,
@@ -31,6 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addSortBy: (sortBy) => dispatch(actions.addSortBy(sortBy)),
     resetSortBy: () => dispatch(actions.resetSortBy()),
     replaceCategoryFilters: (categories) => dispatch(actions.replaceCategoryFilters(categories)),
+    setUrlDeHyderation: (canDehyderateUrl) => dispatch(actions.setUrlDeHyderation(canDehyderateUrl)),
   }
 }
 
