@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import { withRouter } from "react-router";
 
-import ProductListFilter from './ProductListFilter';
-import MobileProductFilter from './MobileProductFilter';
+import { DesktopListFilterComponent } from './ProductListFilter/DesktopListFilterComponent.jsx';
+import { MobileListFilterComponent } from './ProductListFilter/MobileListFilterComponent.jsx';
 import ProductListWrapper from './ProductListWrapper';
 import CategoryFilter from './CategoryFilter';
 import ProductListPagination from './ProductListPagination';
@@ -74,10 +74,20 @@ const LOAD_ALL_FILTERS = gql`
 const ProductList = ({
   resetAllFilters,
   addFilter,
+  addEditor,
+  selectedEditors,
   location: {
     search,
   },
 }) => {
+
+
+  
+  const [ isMobile, setIsMobile ] = useState(window.innerWidth <= 1000);
+
+  useState(() => {
+    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 1000));
+  }, [])
 
   useEffect(() => () => {
     // Hook to cleanup on unmount,
@@ -117,6 +127,11 @@ const ProductList = ({
                   type: "category",
                   value: queryObj['category-id'],
                 });
+              } else if(queryKeys[0] === "editor-id") {
+                urlAttrs.push({
+                  type: "editor",
+                  value: queryObj['editor-id'],
+                });
               }
             }
 
@@ -126,10 +141,15 @@ const ProductList = ({
             
             urlAttrs.forEach(({type, value}) => {
               const attr = attributes.find((filter) => filter.slug === type);
+              // const editor = editors.find((filter) => filter.slug === type);
               if(attr) {
                 addFilter({
                   type: type,
                   filter: attr.values.find(({id}) => (id === value))
+                });
+              } else if(type === "editor" && !selectedEditors.find(({id}) => id === value)) {
+                addEditor({
+                  id: value,
                 });
               }
             })
@@ -144,8 +164,12 @@ const ProductList = ({
             return (
               <div>
                 <CategoryFilter categories={categories} />
-                <ProductListFilter categories={mainCategories} filters={attributes} editors={editors}/>
-                <MobileProductFilter categories={mainCategories} filters={attributes} />
+                {
+                  isMobile?
+                    <MobileListFilterComponent categories={mainCategories} filters={attributes} editors={editors} />
+                    :
+                    <DesktopListFilterComponent categories={mainCategories} filters={attributes} editors={editors}/>
+                }
                 <ProductListWrapper />
                 <ProductListPagination />
               </div> 

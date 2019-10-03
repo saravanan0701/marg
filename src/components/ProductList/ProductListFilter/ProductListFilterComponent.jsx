@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { Collapse } from 'reactstrap';
 import { withApollo } from 'react-apollo';
 import { DropDown } from './../../commons/';
 import { getParamsObjFromString } from './../../../utils/';
@@ -37,9 +35,6 @@ const SORT_BY = [
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 30px 20px;
-  background-color: ${props => props && props.theme && props.theme.sectionBackground};
-  justify-content: space-between;
 
   & > div.header {
     font-size: ${props => props.theme['$font-size-xxs']};
@@ -48,12 +43,6 @@ const Wrapper = styled.div`
     line-height: 23px;
     width: 12%;
     max-width: 12%;
-  }
-
-  & > div.dropdown {
-    margin-left: 2%;
-    width: 20%;
-    max-width: 20%;
   }
 `
 
@@ -98,6 +87,7 @@ const EditorSearch = withApollo(
     removeAllEditors,
     className,
     urlEditorId,
+    replaceEditor,
     // This editor-id is fetched from the URL.
     // We fetch editor details and set it as selected.
   }) => {
@@ -143,14 +133,20 @@ const EditorSearch = withApollo(
       }).then(({data:{editors: { edges }={} }={} }, errors) => {
         if(edges.length > 0 && (!errors || errors.length === 0)) {
           setUrlSelectedEditors(edges[0].node);
-          addEditor(edges[0].node);
+          replaceEditor(urlSelectedEditor, edges[0].node);
         }
         setShowEditorDropDown(true);
       })
     )
-
     useEffect(() => {
-      if(urlEditorId) {
+      const checkIfEditorLoadRequired = (editorId) => {
+        const selectedEditor = selectedEditors.find(({id}) => urlEditorId === id);
+        if(selectedEditor && selectedEditor.name) {
+          return false
+        }
+        return true;
+      }
+      if(urlEditorId && checkIfEditorLoadRequired(urlEditorId)) {
         setShowEditorDropDown(false);
         loadEditor();
       } else {
@@ -163,12 +159,19 @@ const EditorSearch = withApollo(
       return <div>Loading..</div>;
     }
 
+    const filteredSelectedEditors = selectedEditors.reduce((acc, editor) => {
+      if(editor.name) {
+        return acc.concat(editor);
+      }
+      return acc;
+    }, [])
+
     return <DropDown
       className={className}
       label={"Editors"}
       enableSearch={true}
       loadData={editors}
-      defaultOption={urlSelectedEditor}
+      defaultOption={filteredSelectedEditors}
       searchData={searchEditors}
       multiSelect={true}
       onOptionSelect={
@@ -219,6 +222,7 @@ export const ProductListFilter = ({
   selectedCategories,
   categories,
   replaceCategoryFilters,
+  replaceEditor,
   location: {
     search
   }
@@ -249,8 +253,7 @@ export const ProductListFilter = ({
   }
 
   const articlesIsSelected = selectedCategories.filter(({slug}) => (slug === "articles")).length > 0? true: false;
-  return <Wrapper className="d-none d-lg-flex">
-    <div className="header">Filter By:</div>
+  return <Wrapper className={className}>
     {
       !articlesIsSelected &&
       <DropDown
@@ -279,13 +282,14 @@ export const ProductListFilter = ({
     }
     <EditorSearch
       className="dropdown"
-      key={"editors"}
+      key={selectedEditors.length > 0? selectedEditors[selectedEditors.length - 1].id: "editors"}
       addEditor={addEditor}
       removeEditor={removeEditor}
       removeAllEditors={removeAllEditors}
       editors={editors}
       selectedEditors={selectedEditors}
       urlEditorId={urlEditorId}
+      replaceEditor={replaceEditor}
     >
     </EditorSearch>
     {

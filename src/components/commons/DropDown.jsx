@@ -291,7 +291,32 @@ class DropDown extends Component {
           switchMap(searchData),
         ).subscribe((options) => {
           if(options.find((option) => defaultOption && option.id !== defaultOption.id)) {
-            options = options.concat([this.props.defaultOption]);  
+            if(isNaN(defaultOption.length)) {
+              const foundOption = options.find(({id, slug}) => {
+                if((id && id === defaultOption.id)|| (slug && slug === defaultOption.slug) ) {
+                    return true;
+                }
+                return false;
+              });
+              if(foundOption){
+                options = options.concat(defaultOption);
+              }
+            } else {
+              console.log("DEFS:", defaultOption)
+              defaultOption.forEach((option) => {
+                const newOption = options.find(({id, slug}) => {
+                  if((id && id === option.id)|| (slug && slug === option.slug) ) {
+                    return true;
+                  }
+                  return false;
+                });
+                if(!newOption) {
+                  options = options.concat(option);
+                }
+              })
+              console.log("OPts", options);
+            }
+            
           }
           this.setState({ options })
         });
@@ -418,6 +443,7 @@ class DropDown extends Component {
                 position: label && !showSelectedOption? "relative": "absolute",
                 top: label && !showSelectedOption? "unset": "15px",
               }}>
+              
               {
                 selectedOptions && selectedOptions.map && selectedOptions.map((option) => option.name).join(', ')
               }
