@@ -69,6 +69,12 @@ const resetAllFilters = () => ({
   type: 'RESET_ALL_FILTERS',
 })
 
+const replaceEditor = (id, editor) => ({
+  type: 'REPLACE_EDITOR',
+  id,
+  editor,
+})
+
 export default {
   loadProductsError,
   replaceProducts,
@@ -84,4 +90,5 @@ export default {
   removeEditorFilter,
   removeAllEditors,
   resetAllFilters,
+  replaceEditor,
 }

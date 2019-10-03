@@ -164,6 +164,21 @@ export const ProductListReducers = (
       return {
         ...INITIAL_PRODUCT_LIST_STATE,
       };
+    
+    case 'REPLACE_EDITOR':
+      return {
+        ...state,
+        filter: {
+          ...state.filter,
+          editors: state.filter.editors.map((editor) => {
+            const {id} = editor;
+            if(id === action.editor.id) {
+              return action.editor;
+            }
+            return editor;
+          })
+        }
+      }
     default:
       return state
   }
