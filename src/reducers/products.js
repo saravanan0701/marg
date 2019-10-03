@@ -7,7 +7,7 @@ const INITIAL_PRODUCT_LIST_STATE = {
     attributes: [],
     editors: [],
     categories: [],
-    canDehyderateUrl: false,
+    canDehyderateUrl: true,
   },
   sortBy: {
     key: "DATE",
@@ -186,10 +186,9 @@ export const ProductListReducers = (
         ...state,
         filter: {
           ...state.filter,
-          canDehyderateUrl: true,
+          canDehyderateUrl: action.canDehyderateUrl,
         }
       }
-
     default:
       return state
   }
