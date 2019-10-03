@@ -273,7 +273,22 @@ class DropDown extends Component {
         error: false,
         selectedOptions: [],
       })
+      if(this.props.defaultOption != prevProps.selectedOptions) {
+        let selectedOptions;
+        if(!this.props.defaultOption) {
+          selectedOptions = []
+        }
+        if(this.props.defaultOption && isNaN(this.props.defaultOption.length)) {
+          selectedOptions = [this.props.defaultOption];
+        } else if(this.props.defaultOption && !isNaN(this.props.defaultOption.length)) {
+          selectedOptions = this.props.defaultOption;
+        }
+        this.setState({
+          selectedOptions 
+        })
+      }
     }
+    
   }
 
   componentDidMount() {
@@ -298,7 +313,7 @@ class DropDown extends Component {
                 }
                 return false;
               });
-              if(foundOption){
+              if(!foundOption){
                 options = options.concat(defaultOption);
               }
             } else {
