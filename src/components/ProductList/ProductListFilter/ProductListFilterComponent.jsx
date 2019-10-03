@@ -138,6 +138,7 @@ const EditorSearch = withApollo(
         setShowEditorDropDown(true);
       })
     )
+
     useEffect(() => {
       const checkIfEditorAlreadyLoaded = (editorId) => {
         const selectedEditor = selectedEditors.find(({id}) => urlEditorId === id);
@@ -192,13 +193,17 @@ const EditorSearch = withApollo(
             removeEditor({
               id: option.id,
             })
+            if(selectedEditors.find(({id: editorId}) => editorId === option.id)) {
+              setUrlDeHyderation(true);
+            }
           }
         }
       }
       onUnselectAll={
-        () => (
+        () => {
           removeAllEditors()
-        )
+          setUrlDeHyderation(true)
+        }
       }
     >
     </DropDown>
@@ -301,7 +306,6 @@ export const ProductListFilter = ({
       selectedEditors={selectedEditors}
       urlEditorId={urlEditorId}
       replaceEditor={replaceEditor}
-      canDehyderateUrl={true}
       setUrlDeHyderation={setUrlDeHyderation}
     >
     </EditorSearch>

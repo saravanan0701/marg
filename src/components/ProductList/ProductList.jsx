@@ -144,7 +144,7 @@ const ProductList = ({
             urlAttrs.forEach(({type, value}) => {
               const attr = attributes.find((filter) => filter.slug === type);
               if(attr) {
-                if(canDehyderateUrl || selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
+                if(!canDehyderateUrl || selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
                   return
                 }
                 addFilter({
@@ -152,6 +152,9 @@ const ProductList = ({
                   filter: attr.values.find(({id}) => (id === value))
                 });
               } else if(type === "editor" && !selectedEditors.find(({id}) => id === value)) {
+                if(!canDehyderateUrl) {
+                  return;
+                }
                 addEditor({
                   id: value,
                 });
