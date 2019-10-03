@@ -306,7 +306,9 @@ export const ProductListFilter = ({
             key={
               (() => {
                 if(filterObj.slug === "category") {
-                  return selectedCategoryValues.length > 0? selectedCategoryValues[0].id: filterObj.slug
+                  return selectedCategoryValues.length > 0? selectedCategoryValues[0].id: filterObj.slug;
+                } else if(filterObj.slug === "year") {
+                  return selectedYearValues.length > 0? selectedYearValues[0].id: filterObj.slug;
                 }
                 return filterObj.slug;
               })()
