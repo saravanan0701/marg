@@ -4,7 +4,17 @@ import ProductList from './ProductList'
 
 
 const mapStateToProps = ({
+  productList: {	
+    filter: {	
+      editors,	
+      attributes,
+      canDehyderateUrl,
+    }	
+  }
 }, ownProps) => ({
+  canDehyderateUrl,
+  selectedEditors: editors,	
+  selectedAttributes: attributes,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

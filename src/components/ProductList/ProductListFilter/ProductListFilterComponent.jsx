@@ -88,11 +88,12 @@ const EditorSearch = withApollo(
     className,
     urlEditorId,
     replaceEditor,
+    canDehyderateUrl,
+    setUrlDeHyderation,
     // This editor-id is fetched from the URL.
     // We fetch editor details and set it as selected.
   }) => {
     const [showEditorDropDown, setShowEditorDropDown] = useState(false);
-    const [urlSelectedEditor, setUrlSelectedEditors] = useState();
     const searchEditors = (name) => client.query({
       query: EDITORS_QUERY,
       variables: {
@@ -132,8 +133,7 @@ const EditorSearch = withApollo(
         }
       }).then(({data:{editors: { edges }={} }={} }, errors) => {
         if(edges.length > 0 && (!errors || errors.length === 0)) {
-          setUrlSelectedEditors(edges[0].node);
-          addEditor(edges[0].node);
+          replaceEditor(urlEditorId, edges[0].node);
         }
         setShowEditorDropDown(true);
       })
@@ -240,30 +240,6 @@ export const ProductListFilter = ({
   }
 
 
-  const urlAttrs = [];
-  if (queryKeys.length > 0) {
-    if (queryKeys[0] === "category-id") {
-      urlAttrs.push({
-        type: "category",
-        value: queryObj['category-id'],
-      });
-    }
-  }
-
-  urlAttrs.forEach(({type, value}) => {
-    const attr = filters.find((filter) => filter.slug === type);
-    if(attr) {
-      if(canDehyderateUrl || selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
-        return;
-      }
-      addFilter({
-        type: type,
-        filter: attr.values.find(({id}) => (id === value))
-      });
-    }
-  })
-
-
   const applyFilter = (attribute) => {
     const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
     if(!filterFound) {
@@ -325,6 +301,8 @@ export const ProductListFilter = ({
       selectedEditors={selectedEditors}
       urlEditorId={urlEditorId}
       replaceEditor={replaceEditor}
+      canDehyderateUrl={true}
+      setUrlDeHyderation={setUrlDeHyderation}
     >
     </EditorSearch>
     {

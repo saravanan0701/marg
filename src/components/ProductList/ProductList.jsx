@@ -73,7 +73,17 @@ const LOAD_ALL_FILTERS = gql`
 
 const ProductList = ({
   resetAllFilters,
+  addFilter,
+  addEditor,
+  canDehyderateUrl,
+  selectedEditors,
+  selectedAttributes,
+  location: {
+    search,
+  },
 }) => {
+
+
   
   const [ isMobile, setIsMobile ] = useState(window.innerWidth <= 1000);
 
@@ -110,11 +120,43 @@ const ProductList = ({
               return <h1>No categories found</h1>;
             }
 
-            
+            const queryObj = getParamsObjFromString(search);
+            const queryKeys = Object.keys(queryObj);
+            const urlAttrs = [];
+            if(queryKeys.length > 0) {
+              if(queryKeys[0] === "category-id") {
+                urlAttrs.push({
+                  type: "category",
+                  value: queryObj['category-id'],
+                });
+              } else if(queryKeys[0] === "editor-id") {
+                urlAttrs.push({
+                  type: "editor",
+                  value: queryObj['editor-id'],
+                });
+              }
+            }
 
             categories = categories.edges.map(({node}) => node);
             attributes = attributes.edges.map(({node}) => node);
             editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
+            
+            urlAttrs.forEach(({type, value}) => {
+              const attr = attributes.find((filter) => filter.slug === type);
+              if(attr) {
+                if(canDehyderateUrl || selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
+                  return
+                }
+                addFilter({
+                  type: type,
+                  filter: attr.values.find(({id}) => (id === value))
+                });
+              } else if(type === "editor" && !selectedEditors.find(({id}) => id === value)) {
+                addEditor({
+                  id: value,
+                });
+              }
+            })
 
             // Filtering `mainCategories` here because DropDown component checks if loadData has changed,
             // and if changed it set selectedOptions to []. Even after selecting an option its always unselected.
