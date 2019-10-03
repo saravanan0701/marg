@@ -133,25 +133,26 @@ const EditorSearch = withApollo(
       }).then(({data:{editors: { edges }={} }={} }, errors) => {
         if(edges.length > 0 && (!errors || errors.length === 0)) {
           setUrlSelectedEditors(edges[0].node);
-          replaceEditor(urlSelectedEditor, edges[0].node);
+          addEditor(edges[0].node);
         }
         setShowEditorDropDown(true);
       })
     )
     useEffect(() => {
-      const checkIfEditorLoadRequired = (editorId) => {
+      const checkIfEditorAlreadyLoaded = (editorId) => {
         const selectedEditor = selectedEditors.find(({id}) => urlEditorId === id);
         if(selectedEditor && selectedEditor.name) {
           return false
         }
         return true;
       }
-      if(urlEditorId && checkIfEditorLoadRequired(urlEditorId)) {
+      if(urlEditorId && checkIfEditorAlreadyLoaded(urlEditorId)) {
         setShowEditorDropDown(false);
         loadEditor();
       } else {
         setShowEditorDropDown(true);
       }
+      
     }, []);
 
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({id: selectedId}) => selectedId === id).length > 0
@@ -235,6 +236,32 @@ export const ProductListFilter = ({
       urlEditorId = queryObj['editor-id'];
     }
   }
+
+
+  const urlAttrs = [];
+  if (queryKeys.length > 0) {
+    if (queryKeys[0] === "category-id") {
+      urlAttrs.push({
+        type: "category",
+        value: queryObj['category-id'],
+      });
+    }
+  }
+
+  urlAttrs.forEach(({type, value}) => {
+    const attr = filters.find((filter) => filter.slug === type);
+    if(attr) {
+      if(selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
+        return;
+      }
+      addFilter({
+        type: type,
+        filter: attr.values.find(({id}) => (id === value))
+      });
+    }
+  })
+
+
   const applyFilter = (attribute) => {
     const filterFound = selectedAttributes.find((it) => it.filter.id === attribute.filter.id);
     if(!filterFound) {
