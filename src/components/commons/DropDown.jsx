@@ -302,7 +302,6 @@ class DropDown extends Component {
                 options = options.concat(defaultOption);
               }
             } else {
-              console.log("DEFS:", defaultOption)
               defaultOption.forEach((option) => {
                 const newOption = options.find(({id, slug}) => {
                   if((id && id === option.id)|| (slug && slug === option.slug) ) {
@@ -314,7 +313,6 @@ class DropDown extends Component {
                   options = options.concat(option);
                 }
               })
-              console.log("OPts", options);
             }
             
           }
