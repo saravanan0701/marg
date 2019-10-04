@@ -91,163 +91,163 @@ div {
 
 class SignupForm extends Component {
 
-    loginAttempt(values) {
-        const {
-            client,
-            history: {
-                location: {
-                    search,
-                },
-                push,
+  loginAttempt(values) {
+    const {
+      client,
+      history: {
+        location: {
+          search,
+        },
+        push,
+      }
+    } = this.props;
+    return client.mutate({
+      mutation: SIGNUP,
+      variables: {
+        user: {
+          email: values.email,
+          password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName
+        },
+      },
+    }).then(({ data, errors }) => {
+      if (!errors) {
+        push("/login");
+      }
+      ;
+    });
+  }
+
+  render() {
+
+    const {
+      history: {
+        push,
+      },
+    } = this.props;
+
+    return (
+      <Wrapper>
+        <Formik
+          initialValues={{ email: '', password: '' }}
+          validate={values => {
+            const errors = {};
+            if (!values.email) {
+              errors.email = 'Required';
+            } else if (
+              !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+            ) {
+              errors.email = 'Invalid email address';
             }
-        } = this.props;
-        return client.mutate({
-            mutation: SIGNUP,
-            variables: {
-                user: {
-                    email: values.email,
-                    password: values.password,
-                    firstName: values.firstName,
-                    lastName: values.lastName
-                },
-            },
-        }).then(({data, errors}) => {
-            if (!errors) {
-                push("/login");
-            }
-            ;
-        });
-    }
-
-    render() {
-
-        const {
-            history: {
-                push,
-            },
-        } = this.props;
-
-        return (
-            <Wrapper>
-                <Formik
-                    initialValues={{email: '', password: ''}}
-                    validate={values => {
-                        const errors = {};
-                        if (!values.email) {
-                            errors.email = 'Required';
-                        } else if (
-                            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                        ) {
-                            errors.email = 'Invalid email address';
+            return errors;
+          }}
+          onSubmit={
+            (values, { setSubmitting }) => (
+              this
+                .loginAttempt(values)
+                .then(() => setSubmitting(false))
+            )
+          }
+        >
+          {
+            ({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) =>
+              (
+                <div className="container my-5">
+                  <h1 className="heading">Register with Marg</h1>
+                  <div className="row">
+                    <div className="col-12 col-md-8 offset-lg-1 col-lg-5">
+                      <form onSubmit={handleSubmit}>
+                        <div className="label">First Name</div>
+                        <div className="input-container">
+                          <input
+                            type="firstName"
+                            name="firstName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.firstName}
+                          />
+                          <div
+                            className="input-errors">{errors.firstName && touched.firstName && errors.firstName}</div>
+                        </div>
+                        <div className="label">Last Name</div>
+                        <div className="input-container">
+                          <input
+                            type="lastName"
+                            name="lastName"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.lastName}
+                          />
+                          <div
+                            className="input-errors">{errors.lastName && touched.lastName && errors.lastName}</div>
+                        </div>
+                        <div className="label">Your Email</div>
+                        <div className="input-container">
+                          <input
+                            type="email"
+                            name="email"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                          />
+                          <div
+                            className="input-errors">{errors.email && touched.email && errors.email}</div>
+                        </div>
+                        <div className="label">Create Password</div>
+                        <div className="input-container">
+                          <PasswordInput
+                            name="password"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.password}
+                          />
+                          <div
+                            className="input-errors">{errors.password && touched.password && errors.password}</div>
+                        </div>
+                        <div className="login-button">
+                          <RaisedButton type="submit" colortype="primary"
+                            disabled={isSubmitting}>
+                            {isSubmitting ? 'Registering...' : 'Register'}
+                          </RaisedButton>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="offset-lg-1 col-12 lower-comments signup">
+                      <div>Already have an account?</div>
+                      <FlatButton
+                        className="button"
+                        onClick={
+                          () => {
+                            return push(`/login`)
+                          }
                         }
-                        return errors;
-                    }}
-                    onSubmit={
-                        (values, {setSubmitting}) => (
-                            this
-                                .loginAttempt(values)
-                                .then(() => setSubmitting(false))
-                        )
-                    }
-                >
-                    {
-                        ({
-                             values,
-                             errors,
-                             touched,
-                             handleChange,
-                             handleBlur,
-                             handleSubmit,
-                             isSubmitting,
-                         }) =>
-                            (
-                                <div className="container my-5">
-                                  <h1 className="heading">Register with Marg</h1>
-                                    <div className="row">
-                                        <div className="col-12 col-md-8 offset-lg-1 col-lg-5">
-                                            <form onSubmit={handleSubmit}>
-                                                <div className="label">First Name</div>
-                                                <div className="input-container">
-                                                    <input
-                                                        type="firstName"
-                                                        name="firstName"
-                                                        onChange={handleChange}
-                                                        onBlur={handleBlur}
-                                                        value={values.firstName}
-                                                    />
-                                                    <div
-                                                        className="input-errors">{errors.firstName && touched.firstName && errors.firstName}</div>
-                                                </div>
-                                                <div className="label">Last Name</div>
-                                                <div className="input-container">
-                                                    <input
-                                                        type="lastName"
-                                                        name="lastName"
-                                                        onChange={handleChange}
-                                                        onBlur={handleBlur}
-                                                        value={values.lastName}
-                                                    />
-                                                    <div
-                                                        className="input-errors">{errors.lastName && touched.lastName && errors.lastName}</div>
-                                                </div>
-                                                <div className="label">Your Email</div>
-                                                <div className="input-container">
-                                                    <input
-                                                        type="email"
-                                                        name="email"
-                                                        onChange={handleChange}
-                                                        onBlur={handleBlur}
-                                                        value={values.email}
-                                                    />
-                                                    <div
-                                                        className="input-errors">{errors.email && touched.email && errors.email}</div>
-                                                </div>
-                                                <div className="label">Create Password</div>
-                                                <div className="input-container">
-                                                    <PasswordInput
-                                                        name="password"
-                                                        onChange={handleChange}
-                                                        onBlur={handleBlur}
-                                                        value={values.password}
-                                                    />
-                                                    <div
-                                                        className="input-errors">{errors.password && touched.password && errors.password}</div>
-                                                </div>
-                                                <div className="login-button">
-                                                    <RaisedButton type="submit" colortype="primary"
-                                                                  disabled={isSubmitting}>
-                                                        {isSubmitting ? 'Registering...' : 'Register'}
-                                                    </RaisedButton>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="offset-lg-1 col-12 lower-comments signup">
-                                            <div>Already have an account?</div>
-                                            <FlatButton
-                                                className="button"
-                                                onClick={
-                                                    () => {
-                                                        return push(`/login`)
-                                                    }
-                                                }
-                                            >
-                                                Sign in
-                                            </FlatButton>
-                                        </div>
-                                        <div className="offset-lg-1 col-12 lower-comments institution">
-                                            <div>Looking to register your institution?</div>
-                                            {/*<FlatButton className="button">View institutional plans</FlatButton>*/}
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                    }
-                </Formik>
-            </Wrapper>
-        )
-    }
+                      >
+                        Sign in
+                      </FlatButton>
+                    </div>
+                    <div className="offset-lg-1 col-12 lower-comments institution">
+                      <div>Looking to register your institution?</div>
+                      {/*<FlatButton className="button">View institutional plans</FlatButton>*/}
+                    </div>
+                  </div>
+                </div>
+              )
+          }
+        </Formik>
+      </Wrapper>
+    )
+  }
 }
 
 export default withApollo(SignupForm);
