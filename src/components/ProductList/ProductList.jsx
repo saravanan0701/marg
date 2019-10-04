@@ -60,14 +60,6 @@ const LOAD_ALL_FILTERS = gql`
         }
       }
     }
-    editors(first:10) {
-      edges {
-        node {
-          id
-          name
-        }
-      }
-    }
   }
 `
 
@@ -109,7 +101,6 @@ const ProductList = ({
             data: {
               categories,
               attributes,
-              editors,
             }={}
           }) => {
             const productVariants = {};
@@ -139,7 +130,6 @@ const ProductList = ({
 
             categories = categories.edges.map(({node}) => node);
             attributes = attributes.edges.map(({node}) => node);
-            editors = editors.edges.map(({ node: {id, name } }) => ({id, name}))
             
             urlAttrs.forEach(({type, value}) => {
               const attr = attributes.find((filter) => filter.slug === type);
@@ -173,9 +163,9 @@ const ProductList = ({
                 <CategoryFilter categories={categories} />
                 {
                   isMobile?
-                    <MobileListFilterComponent categories={mainCategories} filters={attributes} editors={editors} />
+                    <MobileListFilterComponent categories={mainCategories} filters={attributes} />
                     :
-                    <DesktopListFilterComponent categories={mainCategories} filters={attributes} editors={editors}/>
+                    <DesktopListFilterComponent categories={mainCategories} filters={attributes} />
                 }
                 <ProductListWrapper />
                 <ProductListPagination />
