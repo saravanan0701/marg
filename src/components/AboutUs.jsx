@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import {RaisedButton} from './commons/';
 import {Link} from 'react-router-dom';
-import aboutUs from './../images/aboutus.png';
 import Team from './../images/team.jpg';
 import Timeline from './../images/timeline.jpg';
 
