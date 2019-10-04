@@ -22,80 +22,72 @@ const SIGNUP = gql(`
 `);
 
 const Wrapper = styled.div`
+form {
+  .heading {
+    color: #000000;
+    font-family: "Cormorant Garamond Medium";
+    font-size: ${props => props.theme['$font-size-lg']};
+    font-weight: ${props => props.theme['$weight-bold']};
+    letter-spacing: 1px;
+    line-height: 57px;
+    padding-bottom: 30px;
+  }
 
-      
-      form{
-        .heading {
-          color: #000000;
-          font-family: "Cormorant Garamond Medium";
-          font-size: ${props => props.theme['$font-size-lg']};
-          font-weight: ${props => props.theme['$weight-bold']};
-          letter-spacing: 1px;
-          line-height: 57px;
-          padding-bottom: 30px;
-        }
+  .label {
+    color: #000000;
+    font-size: ${props => props.theme['$font-size-xxs']};
+    font-weight: ${props => props.theme['$weight-bold']};
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding-bottom: 15px;
+    padding-top: 50px;
+  }
 
-        .label {
-          color: #000000;
-          font-size: ${props => props.theme['$font-size-xxs']};
-          font-weight: ${props => props.theme['$weight-bold']};
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          padding-bottom: 15px;
-          padding-top: 50px;
-        }
-
-        .input-container {
-
-          position: relative;
-
-          input {
-            border: 1px solid #cccccc;
-            padding: 10px;
-            width: 100%
-          }
-
-          .input-errors {
-            position: absolute;
-            bottom: -22px;
-          }
-        }
-
-        .forgot-button {
-          align-self: flex-end;
-          padding-top: 10px;
-          padding-right: 0px !important;
-        }
-
-        .login-button {
-          padding-top: 50px;
-          align-self: flex-start;
-        }
-      }
+  .input-container {
+    position: relative;
+    input {
+      border: 1px solid #cccccc;
+      padding: 10px;
+      width: 100%
     }
 
-    div {
-      .lower-comments {
-        display: flex;
-        flex-direction: row;
+    .input-errors {
+      position: absolute;
+      bottom: -22px;
+    }
+  }
 
-        div.button {
-          padding-left: 10px;
-        }
-      }
+  .forgot-button {
+    align-self: flex-end;
+    padding-top: 10px;
+    padding-right: 0px !important;
+  }
 
-      .signup {
-        padding-top: 50px;
-      }
+  .login-button {
+    padding-top: 50px;
+    align-self: flex-start;
+  }
+}
 
-      .institution {
-        padding-top: 10px;
-      }
+div {
+  .lower-comments {
+    display: flex;
+    flex-direction: row;
+
+    div.button {
+      padding-left: 10px;
+    }
+  }
+  .signup {
+    padding-top: 50px;
+  }
+  .institution {
+    padding-top: 10px;
+  }
+}
 
 `;
 
-// TODO:
-// 2. Subscriber for newsletter.
 
 class SignupForm extends Component {
 
