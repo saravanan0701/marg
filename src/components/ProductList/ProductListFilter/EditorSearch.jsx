@@ -5,8 +5,8 @@ import { DropDown } from './../../commons/';
 
 
 const EDITORS_QUERY = gql`
-  query FilterEditors($name: String) {
-    editors(first:10, name: $name) {
+  query FilterEditors($name: String, $categoryIds: [ID]) {
+    editors(first:10, name: $name, categoryIds: $categoryIds) {
       edges {
         node {
           id
@@ -31,139 +31,140 @@ const FETCH_EDITOR = gql`
 `;
 
 export const EditorSearch = withApollo(
-    ({
-      client,
-      applyFilter,
-      removeFilter,
-      editors,
-      addEditor,
-      removeEditor,
-      selectedEditors,
-      //Redux related variable which makes sure
-      // a selected item is not selected again and again.
-      // even if there's an inconsistency redux is not affected by it
-      removeAllEditors,
-      className,
-      urlEditorId,
-      replaceEditor,
-      canDehyderateUrl,
-      setUrlDeHyderation,
-      // This editor-id is fetched from the URL.
-      // We fetch editor details and set it as selected.
-    }) => {
-      const [showEditorDropDown, setShowEditorDropDown] = useState(false);
-      const searchEditors = (name) => client.query({
-        query: EDITORS_QUERY,
-        variables: {
-          name,
-        }
-      }).then(
-        (
-          {
-            data: {
-              editors: {
-                edges
-              }
+  ({
+    client,
+    applyFilter,
+    removeFilter,
+    editors,
+    addEditor,
+    removeEditor,
+    selectedEditors,
+    //Redux related variable which makes sure
+    // a selected item is not selected again and again.
+    // even if there's an inconsistency redux is not affected by it
+    removeAllEditors,
+    className,
+    urlEditorId,
+    replaceEditor,
+    canDehyderateUrl,
+    setUrlDeHyderation,
+    selectedCategories,
+    // This editor-id is fetched from the URL.
+    // We fetch editor details and set it as selected.
+  }) => {
+    const [showEditorDropDown, setShowEditorDropDown] = useState(false);
+    const searchEditors = (name) => client.query({
+      query: EDITORS_QUERY,
+      variables: {
+        name,
+        categoryIds: selectedCategories.map(({id}) => id),
+      }
+    }).then(
+      (
+        {
+          data: {
+            editors: {
+              edges
             }
           }
-        ) => (
+        }
+      ) => (
           edges.map(
             (
               {
                 node: { id, name }
               }
             ) => (
-              {
-                id,
-                name
-              }
-            )
+                {
+                  id,
+                  name
+                }
+              )
           )
         )
-      );
-  
-      const loadEditor = () => (
-        client.query({
-          query: FETCH_EDITOR,
-          variables: {
-            id: urlEditorId,
-            first: 1
-          }
-        }).then(({data:{editors: { edges }={} }={} }, errors) => {
-          if(edges.length > 0 && (!errors || errors.length === 0)) {
-            replaceEditor(urlEditorId, edges[0].node);
-          }
-          setShowEditorDropDown(true);
-        })
-      )
-  
-      useEffect(() => {
-        const checkIfEditorAlreadyLoaded = (editorId) => {
-          const selectedEditor = selectedEditors.find(({id}) => urlEditorId === id);
-          if(selectedEditor && selectedEditor.name) {
-            return false
-          }
-          return true;
+    );
+
+    const loadEditor = () => (
+      client.query({
+        query: FETCH_EDITOR,
+        variables: {
+          id: urlEditorId,
+          first: 1
         }
-        if(urlEditorId && checkIfEditorAlreadyLoaded(urlEditorId)) {
-          setShowEditorDropDown(false);
-          loadEditor();
-        } else {
-          setShowEditorDropDown(true);
+      }).then(({ data: { editors: { edges } = {} } = {} }, errors) => {
+        if (edges.length > 0 && (!errors || errors.length === 0)) {
+          replaceEditor(urlEditorId, edges[0].node);
         }
-        
-      }, []);
-  
-      const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({id: selectedId}) => selectedId === id).length > 0
-      if(!showEditorDropDown){
-        return <div>Loading..</div>;
+        setShowEditorDropDown(true);
+      })
+    )
+
+    useEffect(() => {
+      const checkIfEditorAlreadyLoaded = (editorId) => {
+        const selectedEditor = selectedEditors.find(({ id }) => urlEditorId === id);
+        if (selectedEditor && selectedEditor.name) {
+          return false
+        }
+        return true;
       }
-  
-      const filteredSelectedEditors = selectedEditors.reduce((acc, editor) => {
-        if(editor.name) {
-          return acc.concat(editor);
-        }
-        return acc;
-      }, [])
-  
-      return <DropDown
-        className={className}
-        label={"Editors"}
-        enableSearch={true}
-        loadData={editors}
-        defaultOption={filteredSelectedEditors}
-        searchData={searchEditors}
-        multiSelect={true}
-        onOptionSelect={
-          (option) => {
-            if(checkIfEditorAlreadySelected(option)) {
-              return;
-            }
-            addEditor({
-              id: option.id,
-              name: option.name,
-            })
-          }
-        }
-        onOptionClose={
-          (option) => {
-            if(checkIfEditorAlreadySelected(option)) {
-              removeEditor({
-                id: option.id,
-              })
-              if(selectedEditors.find(({id: editorId}) => editorId === option.id)) {
-                setUrlDeHyderation(true);
-              }
-            }
-          }
-        }
-        onUnselectAll={
-          () => {
-            removeAllEditors()
-            setUrlDeHyderation(true)
-          }
-        }
-      >
-      </DropDown>
+      if (urlEditorId && checkIfEditorAlreadyLoaded(urlEditorId)) {
+        setShowEditorDropDown(false);
+        loadEditor();
+      } else {
+        setShowEditorDropDown(true);
+      }
+
+    }, []);
+
+    const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
+    if (!showEditorDropDown) {
+      return <div>Loading..</div>;
     }
-  );
+
+    const filteredSelectedEditors = selectedEditors.reduce((acc, editor) => {
+      if (editor.name) {
+        return acc.concat(editor);
+      }
+      return acc;
+    }, [])
+
+    return <DropDown
+      className={className}
+      label={"Editors"}
+      enableSearch={true}
+      defaultOption={filteredSelectedEditors}
+      searchData={searchEditors}
+      multiSelect={true}
+      onOptionSelect={
+        (option) => {
+          if (checkIfEditorAlreadySelected(option)) {
+            return;
+          }
+          addEditor({
+            id: option.id,
+            name: option.name,
+          })
+        }
+      }
+      onOptionClose={
+        (option) => {
+          if (checkIfEditorAlreadySelected(option)) {
+            removeEditor({
+              id: option.id,
+            })
+            if (selectedEditors.find(({ id: editorId }) => editorId === option.id)) {
+              setUrlDeHyderation(true);
+            }
+          }
+        }
+      }
+      onUnselectAll={
+        () => {
+          removeAllEditors()
+          setUrlDeHyderation(true)
+        }
+      }
+    >
+    </DropDown>
+  }
+);

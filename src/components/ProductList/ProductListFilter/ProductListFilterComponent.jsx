@@ -142,6 +142,7 @@ export const ProductListFilter = ({
       urlEditorId={urlEditorId}
       replaceEditor={replaceEditor}
       setUrlDeHyderation={setUrlDeHyderation}
+      selectedCategories={selectedCategories}
     >
     </EditorSearch>
     {
