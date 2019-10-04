@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Query, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { RaisedButton } from "./../commons/";
-import about from "./../../images/aboutus.png";
+import about from "./../../images/aboutus.jpg";
 import { ProductsSection } from "./ProductsSection.jsx";
 import { ProductCategories } from "./ProductCategories.jsx";
 import HeroCarousel from "./HeroCarousel.jsx";
