@@ -1,2 +1,2 @@
-import SignupForm from './SignupForm';
+import SignupForm from './SignupContainer';
 export default SignupForm;

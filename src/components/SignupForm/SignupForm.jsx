@@ -95,11 +95,10 @@ class SignupForm extends Component {
     const {
       client,
       history: {
-        location: {
-          search,
-        },
         push,
-      }
+      },
+      successNotification,
+      errorNotification,
     } = this.props;
     return client.mutate({
       mutation: SIGNUP,
@@ -111,11 +110,12 @@ class SignupForm extends Component {
           lastName: values.lastName
         },
       },
-    }).then(({ data, errors }) => {
-      if (!errors) {
-        push("/login");
+    }).then(({ data: {customerRegister: { user, errors }={} }={} }) => {
+      if (!errors || errors.length === 0) {
+        successNotification("Successfully created user account.")
+        return push("/login");
       }
-      ;
+      errorNotification("Error creating user account.")
     });
   }
 
@@ -237,7 +237,7 @@ class SignupForm extends Component {
                       </FlatButton>
                     </div>
                     <div className="offset-lg-1 col-12 lower-comments institution">
-                      <div>Looking to register your institution?</div>
+                      {/* <div>Looking to register your institution?</div> */}
                       {/*<FlatButton className="button">View institutional plans</FlatButton>*/}
                     </div>
                   </div>
