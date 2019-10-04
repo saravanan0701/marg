@@ -1,9 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-import FontAwesome from 'react-fontawesome';
 import styled from 'styled-components';
-import logo from './../../images/logo.png';
-import headerImg from './../../images/header-left.jpg';
+import facebookImg from './../../images/facebook.svg';
+import instagramImg from './../../images/instagram.svg';
 
 import { Link } from 'react-router-dom';
 import { FlatButton, RaisedButton } from './../commons/';
@@ -106,16 +105,20 @@ export const Footer = () => (
             <div className="subscribe">
               <div className="subscribe-heading">Sign up to newsletters:</div>
               <div className="form my-3">
-              <form
-                action="https://marg-art.us4.list-manage.com/subscribe/post?u=8139a0209298061024dba15b9&amp;id=cde13e71ed"
-                method="post" id="mc-embedded-subscribe-form" target="_blank"
-                name="mc-embedded-subscribe-form" class="validate" novalidate>
-                <div style={{position: `absolute`, left: `-5000px`}} aria-hidden="true">
-                  <input type="text" name="b_8139a0209298061024dba15b9_cde13e71ed" tabindex="-1" value="" />
+                <form
+                  action="https://marg-art.us4.list-manage.com/subscribe/post?u=8139a0209298061024dba15b9&amp;id=cde13e71ed"
+                  method="post" id="mc-embedded-subscribe-form" target="_blank"
+                  name="mc-embedded-subscribe-form" class="validate" novalidate>
+                  <div style={{position: `absolute`, left: `-5000px`}} aria-hidden="true">
+                    <input type="text" name="b_8139a0209298061024dba15b9_cde13e71ed" tabindex="-1" value="" />
+                  </div>
+                  <input type="email" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required placeholder="email address" required className="subscribe" />
+                  <RaisedButton type="submit" colorType="primary">Sign up</RaisedButton>
+                </form>
+                <div className="pt-3">
+                  <a target="_blank" href="https://www.facebook.com/TheMargFoundation/"><img src={facebookImg} /></a>
+                  <a target="_blank" href="https://www.instagram.com/themargfoundation/"><img className="pl-2" src={instagramImg} /></a>
                 </div>
-                <input type="email" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required placeholder="email address" required className="subscribe" />
-                <RaisedButton type="submit" colorType="primary">Sign up</RaisedButton>
-              </form>
               </div>
             </div>
           </Col>
