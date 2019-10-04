@@ -118,6 +118,7 @@ class DropDown extends Component {
           props.defaultOption:
             props.defaultOption? [props.defaultOption]: []
       ),
+      loadingOptions: false,
     }
     this.labelClicked = this.labelClicked.bind(this);
     this.labelBlured = this.labelBlured.bind(this);
@@ -299,6 +300,9 @@ class DropDown extends Component {
     } = this.props;
 
     if(searchData) {
+      this.setState({
+        loadingOptions: true,
+      });
       this.searchSub$ = new Subject();
       this.searchSub$.pipe(
           debounceTime(300),
@@ -331,7 +335,10 @@ class DropDown extends Component {
             }
             
           }
-          this.setState({ options })
+          this.setState({
+            options,
+            loadingOptions: false,
+          })
         });
     }
 
@@ -409,6 +416,7 @@ class DropDown extends Component {
       error,
       selectedOptions,
       options,
+      loadingOptions,
     } = this.state;
     
     const {
@@ -483,23 +491,26 @@ class DropDown extends Component {
             }
             <div className="options">
               {
-                visibleOptions.length === 0 && 
+                visibleOptions.length === 0 && !loadingOptions &&
                   <div>No match found</div>
               }
               {
-                visibleOptions.length > 0 && 
-                visibleOptions
-                  .map(
-                    (option) => (
-                      <div  onMouseDown={() => this.optionsClicked(option)} key={option.id} className="option">
-                        <div>{option.name}</div>
-                        {
-                          this.selectedOptionIndex(option) > -1 &&
-                            <FontAwesome className="icon" name='times' onMouseDown={(e) => this.optionUnselect(option, e)} />
-                        }
-                      </div>
+                searchData && loadingOptions?
+                  <div>Loading...</div>
+                  :
+                  visibleOptions.length > 0 && 
+                  visibleOptions
+                    .map(
+                      (option) => (
+                        <div  onMouseDown={() => this.optionsClicked(option)} key={option.id} className="option">
+                          <div>{option.name}</div>
+                          {
+                            this.selectedOptionIndex(option) > -1 &&
+                              <FontAwesome className="icon" name='times' onMouseDown={(e) => this.optionUnselect(option, e)} />
+                          }
+                        </div>
+                      )
                     )
-                  )
               }
             </div>
           </div>
