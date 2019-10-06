@@ -135,7 +135,7 @@ export default class CheckoutPayment extends Component {
       } = {}
     } = this.props;
     this.options = {
-      key: "rzp_live_s8ZF2We2ioGSNf",
+      key: `${process.env.REACT_APP_RAZORPAY_KEY}`,
       //TODO: use this in .env file.
       name: "Marg",
       image: logo,
