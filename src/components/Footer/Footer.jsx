@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components';
 import facebookImg from './../../images/facebook.svg';
 import instagramImg from './../../images/instagram.svg';
+import twitterImg from './../../images/twitter.svg';
 
 import { Link } from 'react-router-dom';
 import { FlatButton, RaisedButton } from './../commons/';
@@ -115,9 +116,10 @@ export const Footer = () => (
                   <input type="email" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required placeholder="email address" required className="subscribe" />
                   <RaisedButton type="submit" colorType="primary">Sign up</RaisedButton>
                 </form>
-                <div className="pt-3">
+                <div className="mt-5">
                   <a target="_blank" href="https://www.facebook.com/TheMargFoundation/"><img src={facebookImg} /></a>
                   <a target="_blank" href="https://www.instagram.com/themargfoundation/"><img className="pl-2" src={instagramImg} /></a>
+                  <a target="_blank" href="https://twitter.com/_margfoundation"><img className="pl-2" src={twitterImg} /></a>
                 </div>
               </div>
             </div>
