@@ -40,6 +40,8 @@ import { ScrollTop } from './components/ScrollTop';
 import SearchResultsContainer from './components/Search/SearchResultsContainer';
 import ResetPassword from './components/ResetPassword/index.jsx';
 import NotificationManager from './components/NotificationManager/';
+import { PrivacyPolicy } from './components/PrivacyPolicy.jsx';
+import { TermsAndConditions } from './components/TermsAndConditions.jsx';
 import { NotFound } from './components/404.jsx';
 
 export const history = createBrowserHistory()
@@ -152,6 +154,8 @@ class App extends Component {
                         <ProtectedRoute exact path="/myaccount" component={Account} />
                         <Route exact path="/search" component={SearchResultsContainer} />
                         <Route path="/reset-password" component={ResetPassword} />
+                        <Route path="/privacy-policy" component={PrivacyPolicy} />
+                        <Route path="/terms-and-conditions" component={TermsAndConditions} />
                         <Route path="*" component={NotFound} />
                       </Switch>
                       <Footer />

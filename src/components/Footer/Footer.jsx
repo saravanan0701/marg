@@ -149,7 +149,7 @@ export const Footer = () => (
             <span className="legal">
               <Link to="terms-and-conditions">Terms & Conditions</Link>
               &nbsp; | &nbsp;
-            <Link to="terms-and-conditions">Privacy Policy</Link>
+            <Link to="privacy-policy">Privacy Policy</Link>
               &nbsp; | &nbsp;
             <p className="d-inline">© 2019 The Marg Foundation</p>
             </span>
