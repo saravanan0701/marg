@@ -6,6 +6,7 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 
 const Wrapper = styled.div`
@@ -306,7 +307,7 @@ class DropDown extends Component {
       this.searchSub$ = new Subject();
       this.searchSub$.pipe(
           debounceTime(300),
-          distinctUntilChanged(),
+          distinctUntilChanged((prev, next) => next !== undefined? prev === next: false),
           switchMap((name) => this.props.searchData(name)),
         ).subscribe((options) => {
           if(options.find((option) => defaultOption && option.id !== defaultOption.id)) {
@@ -333,7 +334,6 @@ class DropDown extends Component {
                 }
               })
             }
-            
           }
           this.setState({
             options,
