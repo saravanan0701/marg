@@ -307,7 +307,7 @@ class DropDown extends Component {
       this.searchSub$.pipe(
           debounceTime(300),
           distinctUntilChanged(),
-          switchMap(searchData),
+          switchMap((name) => this.props.searchData(name)),
         ).subscribe((options) => {
           if(options.find((option) => defaultOption && option.id !== defaultOption.id)) {
             if(isNaN(defaultOption.length)) {
