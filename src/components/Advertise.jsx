@@ -5,6 +5,7 @@ import {RaisedButton, FlatButton} from './commons/';
 import {Link} from 'react-router-dom';
 import advertise1 from './../images/advertise1.png';
 import advertise2 from './../images/advertise2.png';
+import brochure from './../images/marg-brochure.pdf';
 
 const Wrapper = styled.div`
 
@@ -146,7 +147,7 @@ export const Advertise = props => (
                                     </div>
                                 </div>
                                 <div className="footer">
-                                    <FlatButton>DOWNLOAD DETAILS (PDF)</FlatButton>
+                                    <a href={brochure} target="_blank"><FlatButton>DOWNLOAD DETAILS (PDF)</FlatButton></a>
                                 </div>
                             </div>
                         </div>
