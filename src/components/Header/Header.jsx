@@ -100,7 +100,7 @@ const Header = ({
                   <Link to="/supporters">SUPPORTERS/SPONSORS</Link>
                   <Link to="/trustees">TRUSTEES/ADVISORY</Link>
                 </Menu>
-                <Menu label="Publications">
+                <Menu directLink={(e) => push("/categories")} label="Publications">
                   <Link to="/categories?product-type=magazines">Magazines</Link>
                   <Link to="/categories?product-type=books">Books</Link>
                   <Link to="/categories?product-type=articles">Articles</Link>
