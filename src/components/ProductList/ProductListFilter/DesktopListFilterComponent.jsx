@@ -23,6 +23,14 @@ const Wrapper = styled.div`
     max-width: 88%;
   }
 
+  & > div.dropdown-container.flex-start {
+    justify-content: flex-start
+  }
+
+  & > div.dropdown-container.space-between {
+    justify-content: space-between
+  }
+
   & div.dropdown {
     margin-left: 2%;
     width: 20%;
@@ -34,6 +42,6 @@ const Wrapper = styled.div`
 export const DesktopListFilterComponent = (props) => {
   return <Wrapper className="d-none d-lg-flex">
     <div className="header">Filter By:</div>
-    <ProductListFilter className="dropdown-container" style={props => props.articlesIsSelected? 'justify-content: flex-start': 'justify-content: space-between'} {...props} />
+    <ProductListFilter className={`dropdown-container ${props.articlesIsSelected? 'flex-start': 'space-between'}`} {...props} />
   </Wrapper>
 }
