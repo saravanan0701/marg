@@ -75,6 +75,22 @@ const SEARCH = gql`
               localized
             }
           }
+          parentSection{
+            parentProduct{
+              id
+              name
+              images{
+                url
+              }
+              category{
+                name
+              }
+              editors {
+                id
+                name
+              }
+            }
+          }
         }
       }
     }
