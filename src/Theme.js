@@ -32,6 +32,7 @@ const Theme = {
   '$thick-border': '40px',
 
   '$font-primary-medium': "Lato Medium",
+  '$font-secondary-medium': "Cormorant Garamond",
 }
 
 export default Theme;

@@ -34,7 +34,7 @@ const Wrapper = styled.div`
 
     & > .heading {
       color: #000000;
-      font-family: "Cormorant Garamond Medium";
+      font-family: ${props => props.theme['$font-secondary-medium']};
       font-size: ${props => props.theme['$font-size-lg']};
       font-weight: ${props => props.theme['$weight-bold']};
       letter-spacing: 1px;

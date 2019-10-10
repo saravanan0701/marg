@@ -18,7 +18,7 @@ const Wrapper = styled.div`
     align-items: center;
 
     & > div.name {
-      font-family: "Cormorant Garamond Medium";
+      font-family: ${props => props.theme['$font-secondary-medium']};
       font-size: ${props => props.theme['$font-size-lg']};
       font-weight: ${props => props.theme['$weight-regular']};
       letter-spacing: 1px;

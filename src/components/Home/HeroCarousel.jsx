@@ -125,7 +125,7 @@ const CarouselWrapper = styled.div`
       font-size: 42px;
       line-height: 42px;
     }
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
     font-weight: 500;
     /* min-height: 126px; */
   }

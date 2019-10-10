@@ -37,7 +37,7 @@ import default_profile from './../images/default_profile.jpeg';
 const Wrapper = styled.div`  
 
   div.header {
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
     font-size: ${props => props.theme['$font-size-lg']};
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 1px;

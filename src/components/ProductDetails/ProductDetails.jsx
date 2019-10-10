@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   }
 
   .name {
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
     font-size: ${props => props.theme['$font-size-sm']};
     line-height: ${props => props.theme['$font-size-sm']};
     @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
@@ -102,7 +102,7 @@ const Wrapper = styled.div`
 
   .contents {
     & > .heading {
-      font-family: "Cormorant Garamond Medium";
+      font-family: ${props => props.theme['$font-secondary-medium']};
       font-size: ${props => props.theme['$font-size-sm']};
       @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
         font-size: ${props => props.theme['$font-size-lg']};

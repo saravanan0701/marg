@@ -32,7 +32,7 @@ const FooterContainer = styled.div`
 
   .subscribe-heading {
     color: #000000;
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
 
     font-size: ${props => props.theme['$font-size-sm']};
     @media (min-width: 992px) { font-size: ${props => props.theme['$font-size-md']}; }

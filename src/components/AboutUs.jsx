@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 
 
       div.title {
-        font-family: "Cormorant Garamond Medium";
+        font-family: ${props => props.theme['$font-secondary-medium']};
         font-size: ${props => props.theme['$font-size-lg']};
         font-weight: ${props => props.theme['$weight-regular']};
       }
@@ -38,7 +38,7 @@ const Wrapper = styled.div`
     div.content {
 
       .header {
-        font-family: "Cormorant Garamond Medium";
+        font-family: ${props => props.theme['$font-secondary-medium']};
         font-size: ${props => props.theme['$font-size-lg']};
         font-weight: ${props => props.theme['$weight-regular']};
         padding-bottom: 30px;

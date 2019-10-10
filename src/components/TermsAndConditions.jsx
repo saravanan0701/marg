@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   margin-top: 40px;
 
   .header {
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
   }
 `
 

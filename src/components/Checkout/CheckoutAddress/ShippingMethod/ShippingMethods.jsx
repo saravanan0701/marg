@@ -32,7 +32,7 @@ const ListingWrapper = styled.div`
   }
   & > .header {
     padding: 0px;
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
     font-size: ${props => props.theme['$font-size-lg']};
   }
 `;

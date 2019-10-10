@@ -33,7 +33,7 @@ const Header = styled.div`
   }
 
   & > .big {
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
     font-size: 32px;
 
     @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
@@ -62,7 +62,7 @@ const Body = styled.div`
 const About = styled.div`
   h1 {
     color: #000000;
-    font-family: "Cormorant Garamond Medium";
+    font-family: ${props => props.theme['$font-secondary-medium']};
     font-size: ${props => props.theme["$font-size-sm"]};
     @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
       font-size: ${props => props.theme["$font-size-lg"]};
@@ -83,7 +83,7 @@ const About = styled.div`
 
       h2 {
         color: #000000;
-        font-family: "Cormorant Garamond Medium";
+        font-family: ${props => props.theme['$font-secondary-medium']};
         font-size: 21px;
         font-weight: 600;
         letter-spacing: 0.5px;

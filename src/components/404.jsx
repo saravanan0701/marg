@@ -24,7 +24,7 @@ const Wrapper = styled.div`
     }
 
     & .text {
-        font-family: "Cormorant Garamond Medium";
+        font-family: ${props => props.theme['$font-secondary-medium']};
         font-size: 42px;
         font-weight: 500;
         letter-spacing: 1px;
