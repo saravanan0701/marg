@@ -81,16 +81,16 @@ const CollapseTriggerContainer = styled.div`
 
 const PUBLICATION_LINK_LIST = [
   { 
-    label:'Books',
-    link:'/categories'
+    label: 'Magazines',
+    link:'/categories?product-type=magazines'
   },
   {
-    label: 'Magazines',
-    link: '/categories'
+    label:'Books',
+    link: '/categories?product-type=books'
   },
   {
     label: 'Articles',
-    link: '/categories'
+    link: '/categories?product-type=articles'
   }
 ]
 
