@@ -90,7 +90,7 @@ class Menu extends Component{
         onMouseLeave={this.mouseHoveredOut}
         {...this.props}
         >
-        <div className="header">
+        <div className="header" onClick={this.props.directLink}>
           <div>{label}</div>
           {
             isOpen?
