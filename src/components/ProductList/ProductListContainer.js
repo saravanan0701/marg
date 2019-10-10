@@ -9,12 +9,14 @@ const mapStateToProps = ({
       editors,	
       attributes,
       canDehyderateUrl,
+      categories,
     }	
   }
 }, ownProps) => ({
   canDehyderateUrl,
   selectedEditors: editors,	
   selectedAttributes: attributes,
+  selectedCategories: categories,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {

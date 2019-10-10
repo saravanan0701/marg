@@ -70,6 +70,7 @@ const ProductList = ({
   canDehyderateUrl,
   selectedEditors,
   selectedAttributes,
+  selectedCategories,
   location: {
     search,
   },
@@ -87,6 +88,8 @@ const ProductList = ({
     // Hook to cleanup on unmount,
     resetAllFilters();
   }, [])
+
+  const articlesIsSelected = selectedCategories.filter(({slug}) => (slug === "articles")).length > 0? true: false;
 
   
   return (
@@ -165,7 +168,7 @@ const ProductList = ({
                   isMobile?
                     <MobileListFilterComponent categories={mainCategories} filters={attributes} />
                     :
-                    <DesktopListFilterComponent categories={mainCategories} filters={attributes} />
+                    <DesktopListFilterComponent articlesIsSelected={articlesIsSelected} categories={mainCategories} filters={attributes} />
                 }
                 <ProductListWrapper />
                 <ProductListPagination />

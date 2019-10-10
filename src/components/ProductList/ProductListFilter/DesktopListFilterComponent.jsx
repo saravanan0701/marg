@@ -21,7 +21,6 @@ const Wrapper = styled.div`
   & > div.dropdown-container {
     width: 88%;
     max-width: 88%;
-    justify-content: space-between;
   }
 
   & div.dropdown {
@@ -35,6 +34,6 @@ const Wrapper = styled.div`
 export const DesktopListFilterComponent = (props) => {
   return <Wrapper className="d-none d-lg-flex">
     <div className="header">Filter By:</div>
-    <ProductListFilter className="dropdown-container" {...props} />
+    <ProductListFilter className="dropdown-container" style={props => props.articlesIsSelected? 'justify-content: flex-start': 'justify-content: space-between'} {...props} />
   </Wrapper>
 }
