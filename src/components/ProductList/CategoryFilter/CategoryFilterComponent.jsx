@@ -44,7 +44,18 @@ class CategoryFilterComponent extends Component {
     this.selectMainPublications = this.selectMainPublications.bind(this);
   }
 
-  componentDidMount(prevProps, nextProps) {
+
+  componentDidMount() {
+    this.updateProductType()
+  }
+
+  componentDidUpdate(prevProps, nextProps) {
+    if(prevProps.location.search != this.props.location.search) {
+      this.updateProductType()
+    }
+  }
+
+  updateProductType() {
     const {
       categories,
       selectedCategories,
