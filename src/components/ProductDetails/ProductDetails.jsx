@@ -258,7 +258,6 @@ const ProductDetails = ({
             return <Redirect to="/404" />
           }
 
-
           const {
             id: productId,
             name,
@@ -410,7 +409,7 @@ const ProductDetails = ({
                     }
                     {
                       childProducts.map(
-                        (product) => <Article saveVariant={saveVariant} key={product.id} purchasable={articlesShouldBePurchasable} {...product} />
+                        (product) => <Article showParentInfo={false} saveVariant={saveVariant} key={product.id} purchasable={articlesShouldBePurchasable} {...product} />
                       )
                     }
                   </div>

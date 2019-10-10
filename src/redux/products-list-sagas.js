@@ -65,6 +65,23 @@ const LOAD_PRODUCTS = gql`
               name
             }
           }
+          pageNumber
+          parentSection{
+            parentProduct{
+              id
+              name
+              images{
+                url
+              }
+              category{
+                name
+              }
+              editors {
+                id
+                name
+              }
+            }
+          }
         }
       }
 

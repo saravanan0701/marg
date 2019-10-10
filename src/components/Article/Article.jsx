@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import ReactHtmlParser from 'react-html-parser';
-import { getEditorName, getLocalizedAmount } from './../../utils/';
+import { getEditorName, getLocalizedAmount, replaceStaticUrl } from './../../utils/';
 import { RaisedButton } from './../commons/';
 
 const ArticleWrapper = styled.div`
@@ -23,6 +23,33 @@ const ArticleWrapper = styled.div`
       text-align: right;
     }
 
+    & > .description {
+      & .product-heading {
+        color: #37312f;
+        font-family: ${props => props.theme['$font-primary-medium']};
+        font-size: ${props => props.theme['$font-size-xxs']};
+        font-weight: ${props => props.theme['$weight-bold']};
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      & .product-type {
+        color: ${props => props.theme['mainTextColor']};
+        font-family: ${props => props.theme['$font-primary-medium']};
+        font-size: ${props => props.theme['$font-size-xxxs']};
+        font-weight: ${props => props.theme['$weight-regular']};
+        letter-spacing: 0.52px;
+        line-height: 21px;
+      }
+    }
+
+    & .editor-name {
+      font-size: ${props => props.theme['$font-size-xxs']};
+      font-weight: ${props => props.theme['$weight-regular']};
+      color: ${props => props.theme['mainTextColor']};
+      letter-spacing: 1px;
+      line-height: 28px;
+    }
   }
 
   .body.isOpen{
@@ -37,22 +64,23 @@ const ArticleWrapper = styled.div`
     font-weight: ${props => props.theme['$weight-regular']};
   }
 
+  .title {
+    color: ${props => props.theme['mainTextColor']};
+    font-size: ${props => props.theme['$font-size-xxs']};
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-xs']};
+    }
+    font-weight: ${props => props.theme['$weight-bold']};
+    letter-spacing: 0.66px;
+    line-height: 23px;
+    color: ${props => props.theme.mainTextColor};
+      /* padding-bottom: 15px; */
+  }
+
   div.header {
     display: flex;
     flex-direction: row;
     align-items: center;
-  
-    .title {
-      font-size: ${props => props.theme['$font-size-xxs']};
-      @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-        font-size: ${props => props.theme['$font-size-xs']};
-      }
-      font-weight: ${props => props.theme['$weight-bold']};
-      letter-spacing: 0.66px;
-      line-height: 23px;
-      color: ${props => props.theme.mainTextColor};
-      /* padding-bottom: 15px; */
-    }
 
     div.product-editor {
       font-size: ${props => props.theme['$font-size-xxxs']};
@@ -146,6 +174,19 @@ export default class Article extends Component {
       className,
       currency,
       pageNumber,
+      showParentInfo = true,
+      parentSection: {
+        parentProduct: {
+          id: productId,
+          name: productName,
+          images=[],
+          category={},
+          editors: productEditors = [],
+        }={}
+      } = {},
+      history: {
+        push
+      },
     } = this.props;
 
     const {
@@ -156,6 +197,8 @@ export default class Article extends Component {
         localized: usdLocalized,
       } = {},
     } = variants && variants.length > 0? variants[0]: {};
+
+    const imageUrl = images.reduce((acc, { url } = {}) => url, "");
 
     const {
       isOpen,
@@ -198,6 +241,24 @@ export default class Article extends Component {
             </Col>
             <Col lg="8" className="description">
               {ReactHtmlParser(description)}
+              {
+                showParentInfo &&
+                <Row>
+                  <Col className="col-12 product-heading mb-2">This article appears in:</Col>
+                  <Col onClick={() => push(`/product/${productId}`)} className="col-12 col-md-2">
+                    <img
+                      alt=""
+                      className="img-fluid w-100"
+                      src={replaceStaticUrl(imageUrl)}
+                    />
+                  </Col>
+                  <Col className="col-md-8 pl-md-0" onClick={() => push(`/product/${productId}`)}>
+                    <div className="product-type mt-3 mt-md-0">{category.name}:</div>
+                    <div className="title mt-3 mt-md-0">{productName}</div>
+                    <div className="editor-name">Edited by&nbsp;{getEditorName(productEditors)}</div>
+                  </Col>
+                </Row>
+              }
             </Col>
           </Row>
         </Container>
