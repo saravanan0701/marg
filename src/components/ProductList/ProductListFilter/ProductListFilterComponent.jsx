@@ -146,8 +146,11 @@ export const ProductListFilter = ({
     >
     </EditorSearch>
     {
-      filters.map((filterObj, id) => {
-        return (
+      filters.reduce((acc, filterObj) => {
+        if(filterObj.slug === "category" && articlesIsSelected) {
+          return acc;
+        }
+        return acc.concat(
           <DropDown
             className="dropdown"
             key={
@@ -205,7 +208,7 @@ export const ProductListFilter = ({
           >
           </DropDown>
         );
-      })
+      }, [])
     }
     {/*<DropDown
       className="dropdown"
