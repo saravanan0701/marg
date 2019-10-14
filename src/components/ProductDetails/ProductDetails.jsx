@@ -127,100 +127,113 @@ const OutOfStock = styled.div`
   font-weight: ${props => props.theme['$weight-regular']};
 `;
 
-const LOAD_PRODUCT = gql`
-  query LoadProduct($id: ID!) {
-    me{
-      orders(first:10, productId: $id){
-        edges{
-          node{
-            id
-            lines{
-              id
-              variant{
-                id
-                isDigital
-              }
-            }
-          }
-        }
+const PRODUCT_QUERY = `
+  product(id: $id) {
+    id
+    name
+    description
+    volumeInfo
+    isAvailable
+    isCurrenctIssue
+    category{
+      name
+    }
+    images{
+      url
+    }
+    thumbnail{
+      url
+    }
+    attributes{
+      value{
+        id
+        name
+        value
+        slug
+      }
+      attribute{
+        id
+        name
+        slug
       }
     }
-    product(id: $id) {
+    editors{
       id
       name
-      description
-      volumeInfo
-      isAvailable
-      isCurrenctIssue
-      category{
-        name
-      }
-      images{
-        url
-      }
-      thumbnail{
-        url
-      }
-      attributes{
-        value{
-          id
-          name
-          value
-          slug
-        }
-        attribute{
-          id
-          name
-          slug
-        }
-      }
-      editors{
+    }
+    sections{
+      childProducts{
         id
         name
-      }
-      sections{
-        childProducts{
+        description
+        isAvailable
+        editors {
           id
           name
-          description
-          isAvailable
-          editors {
-            id
-            name
-          }
-          pageNumber
-          order
-          variants{
-            id
-            isDigital
-            inrPrice {
-              amount
-              currency
-              localized
-            }
-            usdPrice {
-              amount
-              currency
-              localized
-            }
-          }
         }
-      }
-      variants{
-        id
-        isDigital
-        inrPrice {
-          amount
-          currency
-          localized
-        }
-        usdPrice {
-          amount
-          currency
-          localized
+        pageNumber
+        order
+        variants{
+          id
+          isDigital
+          inrPrice {
+            amount
+            currency
+            localized
+          }
+          usdPrice {
+            amount
+            currency
+            localized
+          }
         }
       }
     }
+    variants{
+      id
+      isDigital
+      inrPrice {
+        amount
+        currency
+        localized
+      }
+      usdPrice {
+        amount
+        currency
+        localized
+      }
+    }
+  }
+`;
+
+const ME_QUERY = `
+  me{
+    orders(first:10, productId: $id){
+      edges{
+        node{
+          id
+          lines{
+            id
+            variant{
+              id
+              isDigital
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const LOAD_PRODUCT_AND_ORDERS = gql`
+  query LoadProduct($id: ID!) {
+    ${PRODUCT_QUERY}
+    ${ME_QUERY}
+  }
+`
+const LOAD_PRODUCT = gql`
+  query LoadProduct($id: ID!) {
+    ${PRODUCT_QUERY}
   }
 `
 const DEFAULT_QUANTITY = 1;
@@ -249,13 +262,14 @@ const ProductDetails = ({
   },
   saveVariant,
   currency,
+  isLoggedIn,
 }) => {
 
   let selectedVariant = {};
 
   return <Wrapper>
     <Query
-      query={LOAD_PRODUCT}
+      query={isLoggedIn? LOAD_PRODUCT_AND_ORDERS: LOAD_PRODUCT}
       variables={{
         id,
       }}>
@@ -264,9 +278,9 @@ const ProductDetails = ({
           loading,
           error,
           data: {
-            me,
+            me = {},
             product,
-          }
+          } = {}
         }) => {
           if (loading) {
             return <h1>Loading...</h1>;
@@ -299,23 +313,28 @@ const ProductDetails = ({
             } = {}
           } = me || {};
 
-          const productVariants = variants.map((variant) => {
-            const foundVar = orderEdges.reduce((acc, order) => {
-              const foundLine = order.node.lines.find(({variant: lineVariant}) => {
-                return lineVariant.id === variant.id && variant.isDigital
-              });
-              if(foundLine && !acc) {
-                return {
-                  ...variant,
-                  alreadyBought: true,
-                  orderId: order.node.id,
-                  lineId: foundLine.id
-                };
-              }
-              return acc;
-            }, null);
-            return foundVar? foundVar: variant;
-          });
+          let productVariants;
+          if(orderEdges) {
+            productVariants = variants.map((variant) => {
+              const foundVar = orderEdges.reduce((acc, order) => {
+                const foundLine = order.node.lines.find(({variant: lineVariant}) => {
+                  return lineVariant.id === variant.id && variant.isDigital
+                });
+                if(foundLine && !acc) {
+                  return {
+                    ...variant,
+                    alreadyBought: true,
+                    orderId: order.node.id,
+                    lineId: foundLine.id
+                  };
+                }
+                return acc;
+              }, null);
+              return foundVar? foundVar: variant;
+            });
+          } else {
+            productVariants = variants;
+          }
 
           const boughtVar = productVariants.find(({alreadyBought}) => alreadyBought);
 

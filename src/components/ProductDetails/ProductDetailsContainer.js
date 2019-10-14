@@ -6,10 +6,13 @@ import ProductDetails from './ProductDetails'
 
 const mapStateToProps = ({
   auth: {
+    authToken,
+    isLoading,
     currency,
   }
 }, ownProps) => ({
   currency,
+  isLoggedIn: isLoading? false: authToken? true: false,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => {
