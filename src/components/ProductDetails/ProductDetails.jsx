@@ -5,7 +5,7 @@ import { Redirect } from 'react-router';
 import { Query } from "react-apollo";
 import gql from 'graphql-tag';
 import ReactHtmlParser from 'react-html-parser';
-import { RaisedButton, RadioButtonSet } from './../commons/';
+import { RaisedButton, RadioButtonSet, FlatButton } from './../commons/';
 import FontAwesome from 'react-fontawesome';
 import { replaceStaticUrl, getEditorName, getLocalizedAmount } from './../../utils/';
 import { Container, Row, Col } from 'reactstrap';
@@ -129,6 +129,22 @@ const OutOfStock = styled.div`
 
 const LOAD_PRODUCT = gql`
   query LoadProduct($id: ID!) {
+    me{
+      orders(first:10, productId: $id){
+        edges{
+          node{
+            id
+            lines{
+              id
+              variant{
+                id
+                isDigital
+              }
+            }
+          }
+        }
+      }
+    }
     product(id: $id) {
       id
       name
@@ -248,6 +264,7 @@ const ProductDetails = ({
           loading,
           error,
           data: {
+            me,
             product,
           }
         }) => {
@@ -275,6 +292,32 @@ const ProductDetails = ({
               url: thumbnailUrl,
             } = {},
           } = product || {};
+
+          const {
+            orders: {
+              edges: orderEdges
+            } = {}
+          } = me || {};
+
+          const productVariants = variants.map((variant) => {
+            const foundVar = orderEdges.reduce((acc, order) => {
+              const foundLine = order.node.lines.find(({variant: lineVariant}) => {
+                return lineVariant.id === variant.id && variant.isDigital
+              });
+              if(foundLine && !acc) {
+                return {
+                  ...variant,
+                  alreadyBought: true,
+                  orderId: order.node.id,
+                  lineId: foundLine.id
+                };
+              }
+              return acc;
+            }, null);
+            return foundVar? foundVar: variant;
+          });
+
+          const boughtVar = productVariants.find(({alreadyBought}) => alreadyBought);
 
           const metaInfo = attributes.reduce((acc, {value, attribute} = {} ) => {
             acc[attribute.slug]=value.name
@@ -327,20 +370,34 @@ const ProductDetails = ({
                       <OutOfStock>Out of stock</OutOfStock>
                   }
                   {
+                    boughtVar && 
+                      <FlatButton
+                        onClick={
+                          (e) => (
+                            window.open(`/reader/?order-id=${boughtVar.orderId}&line-id=${boughtVar.lineId}`, '_blank')
+                          )
+                        }
+                        className={`${boughtVar? "mt-3 mt-lg-5": ""}`}>
+                          Read now
+                        </FlatButton>
+                  }
+                  {
                     isAvailable &&
-                    <div className="my-3 my-lg-5">
-                    <RadioButtonSet
-                      selectOption={(id) => {
-                        selectedVariant = {
-                          ...variants[id]
-                        };
-                      }
-                      }
-                      className="pricing"
+                    <div className={`${!boughtVar? "my-3 my-lg-5": "mt-3"}`}>
+                      <RadioButtonSet
+                        selectedId = {productVariants.findIndex((variant) => !variant.alreadyBought)}
+                        selectOption={
+                          (id) => {
+                            selectedVariant = {
+                              ...productVariants[id]
+                            };
+                          }
+                        }
+                        className="pricing"
                       >
                         {
-                          variants.map(
-                            ({
+                          productVariants.reduce(
+                            (acc, {
                               id,
                               isDigital,
                               inrPrice: {
@@ -349,7 +406,12 @@ const ProductDetails = ({
                               usdPrice: {
                                 localized: localizedUsd
                               } = {},
-                            }) => (
+                              alreadyBought,
+                            }) => {
+                              if(alreadyBought) {
+                                return acc;
+                              }
+                              return acc.concat(
                                 <PriceWrapper key={id}>
                                   {
                                     isDigital ?
@@ -364,7 +426,8 @@ const ProductDetails = ({
                                   </div>
                                 </PriceWrapper>
                               )
-                          )
+                            }
+                          , [])
                         }
                       </RadioButtonSet>
                       <RaisedButton
