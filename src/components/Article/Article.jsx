@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Container, Row, Col } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import ReactHtmlParser from 'react-html-parser';
+import gql from 'graphql-tag';
 import { getEditorName, getLocalizedAmount, replaceStaticUrl } from './../../utils/';
 import { RaisedButton } from './../commons/';
 
@@ -148,13 +149,75 @@ const OutOfStock = styled.div`
 
 const DEFAULT_QUANTITY = 1;
 
+const ME_QUERY = gql`
+  query LoadProduct($id: ID!) {
+    me{
+      orders(first:10, productId: $id){
+        edges{
+          node{
+            id
+            lines{
+              id
+              variant{
+                id
+                isDigital
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default class Article extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      loadingOrder: false,
+      boughtVariant: null,
     }
     this.toggleBody = this.toggleBody.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(!prevState.isOpen && this.state.isOpen && this.props.isLoggedIn) {
+      this.setState({
+        loadingOrder: true,
+      });
+      this.props.client.query({
+        query: ME_QUERY,
+        variables: {
+          id: this.props.id,
+        }
+      }).then(
+        ({
+          data: {
+            me: {
+              orders: {
+                edges: orderEdges,
+              } = {}
+            } = {}
+          } = {},
+          error,
+          loading
+        }) => {
+          this.setState({
+            loadingOrder: false,
+          });
+          this.setState({
+            boughtVariant: orderEdges && orderEdges.length > 0?
+              orderEdges.reduce((acc, {node: {id: orderId, lines}}) => {
+                return {
+                  orderId,
+                  ...lines.reduce((acc, { id: lineId, variant }) => ({ ...variant, lineId}), {})
+                }
+              }, {}): null
+          })
+        }
+      )
+    }
   }
 
   toggleBody() {
@@ -202,6 +265,8 @@ export default class Article extends Component {
 
     const {
       isOpen,
+      loadingOrder,
+      boughtVariant,
     } = this.state;
 
     return (
@@ -232,9 +297,27 @@ export default class Article extends Component {
               {
                 isAvailable &&
                   <div className="action text-lg-center mb-3">
-                    <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
-                      Add to cart
-                    </RaisedButton>
+                    {
+                      loadingOrder &&
+                        <FontAwesome id="searchIcon" name='spinner' spin className='color-black' />
+                    }
+                    {
+                      !loadingOrder && !boughtVariant &&
+                        <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
+                          Add to cart
+                        </RaisedButton>
+                    }
+                    {
+                      !loadingOrder && boughtVariant &&
+                        <RaisedButton
+                          onClick={
+                            (e) => (
+                              window.open(`/reader/?order-id=${boughtVariant.orderId}&line-id=${boughtVariant.lineId}`, '_blank')
+                            )
+                          }>
+                          Read now
+                        </RaisedButton>
+                    }
                     <div className="hint mt-3">This is a digital article. You can read it on the Marg website using any device.</div>
                   </div>
               }
