@@ -62,6 +62,7 @@ const SEARCH = gql`
             name
           }
           variants{
+            id
             sku
             isDigital
             inrPrice {
