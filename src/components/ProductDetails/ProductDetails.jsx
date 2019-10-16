@@ -469,7 +469,7 @@ const ProductDetails = ({
                         }
                         className="add-to-bag"
                       >
-                        Add to bag
+                        Add To Cart
                       </RaisedButton>
                     </div>
                   }
