@@ -337,6 +337,7 @@ const ProductDetails = ({
           }
 
           const boughtVar = productVariants.find(({alreadyBought}) => alreadyBought);
+          const unboughtVariants = productVariants.reduce((acc, it) => (it.alreadyBought? acc: acc.concat(it)), []);
 
           const metaInfo = attributes.reduce((acc, {value, attribute} = {} ) => {
             acc[attribute.slug]=value.name
@@ -396,26 +397,27 @@ const ProductDetails = ({
                             window.open(`/reader/?order-id=${boughtVar.orderId}&line-id=${boughtVar.lineId}`, '_blank')
                           )
                         }
-                        className={`${boughtVar? "mt-3 mt-lg-5": ""}`}>
-                          Read now
-                        </FlatButton>
+                        className={`${boughtVar? "mt-3 mt-lg-5": ""}`}
+                      >
+                        Read now
+                      </FlatButton>
                   }
                   {
                     isAvailable &&
                     <div className={`${!boughtVar? "my-3 my-lg-5": "mt-3"}`}>
                       <RadioButtonSet
-                        selectedId = {productVariants.findIndex((variant) => !variant.alreadyBought)}
+                        selectedId = {unboughtVariants.findIndex((variant) => !variant.alreadyBought)}
                         selectOption={
                           (id) => {
                             selectedVariant = {
-                              ...productVariants[id]
+                              ...unboughtVariants[id]
                             };
                           }
                         }
                         className="pricing"
                       >
                         {
-                          productVariants.reduce(
+                          unboughtVariants.reduce(
                             (acc, {
                               id,
                               isDigital,
