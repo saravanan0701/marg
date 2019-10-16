@@ -17,7 +17,7 @@ import {
 const items = [
   {
     positiom: "1",
-    label: "Current Issue",
+    label: "Current Magazine",
     title: "Gandhara: A Confluence of Cultures",
     subtitle: "Edited by: Naman P. Ahuja",
     description:
@@ -29,7 +29,7 @@ const items = [
   },
   {
     position: "2",
-    label: "QUARTERLY BOOK",
+    label: "Latest Book",
     title: "A Mediated Magic: The Indian Presence in Modernism 1880–1930",
     subtitle: "Edited by: Naman P. Ahuja and Louise Belfrage",
     description:
