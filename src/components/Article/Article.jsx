@@ -315,7 +315,7 @@ export default class Article extends Component {
                               window.open(`/reader/?order-id=${boughtVariant.orderId}&line-id=${boughtVariant.lineId}`, '_blank')
                             )
                           }>
-                          Read now
+                          Digital Article: Read now
                         </RaisedButton>
                     }
                     <div className="hint mt-3">This is a digital article. You can read it on the Marg website using any device.</div>
