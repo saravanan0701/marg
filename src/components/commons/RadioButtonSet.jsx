@@ -46,7 +46,7 @@ class RadioButtonSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedId: 0,
+      selectedId: props.selectedId !== undefined? props.selectedId: 0,
     }
     this.selectOption = this.selectOption.bind(this);
   }
