@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 400px;
+  max-width: 400px;
   
   @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
     justify-content: center;
@@ -124,7 +124,7 @@ class CategoryFilterComponent extends Component {
     const articlesIsNotSelected = () => selectedCategories.filter((category) => category.slug !== 'articles').length > 0
 
     return (
-      <Wrapper className="my-4 mx-auto">
+      <Wrapper className="row my-4 mx-auto">
         <FlatButton
           key="1"
           className={articlesIsNotSelected()? 'active': ''}
