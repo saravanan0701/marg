@@ -158,7 +158,7 @@ const ProductList = ({
               slug,
             })).filter(({slug}) => slug !== "articles")
             return (
-              <div>
+              <div className="container">
                 <CategoryFilter categories={categories} />
                 {
                   isMobile?

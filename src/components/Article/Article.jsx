@@ -17,6 +17,11 @@ const ArticleWrapper = styled.div`
     display: block;
   }
 
+  
+   div.container {
+    border-top: 1px solid #9d9d9d;
+   }
+
   .body {
     display: none;
 
@@ -280,15 +285,15 @@ export default class Article extends Component {
                 <span>&nbsp;&nbsp;{pageNumber}</span>
               }
             </Col>
-            <Col xs="3" lg="2" className="d-flex flex-column align-items-end justify-content-center">
-              {
+            <Col xs="3" lg="2" className="d-flex align-items-center justify-content-center">
+              <span>{
                 getLocalizedAmount({currency, inr: inrLocalized, usd: usdLocalized})
-              }
-              <FontAwesome name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
+              }</span>
+              <FontAwesome className="ml-3" name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
             </Col>
           </Row>
           <Row className={`body py-4 ${isOpen ? 'isOpen' : ''}`}>
-            <Col lg="4" className="order-lg-2 cart-info">
+            <Col lg="4" className="order-lg-2 cart-info ml-lg-auto">
               {
                 !isAvailable && this.props.purchasable &&
                   <OutOfStock className="out-of-stock">Out of stock</OutOfStock>
@@ -321,7 +326,7 @@ export default class Article extends Component {
                   </div>
               }
             </Col>
-            <Col lg="8" className="description">
+            <Col lg="6" className="description">
               {ReactHtmlParser(description)}
               {
                 showParentInfo &&

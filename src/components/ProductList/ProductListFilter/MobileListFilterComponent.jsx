@@ -50,7 +50,7 @@ export const MobileListFilterComponent = (props) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className="container">
       <MobileFilterToggleContainer>
         <FlatButton 
           className="my-4" 

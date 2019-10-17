@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 `
 
 export const DesktopListFilterComponent = (props) => {
-  return <Wrapper className="d-none d-lg-flex">
+  return <Wrapper className="d-none d-lg-flex mb-5">
     <div className="header">Filter By:</div>
     <ProductListFilter className={`dropdown-container ${props.articlesIsSelected? 'flex-start': 'space-between'}`} {...props} />
   </Wrapper>
