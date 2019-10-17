@@ -399,7 +399,7 @@ const ProductDetails = ({
                         }
                         className={`${boughtVar? "mt-3 mt-lg-5": ""}`}
                       >
-                        Digital Article: Read now
+                        Digital: Read now
                       </FlatButton>
                   }
                   {
