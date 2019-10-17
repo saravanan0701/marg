@@ -17,6 +17,11 @@ const ArticleWrapper = styled.div`
     display: block;
   }
 
+  
+   div.container {
+    border-top: 1px solid #9d9d9d;
+   }
+
   .body {
     display: none;
 
@@ -71,8 +76,7 @@ const ArticleWrapper = styled.div`
     @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
       font-size: ${props => props.theme['$font-size-xs']};
     }
-    font-weight: ${props => props.theme['$weight-bold']};
-    letter-spacing: 0.66px;
+    font-weight: ${props => props.theme['$weight-semibold']};
     line-height: 23px;
     color: ${props => props.theme.mainTextColor};
       /* padding-bottom: 15px; */
@@ -269,6 +273,8 @@ export default class Article extends Component {
       boughtVariant,
     } = this.state;
 
+    const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
+
     return (
       <ArticleWrapper className={className}>
         <Container className="py-3 px-0">
@@ -281,15 +287,15 @@ export default class Article extends Component {
                 <span>&nbsp;&nbsp;{pageNumber}</span>
               }
             </Col>
-            <Col xs="3" lg="2" className="d-flex flex-column align-items-end justify-content-center">
-              {
+            <Col xs="3" lg="2" className="d-flex align-items-center justify-content-center">
+              <span>{
                 getLocalizedAmount({currency, inr: inrLocalized, usd: usdLocalized})
-              }
-              <FontAwesome name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
+              }</span>
+              <FontAwesome className="ml-3" name={`${isOpen ? 'chevron-up' : 'chevron-down'}`} />
             </Col>
           </Row>
           <Row className={`body py-4 ${isOpen ? 'isOpen' : ''}`}>
-            <Col lg="4" className="order-lg-2 cart-info">
+            <Col lg="4" className="order-lg-2 cart-info ml-lg-auto">
               {
                 !isAvailable && this.props.purchasable &&
                   <OutOfStock className="out-of-stock">Out of stock</OutOfStock>
@@ -322,12 +328,12 @@ export default class Article extends Component {
                   </div>
               }
             </Col>
-            <Col lg="8" className="description">
+            <Col lg="6" className="description">
               {ReactHtmlParser(description)}
               {
                 showParentInfo &&
                 <Row>
-                  <Col className="col-12 product-heading mb-2">This article appears in:</Col>
+                  <Col className="col-12 product-heading my-3 ">This article appears in:</Col>
                   <Col onClick={() => push(`/product/${productId}`)} className="col-12 col-md-2">
                     <img
                       alt=""
@@ -336,7 +342,7 @@ export default class Article extends Component {
                     />
                   </Col>
                   <Col className="col-md-8 pl-md-0" onClick={() => push(`/product/${productId}`)}>
-                    <div className="product-type mt-3 mt-md-0">{category.name}:</div>
+                    <div className="product-type mt-3 mt-md-0">{singularCategoryName}:</div>
                     <div className="title mt-3 mt-md-0">{productName}</div>
                     <div className="editor-name">Edited by&nbsp;{getEditorName(productEditors)}</div>
                   </Col>

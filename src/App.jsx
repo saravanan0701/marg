@@ -74,14 +74,14 @@ const MainContainer = styled.div`
 
     // This counters the appHorizontalPadding above
     .full-width {
-      margin-left: -1.5rem;
-      margin-right: -1.5rem;
+      margin-left: -15px;
+      margin-right: -15px;
     }
 
     .full-width-lg-below {
       @media (max-width: 992px) {
-        margin-left: -1.5rem;
-        margin-right: -1.5rem;
+        margin-left: -15px;
+        margin-right: -15px;
       }
     }
 
@@ -113,7 +113,7 @@ const MainContainer = styled.div`
     letter-spacing: 1px;
     line-height: 57px;
     text-align: center;
-    padding-bottom: 80px;
+    margin-bottom: 10px;
   }
   
 `

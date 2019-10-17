@@ -10,7 +10,7 @@ const Theme = {
   mainTextColor: "#000000",
 
   mobileBreakpoint: "1000px",
-  appHorizontalPadding: "1.5rem",
+  appHorizontalPadding: "15px",
 
   '$weight-regular': '400',
   '$weight-semibold': '500',

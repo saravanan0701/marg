@@ -7,7 +7,7 @@ const ButtonWrapper = styled.button`
   color: white;
   text-transform: uppercase;
   cursor: pointer;
-  font-size: ${props => props.theme['$font-size-xxs']};
+  font-size: ${props => props.theme['$font-size-xxxs']};
   font-weight: ${props => props.theme['$weight-bold']};
   border: none;
   &:disabled {

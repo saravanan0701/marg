@@ -34,7 +34,8 @@ import Savita from './../images/SAVITA 20190731_161734-04.jpg';
 
 import default_profile from './../images/default_profile.jpeg';
 
-const Wrapper = styled.div`  
+const Wrapper = styled.div`
+
 
   div.header {
     font-family: ${props => props.theme['$font-secondary-medium']};
@@ -72,7 +73,6 @@ const Wrapper = styled.div`
     div.name {
       font-size: ${props => props.theme['$font-size-xs']};
       font-weight: ${props => props.theme['$weight-bold']};
-      letter-spacing: 0.66px;
       line-height: 23px;
     }
 
@@ -100,7 +100,7 @@ const PersonWrapper = styled.div`
   
   @media (min-width: 768px) {
     img {
-      height: 375px;
+      height: 225px;
     }
   }
 
@@ -108,14 +108,13 @@ const PersonWrapper = styled.div`
     letter-spacing: 0.59px;
     line-height: 23px;
     text-transform: uppercase;
-    font-size: ${props => props.theme['$font-size-xxs']};
+    font-size: ${props => props.theme['$font-size-xxxs']};
     font-weight: ${props => props.theme['$weight-regular']};
   }
 
   .name {
-    font-size: ${props => props.theme['$font-size-xs']};
+    font-size: ${props => props.theme['$font-size-xxxs']};
     font-weight: ${props => props.theme['$weight-bold']};
-    letter-spacing: 0.66px;
     line-height: 23px;
   }
 `;
@@ -250,7 +249,7 @@ const EMPLOYEES = [
 const PersonDetails = ({name, bio, designation, openBio, image}) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    return (<PersonWrapper className="col-6 col-md-4 col-lg-3 my-4">
+    return (<PersonWrapper className="col-6 col-md-4 col-lg-3 col-xl-2 my-4">
         <img className="img-fluid" src={image}/>
         {/*<div className="sub-info">
       1046 - Current
@@ -281,7 +280,7 @@ const PersonDetails = ({name, bio, designation, openBio, image}) => {
 export const Team = props => (
     <Wrapper>
         <div className="container my-5">
-            <h1 className="heading">Marg Team</h1>
+            <h1 className="heading mb-5">Marg Team</h1>
             <Row className="content justify-content-center">
                 <Col xs={12} md={4} className="img-container">
                     <img className="img-fluid" src={anand}/>
