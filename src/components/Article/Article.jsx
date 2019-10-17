@@ -273,6 +273,8 @@ export default class Article extends Component {
       boughtVariant,
     } = this.state;
 
+    const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
+
     return (
       <ArticleWrapper className={className}>
         <Container className="py-3 px-0">
@@ -340,7 +342,7 @@ export default class Article extends Component {
                     />
                   </Col>
                   <Col className="col-md-8 pl-md-0" onClick={() => push(`/product/${productId}`)}>
-                    <div className="product-type mt-3 mt-md-0">{category.name}:</div>
+                    <div className="product-type mt-3 mt-md-0">{singularCategoryName}:</div>
                     <div className="title mt-3 mt-md-0">{productName}</div>
                     <div className="editor-name">Edited by&nbsp;{getEditorName(productEditors)}</div>
                   </Col>
