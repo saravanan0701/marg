@@ -14,13 +14,12 @@ const Wrapper = styled.div`
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 0.59px;
     line-height: 23px;
-    width: 12%;
+    width: 80px;
     max-width: 12%;
   }
 
   & > div.dropdown-container {
-    width: 88%;
-    max-width: 88%;
+    width: 100%;
   }
 
   & > div.dropdown-container.flex-start {
@@ -40,7 +39,7 @@ const Wrapper = styled.div`
 `
 
 export const DesktopListFilterComponent = (props) => {
-  return <Wrapper className="d-none d-lg-flex">
+  return <Wrapper className="d-none d-lg-flex mb-5">
     <div className="header">Filter By:</div>
     <ProductListFilter className={`dropdown-container ${props.articlesIsSelected? 'flex-start': 'space-between'}`} {...props} />
   </Wrapper>

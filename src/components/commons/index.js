@@ -7,14 +7,13 @@ import CollapseContainer from './CollapseContainer.jsx';
 import QuantityEditor from './QuantityEditor.jsx';
 import PasswordInput from './PasswordInput';
 
-
 export {
-  FlatButton,
-  RaisedButton,
-  DropDown,
-  Menu,
-  RadioButtonSet,
-  CollapseContainer,
-  QuantityEditor,
-  PasswordInput
+    FlatButton,
+    RaisedButton,
+    DropDown,
+    Menu,
+    RadioButtonSet,
+    CollapseContainer,
+    QuantityEditor,
+    PasswordInput
 }

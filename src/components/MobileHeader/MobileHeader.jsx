@@ -10,6 +10,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { width } from "@material-ui/system";
 
 const MobileHeaderContainer = styled.div`
+
   @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
     display: none;
   }

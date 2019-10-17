@@ -17,7 +17,6 @@ const NameContainer = styled.div `
     font-family: Lato;
     font-size: 16px;
     font-weight: 700;
-    letter-spacing: 0.66px;
 
     cursor: pointer;
 
@@ -49,7 +48,6 @@ const LinePrice = styled.div `
   font-family: Lato;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.66px;
 
   @media (min-width: 768px) {
       font-size: 18px;

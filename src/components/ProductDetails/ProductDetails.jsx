@@ -362,11 +362,11 @@ const ProductDetails = ({
                   />
                 </Col>
                 <Col className="details" lg="6">
-                  <div className="row mt-3 mt-lg-0 ml-0">
+                  <div className="d-flex mt-3 mt-lg-0 ml-0">
                   <div className="product-type ">{singularCategoryName}</div>
                   <div className="current-issue">{isCurrentIssue?"CURRENT ISSUE": ""}</div>
                   </div>
-                  <div className="row m-0">
+                  <div className="d-flex mt-1">
                     {
                       volumeInfo &&
                       <div>{volumeInfo}</div>
@@ -380,7 +380,7 @@ const ProductDetails = ({
                       <div>{metaInfo.year}</div>
                     }
                   </div>
-                  <div className="name my-3">{name}</div>
+                  <h1 className="name my-3">{name}</h1>
                   {
                     getEditorName(editors) && 
                       <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
@@ -489,7 +489,7 @@ const ProductDetails = ({
                   <div className="contents">
                     {
                       childProducts && childProducts.length > 0 &&
-                      <div key="heading" className="heading my-3">Contents</div>
+                      <h3 key="heading" className="heading my-3 my-5 text-left">Contents</h3>
                     }
                     {
                       childProducts.map(

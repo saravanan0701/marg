@@ -140,15 +140,15 @@ export const Home = props => (
       <Todo>Blogs and events: TODO</Todo> */}
       <HeroCarousel />
       <About className="full-width bg-gray py-5 px-3 px-lg-5">
-        <Container>
+        <Container className="mb-5">
           <Row>
-            <Col xs="12" className="text-center my-3">
+            <Col xs="12" className="text-center mt-3 mb-5">
               <h1>The Legacy of Marg</h1>
             </Col>
-            <Col lg="6" className="text-center">
+            <Col lg="7" className="text-center">
               <img className="img-fluid" src={about} />
             </Col>
-            <Col lg="6" className="d-flex align-items-center">
+            <Col lg="5" className="d-flex align-items-center">
               <div>
                 <div className="row my-3">
                   <div className="col-12 pathmaking">

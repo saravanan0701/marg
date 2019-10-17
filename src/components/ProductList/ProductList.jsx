@@ -17,10 +17,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-    padding: 50px 100px 100px;
-  }
-
   & > .heading {
     font-family: ${props => props.theme['$font-secondary-medium']};
     font-size: ${props => props.theme['$font-size-sm']};
@@ -78,10 +74,10 @@ const ProductList = ({
 
 
   
-  const [ isMobile, setIsMobile ] = useState(window.innerWidth <= 1000);
+  const [ isMobile, setIsMobile ] = useState(window.innerWidth <= 992);
 
   useState(() => {
-    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 1000));
+    window.addEventListener('resize', () => setIsMobile(window.innerWidth <= 992));
   }, [])
 
   useEffect(() => () => {
@@ -93,7 +89,7 @@ const ProductList = ({
 
   
   return (
-    <Wrapper className="mt-2 mb-2">
+    <Wrapper className="mt-2 mb-2 py-5 px-xl-5">
       <div className="heading">All Publications</div>
       <Query
         query={LOAD_ALL_FILTERS}>
@@ -162,7 +158,7 @@ const ProductList = ({
               slug,
             })).filter(({slug}) => slug !== "articles")
             return (
-              <div>
+              <div className="container">
                 <CategoryFilter categories={categories} />
                 {
                   isMobile?

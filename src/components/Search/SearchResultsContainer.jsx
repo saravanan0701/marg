@@ -99,6 +99,8 @@ const SEARCH = gql`
 `;
 
 const StyledWrapper = styled.div`
+
+  min-height: 600px;
   
   input {
     padding: 10px 20px;
@@ -106,19 +108,11 @@ const StyledWrapper = styled.div`
     font-size: 22px;
 
     ::-webkit-input-placeholder { 
-      /* color: #000000; */
-      font-size: 22px;
-      /* font-weight: ${props => props.theme['$weight-bold']}; */
-      /* letter-spacing: 3px; */
-      /* text-transform: uppercase; */
+      font-size: ${props => props.theme['$font-size-xxs']};
     }
 
     input:-moz-placeholder { 
-      /* color: #000000; */
-      font-size: 22px;
-      /* font-weight: ${props => props.theme['$weight-bold']}; */
-      /* letter-spacing: 3px; */
-      /* text-transform: uppercase; */
+      font-size: ${props => props.theme['$font-size-xxs']};
     }
   }
 
@@ -126,7 +120,6 @@ const StyledWrapper = styled.div`
     font-size: 18px;
     color: black !important;
   }
-
 `;
 
  const SearchResultsContainer = ({
@@ -211,11 +204,11 @@ const StyledWrapper = styled.div`
   }
 
   return (
-    <StyledWrapper id="searchResults" className="py-5">
+    <StyledWrapper id="searchResults" className="py-5 mt-5">
       <Container>
         <Row>
           <Col xs="12" lg="7" className="mx-auto">
-            <input 
+            <input  ref={input => input && input.focus()}
               onChange={(event) => handleInputChange(event)} 
               type="text"
               className="w-100"

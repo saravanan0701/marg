@@ -52,9 +52,8 @@ const TrusteeDetailsWrapper = styled.div`
 
   & > .name {
     margin-top: 10px;
-    font-size: ${props => props.theme['$font-size-xs']};
+    font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-bold']};
-    letter-spacing: 0.66px;
     line-height: 23px;
   }
 
@@ -62,7 +61,6 @@ const TrusteeDetailsWrapper = styled.div`
     color: #3a3a3a;
     font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
-    letter-spacing: 0.59px;
     line-height: 23px;
     text-transform: uppercase;
   }

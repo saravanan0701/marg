@@ -113,7 +113,7 @@ const MainContainer = styled.div`
     letter-spacing: 1px;
     line-height: 57px;
     text-align: center;
-    padding-bottom: 80px;
+    margin-bottom: 10px;
   }
   
 `

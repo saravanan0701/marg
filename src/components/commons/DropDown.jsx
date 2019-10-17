@@ -20,13 +20,17 @@ const Wrapper = styled.div`
     width: 100%;
     max-width: 100%;
     position: relative;
-
+    
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      padding-left: 0px;
+    }
+    
     & > .main-label {
       background: transparent;
       border: none;
       font-weight: ${props => props.theme['$weight-bold']};
-      font-size: ${props => props.theme['$font-size-xxs']};
-      letter-spacing: 3px;
+      font-size: ${props => props.theme['$font-size-xxxs']};
+      letter-spacing: 1.5px;
       text-transform: uppercase;
       outline: none;
       color: ${props => props.theme.secondaryColor};
@@ -71,6 +75,8 @@ const Wrapper = styled.div`
       background-color: #f8f8f8;
       padding: 10px;
       color: ${props => props.theme.primaryColor};
+      outline: ${props => props.theme.primaryColor};
+
       
       &::placeholder {
         color: ${props => props.theme.primaryColor};
@@ -430,10 +436,10 @@ class DropDown extends Component {
     
     let visibleOptions = [];
     if(enableSearch && !searchData) {
-      //SearchData is not available, no ajax data to be recieved.
+      //SearchData is not available, no ajax data to be received.
       visibleOptions = this.filterOptions();
     } else {
-      // SearchData is available, ajax data will be recieved.
+      // SearchData is available, ajax data will be received.
       // If enableSearch is not true, show all.
       visibleOptions = options;
     }
@@ -485,9 +491,10 @@ class DropDown extends Component {
               enableSearch &&
               <input
                 type="text" placeholder="Search"
+                ref={input => input && input.focus()}
                 onChange={this.searchList}
                 onFocus={this.inputFocused}
-                onBlur={this.inputBlurred}/>
+                onBlur={this.inputBlurred}  />
             }
             <div className="options">
               {

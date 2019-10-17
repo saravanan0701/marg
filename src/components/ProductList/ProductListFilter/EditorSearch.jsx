@@ -130,7 +130,7 @@ export const EditorSearch = withApollo(
 
     return <DropDown
       className={className}
-      label={"Editors"}
+      label={"Editors/Authors"}
       enableSearch={true}
       defaultOption={filteredSelectedEditors}
       searchData={searchEditors}
