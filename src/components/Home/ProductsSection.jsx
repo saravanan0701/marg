@@ -10,7 +10,7 @@ import ProductCard from './../ProductList/ProductListWrapper/ProductCard/';
 const Wrapper = styled.div`
 
   @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-    padding: 100px 100px;
+    padding: 100px 0;
   }
 
   display: flex;
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   }
 
   & > .link {
-    padding-top: 10px;
+    padding-top: 0;
     padding-bottom: 50px;
   }
 
@@ -86,7 +86,7 @@ const LOAD_PRODUCTS = gql`
 `;
 
 export const ProductsSection = ({name, categoryId, slug}) => (
-  <Wrapper className="py-5">
+  <Wrapper className="py-5 px-xl-5">
     <div className="heading">
       Latest {name}
     </div>

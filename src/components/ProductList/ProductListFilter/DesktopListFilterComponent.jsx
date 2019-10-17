@@ -14,13 +14,12 @@ const Wrapper = styled.div`
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 0.59px;
     line-height: 23px;
-    width: 12%;
+    width: 80px;
     max-width: 12%;
   }
 
   & > div.dropdown-container {
-    width: 88%;
-    max-width: 88%;
+    width: 100%;
   }
 
   & > div.dropdown-container.flex-start {

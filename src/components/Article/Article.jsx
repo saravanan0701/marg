@@ -71,8 +71,7 @@ const ArticleWrapper = styled.div`
     @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
       font-size: ${props => props.theme['$font-size-xs']};
     }
-    font-weight: ${props => props.theme['$weight-bold']};
-    letter-spacing: 0.66px;
+    font-weight: ${props => props.theme['$weight-semibold']};
     line-height: 23px;
     color: ${props => props.theme.mainTextColor};
       /* padding-bottom: 15px; */
@@ -327,7 +326,7 @@ export default class Article extends Component {
               {
                 showParentInfo &&
                 <Row>
-                  <Col className="col-12 product-heading mb-2">This article appears in:</Col>
+                  <Col className="col-12 product-heading my-3 ">This article appears in:</Col>
                   <Col onClick={() => push(`/product/${productId}`)} className="col-12 col-md-2">
                     <img
                       alt=""

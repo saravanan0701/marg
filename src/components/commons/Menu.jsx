@@ -13,7 +13,7 @@ const MenuWrapper = styled.div`
   position: relative;
   display: inline-block;
 
-  & > div.header {
+  div.header {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -24,23 +24,36 @@ const MenuWrapper = styled.div`
       font-size: 12px;
     }
   }
-
-  & > div.body {
+  
+  .dropdown-spacing-container {
+    padding-top:35px;
     position: absolute;
-    top: 100%;
+    top: 0px;
     right: 0px;
+  }
+
+  div.menu-dropdown-container {
     z-index: 1;
     display: flex;
     flex-direction: column;
     width: max-content;
     border: 1px solid #9d9d9d;
-    padding: 10px;
+    padding: 20px;
     background: white;
 
-    & > a {
+    a {
       color: #000000;
       text-align: left;
+      padding: 5px 0;
     }
+     a:hover {
+      color: ${props => props.theme.primaryColor};
+      text-align: left;
+      padding: 5px 0;
+    }
+    a.active {
+        border-bottom: 1px solid ${props => props.theme["primaryColor"]};
+      }
   }
 `;
 
@@ -101,9 +114,11 @@ class Menu extends Component{
         </div>
         {
           isOpen &&
-            <div onClick={this.optionSelected} className="body">
+              <div className="dropdown-spacing-container">
+            <div onClick={this.optionSelected} className="menu-dropdown-container">
               { children }
             </div>
+              </div>
         }
       </MenuWrapper>
     );

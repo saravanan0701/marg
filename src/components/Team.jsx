@@ -72,7 +72,6 @@ const Wrapper = styled.div`
     div.name {
       font-size: ${props => props.theme['$font-size-xs']};
       font-weight: ${props => props.theme['$weight-bold']};
-      letter-spacing: 0.66px;
       line-height: 23px;
     }
 
@@ -115,7 +114,6 @@ const PersonWrapper = styled.div`
   .name {
     font-size: ${props => props.theme['$font-size-xs']};
     font-weight: ${props => props.theme['$weight-bold']};
-    letter-spacing: 0.66px;
     line-height: 23px;
   }
 `;

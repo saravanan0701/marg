@@ -11,31 +11,31 @@ const CardContainer = styled.div`
 
   & > div {
     @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
-      padding-left: 10px;
-      padding-right: 10px;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 
   .name,
   .meta,
   .price {
-    font-size: 12px;
-    @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
       font-size: ${props => props.theme["$font-size-xxs"]};
-    }
   }
 
   & > .name {
     color: #000000;
-    font-weight: ${props => props.theme["$weight-bold"]};
-    letter-spacing: 0.66px;
+    font-weight: ${props => props.theme["$weight-semibold"]};
     padding-top: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   & > .meta {
     color: #000000;
     font-weight: ${props => props.theme["$weight-regular"]};
-    letter-spacing: 0.59px;
     display: flex;
     flex-direction: row;
     padding-top: 5px;

@@ -51,6 +51,9 @@ const HeaderContainer = styled.div`
         border-bottom: 1px solid ${props => props.theme["primaryColor"]};
       }
     }
+    & > *:hover,& > div > div > *:hover {
+          color: ${props => props.theme.primaryColor};
+    }
   }
 `;
 
@@ -93,7 +96,7 @@ const Header = ({
           <Row>
             <Col xs="12" className="d-flex justify-content-end">
               <div className="menu d-flex align-items-center flex-wrap px-0">
-                <Menu label="About Marg">
+                <Menu directLink={(e) => push("/aboutus")} label="About Marg">
                   <Link to="/aboutus">Our Story</Link>
                   {/* <Link to="/collaborate">Historical Timeline</Link> */}
                   <Link to="/team">Marg team</Link>

@@ -25,7 +25,6 @@ const CardContainer = styled.div`
   & > .name {
     color: #000000;
     font-weight: ${props => props.theme['$weight-bold']};
-    letter-spacing: 0.66px;
     padding-top: 15px;
   }
 
