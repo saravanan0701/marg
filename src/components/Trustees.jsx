@@ -52,7 +52,7 @@ const TrusteeDetailsWrapper = styled.div`
 
   & > .name {
     margin-top: 10px;
-    font-size: ${props => props.theme['$font-size-xs']};
+    font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-bold']};
     line-height: 23px;
   }
