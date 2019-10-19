@@ -9,10 +9,12 @@ const mapStateToProps = ({
   cart,
   auth: {
     email,
+    currency,
   }
 }, ownProps) => ({
   cart,
   email,
+  currency,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

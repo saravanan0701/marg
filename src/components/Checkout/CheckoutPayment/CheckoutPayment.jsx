@@ -170,7 +170,8 @@ export default class CheckoutPayment extends Component {
 
   initiatePayment() {
     const {
-      cart: { totalPrice: { net: { amount, currency } = {} } = {} } = {}
+      cart: { totalPrice: { net: { amount } = {} } = {} } = {},
+      currency,
     } = this.props;
     this.options.currency = currency;
     this.options.amount = amount * 100;
