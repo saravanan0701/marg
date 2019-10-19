@@ -43,7 +43,7 @@ const AdvertiseBlock = styled.div`
 
   div.description {
 
-    div.name {
+    .name {
       font-family: ${props => props.theme['$font-secondary-medium']};
       font-size: ${props => props.theme['$font-size-lg']};
       font-weight: ${props => props.theme['$weight-regular']};
@@ -51,21 +51,30 @@ const AdvertiseBlock = styled.div`
       line-height: 57px;
     }
 
-    div.meta {
+    .meta {
       font-size: ${props => props.theme['$font-size-xxs']};
       font-weight: ${props => props.theme['$weight-regular']};
       letter-spacing: 0.59px;
       line-height: 23px;
 
-      div.rates {
+      .rates {
         margin-top: 50px;
-        div.header {
+        .header {
           font-size: ${props => props.theme['$font-size-xxs']};
           font-weight: ${props => props.theme['$weight-bold']};
           letter-spacing: 1px;
           text-transform: uppercase;
         }
-        div.footer {
+        .body {
+          ul {
+            list-style: none;
+            padding-left: 0;
+            li {
+            margin-bottom: 5px;
+            }
+          }
+        }
+        .footer {
           padding-top: 20px;
         }
       }
@@ -89,8 +98,8 @@ export const Advertise = props => (
             <div className="container">
                 <div className="row">
                     <div className="description col-12 offset-lg-1 col-lg-5 my-3">
-                        <div className="name">Thematic Ads</div>
-                        <div className="meta">
+                        <h2 className="name">Thematic Ads</h2>
+                        <p className="meta">
                             A unique feature of the magazine, thematic advertisements appear in the opening pages of
                             each
                             issue. In this section, we feature the advertisers' logos along with a set of specially
@@ -100,7 +109,7 @@ export const Advertise = props => (
                             your company branding will feature prominently on a single page, placed beneath one of the
                             images from the portfolio. Advertisers in this section join a list of eminent companies who
                             support the arts.
-                        </div>
+                        </p>
                     </div>
                     <div className="img-container col-12 col-md-6 col-lg-3 my-3">
                         <img src={advertise1}/>
@@ -112,39 +121,41 @@ export const Advertise = props => (
             <div className="container my-5">
                 <div className="row">
                     <div className="description col-12 offset-lg-1 col-lg-5 my-3">
-                        <div className="name">Commercial Ads</div>
+                        <h2 className="name">Commercial Ads</h2>
                         <div className="meta">
-                            <div>
+                            <p className="meta">
                                 Commercial advertisements are placed in the closing section of the magazine, immediately
                                 after
                                 the text.
-                            </div>
+                            </p>
                             <div className="rates">
-                                <div className="header">
+                                <h4 className="header">
                                     Rates
-                                </div>
+                                </h4>
                                 <div className="body">
-                                    <div>
-                                        Back Cover Rs. 84,000
-                                    </div>
-                                    <div>
-                                        Cover Gatefold (3 pages) Rs. 84,000
-                                    </div>
-                                    <div>
-                                        Inside Front/Back Cover Rs. 56,000
-                                    </div>
-                                    <div>
-                                        Double Spread Rs. 52,000
-                                    </div>
-                                    <div>
-                                        Full Page Rs. 32,000
-                                    </div>
-                                    <div>
-                                        Half Page Rs. 20,000
-                                    </div>
-                                    <div>
-                                        (GST as applicable)
-                                    </div>
+                                    <ul>
+                                        <li>
+                                            Back Cover Rs. 84,000
+                                        </li>
+                                        <li>
+                                            Cover Gatefold (3 pages) Rs. 84,000
+                                        </li>
+                                        <li>
+                                            Inside Front/Back Cover Rs. 56,000
+                                        </li>
+                                        <li>
+                                            Double Spread Rs. 52,000
+                                        </li>
+                                        <li>
+                                            Full Page Rs. 32,000
+                                        </li>
+                                        <li>
+                                            Half Page Rs. 20,000
+                                        </li>
+                                        <li>
+                                            (GST as applicable)
+                                        </li>
+                                    </ul>
                                 </div>
                                 <div className="footer">
                                     <a href={brochure} target="_blank"><FlatButton>DOWNLOAD DETAILS (PDF)</FlatButton></a>

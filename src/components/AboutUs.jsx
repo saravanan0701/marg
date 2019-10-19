@@ -16,7 +16,7 @@ const Wrapper = styled.div`
     }
 
 
-      div.title {
+      h1.title {
         font-family: ${props => props.theme['$font-secondary-medium']};
         font-size: ${props => props.theme['$font-size-lg']};
         font-weight: ${props => props.theme['$weight-regular']};
@@ -59,7 +59,7 @@ export const AboutUs = props => (
         <div className="container my-5">
             <img className="hero-img" src={Team}/>
             <div className="row mt-5">
-                <div className="col-12 col-md-4 title">The Marg Foundation</div>
+                <div className="col-12 col-md-4"><h1 className="title">The Marg Foundation</h1></div>
                 <div className="col-12 col-md-6 description">
                     <p>
                         Marg's aim is to develop a socially active and culturally engaging language of art. Marg
@@ -85,7 +85,7 @@ export const AboutUs = props => (
                     <img className="history-image" src={Timeline}/>
                 </div>
                 <div className="content col-12 col-md-5 px-lg-5">
-                    <div className="header">Historical Timeline</div>
+                    <div><h2 className="header">Historical Timeline</h2></div>
                     <div className="body">
                         Marg began as a magazine in 1946 and was founded by scholar-writer-activist Mulk Raj Anand along
                         with a group of art critics and architects which included Karl Khandalavala, Anil de Silva and

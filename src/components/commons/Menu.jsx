@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 const MenuWrapper = styled.div`
 
   cursor: pointer;
-  font-size: ${props => props.theme['$font-size-xxs']};
+  font-size: ${props => props.theme['$font-size-xxxs']};
   font-weight: ${props => props.theme['$weight-regular']};
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -30,10 +30,10 @@ const MenuWrapper = styled.div`
     position: absolute;
     top: 0px;
     right: 0px;
+    z-index: 15;
   }
 
   div.menu-dropdown-container {
-    z-index: 1;
     display: flex;
     flex-direction: column;
     width: max-content;
