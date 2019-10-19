@@ -5,9 +5,9 @@ import facebookImg from './../../images/facebook.svg';
 import instagramImg from './../../images/instagram.svg';
 import twitterImg from './../../images/twitter.svg';
 
-import { Link } from 'react-router-dom';
-import { FlatButton, RaisedButton } from './../commons/';
-import { Container, Row, Col } from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {FlatButton, RaisedButton} from './../commons/';
+import {Container, Row, Col} from 'reactstrap';
 
 
 const FooterContainer = styled.div`
@@ -94,72 +94,87 @@ const FooterContainer = styled.div`
 `
 
 export const Footer = () => (
-  <FooterContainer>
-    <div id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
-      <Link to="/subscribe">SUBSCRIBE TO MARG</Link>
-      <p className="mx-auto my-3">Founded in 1946, Marg magazine has consistently published original research on Indian art and culture, combining scholarly analysis with high-quality, evocative images. </p>
-    </div>
-    <div className='py-5 full-width bg-gray'>
-      <Container className="px-4 px-lg-5">
-        <Row>
-          <Col lg='6' className="mb-5 mb-lg-0">
-            <div className="subscribe">
-              <div className="subscribe-heading">Sign up to newsletters:</div>
-              <div className="form my-3">
-                <form
-                  action="https://marg-art.us4.list-manage.com/subscribe/post?u=8139a0209298061024dba15b9&amp;id=cde13e71ed"
-                  method="post" id="mc-embedded-subscribe-form" target="_blank"
-                  name="mc-embedded-subscribe-form" class="validate" novalidate>
-                  <div style={{position: `absolute`, left: `-5000px`}} aria-hidden="true">
-                    <input type="text" name="b_8139a0209298061024dba15b9_cde13e71ed" tabindex="-1" value="" />
-                  </div>
-                  <input type="email" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required placeholder="email address" required className="subscribe" />
-                  <RaisedButton type="submit" colorType="primary">Sign up</RaisedButton>
-                </form>
-                <div className="mt-5">
-                  <a target="_blank" href="https://www.facebook.com/TheMargFoundation/"><img src={facebookImg} /></a>
-                  <a target="_blank" href="https://www.instagram.com/themargfoundation/"><img className="pl-2" src={instagramImg} /></a>
-                  <a target="_blank" href="https://twitter.com/_margfoundation"><img className="pl-2" src={twitterImg} /></a>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col lg='6'>
-            <Row>
-              <Col lg='6'>
-                <FlatButton className="footer-link" colorType="secondary"><Link to="/">Home</Link></FlatButton>
-                <FlatButton className='footer-link' colorType="secondary"><Link to="/categories">Publications</Link></FlatButton>
-                <FlatButton className='footer-link' colorType="secondary"><Link to="/aboutus">About Marg</Link></FlatButton>
-                <FlatButton hidden={true} className='footer-link' colorType="secondary">Blog</FlatButton>
-              </Col>
-              <Col lg='6'>
-                <FlatButton className="footer-link" colorType="secondary"><Link to="/advertise">Advertise</Link></FlatButton>
-                <FlatButton className="footer-link" colorType="secondary"><Link to="/donate">Donate</Link></FlatButton>
-                <FlatButton className="footer-link" colorType="secondary"><Link to="/contactus">Contact</Link></FlatButton>
-                <FlatButton hidden={true} className="footer-link" colorType="secondary">More</FlatButton>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row className="my-4">
-          <Col lg="6">
-            <p className="legal">The digitization of the Magazine has been supported by Tata Trusts</p>
-          </Col>
-          <Col lg="6">
+    <FooterContainer>
+        <div id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
+            <Link to="/contactus">SUBSCRIBE TO MARG</Link>
+            <p className="mx-auto my-3">Founded in 1946, Marg magazine has consistently published original research on
+                Indian art and culture, combining scholarly analysis with high-quality, evocative images. </p>
+        </div>
+        <div className='py-5 full-width bg-gray'>
+            <Container className="px-4 px-lg-5">
+                <Row>
+                    <Col lg='6' className="mb-5 mb-lg-0">
+                        <div className="subscribe">
+                            <div className="subscribe-heading">Sign up to newsletters:</div>
+                            <div className="form my-3">
+                                <form
+                                    action="https://marg-art.us4.list-manage.com/subscribe/post?u=8139a0209298061024dba15b9&amp;id=cde13e71ed"
+                                    method="post" id="mc-embedded-subscribe-form" target="_blank"
+                                    name="mc-embedded-subscribe-form" class="validate" novalidate>
+                                    <div style={{position: `absolute`, left: `-5000px`}} aria-hidden="true">
+                                        <input type="text" name="b_8139a0209298061024dba15b9_cde13e71ed" tabindex="-1"
+                                               value=""/>
+                                    </div>
+                                    <input type="email" name="EMAIL" class="email" id="mce-EMAIL"
+                                           placeholder="email address" required placeholder="email address" required
+                                           className="subscribe"/>
+                                    <RaisedButton type="submit" colorType="primary">Sign up</RaisedButton>
+                                </form>
+                                <div className="mt-5">
+                                    <a target="_blank" href="https://www.facebook.com/TheMargFoundation/"><img
+                                        src={facebookImg}/></a>
+                                    <a target="_blank" href="https://www.instagram.com/themargfoundation/"><img
+                                        className="pl-2" src={instagramImg}/></a>
+                                    <a target="_blank" href="https://twitter.com/_margfoundation"><img className="pl-2"
+                                                                                                       src={twitterImg}/></a>
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col lg='6'>
+                        <Row>
+                            <Col lg='6'>
+                                <FlatButton className="footer-link" colorType="secondary"><Link
+                                    to="/">Home</Link></FlatButton>
+                                <FlatButton className='footer-link' colorType="secondary"><Link
+                                    to="/categories">Publications</Link></FlatButton>
+                                <FlatButton className='footer-link' colorType="secondary"><Link to="/aboutus">About
+                                    Marg</Link></FlatButton>
+                                <FlatButton hidden={true} className='footer-link'
+                                            colorType="secondary">Blog</FlatButton>
+                            </Col>
+                            <Col lg='6'>
+                                <FlatButton className="footer-link" colorType="secondary"><Link
+                                    to="/advertise">Advertise</Link></FlatButton>
+                                <FlatButton className="footer-link" colorType="secondary"><Link
+                                    to="/donate">Donate</Link></FlatButton>
+                                <FlatButton className="footer-link" colorType="secondary"><Link
+                                    to="/contactus">Contact</Link></FlatButton>
+                                <FlatButton hidden={true} className="footer-link"
+                                            colorType="secondary">More</FlatButton>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+                <Row className="my-4">
+                    <Col lg="6">
+                        <p className="legal">The digitization of the Magazine has been supported by Tata Trusts</p>
+                    </Col>
+                    <Col lg="6">
             <span className="legal">
               <Link to="/terms-and-conditions">Terms & Conditions</Link>
-              &nbsp; | &nbsp;
-            <Link to="/privacy-policy">Privacy Policy</Link>
-              &nbsp; | &nbsp;
-            <p className="d-inline">© 2019 The Marg Foundation</p>
+                &nbsp; | &nbsp;
+                <Link to="/privacy-policy">Privacy Policy</Link>
+                &nbsp; | &nbsp;
+                <p className="d-inline">© 2019 The Marg Foundation</p>
             </span>
-            <span>
+                        <span>
               <p className="legal">Designed and built by <a target="_blank" href="https://1stmain.co">1st Main</a></p>
             </span>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
 
-  </FooterContainer>
+    </FooterContainer>
 );

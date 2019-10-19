@@ -158,7 +158,7 @@ export default class ContactusForm extends Component {
             <Wrapper>
                 <Container className="my-5">
                   <h1 className="heading">Contact Us</h1>
-                  <Row>
+                  <Row className="mt-5">
                         <Col xs={12}>
                             <Formik
                                 initialValues={{firstName: '', lastName: '', email: '', message: ''}}
