@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { RaisedButton } from "./../commons/";
 import FontAwesome from "react-fontawesome";
-import Hero1 from "../../images/Hero_new.jpg";
+import Hero1 from "../../images/vol-71-num-1.jpg";
 import Hero2 from "../../images/medicated-magic-banner.png";
 import { Link } from "react-router-dom";
 import {
@@ -18,13 +18,11 @@ const items = [
   {
     positiom: "1",
     label: "Current Magazine",
-    title: "Gandhara: A Confluence of Cultures",
-    subtitle: "Edited by: Naman P. Ahuja",
-    description:
-      "This issue presents the latest finds from recent excavations and on advances in Gandhara Art  Studies and examines migrations from different periods — from Bronze Age to the movements of Ghaznavids and Mughals.",
+    title: "Infrastructure as Space: Development and Its (Dis)contents ",
+    subtitle: "Edited by: Burte, Himanshu",
     imageSrc: Hero1,
     ctaText: "View This Issue",
-    ctaUrl: "/product/UHJvZHVjdDo1MTYy",
+    ctaUrl: "/product/UHJvZHVjdDo1MjUx",
     textColor: "#FFFFFF"
   },
   {
@@ -61,7 +59,6 @@ const CarouselWrapper = styled.div`
   #carouselInfoCol {
     padding-bottom: 150px;
     @media (min-width: 1200px) {
-      min-height: 450px;
       position: absolute;
       top: 20%;
       max-width: 40%;
@@ -150,7 +147,6 @@ const CarouselWrapper = styled.div`
   .cta {
     @media (min-width: 1200px) {
       position: absolute;
-      bottom: 20%;
     }
     a {
       color: white;
@@ -227,7 +223,6 @@ class HeroCarousel extends Component {
               <span className="label my-3">{item.label}</span>
               <h1 className="title my-2">{item.title}</h1>
               <h3 className="subtitle mb-4">{item.subtitle}</h3>
-              <p className="description">{item.description}</p>
               <RaisedButton className="cta">
                 <Link to={item.ctaUrl}>{item.ctaText}</Link>
               </RaisedButton>
