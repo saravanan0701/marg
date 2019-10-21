@@ -43,7 +43,6 @@ class CategoryFilterComponent extends Component {
     this.state = {
       urlProductType: null,
     }
-    this.selectMainPublications = this.selectMainPublications.bind(this);
   }
 
 
@@ -98,21 +97,6 @@ class CategoryFilterComponent extends Component {
     replaceCategoryFilters(this.allCategories);      
   }
 
-  selectMainPublications() {
-    const {
-      categories,
-      replaceCategoryFilters,
-    } = this.props;
-    const {
-      urlProductType
-    } = this.state;
-    if(urlProductType) {
-      replaceCategoryFilters(categories.filter(({slug}) => slug === urlProductType));
-    } else {
-      replaceCategoryFilters(this.allCategories);
-    }
-  }
-  
   render() {
   
     const {
@@ -128,7 +112,7 @@ class CategoryFilterComponent extends Component {
         <FlatButton
           key="1"
           className={articlesIsNotSelected()? 'active': ''}
-          onMouseDown={() => this.selectMainPublications()}
+          onMouseDown={() => replaceCategoryFilters(this.allCategories)}
           type="secondary"
         >
           <span className="link">Magazines & Books</span>
