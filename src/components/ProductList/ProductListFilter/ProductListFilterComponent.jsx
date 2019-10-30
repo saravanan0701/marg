@@ -206,6 +206,7 @@ export const ProductListFilter = ({
     }
     <EditorSearch
       className="dropdown"
+      label="Editors/Authors"
       key={selectedEditors.length > 0? selectedEditors[selectedEditors.length - 1].id: "editors"}
       addEditor={addEditor}
       removeEditor={removeEditor}

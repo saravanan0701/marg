@@ -5,6 +5,7 @@ import { DropDown } from './../../commons/';
 
 export const EditorSearch = withApollo(
   ({
+    label,
     client,
     applyFilter,
     removeFilter,
@@ -27,7 +28,7 @@ export const EditorSearch = withApollo(
     searchData,
     loadItem,
   }) => {
-    const [showEditorDropDown, setShowEditorDropDown] = useState(false);
+    const [showDropDown, setShowDropDown] = useState(false);
 
     useEffect(() => {
       const checkIfEditorAlreadyLoaded = (editorId) => {
@@ -38,18 +39,18 @@ export const EditorSearch = withApollo(
         return true;
       }
       if (urlEditorId && checkIfEditorAlreadyLoaded(urlEditorId)) {
-        setShowEditorDropDown(false);
+        setShowDropDown(false);
         loadItem(urlEditorId, client).then((loadedEditor) => {
           replaceEditor(urlEditorId, loadedEditor);
-          setShowEditorDropDown(true);
+          setShowDropDown(true);
         })
       } else {
-        setShowEditorDropDown(true);
+        setShowDropDown(true);
       }
     }, []);
 
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
-    if (!showEditorDropDown) {
+    if (!showDropDown) {
       return <div>Loading..</div>;
     }
 
@@ -62,7 +63,7 @@ export const EditorSearch = withApollo(
 
     return <DropDown
       className={className}
-      label={"Editors/Authors"}
+      label={label}
       enableSearch={true}
       defaultOption={filteredSelectedEditors}
       searchData={(name) => searchData(name, selectedCategories, client)}
