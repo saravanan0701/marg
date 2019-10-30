@@ -45,9 +45,35 @@ const EDITORS_QUERY = gql`
   }
 `;
 
+const PUBLICATION_CATEGORIES_QUERY = gql`
+  query PublicationCategories($name: String) {
+    publicationCategories(first:50, name: $name) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const FETCH_EDITOR = gql`
   query FilterEditors($first:Int, $id: ID) {
     editors(first:$first, ids: [$id]) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+const FETCH_CATEGORY = gql`
+  query FilterEditors($first:Int, $id: Int) {
+    publicationCategories(first:$first, ids: [$id]) {
       edges {
         node {
           id
@@ -72,7 +98,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const searchEditors = (name, selectedCategories, client) => client.query({
+const searchEditors = (client, name, selectedCategories) => client.query({
   query: EDITORS_QUERY,
   variables: {
     name,
@@ -88,22 +114,52 @@ const searchEditors = (name, selectedCategories, client) => client.query({
       }
     }
   ) => (
-      edges.map(
-        (
-          {
-            node: { id, name }
-          }
-        ) => (
-            {
-              id,
-              name
-            }
-          )
+    edges.map(
+      (
+        {
+          node: { id, name }
+        }
+      ) => (
+        {
+          id,
+          name
+        }
       )
     )
+  )
 );
 
-const loadEditor = (urlEditorId, client) => (
+const searchPublicationCategories = (client, name) => client.query({
+  query: PUBLICATION_CATEGORIES_QUERY,
+  variables: {
+    name,
+  }
+}).then(
+  (
+    {
+      data: {
+        publicationCategories: {
+          edges
+        }
+      }
+    }
+  ) => (
+    edges.map(
+      (
+        {
+          node: { id, name }
+        }
+      ) => (
+        {
+          id,
+          name
+        }
+      )
+    )
+  )
+);
+
+const loadEditor = (client, urlEditorId) => (
   client.query({
     query: FETCH_EDITOR,
     variables: {
@@ -111,6 +167,21 @@ const loadEditor = (urlEditorId, client) => (
       first: 1
     }
   }).then(({ data: { editors: { edges } = {} } = {} }, errors) => {
+    if (edges.length > 0 && (!errors || errors.length === 0)) {
+      return edges[0].node
+    }
+    return;
+  })
+)
+
+const loadCategory = (client, urlCategoryId) => (
+  client.query({
+    query: FETCH_CATEGORY,
+    variables: {
+      id: urlCategoryId,
+      first: 1
+    }
+  }).then(({ data: { publicationCategories: { edges } = {} } = {} }, errors) => {
     if (edges.length > 0 && (!errors || errors.length === 0)) {
       return edges[0].node
     }
@@ -145,10 +216,13 @@ export const ProductListFilter = ({
 }) => {
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
-  let urlEditorId;
+  let urlEditorId, urlCategoryId;
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
+    }
+    if(queryKeys[0] === "category-id") {
+      urlCategoryId = queryObj['editor-id'];
     }
   }
 
@@ -225,6 +299,49 @@ export const ProductListFilter = ({
         if(filterObj.slug === "category" && articlesIsSelected) {
           return acc;
         }
+
+        if(filterObj.slug === "category") {
+          return acc.concat(
+            <EditorSearch
+              className="dropdown"
+              label="Category"
+              key={selectedCategoryValues.length > 0? selectedCategoryValues[0].id: "categories"}
+              addItem={
+                (option) => applyFilter({
+                  type: filterObj.slug,
+                  filter: {
+                    ...option
+                  },
+                })
+              }
+              removeItem={
+                (option) => {
+                  removeFilter(option.id)
+                  if(filterObj.slug === "category" && selectedAttributes.find(({filter: {id: filterId}}) => filterId === option.id)) {
+                    setUrlDeHyderation(true);
+                  }
+                  // filter object which contains details is not required
+                  // because we remove based on attribute.filter.id and not the filter type.
+                }
+              }
+              removeAllItems={
+                () => {
+                  removeAllAttributeFiltersBySlug(filterObj.slug)
+                  setUrlDeHyderation(true);
+                }
+              }
+              selectedItems={selectedCategoryValues}
+              urlItemId={urlCategoryId}
+              // replaceEditor={replaceEditor}
+              setUrlDeHyderation={setUrlDeHyderation}
+              selectedCategories={selectedCategories}
+              searchData={searchPublicationCategories}
+              loadItem={loadCategory}
+            >
+            </EditorSearch>
+          )
+        }
+
         return acc.concat(
           <DropDown
             className="dropdown"
@@ -255,10 +372,10 @@ export const ProductListFilter = ({
             onOptionSelect={
               (option) => (
                 applyFilter({
-                type: filterObj.slug,
-                filter: {
-                  id: option.id,
-                  name: option.name,
+                  type: filterObj.slug,
+                  filter: {
+                    id: option.id,
+                    name: option.name,
                     slug: option.slug,
                   },
                 })
