@@ -46,8 +46,8 @@ const EDITORS_QUERY = gql`
 `;
 
 const PUBLICATION_CATEGORIES_QUERY = gql`
-  query PublicationCategories($name: String) {
-    publicationCategories(first:50, name: $name) {
+  query PublicationCategories($name: String, $publicationTypes: [ID]) {
+    publicationCategories(first:50, name: $name, publicationTypes: $publicationTypes) {
       edges {
         node {
           id
@@ -129,10 +129,11 @@ const searchEditors = (client, name, selectedCategories) => client.query({
   )
 );
 
-const searchPublicationCategories = (client, name) => client.query({
+const searchPublicationCategories = (client, name, selectedCategories) => client.query({
   query: PUBLICATION_CATEGORIES_QUERY,
   variables: {
     name,
+    publicationTypes: selectedCategories.map(({id}) => id),
   }
 }).then(
   (
