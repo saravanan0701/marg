@@ -39,8 +39,10 @@ export const EditorSearch = withApollo(
       }
       if (urlItemId && checkIfItemAlreadyLoaded(urlItemId)) {
         setShowDropDown(false);
-        loadItem(urlItemId, client).then((loadedEditor) => {
-          replaceEditor(urlItemId, loadedEditor);
+        loadItem(client, urlItemId).then((loadedEditor) => {
+          if(replaceEditor) {
+            replaceEditor(urlItemId, loadedEditor);
+          }
           setShowDropDown(true);
         })
       } else {
@@ -65,7 +67,7 @@ export const EditorSearch = withApollo(
       label={label}
       enableSearch={true}
       defaultOption={filteredSelectedItems}
-      searchData={(name) => searchData(name, selectedCategories, client)}
+      searchData={(name) => searchData(client, name, selectedCategories)}
       multiSelect={true}
       onOptionSelect={
         (option) => {
@@ -73,8 +75,7 @@ export const EditorSearch = withApollo(
             return;
           }
           addItem({
-            id: option.id,
-            name: option.name,
+            ...option
           })
         }
       }
