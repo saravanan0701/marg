@@ -9,14 +9,13 @@ export const EditorSearch = withApollo(
     client,
     applyFilter,
     removeFilter,
-    editors,
-    addEditor,
-    removeEditor,
+    addItem,
+    removeItem,
     selectedItems,
     //Redux related variable which makes sure
     // a selected item is not selected again and again.
     // even if there's an inconsistency redux is not affected by it
-    removeAllEditors,
+    removeAllItems,
     className,
     urlItemId,
     replaceEditor,
@@ -73,7 +72,7 @@ export const EditorSearch = withApollo(
           if (checkIfItemAlreadySelected(option)) {
             return;
           }
-          addEditor({
+          addItem({
             id: option.id,
             name: option.name,
           })
@@ -82,7 +81,7 @@ export const EditorSearch = withApollo(
       onOptionClose={
         (option) => {
           if (checkIfItemAlreadySelected(option)) {
-            removeEditor({
+            removeItem({
               id: option.id,
             })
             if (selectedItems.find(({ id: editorId }) => editorId === option.id)) {
@@ -93,7 +92,7 @@ export const EditorSearch = withApollo(
       }
       onUnselectAll={
         () => {
-          removeAllEditors()
+          removeAllItems()
           setUrlDeHyderation(true)
         }
       }
