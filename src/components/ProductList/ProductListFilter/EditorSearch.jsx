@@ -4,18 +4,6 @@ import { withApollo } from 'react-apollo';
 import { DropDown } from './../../commons/';
 
 
-const EDITORS_QUERY = gql`
-  query FilterEditors($name: String, $categoryIds: [ID]) {
-    editors(first:10, name: $name, categoryIds: $categoryIds) {
-      edges {
-        node {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
 
 const FETCH_EDITOR = gql`
   query FilterEditors($first:Int, $id: ID) {
@@ -51,38 +39,9 @@ export const EditorSearch = withApollo(
     selectedCategories,
     // This editor-id is fetched from the URL.
     // We fetch editor details and set it as selected.
+    searchData,
   }) => {
     const [showEditorDropDown, setShowEditorDropDown] = useState(false);
-    const searchEditors = (name) => client.query({
-      query: EDITORS_QUERY,
-      variables: {
-        name,
-        categoryIds: selectedCategories.map(({id}) => id),
-      }
-    }).then(
-      (
-        {
-          data: {
-            editors: {
-              edges
-            }
-          }
-        }
-      ) => (
-          edges.map(
-            (
-              {
-                node: { id, name }
-              }
-            ) => (
-                {
-                  id,
-                  name
-                }
-              )
-          )
-        )
-    );
 
     const loadEditor = () => (
       client.query({
@@ -113,7 +72,6 @@ export const EditorSearch = withApollo(
       } else {
         setShowEditorDropDown(true);
       }
-
     }, []);
 
     const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
@@ -133,7 +91,7 @@ export const EditorSearch = withApollo(
       label={"Editors/Authors"}
       enableSearch={true}
       defaultOption={filteredSelectedEditors}
-      searchData={searchEditors}
+      searchData={(name) => searchData(name, selectedCategories, client)}
       multiSelect={true}
       onOptionSelect={
         (option) => {

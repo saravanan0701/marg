@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { DropDown } from './../../commons/';
 import { getParamsObjFromString } from './../../../utils/';
 import { EditorSearch } from './EditorSearch.jsx';
+import gql from 'graphql-tag';
+
 const SORT_BY = [
   {
     name: "Price Low-High",
@@ -30,6 +32,32 @@ const SORT_BY = [
   },
 ];
 
+const EDITORS_QUERY = gql`
+  query FilterEditors($name: String, $categoryIds: [ID]) {
+    editors(first:10, name: $name, categoryIds: $categoryIds) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+const FETCH_EDITOR = gql`
+  query FilterEditors($first:Int, $id: ID) {
+    editors(first:$first, ids: [$id]) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -44,6 +72,36 @@ const Wrapper = styled.div`
   }
 `;
 
+const searchEditors = (name, selectedCategories, client) => client.query({
+  query: EDITORS_QUERY,
+  variables: {
+    name,
+    categoryIds: selectedCategories.map(({id}) => id),
+  }
+}).then(
+  (
+    {
+      data: {
+        editors: {
+          edges
+        }
+      }
+    }
+  ) => (
+      edges.map(
+        (
+          {
+            node: { id, name }
+          }
+        ) => (
+            {
+              id,
+              name
+            }
+          )
+      )
+    )
+);
 
 export const ProductListFilter = ({
   client,
@@ -143,6 +201,7 @@ export const ProductListFilter = ({
       replaceEditor={replaceEditor}
       setUrlDeHyderation={setUrlDeHyderation}
       selectedCategories={selectedCategories}
+      searchData={searchEditors}
     >
     </EditorSearch>
     {
