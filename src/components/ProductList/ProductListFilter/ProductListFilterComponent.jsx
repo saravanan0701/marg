@@ -103,6 +103,21 @@ const searchEditors = (name, selectedCategories, client) => client.query({
     )
 );
 
+const loadEditor = (urlEditorId, client) => (
+  client.query({
+    query: FETCH_EDITOR,
+    variables: {
+      id: urlEditorId,
+      first: 1
+    }
+  }).then(({ data: { editors: { edges } = {} } = {} }, errors) => {
+    if (edges.length > 0 && (!errors || errors.length === 0)) {
+      return edges[0].node
+    }
+    return;
+  })
+)
+
 export const ProductListFilter = ({
   client,
   addFilter,
@@ -202,6 +217,7 @@ export const ProductListFilter = ({
       setUrlDeHyderation={setUrlDeHyderation}
       selectedCategories={selectedCategories}
       searchData={searchEditors}
+      loadItem={loadEditor}
     >
     </EditorSearch>
     {

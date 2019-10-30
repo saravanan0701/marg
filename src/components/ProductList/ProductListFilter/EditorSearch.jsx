@@ -3,21 +3,6 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { DropDown } from './../../commons/';
 
-
-
-const FETCH_EDITOR = gql`
-  query FilterEditors($first:Int, $id: ID) {
-    editors(first:$first, ids: [$id]) {
-      edges {
-        node {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-
 export const EditorSearch = withApollo(
   ({
     client,
@@ -40,23 +25,9 @@ export const EditorSearch = withApollo(
     // This editor-id is fetched from the URL.
     // We fetch editor details and set it as selected.
     searchData,
+    loadItem,
   }) => {
     const [showEditorDropDown, setShowEditorDropDown] = useState(false);
-
-    const loadEditor = () => (
-      client.query({
-        query: FETCH_EDITOR,
-        variables: {
-          id: urlEditorId,
-          first: 1
-        }
-      }).then(({ data: { editors: { edges } = {} } = {} }, errors) => {
-        if (edges.length > 0 && (!errors || errors.length === 0)) {
-          replaceEditor(urlEditorId, edges[0].node);
-        }
-        setShowEditorDropDown(true);
-      })
-    )
 
     useEffect(() => {
       const checkIfEditorAlreadyLoaded = (editorId) => {
@@ -68,7 +39,10 @@ export const EditorSearch = withApollo(
       }
       if (urlEditorId && checkIfEditorAlreadyLoaded(urlEditorId)) {
         setShowEditorDropDown(false);
-        loadEditor();
+        loadItem(urlEditorId, client).then((loadedEditor) => {
+          replaceEditor(urlEditorId, loadedEditor);
+          setShowEditorDropDown(true);
+        })
       } else {
         setShowEditorDropDown(true);
       }
