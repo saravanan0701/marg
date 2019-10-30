@@ -12,13 +12,13 @@ export const EditorSearch = withApollo(
     editors,
     addEditor,
     removeEditor,
-    selectedEditors,
+    selectedItems,
     //Redux related variable which makes sure
     // a selected item is not selected again and again.
     // even if there's an inconsistency redux is not affected by it
     removeAllEditors,
     className,
-    urlEditorId,
+    urlItemId,
     replaceEditor,
     canDehyderateUrl,
     setUrlDeHyderation,
@@ -31,17 +31,17 @@ export const EditorSearch = withApollo(
     const [showDropDown, setShowDropDown] = useState(false);
 
     useEffect(() => {
-      const checkIfEditorAlreadyLoaded = (editorId) => {
-        const selectedEditor = selectedEditors.find(({ id }) => urlEditorId === id);
-        if (selectedEditor && selectedEditor.name) {
+      const checkIfItemAlreadyLoaded = (editorId) => {
+        const selectedItem = selectedItems.find(({ id }) => urlItemId === id);
+        if (selectedItem && selectedItem.name) {
           return false
         }
         return true;
       }
-      if (urlEditorId && checkIfEditorAlreadyLoaded(urlEditorId)) {
+      if (urlItemId && checkIfItemAlreadyLoaded(urlItemId)) {
         setShowDropDown(false);
-        loadItem(urlEditorId, client).then((loadedEditor) => {
-          replaceEditor(urlEditorId, loadedEditor);
+        loadItem(urlItemId, client).then((loadedEditor) => {
+          replaceEditor(urlItemId, loadedEditor);
           setShowDropDown(true);
         })
       } else {
@@ -49,12 +49,12 @@ export const EditorSearch = withApollo(
       }
     }, []);
 
-    const checkIfEditorAlreadySelected = ({ id }) => selectedEditors.filter(({ id: selectedId }) => selectedId === id).length > 0
+    const checkIfItemAlreadySelected = ({ id }) => selectedItems.filter(({ id: selectedId }) => selectedId === id).length > 0
     if (!showDropDown) {
       return <div>Loading..</div>;
     }
 
-    const filteredSelectedEditors = selectedEditors.reduce((acc, editor) => {
+    const filteredSelectedItems = selectedItems.reduce((acc, editor) => {
       if (editor.name) {
         return acc.concat(editor);
       }
@@ -65,12 +65,12 @@ export const EditorSearch = withApollo(
       className={className}
       label={label}
       enableSearch={true}
-      defaultOption={filteredSelectedEditors}
+      defaultOption={filteredSelectedItems}
       searchData={(name) => searchData(name, selectedCategories, client)}
       multiSelect={true}
       onOptionSelect={
         (option) => {
-          if (checkIfEditorAlreadySelected(option)) {
+          if (checkIfItemAlreadySelected(option)) {
             return;
           }
           addEditor({
@@ -81,11 +81,11 @@ export const EditorSearch = withApollo(
       }
       onOptionClose={
         (option) => {
-          if (checkIfEditorAlreadySelected(option)) {
+          if (checkIfItemAlreadySelected(option)) {
             removeEditor({
               id: option.id,
             })
-            if (selectedEditors.find(({ id: editorId }) => editorId === option.id)) {
+            if (selectedItems.find(({ id: editorId }) => editorId === option.id)) {
               setUrlDeHyderation(true);
             }
           }
