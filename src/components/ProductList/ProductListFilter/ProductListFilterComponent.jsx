@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { DropDown } from './../../commons/';
 import { getParamsObjFromString } from './../../../utils/';
-import { EditorSearch } from './EditorSearch.jsx';
+import { AjaxSearch } from './AjaxSearch.jsx';
 import gql from 'graphql-tag';
 
 const SORT_BY = [
@@ -278,7 +278,7 @@ export const ProductListFilter = ({
       >
       </DropDown>
     }
-    <EditorSearch
+    <AjaxSearch
       className="dropdown"
       label="Editors/Authors"
       key={selectedEditors.length > 0? selectedEditors[selectedEditors.length - 1].id: "editors"}
@@ -293,7 +293,7 @@ export const ProductListFilter = ({
       searchData={searchEditors}
       loadItem={loadEditor}
     >
-    </EditorSearch>
+    </AjaxSearch>
     {
       filters.reduce((acc, filterObj) => {
         if(filterObj.slug === "category" && articlesIsSelected) {
@@ -302,7 +302,7 @@ export const ProductListFilter = ({
 
         if(filterObj.slug === "category") {
           return acc.concat(
-            <EditorSearch
+            <AjaxSearch
               className="dropdown"
               label="Category"
               key={selectedCategoryValues.length > 0? selectedCategoryValues[0].id: "categories"}
@@ -338,7 +338,7 @@ export const ProductListFilter = ({
               searchData={searchPublicationCategories}
               loadItem={loadCategory}
             >
-            </EditorSearch>
+            </AjaxSearch>
           )
         }
 

@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { DropDown } from './../../commons/';
 
-export const EditorSearch = withApollo(
+export const AjaxSearch = withApollo(
   ({
     label,
     client,
