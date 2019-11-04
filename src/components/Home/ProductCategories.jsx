@@ -40,16 +40,12 @@ const Wrapper = styled.div`
 `;
 
 const LOAD_PRODUCT_CATEGORIES = gql`
-  query LoadProductCategories($name: String, $first: Int) {
-    attributes(query: $name, first: $first){
+  query LoadPublicationCategories($first: Int) {
+    publicationCategories(first: $first){
       edges {
         node {
+          id
           name
-          values {
-            id
-            name
-            slug
-          }
         }
       }
     }
@@ -64,25 +60,26 @@ export const ProductCategories = props => (
     <div className="row">
       <Query
         query={LOAD_PRODUCT_CATEGORIES}
-        variables={{ name: "Category" , first: 100}}
+        variables={{ first: 100}}
       >
         {({ loading, error, data }) => {
-            let attributes = [];
+            let publicationCategories = [];
             if (loading) {
               return <h1>Loading</h1>;
             }
             if(error) {
               return <div>Error loading categories</div>
             }
-            if (attributes && data && data.attributes && data.attributes.edges && data.attributes.edges.length > 0) {
-              attributes = data.attributes.edges[0].node.values;
+            if (publicationCategories && data && data.publicationCategories && data.publicationCategories.edges && data.publicationCategories.edges.length > 0) {
+              publicationCategories = data.publicationCategories.edges;
             }
-            return attributes
+            console.log("publicationCategories", publicationCategories);
+            return publicationCategories
               .sort((a, b) => a.name > b.name ? 1 : -1)
               .map(
-                (attribute, id) => (
-                  <Link to={`/categories/?category-id=${attribute.id}`} className="category-link mx-2 my-3" key={id}>
-                    <FlatButton colorType="secondary">{attribute.name}</FlatButton>
+                ({node}, id) => (
+                  <Link to={`/categories/?category-id=${node.id}`} className="category-link mx-2 my-3" key={id}>
+                    <FlatButton colorType="secondary">{node.name}</FlatButton>
                   </Link>
                 )
               )

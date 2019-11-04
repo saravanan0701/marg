@@ -12,7 +12,8 @@ const LOAD_PRODUCTS = gql`
     $sortBy:ProductOrder,
     $first:Int!,
     $after:String,
-    $editorIds: [ID]
+    $editorIds: [ID],
+    $publicationCategoryIds: [Int],
   ) {
     products(
       query:$query,
@@ -22,6 +23,7 @@ const LOAD_PRODUCTS = gql`
       first:$first,
       after:$after,
       editorIds: $editorIds,
+      publicationCategoryIds: $publicationCategoryIds,
     ) {
       totalCount
       edges {
@@ -130,7 +132,17 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
   } = productsList;
   const getHyphenLowerCase = (value) => (value.toLowerCase().replace(/\ /g, '-'));
 
-  const queryAttributes = attributes.map((it) => (`${it.type}:${it.filter.slug}`));
+  const queryAttributes = attributes.reduce(
+    (acc, it) => {
+      if(it.type === "year") {
+        acc.attributes = acc.attributes.concat(`${it.type}:${it.filter.slug}`);
+      } else {
+        acc.categories = acc.categories.concat(it.filter.id)
+      }
+      return acc;
+    }, {attributes: [], categories:[]}
+  );
+
   const editorIds = editors.map(({id}) => id);
   return client.query({
     query: LOAD_PRODUCTS,
@@ -139,8 +151,9 @@ function runProductsListQuery({ client, productsList, allowPagination }) {
       editorIds,
       after: allowPagination? after: '',
       categoryIds: categories.map((category) => category.id),
-      attributes: queryAttributes && queryAttributes.length > 0? queryAttributes: [],
+      attributes: queryAttributes.attributes,
       sortBy: sortBy? { field: sortBy.key, direction: sortBy.val }: null,
+      publicationCategoryIds: queryAttributes.categories,
     }
   }).then(
     (

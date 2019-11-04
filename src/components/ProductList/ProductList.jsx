@@ -56,6 +56,14 @@ const LOAD_ALL_FILTERS = gql`
         }
       }
     }
+    publicationCategories(first:100){
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
   }
 `
 
@@ -100,6 +108,7 @@ const ProductList = ({
             data: {
               categories,
               attributes,
+              publicationCategories,
             }={}
           }) => {
             const productVariants = {};
@@ -130,10 +139,18 @@ const ProductList = ({
             categories = categories.edges.map(({node}) => node);
             attributes = attributes.edges.map(({node}) => node);
             
+            attributes
+              .find(({slug}) => slug === "category")['values'] = publicationCategories.edges.map(({node}) => ({...node}));
+
+
             urlAttrs.forEach(({type, value}) => {
               const attr = attributes.find((filter) => filter.slug === type);
               if(attr) {
-                if(!canDehyderateUrl || selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)) {
+                if(
+                    !canDehyderateUrl
+                    ||
+                    selectedAttributes.find(({type: filterType, filter: {id: filterVal }}) => type === filterType && value === filterVal)
+                  ) {
                   return
                 }
                 addFilter({
