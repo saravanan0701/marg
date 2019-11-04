@@ -1,19 +1,23 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
+import ReactGA from 'react-ga';
 
-import { Redirect } from 'react-router';
+import { Redirect } from "react-router";
 import { Query } from "react-apollo";
-import gql from 'graphql-tag';
-import ReactHtmlParser from 'react-html-parser';
-import { RaisedButton, RadioButtonSet, FlatButton } from './../commons/';
-import FontAwesome from 'react-fontawesome';
-import { replaceStaticUrl, getEditorName, getLocalizedAmount } from './../../utils/';
-import { Container, Row, Col } from 'reactstrap';
-import Article from './../Article';
+import gql from "graphql-tag";
+import ReactHtmlParser from "react-html-parser";
+import { RaisedButton, RadioButtonSet, FlatButton } from "./../commons/";
+import FontAwesome from "react-fontawesome";
+import {
+  replaceStaticUrl,
+  getEditorName,
+  getLocalizedAmount
+} from "./../../utils/";
+import { Container, Row, Col } from "reactstrap";
+import Article from "./../Article";
 
 const Wrapper = styled.div`
-
-  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+  @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
     padding: 50px 100px 100px;
   }
 
@@ -22,14 +26,14 @@ const Wrapper = styled.div`
   }
 
   .name {
-    font-family: ${props => props.theme['$font-secondary-medium']};
-    font-size: ${props => props.theme['$font-size-sm']};
-    line-height: ${props => props.theme['$font-size-sm']};
-    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-      font-size: ${props => props.theme['$font-size-lg']};
-      line-height: ${props => props.theme['$font-size-lg']};
+    font-family: ${props => props.theme["$font-secondary-medium"]};
+    font-size: ${props => props.theme["$font-size-sm"]};
+    line-height: ${props => props.theme["$font-size-sm"]};
+    @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
+      font-size: ${props => props.theme["$font-size-lg"]};
+      line-height: ${props => props.theme["$font-size-lg"]};
     }
-    font-weight: ${props => props.theme['$weight-regular']};
+    font-weight: ${props => props.theme["$weight-regular"]};
     font-weight: 500;
     letter-spacing: 1px;
   }
@@ -54,8 +58,8 @@ const Wrapper = styled.div`
   }
 
   .editor-name {
-    font-size: ${props => props.theme['$font-size-xxs']};
-    font-weight: ${props => props.theme['$weight-regular']};
+    font-size: ${props => props.theme["$font-size-xxs"]};
+    font-weight: ${props => props.theme["$weight-regular"]};
     letter-spacing: 1px;
     line-height: 28px;
     margin-bottom: 1.5rem;
@@ -63,7 +67,7 @@ const Wrapper = styled.div`
 
   .medium-name {
     color: #37312f;
-    font-size: ${props => props.theme['$font-size-xxs']};
+    font-size: ${props => props.theme["$font-size-xxs"]};
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -73,9 +77,9 @@ const Wrapper = styled.div`
 
   .pricing {
     color: #37312f;
-    font-family: ${props => props.theme['$font-primary-medium']};
-    font-size: ${props => props.theme['$font-size-xxs']};
-    font-weight: ${props => props.theme['$weight-regular']};
+    font-family: ${props => props.theme["$font-primary-medium"]};
+    font-size: ${props => props.theme["$font-size-xxs"]};
+    font-weight: ${props => props.theme["$weight-regular"]};
     line-height: 20px;
   }
 
@@ -85,8 +89,8 @@ const Wrapper = styled.div`
   }
 
   .availability {
-    font-size: ${props => props.theme['$font-size-xxs']};
-    font-weight: ${props => props.theme['$weight-regular']};
+    font-size: ${props => props.theme["$font-size-xxs"]};
+    font-weight: ${props => props.theme["$weight-regular"]};
     letter-spacing: 0.59px;
     line-height: 23px;
   }
@@ -102,12 +106,12 @@ const Wrapper = styled.div`
 
   .contents {
     & > .heading {
-      font-family: ${props => props.theme['$font-secondary-medium']};
-      font-size: ${props => props.theme['$font-size-sm']};
-      @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
-        font-size: ${props => props.theme['$font-size-lg']};
+      font-family: ${props => props.theme["$font-secondary-medium"]};
+      font-size: ${props => props.theme["$font-size-sm"]};
+      @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
+        font-size: ${props => props.theme["$font-size-lg"]};
       }
-      font-weight: ${props => props.theme['$weight-regular']};
+      font-weight: ${props => props.theme["$weight-regular"]};
       color: ${props => props.theme.mainTextColor};
     }
 
@@ -123,8 +127,8 @@ const Wrapper = styled.div`
 
 const OutOfStock = styled.div`
   color: ${props => props.theme.primaryColor};
-  font-size: ${props => props.theme['$font-size-xs']};
-  font-weight: ${props => props.theme['$weight-regular']};
+  font-size: ${props => props.theme["$font-size-xs"]};
+  font-weight: ${props => props.theme["$weight-regular"]};
 `;
 
 const PRODUCT_QUERY = `
@@ -230,63 +234,52 @@ const LOAD_PRODUCT_AND_ORDERS = gql`
     ${PRODUCT_QUERY}
     ${ME_QUERY}
   }
-`
+`;
 const LOAD_PRODUCT = gql`
   query LoadProduct($id: ID!) {
     ${PRODUCT_QUERY}
   }
-`
+`;
 const DEFAULT_QUANTITY = 1;
-
 
 const PriceWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  font-size: ${props => props.theme['$font-size-xxxs']};
-  font-weight: ${props => props.theme['$weight-bold']};
+  font-size: ${props => props.theme["$font-size-xxxs"]};
+  font-weight: ${props => props.theme["$weight-bold"]};
   letter-spacing: 2px;
   text-transform: uppercase;
   color: ${props => props.theme.underlineColor};
-  
+
   & > .name {
     width: 40%;
   }
-
-`
+`;
 
 const ProductDetails = ({
   match: {
-    params: {
-      id,
-    }
+    params: { id }
   },
   saveVariant,
   currency,
-  isLoggedIn,
+  isLoggedIn
 }) => {
-
   let selectedVariant = {};
 
-  return <Wrapper>
-    <Query
-      query={isLoggedIn? LOAD_PRODUCT_AND_ORDERS: LOAD_PRODUCT}
-      variables={{
-        id,
-      }}>
-      {
-        ({
-          loading,
-          error,
-          data: {
-            me = {},
-            product,
-          } = {}
-        }) => {
+  return (
+    <Wrapper>
+      <Query
+        query={isLoggedIn ? LOAD_PRODUCT_AND_ORDERS : LOAD_PRODUCT}
+        variables={{
+          id
+        }}
+      >
+        {({ loading, error, data: { me = {}, product } = {} }) => {
           if (loading) {
             return <h1>Loading...</h1>;
           }
           if (!loading && !product) {
-            return <Redirect to="/404" />
+            return <Redirect to="/404" />;
           }
 
           const {
@@ -302,25 +295,21 @@ const ProductDetails = ({
             variants = [],
             attributes,
             category,
-            thumbnail: {
-              url: thumbnailUrl,
-            } = {},
+            thumbnail: { url: thumbnailUrl } = {}
           } = product || {};
 
-          const {
-            orders: {
-              edges: orderEdges
-            } = {}
-          } = me || {};
+          const { orders: { edges: orderEdges } = {} } = me || {};
 
           let productVariants;
-          if(orderEdges) {
-            productVariants = variants.map((variant) => {
+          if (orderEdges) {
+            productVariants = variants.map(variant => {
               const foundVar = orderEdges.reduce((acc, order) => {
-                const foundLine = order.node.lines.find(({variant: lineVariant}) => {
-                  return lineVariant.id === variant.id && variant.isDigital
-                });
-                if(foundLine && !acc) {
+                const foundLine = order.node.lines.find(
+                  ({ variant: lineVariant }) => {
+                    return lineVariant.id === variant.id && variant.isDigital;
+                  }
+                );
+                if (foundLine && !acc) {
                   return {
                     ...variant,
                     alreadyBought: true,
@@ -330,130 +319,138 @@ const ProductDetails = ({
                 }
                 return acc;
               }, null);
-              return foundVar? foundVar: variant;
+              return foundVar ? foundVar : variant;
             });
           } else {
             productVariants = variants;
           }
 
-          const boughtVar = productVariants.find(({alreadyBought}) => alreadyBought);
-          const unboughtVariants = productVariants.reduce((acc, it) => (it.alreadyBought? acc: acc.concat(it)), []);
+          const boughtVar = productVariants.find(
+            ({ alreadyBought }) => alreadyBought
+          );
+          const unboughtVariants = productVariants.reduce(
+            (acc, it) => (it.alreadyBought ? acc : acc.concat(it)),
+            []
+          );
 
-          const metaInfo = attributes.reduce((acc, {value, attribute} = {} ) => {
-            acc[attribute.slug]=value.name
-            return acc;
-          }, {})
+          const metaInfo = attributes.reduce(
+            (acc, { value, attribute } = {}) => {
+              acc[attribute.slug] = value.name;
+              return acc;
+            },
+            {}
+          );
 
-          const singularCategoryName = category && category.name && category.name.replace(/s/gi, '');
-          const articlesShouldBePurchasable = singularCategoryName === "Magazine"? true: false;
+          const singularCategoryName =
+            category && category.name && category.name.replace(/s/gi, "");
+          const articlesShouldBePurchasable =
+            singularCategoryName === "Magazine" ? true : false;
 
           const childProducts = sections
-          .reduce((acc, section) => acc.concat(section.childProducts), [])
-          .sort(({order: orderA}, {order: orderB}) => orderA - orderB);
+            .reduce((acc, section) => acc.concat(section.childProducts), [])
+            .sort(({ order: orderA }, { order: orderB }) => orderA - orderB);
 
           return (
-
             <Container>
               <Row className="my-5">
                 <Col className="text-lg-center" lg="6">
                   <img
                     className="img-fluid"
-                    src={replaceStaticUrl(images && images.length > 0? images[0].url: thumbnailUrl)}
+                    src={replaceStaticUrl(
+                      images && images.length > 0 ? images[0].url : thumbnailUrl
+                    )}
                   />
                 </Col>
                 <Col className="details" lg="6">
                   <div className="d-flex mt-3 mt-lg-0 ml-0">
-                  <div className="product-type ">{singularCategoryName}</div>
-                  <div className="current-issue">{isCurrentIssue?"CURRENT ISSUE": ""}</div>
+                    <div className="product-type ">{singularCategoryName}</div>
+                    <div className="current-issue">
+                      {isCurrentIssue ? "CURRENT ISSUE" : ""}
+                    </div>
                   </div>
                   <div className="d-flex mt-1">
-                    {
-                      volumeInfo &&
-                      <div>{volumeInfo}</div>
-                    }
-                    {
-                      volumeInfo && metaInfo && metaInfo.year &&
+                    {volumeInfo && <div>{volumeInfo}</div>}
+                    {volumeInfo && metaInfo && metaInfo.year && (
                       <div>,&nbsp;</div>
-                    }
-                    {
-                      metaInfo && metaInfo.year &&
-                      <div>{metaInfo.year}</div>
-                    }
+                    )}
+                    {metaInfo && metaInfo.year && <div>{metaInfo.year}</div>}
                   </div>
                   <h1 className="name my-3">{name}</h1>
-                  {
-                    getEditorName(editors) && 
-                      <div className="editor-name">Edited by:&nbsp;{getEditorName(editors)}</div>
-                  }
-                  {
-                    !isAvailable &&
-                      <OutOfStock>Out of stock</OutOfStock>
-                  }
-                  {
-                    boughtVar && 
-                      <FlatButton
-                        onClick={
-                          (e) => (
-                            window.open(`/reader/?order-id=${boughtVar.orderId}&line-id=${boughtVar.lineId}`, '_blank')
-                          )
-                        }
-                        className={`${boughtVar? "mt-3 mt-lg-5": ""}`}
-                      >
-                        Digital: Read now
-                      </FlatButton>
-                  }
-                  {
-                    isAvailable &&
-                    <div className={`${!boughtVar? "my-3 my-lg-5": "mt-3"}`}>
+                  {getEditorName(editors) && (
+                    <div className="editor-name">
+                      Edited by:&nbsp;{getEditorName(editors)}
+                    </div>
+                  )}
+                  {!isAvailable && <OutOfStock>Out of stock</OutOfStock>}
+                  {boughtVar && (
+                    <FlatButton
+                      onClick={e =>
+                        window.open(
+                          `/reader/?order-id=${boughtVar.orderId}&line-id=${boughtVar.lineId}`,
+                          "_blank"
+                        )
+                      }
+                      className={`${boughtVar ? "mt-3 mt-lg-5" : ""}`}
+                    >
+                      Digital: Read now
+                    </FlatButton>
+                  )}
+                  {isAvailable && (
+                    <div className={`${!boughtVar ? "my-3 my-lg-5" : "mt-3"}`}>
                       <RadioButtonSet
-                        selectedId = {unboughtVariants.findIndex((variant) => !variant.alreadyBought)}
-                        selectOption={
-                          (id) => {
-                            selectedVariant = {
-                              ...unboughtVariants[id]
-                            };
-                          }
-                        }
+                        selectedId={unboughtVariants.findIndex(
+                          variant => !variant.alreadyBought
+                        )}
+                        selectOption={id => {
+                          selectedVariant = {
+                            ...unboughtVariants[id]
+                          };
+                        }}
                         className="pricing"
                       >
-                        {
-                          unboughtVariants.reduce(
-                            (acc, {
+                        {unboughtVariants.reduce(
+                          (
+                            acc,
+                            {
                               id,
                               isDigital,
-                              inrPrice: {
-                                localized: localizedInr,
-                              } = {},
-                              usdPrice: {
-                                localized: localizedUsd
-                              } = {},
-                              alreadyBought,
-                            }) => {
-                              if(alreadyBought) {
-                                return acc;
-                              }
-                              return acc.concat(
-                                <PriceWrapper key={id}>
-                                  {
-                                    isDigital ?
-                                      <div className="medium-name">Digital</div>
-                                      :
-                                      <div className="medium-name">Print</div>
-                                  }
-                                  <div className="price">
-                                  {
-                                    getLocalizedAmount({currency, inr: localizedInr, usd: localizedUsd})
-                                  }
-                                  </div>
-                                </PriceWrapper>
-                              )
+                              inrPrice: { localized: localizedInr } = {},
+                              usdPrice: { localized: localizedUsd } = {},
+                              alreadyBought
                             }
-                          , [])
-                        }
+                          ) => {
+                            if (alreadyBought) {
+                              return acc;
+                            }
+                            return acc.concat(
+                              <PriceWrapper key={id}>
+                                {isDigital ? (
+                                  <div className="medium-name">Digital</div>
+                                ) : (
+                                  <div className="medium-name">Print</div>
+                                )}
+                                <div className="price">
+                                  {getLocalizedAmount({
+                                    currency,
+                                    inr: localizedInr,
+                                    usd: localizedUsd
+                                  })}
+                                </div>
+                              </PriceWrapper>
+                            );
+                          },
+                          []
+                        )}
                       </RadioButtonSet>
                       <RaisedButton
-                        onClick={
-                          () => saveVariant({
+                        onClick={() => {
+                          let label = name.concat(" - ").concat(selectedVariant.isDigital ? 'Digital' : 'Print');
+                          ReactGA.event({
+                            category: 'E-Commerce Action',
+                            action: 'Added Item to Cart',
+                            label: label
+                          });
+                          saveVariant({
                             variant: {
                               ...selectedVariant,
                               product: {
@@ -463,48 +460,51 @@ const ProductDetails = ({
                                 thumbnailUrl
                               }
                             },
-                            quantity: DEFAULT_QUANTITY,
-
-                          })
-                        }
+                            quantity: DEFAULT_QUANTITY
+                          });
+                        }}
                         className="add-to-bag"
                       >
                         Add To Cart
                       </RaisedButton>
                     </div>
-                  }
+                  )}
                 </Col>
               </Row>
               <Row>
-                {
-                  category && category.name === "Books" &&
+                {category && category.name === "Books" && (
                   <Col lg="6">
                     <h3 id="description">Description</h3>
                     {ReactHtmlParser(description)}
                   </Col>
-                }
+                )}
               </Row>
               <Row>
                 <Col lg="9" className="px-0">
                   <div className="contents">
-                    {
-                      childProducts && childProducts.length > 0 &&
-                      <h3 key="heading" className="heading my-3 my-5 text-left">Contents</h3>
-                    }
-                    {
-                      childProducts.map(
-                        (product) => <Article showParentInfo={false} saveVariant={saveVariant} key={product.id} purchasable={articlesShouldBePurchasable} {...product} />
-                      )
-                    }
+                    {childProducts && childProducts.length > 0 && (
+                      <h3 key="heading" className="heading my-3 my-5 text-left">
+                        Contents
+                      </h3>
+                    )}
+                    {childProducts.map(product => (
+                      <Article
+                        showParentInfo={false}
+                        saveVariant={saveVariant}
+                        key={product.id}
+                        purchasable={articlesShouldBePurchasable}
+                        {...product}
+                      />
+                    ))}
                   </div>
                 </Col>
               </Row>
             </Container>
-          )
-        }
-      }
-    </Query>
-  </Wrapper>
+          );
+        }}
+      </Query>
+    </Wrapper>
+  );
 };
 
 export default ProductDetails;
