@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { DropDown } from './../../commons/';
 import { getParamsObjFromString } from './../../../utils/';
-import { EditorSearch } from './EditorSearch.jsx';
+import { AjaxSearch } from './AjaxSearch.jsx';
+import gql from 'graphql-tag';
+
 const SORT_BY = [
   {
     name: "Price Low-High",
@@ -30,6 +32,58 @@ const SORT_BY = [
   },
 ];
 
+const EDITORS_QUERY = gql`
+  query FilterEditors($name: String, $categoryIds: [ID]) {
+    editors(first:10, name: $name, categoryIds: $categoryIds) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+const PUBLICATION_CATEGORIES_QUERY = gql`
+  query PublicationCategories($name: String, $publicationTypes: [ID]) {
+    publicationCategories(first:50, name: $name, publicationTypes: $publicationTypes) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+const FETCH_EDITOR = gql`
+  query FilterEditors($first:Int, $id: ID) {
+    editors(first:$first, ids: [$id]) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+const FETCH_CATEGORY = gql`
+  query FilterEditors($first:Int, $id: Int) {
+    publicationCategories(first:$first, ids: [$id]) {
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -44,6 +98,97 @@ const Wrapper = styled.div`
   }
 `;
 
+const searchEditors = (client, name, selectedCategories) => client.query({
+  query: EDITORS_QUERY,
+  variables: {
+    name,
+    categoryIds: selectedCategories.map(({id}) => id),
+  }
+}).then(
+  (
+    {
+      data: {
+        editors: {
+          edges
+        }
+      }
+    }
+  ) => (
+    edges.map(
+      (
+        {
+          node: { id, name }
+        }
+      ) => (
+        {
+          id,
+          name
+        }
+      )
+    )
+  )
+);
+
+const searchPublicationCategories = (client, name, selectedCategories) => client.query({
+  query: PUBLICATION_CATEGORIES_QUERY,
+  variables: {
+    name,
+    publicationTypes: selectedCategories.map(({id}) => id),
+  }
+}).then(
+  (
+    {
+      data: {
+        publicationCategories: {
+          edges
+        }
+      }
+    }
+  ) => (
+    edges.map(
+      (
+        {
+          node: { id, name }
+        }
+      ) => (
+        {
+          id,
+          name
+        }
+      )
+    )
+  )
+);
+
+const loadEditor = (client, urlEditorId) => (
+  client.query({
+    query: FETCH_EDITOR,
+    variables: {
+      id: urlEditorId,
+      first: 1
+    }
+  }).then(({ data: { editors: { edges } = {} } = {} }, errors) => {
+    if (edges.length > 0 && (!errors || errors.length === 0)) {
+      return edges[0].node
+    }
+    return;
+  })
+)
+
+const loadCategory = (client, urlCategoryId) => (
+  client.query({
+    query: FETCH_CATEGORY,
+    variables: {
+      id: urlCategoryId,
+      first: 1
+    }
+  }).then(({ data: { publicationCategories: { edges } = {} } = {} }, errors) => {
+    if (edges.length > 0 && (!errors || errors.length === 0)) {
+      return edges[0].node
+    }
+    return;
+  })
+)
 
 export const ProductListFilter = ({
   client,
@@ -72,10 +217,13 @@ export const ProductListFilter = ({
 }) => {
   const queryObj = getParamsObjFromString(search);
   const queryKeys = Object.keys(queryObj);
-  let urlEditorId;
+  let urlEditorId, urlCategoryId;
   if(queryKeys.length > 0) {
     if(queryKeys[0] === "editor-id") {
       urlEditorId = queryObj['editor-id'];
+    }
+    if(queryKeys[0] === "category-id") {
+      urlCategoryId = queryObj['editor-id'];
     }
   }
 
@@ -131,25 +279,70 @@ export const ProductListFilter = ({
       >
       </DropDown>
     }
-    <EditorSearch
+    <AjaxSearch
       className="dropdown"
+      label="Editors/Authors"
       key={selectedEditors.length > 0? selectedEditors[selectedEditors.length - 1].id: "editors"}
-      addEditor={addEditor}
-      removeEditor={removeEditor}
-      removeAllEditors={removeAllEditors}
-      editors={editors}
-      selectedEditors={selectedEditors}
-      urlEditorId={urlEditorId}
+      addItem={addEditor}
+      removeItem={removeEditor}
+      removeAllItems={removeAllEditors}
+      selectedItems={selectedEditors}
+      urlItemId={urlEditorId}
       replaceEditor={replaceEditor}
       setUrlDeHyderation={setUrlDeHyderation}
       selectedCategories={selectedCategories}
+      searchData={searchEditors}
+      loadItem={loadEditor}
     >
-    </EditorSearch>
+    </AjaxSearch>
     {
       filters.reduce((acc, filterObj) => {
         if(filterObj.slug === "category" && articlesIsSelected) {
           return acc;
         }
+
+        if(filterObj.slug === "category") {
+          return acc.concat(
+            <AjaxSearch
+              className="dropdown"
+              label="Category"
+              key={selectedCategoryValues.length > 0? selectedCategoryValues[0].id: "categories"}
+              addItem={
+                (option) => applyFilter({
+                  type: filterObj.slug,
+                  filter: {
+                    ...option
+                  },
+                })
+              }
+              removeItem={
+                (option) => {
+                  removeFilter(option.id)
+                  if(filterObj.slug === "category" && selectedAttributes.find(({filter: {id: filterId}}) => filterId === option.id)) {
+                    setUrlDeHyderation(true);
+                  }
+                  // filter object which contains details is not required
+                  // because we remove based on attribute.filter.id and not the filter type.
+                }
+              }
+              removeAllItems={
+                () => {
+                  removeAllAttributeFiltersBySlug(filterObj.slug)
+                  setUrlDeHyderation(true);
+                }
+              }
+              selectedItems={selectedCategoryValues}
+              urlItemId={urlCategoryId}
+              // replaceEditor={replaceEditor}
+              setUrlDeHyderation={setUrlDeHyderation}
+              selectedCategories={selectedCategories}
+              searchData={searchPublicationCategories}
+              loadItem={loadCategory}
+            >
+            </AjaxSearch>
+          )
+        }
+
         return acc.concat(
           <DropDown
             className="dropdown"
@@ -180,10 +373,10 @@ export const ProductListFilter = ({
             onOptionSelect={
               (option) => (
                 applyFilter({
-                type: filterObj.slug,
-                filter: {
-                  id: option.id,
-                  name: option.name,
+                  type: filterObj.slug,
+                  filter: {
+                    id: option.id,
+                    name: option.name,
                     slug: option.slug,
                   },
                 })
