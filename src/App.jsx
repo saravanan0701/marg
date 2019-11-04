@@ -119,6 +119,7 @@ class App extends Component {
   componentDidMount() {
     store.dispatch(actions.rehyderateStateFromCache(client));
     ReactGA.initialize("UA-111691833-1", { debug: true });
+    ReactGA.plugin.require('ecommerce');
   }
 
   render() {
