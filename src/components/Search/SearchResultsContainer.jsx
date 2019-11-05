@@ -165,7 +165,7 @@ const StyledWrapper = styled.div`
       query: SEARCH,
       variables: {
         name: searchVal,
-        first: 30,
+        first: 50,
       }
     }).then(({ data: { products: {edges: productEdges}={}, editors: {edges: editorEdges}={} }={} }={}, error) => {
       if(!error || error.length === 0) {
