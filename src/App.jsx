@@ -122,7 +122,7 @@ class App extends Component {
   
   componentDidMount() {
     store.dispatch(actions.rehyderateStateFromCache(client));
-    ReactGA.initialize("UA-111691833-1");
+    ReactGA.initialize(`${process.env.REACT_APP_GOOGLE_ID}`);
   }
 
   render() {
