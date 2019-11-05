@@ -5,6 +5,7 @@ import styled from "styled-components";
 import logo from "./../../../images/logo.png";
 import AddressBox from "../CheckoutAddress/AddressBox";
 import { Redirect } from "react-router-dom";
+import ReactGA from "react-ga";
 
 const SAVE_PAYMENT = gql`
   mutation SavePayment($checkoutId: ID!, $input: PaymentInput!) {
@@ -259,7 +260,20 @@ export default class CheckoutPayment extends Component {
           orderId: id,
           status: "PAYMENT_PERSISTED",
         });
+
         this.props.setCheckoutStatus('SUCCESS', visibleOrderId)
+
+        ReactGA.plugin.execute('ecommerce', 'addTransaction', {
+          'id': id,
+          'affiliation': 'Marg',          
+          'revenue': netInr.amount > 0 ? netInr.amount: netUsd.amount,                
+          'shipping': 0,   
+          'tax': 0, 
+          'currency': netInr.amount > 0 ? 'INR' : 'USD'
+        });
+
+        ReactGA.plugin.execute('ecommerce', 'send');
+
         clearCartCache();
         return resetCart();
       }
