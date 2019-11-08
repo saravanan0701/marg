@@ -122,6 +122,8 @@ const StyledWrapper = styled.div`
   }
 `;
 
+const VALID_CATEGORIES = ["Books", "Magazines", "Articles"];
+
  const SearchResultsContainer = ({
   client,
   history: {
@@ -178,20 +180,19 @@ const StyledWrapper = styled.div`
           if(existingCategory) {
             existingCategory.items = existingCategory.items.concat(product);
             return acc;
-          } else {
+          } else if(VALID_CATEGORIES.find((catName) => catName === category.name)) {
             category.items = [product];
             return acc.concat(category);
           }
+          return acc;
         }, []);
         if(editorEdges && editorEdges.length > 0) {
-          console.log(editorEdges);
           categoriesArr = categoriesArr.concat({
             id: "editors",
             name: "Editors",
             items: editorEdges.map(({node}) => ({...node, url: `/categories/?editor-id=${node.id}`}))
           });
         }
-        console.log(categoriesArr);
         setResultsArr(categoriesArr);
         return categoriesArr;
       }
