@@ -13,31 +13,7 @@ import {
   Row,
   Col
 } from "reactstrap";
-
-const items = [
-  {
-    positiom: "1",
-    label: "Current Magazine",
-    title: "Infrastructure as Space: Development and Its (Dis)contents ",
-    subtitle: "Edited by: Burte, Himanshu",
-    imageSrc: Hero1,
-    ctaText: "View This Issue",
-    ctaUrl: "/product/UHJvZHVjdDo1MjUx",
-    textColor: "#FFFFFF"
-  },
-  {
-    position: "2",
-    label: "Latest Book",
-    title: "A Mediated Magic: The Indian Presence in Modernism 1880–1930",
-    subtitle: "Edited by: Naman P. Ahuja and Louise Belfrage",
-    description:
-      "The exchanges with ideas Indian, and with Indians themselves, had a decisive impact that contributed to the eruption and shape of Modernism in the West. This book, richly illustrated and including several unpublished artworks, reveals the great artists of Europe in a new light.",
-    imageSrc: Hero2,
-    ctaText: "View This Book",
-    ctaUrl: "/product/UHJvZHVjdDo1MjM5",
-    textColor: "#FFFFFF"
-  }
-];
+import { DiaryContext } from "./../../context/DiaryContext";
 
 const CarouselWrapper = styled.div`
   * {
@@ -154,6 +130,42 @@ const CarouselWrapper = styled.div`
   }
 `;
 
+const items = [
+  {
+    positiom: "1",
+    label: "Current Magazine",
+    title: "Infrastructure as Space: Development and Its (Dis)contents ",
+    subtitle: "Edited by: Burte, Himanshu",
+    imageSrc: Hero1,
+    ctaText: "View This Issue",
+    ctaUrl: "/product/UHJvZHVjdDo1MjUx",
+    textColor: "#FFFFFF"
+  },
+  {
+    position: "2",
+    label: "Latest Book",
+    title: "A Mediated Magic: The Indian Presence in Modernism 1880–1930",
+    subtitle: "Edited by: Naman P. Ahuja and Louise Belfrage",
+    description:
+      "The exchanges with ideas Indian, and with Indians themselves, had a decisive impact that contributed to the eruption and shape of Modernism in the West. This book, richly illustrated and including several unpublished artworks, reveals the great artists of Europe in a new light.",
+    imageSrc: Hero2,
+    ctaText: "View This Book",
+    ctaUrl: "/product/UHJvZHVjdDo1MjM5",
+    textColor: "#FFFFFF"
+  },
+  {
+    position: "3",
+    label: "Diary 2020",
+    title: "Diary 2020",
+    description:
+      "Grab your diary now!",
+    imageSrc: Hero2,
+    ctaText: "View Diary",
+    ctaUrl: "/product/UHJvZHVjdDo1MjM5",
+    textColor: "#FFFFFF"
+  }
+];
+
 class HeroCarousel extends Component {
   constructor(props) {
     super(props);
@@ -196,10 +208,22 @@ class HeroCarousel extends Component {
     this.setState({ activeIndex: newIndex });
   }
 
+  setDiaryUrl(url) {
+    return items.map((it, id) => {
+      if(id === 2) {
+        return {
+          ...it,
+          ctaUrl: `/product/${url}`,
+        }
+      }
+      return it; 
+    })
+  }
+
   render() {
     const { activeIndex } = this.state;
 
-    const slides = items.map(item => {
+    const slides = this.setDiaryUrl(this.context).map(item => {
       return (
         <CarouselItem
           onExiting={this.onExiting}
@@ -263,5 +287,6 @@ class HeroCarousel extends Component {
     );
   }
 }
+HeroCarousel.contextType = DiaryContext;
 
 export default HeroCarousel;

@@ -1,4 +1,32 @@
 import { CountryRegionData } from 'react-country-region-selector';
+import gql from 'graphql-tag';
+
+const LOAD_PRODUCT_TYPES = gql`
+  query LoadProductTypes {
+    productTypes(first: 10){
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+const LOAD_DAIRY_PRODUCT = gql`
+  query loadProductWithDiary($productType: ID!) {
+    products(filter: {productType: $productType}, first: 1){
+      edges {
+        node {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
 const URI = `${process.env.REACT_APP_BACKEND_URL}/`;
 
 export const replaceStaticUrl = (url) => {
@@ -93,3 +121,45 @@ export const getLocalizedAmount = ({ currency, inr, usd }) => (
 export const getLocalizedAmountBySymbol = ({currency, amount}) => (
   currency === "INR"? `₹${amount}`: `$${amount}`
 )
+
+export const getDiaryId = (client) => {
+  const getDiaryProductType = () => (
+    client.query({
+      query: LOAD_PRODUCT_TYPES,
+    }).then(({data: {productTypes}}, error) => {
+      if(error) {
+        return null;
+      }
+      return productTypes.edges.reduce((acc, {node: {id, name} }) => {
+        if(!acc) {
+          return name === "Diary"?{id, name}: null
+        }
+        return acc;
+      }, null)
+    })
+  )
+  const getDiaryDetails = (diaryProductTypeId) => (
+    client.query({
+      query: LOAD_DAIRY_PRODUCT,
+      variables: {
+        productType: diaryProductTypeId,
+      }
+    }).then(({data: {products}}, error, loading) => {
+
+      if(!error && !loading) {
+        return products.edges.reduce((acc, {node: {id}}) => id?id: acc, null)
+      }
+    })
+  )
+  return new Promise((resolve, reject) => {
+    getDiaryProductType().then((diaryType) => {
+      if(diaryType) {
+        getDiaryDetails(diaryType.id)
+          .then((diaryId) => resolve(diaryId))
+          .catch(() => reject())
+      } else {
+        reject();
+      }
+    }).catch(() => reject())
+  })
+}
