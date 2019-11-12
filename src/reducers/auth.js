@@ -40,48 +40,48 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
       return {
         ...state,
         firstName: action.user.firstName,
-          lastName: action.user.lastName,
-          isLoading: false
+        lastName: action.user.lastName,
+        isLoading: false
       }
 
-      case 'UPDATE_USER_EMAIL':
-        return {
-          ...state,
-          email: action.user.email,
-            isLoading: false
-        }
+    case 'UPDATE_USER_EMAIL':
+      return {
+        ...state,
+        email: action.user.email,
+        isLoading: false
+      }
 
-        case 'ADD_NEW_ADDRESS':
-          return {
-            ...state,
-            addresses: state.addresses.concat(action.address),
-          };
-        case 'LOGIN_FAILURE':
-          return {
-            ...INITIAL_USER_STATE,
-            currency: state.currency,
-              isLoading: false,
-          };
+    case 'ADD_NEW_ADDRESS':
+      return {
+        ...state,
+        addresses: state.addresses.concat(action.address),
+      };
+    case 'LOGIN_FAILURE':
+      return {
+        ...INITIAL_USER_STATE,
+        currency: state.currency,
+        isLoading: false,
+      };
 
-        case 'LOGOUT':
-          return {
-            ...INITIAL_USER_STATE,
-            isLoading: false,
-          };
+    case 'LOGOUT':
+      return {
+        ...INITIAL_USER_STATE,
+        isLoading: false,
+      };
 
-        case 'SET_ORDERS':
-          return {
-            ...state,
-            orders: state.orders.concat(action.orders),
-          }
+    case 'SET_ORDERS':
+      return {
+        ...state,
+        orders: state.orders.concat(action.orders),
+      }
 
-          case 'SET_CURRENCY_CODE':
-            return {
-              ...state,
-              currency: action.currencyCode,
-            }
+    case 'SET_CURRENCY_CODE':
+      return {
+        ...state,
+        currency: action.currencyCode,
+      }
 
-            default:
-              return state
+    default:
+      return state
   }
 }
