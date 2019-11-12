@@ -1,7 +1,8 @@
 import React from 'react';
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Subscription } from "react-apollo";
 import styled from "styled-components";
+import logo from "./../../images/logo.png";
 
 const LIST_SUBSCRIPTIONS = gql`
   query ListSubscriptions {
@@ -33,13 +34,51 @@ const Wrapper = styled.div`
   }
 `;
 
-export const Subscriptions = ({ currency, isAuthenticated, history: { push }, location}) => {
+
+
+export const Subscriptions = ({
+  email,
+  firstName,
+  lastName,
+  currency,
+  isAuthenticated,
+  subscriptions: boughtSubscriptions,
+  history: { push },
+  location,
+  reloadAuthenticatedUser,
+}) => {
   
+  const RAZORPAY_OPTIONS = {
+    key: `${process.env.REACT_APP_RAZORPAY_KEY}`,
+    name: "Marg",
+    image: logo,
+    handler: function(response) {
+      if (response.razorpay_payment_id) {
+      }
+    },
+    prefill: {
+      email,
+      "name": `${firstName} ${lastName}`,
+    },
+    theme: {
+      color: "#F37254"
+    },
+    modal: {
+      ondismiss: function() {
+      }
+    }
+  };
+
   const subscriptionClicked = (id, amount) => {
     if(!isAuthenticated) {
-      push(`/login`, {from: location})
+      return push(`/login`, {from: location})
     }
+    // return reloadAuthenticatedUser();
+    const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
+    razpay.open();
   }
+
+  const checkIfSubscriptionBought = (id) => boughtSubscriptions.find(({subscription: {id: sId}}) => sId === id)
   
   return (
     <Wrapper class="container">
@@ -62,7 +101,11 @@ export const Subscriptions = ({ currency, isAuthenticated, history: { push }, lo
                     class="col-12 col-sm-6 col-md-4 subscription"
                     >
                     <h2>{name}</h2>
-                    <h4>{currency === "INR"? inrLocalized: usdLocalized}</h4>
+                    <h4>
+                      {
+                        checkIfSubscriptionBought(id)? "ALready bought": currency === "INR"? inrLocalized: usdLocalized
+                      }
+                    </h4>
                   </div>
                 ))
               }
