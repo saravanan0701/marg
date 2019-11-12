@@ -1,3 +1,5 @@
+import actions from "../actions";
+
 const INITIAL_USER_STATE = {
   id: null,
   email: null,
@@ -8,6 +10,7 @@ const INITIAL_USER_STATE = {
   isLoading: true,
   orders: [],
   currency: "INR",
+  subscriptions: [],
 }
 //TODO: Use above object, make sure it doesnt break anything else
 export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
@@ -79,6 +82,12 @@ export const AuthReducers = (state = INITIAL_USER_STATE, action) => {
       return {
         ...state,
         currency: action.currencyCode,
+      }
+    
+    case 'INIT_SUBSCRIPTIONS':
+      return {
+        ...state,
+        subscriptions: [ ...action.subscriptions ],
       }
 
     default:

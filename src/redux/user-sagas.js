@@ -11,6 +11,13 @@ const QUERY_ME = gql`
       firstName
       lastName
       email
+      subscriptions{
+        id
+        subscription{
+          id
+          name
+        }
+      }
       addresses{
         id
         firstName
@@ -208,6 +215,7 @@ const QUERY_ME = gql`
 
 export function* fetchUserDetails() {
   yield takeLatest("PERSIST_AUTHENTICATED_USER_TO_STATE", setCurrenUserDetails);
+  yield takeLatest("RELOAD_USER_DETAILS", setCurrenUserDetails);
 }
 
 function queryUserDetails() {
@@ -229,6 +237,7 @@ function* setCurrenUserDetails() {
           orders: {
             edges: orders,
           } = {},
+          subscriptions,
         }
       }
     } = yield call(queryUserDetails, client);
@@ -254,6 +263,9 @@ function* setCurrenUserDetails() {
     }
     yield put(
       actions.persistCartFromLocalCache(checkout)
+    );
+    yield put(
+      actions.initSubscriptions(subscriptions)
     );
   
   } catch (e) {

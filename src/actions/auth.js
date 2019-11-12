@@ -48,6 +48,15 @@ const setCurrency = (currencyCode) => ({
   currencyCode,
 })
 
+const reloadAuthenticatedUser = () => ({
+  type: 'RELOAD_USER_DETAILS',
+})
+
+const initSubscriptions = (subscriptions) => ({
+  type: 'INIT_SUBSCRIPTIONS',
+  subscriptions,
+})
+
 export default {
   persistAuthenticatedUserToState,
   persistAuthenticatedUser,
@@ -58,5 +67,7 @@ export default {
   setOrders,
   setCurrency,
   updateUserName,
-  updateUserEmail
+  updateUserEmail,
+  reloadAuthenticatedUser,
+  initSubscriptions,
 }
