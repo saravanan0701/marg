@@ -44,6 +44,7 @@ import { PrivacyPolicy } from "./components/PrivacyPolicy.jsx";
 import { TermsAndConditions } from "./components/TermsAndConditions.jsx";
 import { NotFound } from "./components/404.jsx";
 import { DiaryProvider } from "./context/DiaryContext";
+import Subscriptions from "./components/Subscriptions";
 
 export const history = createBrowserHistory();
 const store = StoreFactory(history);
@@ -177,6 +178,10 @@ class App extends Component {
                         <Route
                           path="/terms-and-conditions"
                           component={TermsAndConditions}
+                        />
+                        <Route
+                          path="/subscriptions"
+                          component={Subscriptions}
                         />
                         <Route path="*" component={NotFound} />
                       </Switch>
