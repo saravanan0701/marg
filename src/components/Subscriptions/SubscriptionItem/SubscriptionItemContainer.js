@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import { withApollo } from "react-apollo";
 import { withRouter } from "react-router";
-import actions from './../../actions'
-import { Subscriptions } from './Subscriptions.jsx'
+import actions from './../../../actions'
+import { SubscriptionItem } from './SubscriptionItem.jsx'
 
 
 const mapStateToProps = ({
@@ -24,9 +24,12 @@ const mapStateToProps = ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  reloadAuthenticatedUser: () => dispatch(actions.reloadAuthenticatedUser()),
+  successNotification: (message) => dispatch(actions.successNotification(message)),
+  errorNotification: (message) => dispatch(actions.errorNotification(message)),
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withApollo(withRouter(Subscriptions)));
+)(withApollo(withRouter(SubscriptionItem)));
