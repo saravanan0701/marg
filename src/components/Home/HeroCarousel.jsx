@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { RaisedButton } from "./../commons/";
+import { withRouter } from "react-router";
 import FontAwesome from "react-fontawesome";
 import Hero1 from "../../images/vol-71-num-1.jpg";
 import Hero2 from "../../images/medicated-magic-banner.png";
 import Hero3 from "../../images/diary.jpg";
-import { Link } from "react-router-dom";
+import { RaisedButton } from "./../commons/";
 import {
   Carousel,
   CarouselItem,
@@ -159,7 +159,6 @@ const items = [
     position: "3",
     imageSrc: Hero3,
     ctaText: "View Diary",
-    ctaUrl: "/product/UHJvZHVjdDo1MjM5",
     textColor: "#FFFFFF"
   }
 ];
@@ -245,8 +244,8 @@ class HeroCarousel extends Component {
               <span className="label my-3">{item.label}</span>
               <h1 className="title my-2">{item.title}</h1>
               <h3 className="subtitle mb-4">{item.subtitle}</h3>
-              <RaisedButton className="cta">
-                <Link to={item.ctaUrl}>{item.ctaText}</Link>
+              <RaisedButton onClick={(e) => this.props.history.push(item.ctaUrl)} className="cta">
+                {item.ctaText}
               </RaisedButton>
             </div>
             <div class="controls mb-4 my-lg-4">
@@ -287,4 +286,4 @@ class HeroCarousel extends Component {
 }
 HeroCarousel.contextType = DiaryContext;
 
-export default HeroCarousel;
+export default withRouter(HeroCarousel);
