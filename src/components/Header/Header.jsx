@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import logo from "./../../images/logo_with_year.svg";
 import { FlatButton, Menu } from "./../commons/";
 import { Container, Row, Col } from "reactstrap";
 import FontAwesome from "react-fontawesome";
+import { DiaryContext } from "./../../context/DiaryContext";
 
 const HeaderContainer = styled.div`
   display: none;
@@ -63,8 +64,12 @@ const Header = ({
     location: { pathname }
   },
   cartQuantity
-}) => (
-  <HeaderContainer>
+}) => {
+
+  const diaryId = useContext(DiaryContext);
+
+
+  return <HeaderContainer>
     <Container className="py-4 d-none d-lg-block px-0">
       <Row style={{ minHeight: 110 }}>
         <Col
@@ -107,6 +112,7 @@ const Header = ({
                   <Link to="/categories?product-type=magazines">Magazines</Link>
                   <Link to="/categories?product-type=books">Books</Link>
                   <Link to="/categories?product-type=articles">Articles</Link>
+                  <Link to={`/product/${diaryId}`}>Diary</Link>
                 </Menu>
                 {/* <Link
                   className={pathname.match("blog") ? "active" : ""}
@@ -163,6 +169,6 @@ const Header = ({
       </Row>
     </Container>
   </HeaderContainer>
-);
+};
 
 export default withRouter(Header);
