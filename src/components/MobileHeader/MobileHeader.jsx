@@ -8,6 +8,7 @@ import { Container, Row, Col, Button } from "reactstrap";
 
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { width } from "@material-ui/system";
+import { DiaryContext } from "./../../context/DiaryContext";
 
 const MobileHeaderContainer = styled.div`
 
@@ -96,6 +97,10 @@ const PUBLICATION_LINK_LIST = [
   {
     label: "Articles",
     link: "/categories?product-type=articles"
+  },
+  {
+    label: "Diary",
+    link: "",
   }
 ];
 
@@ -139,10 +144,10 @@ class MobileHeader extends Component {
     </CollapseTriggerContainer>
   );
 
-  collapseBodyPublications = () => (
+  collapseBodyPublications = (diaryId) => (
     <div>
       {PUBLICATION_LINK_LIST.map(({ label, link }) => (
-        <Link onClick={this.handleHamburgerClick} to={link}>
+        <Link onClick={this.handleHamburgerClick} to={link? link: `/product/${diaryId}`}>
           {label}
         </Link>
       ))}
@@ -187,7 +192,7 @@ class MobileHeader extends Component {
           />
           <CollapseContainer
             trigger={this.collapseTriggerElementPublications}
-            body={this.collapseBodyPublications}
+            body={() => this.collapseBodyPublications(this.context)}
           />
           <Link
             hidden={true}
@@ -287,5 +292,7 @@ class MobileHeader extends Component {
     );
   }
 }
+
+MobileHeader.contextType = DiaryContext;
 
 export default withRouter(MobileHeader);
