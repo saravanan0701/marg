@@ -472,7 +472,7 @@ const ProductDetails = ({
                 </Col>
               </Row>
               <Row>
-                {category && category.name === "Books" && (
+                {(!category || category.name === "Books") && (
                   <Col lg="6">
                     <h3 id="description">Description</h3>
                     {ReactHtmlParser(description)}
