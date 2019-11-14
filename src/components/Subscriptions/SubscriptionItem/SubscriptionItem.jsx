@@ -64,7 +64,8 @@ const SAVE_SUBSCRIPTION = gql`
     $margSubscriptionId: String!,
     $paymentToken: String!,
     $currency: String!,
-    $totalPaid: Int!
+    $totalPaid: Int!,
+    $duration: Int!,
   ) {
     buySubscription(
       input:{
@@ -73,6 +74,7 @@ const SAVE_SUBSCRIPTION = gql`
         paymentToken: $paymentToken,
         currency: $currency,
         totalPaid: $totalPaid
+        duration: $duration
       }
     ) {
       errors{
@@ -156,11 +158,12 @@ export const SubscriptionItem = ({
         client.mutate({
           mutation: SAVE_SUBSCRIPTION,
           variables: {
+            duration,
             subscriptionId: id,
             margSubscriptionId: "test-321",
             paymentToken: response.razorpay_payment_id,
             currency: RAZORPAY_OPTIONS.currency,
-            totalPaid: RAZORPAY_OPTIONS.amount
+            totalPaid: RAZORPAY_OPTIONS.amount,
           }
         }).then((data, errors) => {
           reloadAuthenticatedUser()
@@ -199,7 +202,15 @@ export const SubscriptionItem = ({
       <div className="header">{name}</div>
       <div className="body">
         <div className="desc">{ReactHtmlParser(description)}</div>
-        <div className="price">{checkIfSubscriptionBought(id)?"Already bought":currency === "USD"? usdLocalized: inrLocalized}</div>
+        <div className="price">
+          {
+            currency === "USD"? usdLocalized: inrLocalized
+          }
+          &nbsp;
+          {
+            checkIfSubscriptionBought(id) && "Subscribed"
+          }
+        </div>
         <div className="container footer">
           <div className="row">
             <DropDown
