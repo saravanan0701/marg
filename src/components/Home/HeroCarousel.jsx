@@ -4,6 +4,7 @@ import { RaisedButton } from "./../commons/";
 import FontAwesome from "react-fontawesome";
 import Hero1 from "../../images/vol-71-num-1.jpg";
 import Hero2 from "../../images/medicated-magic-banner.png";
+import Hero3 from "../../images/diary.jpg";
 import { Link } from "react-router-dom";
 import {
   Carousel,
@@ -38,6 +39,7 @@ const CarouselWrapper = styled.div`
       position: absolute;
       top: 20%;
       max-width: 40%;
+      width: 40%;
       left: 5%;
     }
 
@@ -155,11 +157,7 @@ const items = [
   },
   {
     position: "3",
-    label: "Diary 2020",
-    title: "Diary 2020",
-    description:
-      "Grab your diary now!",
-    imageSrc: Hero2,
+    imageSrc: Hero3,
     ctaText: "View Diary",
     ctaUrl: "/product/UHJvZHVjdDo1MjM5",
     textColor: "#FFFFFF"
