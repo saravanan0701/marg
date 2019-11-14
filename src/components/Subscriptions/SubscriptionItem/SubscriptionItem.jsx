@@ -1,13 +1,61 @@
-import React from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import styled from "styled-components";
+import ReactHtmlParser from "react-html-parser";
 import logo from "./../../../images/logo.png";
+import { DropDown, RaisedButton } from "./../../commons";
 
 const Wrapper = styled.div`
-  height: 300px;
   padding: 15px;
   cursor: pointer;
+
+  & > .header {
+    color: #000000;
+    font-family: ${props => props.theme['$font-primary-medium']};
+    font-size: 18px;
+    font-weight: ${props => props.theme['$weight-bold']};
+    letter-spacing: 0.66px;
+    line-height: 23px;
+    text-align: center;
+    padding-bottom: 14px;
+    border-bottom: ${props => props.theme.primaryColor} 2px solid;
+  }
+
+  & > .body {
+    padding: 35px 15px;
+    background-color: #f8f8f8;
+
+    & > .desc {
+      color: #000000;
+      font-family: ${props => props.theme['$font-primary-medium']};
+      font-size: 16px;
+      font-weight: ${props => props.theme['$weight-regular']};
+      letter-spacing: 0.59px;
+      line-height: 23px;
+    }
+
+    & > .price {
+      color: #37312f;
+      padding-top: 30px;
+      font-size: 18px;
+      font-family: ${props => props.theme['$font-primary-medium']};
+      font-weight: ${props => props.theme['$weight-bold']};
+    }
+
+    & .footer {
+      & .dropdown {
+        padding-left: 0px !important;
+        & > button {
+          padding: 10px;
+          & .selected-options {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
 `;
 
 const SAVE_SUBSCRIPTION = gql`
@@ -34,9 +82,42 @@ const SAVE_SUBSCRIPTION = gql`
   }
 `;
 
+const DURATIONS = [
+  {
+    id: 1,
+    name: "1 Year",
+    val: 1
+  },
+  {
+    id: 2,
+    name: "2 Years",
+    val: 2
+  },
+  {
+    id: 3,
+    name: "3 Years",
+    val: 3,
+  }
+]
+
+const INITIAL_STATE = {
+  currency: null,
+  amount: null,
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_PRICE':
+      return{
+        ...action.payload,
+      }
+  }
+}
+
 export const SubscriptionItem = ({
   id,
   name,
+  description,
   inrPrice: { amount: inrAmount, localized: inrLocalized },
   usdPrice: { amount: usdAmount, localized: usdLocalized },
   // User details start
@@ -53,16 +134,25 @@ export const SubscriptionItem = ({
   client,
   successNotification,
   errorNotification,
+  className,
 }) => {
+
+  const [ duration, setDuration ] = useState(1);
+  const [ priceState, dispatch ] = useReducer(reducer, INITIAL_STATE);
+
+  useEffect(() => {
+    dispatch({type: "SET_PRICE", payload: {
+      currency,
+      amount: duration * (currency === "USD"? usdAmount: inrAmount),
+    }});
+  }, [duration])
   
   const RAZORPAY_OPTIONS = {
     key: `${process.env.REACT_APP_RAZORPAY_KEY}`,
     name: "Marg",
     image: logo,
     handler: function(response) {
-      console.log("resp: ", response);
       if (response.razorpay_payment_id) {
-        // Mutation....
         client.mutate({
           mutation: SAVE_SUBSCRIPTION,
           variables: {
@@ -95,8 +185,8 @@ export const SubscriptionItem = ({
     if(!isAuthenticated) {
       return push(`/login`, {from: location})
     }
-    RAZORPAY_OPTIONS.currency = currency;
-    RAZORPAY_OPTIONS.amount = amount * 100;
+    RAZORPAY_OPTIONS.currency = priceState.currency;
+    RAZORPAY_OPTIONS.amount = priceState.amount * 100;
     const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
     razpay.open();
   }
@@ -105,9 +195,33 @@ export const SubscriptionItem = ({
 
 
   return (
-    <Wrapper onClick={(e) => subscriptionClicked(id, currency === "INR"? inrAmount: usdAmount)}>
-      <h1>{name}</h1>
-      <h3>{checkIfSubscriptionBought(id)?"Already bought":currency === "USD"? usdLocalized: inrLocalized}</h3>
+    <Wrapper className={className}>
+      <div className="header">{name}</div>
+      <div className="body">
+        <div className="desc">{ReactHtmlParser(description)}</div>
+        <div className="price">{checkIfSubscriptionBought(id)?"Already bought":currency === "USD"? usdLocalized: inrLocalized}</div>
+        <div className="container footer">
+          <div className="row">
+            <DropDown
+              className="col-4 dropdown"
+              loadData={DURATIONS}
+              defaultOption={DURATIONS[0]}
+              enableSearch={false}
+              showSelectedOption={true}
+              onOptionSelect={
+                (newDuration) => setDuration(newDuration.id)
+              }
+              >
+            </DropDown>
+            <RaisedButton
+              className="col-8"
+              onClick={(e) => subscriptionClicked(id, currency === "INR"? inrAmount: usdAmount)}
+              >
+              Subscribe
+            </RaisedButton>
+          </div>
+        </div>
+      </div>
     </Wrapper>
-  )
+ )
 } 
