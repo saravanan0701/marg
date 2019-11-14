@@ -10,6 +10,7 @@ const LIST_SUBSCRIPTIONS = gql`
     subscriptions{
       id
       name
+      description
       usdPrice {
         currency
         amount
@@ -29,8 +30,20 @@ const Wrapper = styled.div`
   @media (min-width: ${props => props.theme["mobileBreakpoint"]}) {
     padding: 50px 100px 100px;
   }
-`;
 
+  & > .heading {
+    font-family: ${props => props.theme['$font-secondary-medium']};
+    font-size: ${props => props.theme['$font-size-sm']};
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      font-size: ${props => props.theme['$font-size-lg']};
+    }
+    font-weight: ${props => props.theme['$weight-regular']};
+    letter-spacing: 1px;
+    line-height: 42px;
+    text-align: center;
+    margin-bottom: 30px !important;
+  }
+`;
 
 
 export const Subscriptions = ({
@@ -38,8 +51,9 @@ export const Subscriptions = ({
 }) => {
   
   return (
-    <Wrapper class="container">
-      <div class="row">
+    <Wrapper className="container">
+      <div className="heading">Subscribe to Marg</div>
+      <div className="row justify-content-center">
         <Query
           query={LIST_SUBSCRIPTIONS}
           >
