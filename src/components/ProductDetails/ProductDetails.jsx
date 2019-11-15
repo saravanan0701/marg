@@ -262,7 +262,8 @@ const ProductDetails = ({
   },
   saveVariant,
   currency,
-  isLoggedIn
+  isLoggedIn,
+  subscriptions,
 }) => {
   let selectedVariant = {};
 
@@ -300,6 +301,16 @@ const ProductDetails = ({
 
           const { orders: { edges: orderEdges } = {} } = me || {};
 
+          const currentUserSubscription = subscriptions.find((subIt) => {
+            if(subIt.subscription.categoryType.toLowerCase().match(category.name.toLowerCase())) {
+              return false;
+            }
+            if(subIt.subscription.issueType !== "ALL_ISSUES" || !isCurrentIssue) {
+              return false;
+            }
+            return true;
+          });
+
           let productVariants;
           if (orderEdges) {
             productVariants = variants.map(variant => {
@@ -318,6 +329,15 @@ const ProductDetails = ({
                 }
                 return acc;
               }, null);
+              if(currentUserSubscription && ["DIGITAL", "PRINT_AND_DIGITAL"].find(
+                  (it) => it === currentUserSubscription.subscription.variantType
+                )) {
+                return variant.isDigital? {
+                  ...variant,
+                  alreadyBought: true,
+                  url: `/reader/?user-subscription-id=${currentUserSubscription.id}&variant-id=${variant.id}`
+                }: variant;
+              }
               return foundVar ? foundVar : variant;
             });
           } else {

@@ -9,9 +9,11 @@ const mapStateToProps = ({
     authToken,
     isLoading,
     currency,
+    subscriptions,
   }
 }, ownProps) => ({
   currency,
+  subscriptions,
   isLoggedIn: isLoading? false: authToken? true: false,
 })
 
