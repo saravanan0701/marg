@@ -16,6 +16,9 @@ const QUERY_ME = gql`
         subscription{
           id
           name
+          issueType
+          categoryType
+          variantType
         }
       }
       addresses{
