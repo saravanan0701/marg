@@ -313,8 +313,7 @@ const ProductDetails = ({
                   return {
                     ...variant,
                     alreadyBought: true,
-                    orderId: order.node.id,
-                    lineId: foundLine.id
+                    url: `/reader/?order-id=${variant.orderId}&line-id=${variant.lineId}`
                   };
                 }
                 return acc;
@@ -386,7 +385,7 @@ const ProductDetails = ({
                     <FlatButton
                       onClick={e =>
                         window.open(
-                          `/reader/?order-id=${boughtVar.orderId}&line-id=${boughtVar.lineId}`,
+                          boughtVar.url,
                           "_blank"
                         )
                       }
