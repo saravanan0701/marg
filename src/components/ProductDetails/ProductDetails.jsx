@@ -313,7 +313,7 @@ const ProductDetails = ({
                   return {
                     ...variant,
                     alreadyBought: true,
-                    url: `/reader/?order-id=${variant.orderId}&line-id=${variant.lineId}`
+                    url: `/reader/?order-id=${order.node.id}&line-id=${foundLine.id}`
                   };
                 }
                 return acc;
