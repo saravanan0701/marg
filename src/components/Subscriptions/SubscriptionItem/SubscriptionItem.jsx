@@ -44,6 +44,7 @@ const Wrapper = styled.div`
     }
 
     & .footer {
+      margin-top: 30px;
       & .dropdown {
         padding-left: 0px !important;
         & > button {
