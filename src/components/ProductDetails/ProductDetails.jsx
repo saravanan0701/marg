@@ -330,7 +330,7 @@ const ProductDetails = ({
               }
               return acc;
             }, null);
-            if (currentUserSubscription && ["DIGITAL", "PRINT_AND_DIGITAL"].find(
+            if (currentUserSubscription && ["DIGITAL", "DIGITAL_AND_PRINT"].find(
               (it) => it === currentUserSubscription.subscription.variantType
             )) {
               return variant.isDigital ? {
