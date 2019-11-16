@@ -254,9 +254,11 @@ export default class Article extends Component {
       history: {
         push
       },
+      userSubscriptionId,
     } = this.props;
 
     const {
+      id: variantId,
       inrPrice: {
         localized: inrLocalized,
       } = {},
@@ -308,7 +310,7 @@ export default class Article extends Component {
                         <FontAwesome id="searchIcon" name='spinner' spin className='color-black' />
                     }
                     {
-                      !loadingOrder && !boughtVariant &&
+                      !loadingOrder && !boughtVariant && !userSubscriptionId &&
                         <RaisedButton onClick={() => saveVariant({ quantity: DEFAULT_QUANTITY, variant: variants[0] })}>
                           Add to cart
                         </RaisedButton>
@@ -319,6 +321,17 @@ export default class Article extends Component {
                           onClick={
                             (e) => (
                               window.open(`/reader/?order-id=${boughtVariant.orderId}&line-id=${boughtVariant.lineId}`, '_blank')
+                            )
+                          }>
+                          Digital: Read now
+                        </RaisedButton>
+                    }
+                    {
+                      !loadingOrder && !boughtVariant && userSubscriptionId &&
+                        <RaisedButton
+                          onClick={
+                            (e) => (
+                              window.open(`/reader/?user-subscription-id=${userSubscriptionId}&variant-id=${variantId}`, '_blank')
                             )
                           }>
                           Digital: Read now

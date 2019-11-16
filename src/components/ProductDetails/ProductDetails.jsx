@@ -515,6 +515,7 @@ const ProductDetails = ({
                         saveVariant={saveVariant}
                         key={product.id}
                         purchasable={articlesShouldBePurchasable}
+                        userSubscriptionId={currentUserSubscription? currentUserSubscription.id: null}
                         {...product}
                       />
                     ))}
