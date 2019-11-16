@@ -305,7 +305,10 @@ const ProductDetails = ({
             if(subIt.subscription.categoryType.toLowerCase().match(category.name.toLowerCase())) {
               return false;
             }
-            if(subIt.subscription.issueType !== "ALL_ISSUES" || !isCurrentIssue) {
+            if(subIt.subscription.issueType === "ALL_ISSUES") {
+              return true;
+            }
+            if(subIt.subscription.issueType !== "ALL_ISSUES" && !isCurrentIssue) {
               return false;
             }
             return true;
