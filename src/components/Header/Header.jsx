@@ -87,6 +87,13 @@ const Header = ({
         >
           <Row>
             <Col xs="12" className="d-flex justify-content-end">
+              <FlatButton
+                onClick={e => push("/subscriptions")}
+                className="mr-4 mt-1"
+                colorType="primary"
+              >
+                Subscribe to marg
+              </FlatButton>
               <UserMenu />
               <FlatButton
                 onClick={e => cartQuantity > 0 && push("/checkout/cart")}
