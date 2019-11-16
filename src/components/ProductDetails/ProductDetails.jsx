@@ -299,7 +299,7 @@ const ProductDetails = ({
             thumbnail: { url: thumbnailUrl } = {}
           } = product || {};
 
-          const { orders: { edges: orderEdges } = {} } = me || {};
+          const { orders: { edges: orderEdges = [] } = {} } = me || {};
 
           const currentUserSubscription = subscriptions.find((subIt) => {
             if(subIt.subscription.categoryType.toLowerCase().match(category.name.toLowerCase())) {
@@ -314,38 +314,33 @@ const ProductDetails = ({
             return true;
           });
 
-          let productVariants;
-          if (orderEdges) {
-            productVariants = variants.map(variant => {
-              const foundVar = orderEdges.reduce((acc, order) => {
-                const foundLine = order.node.lines.find(
-                  ({ variant: lineVariant }) => {
-                    return lineVariant.id === variant.id && variant.isDigital;
-                  }
-                );
-                if (foundLine && !acc) {
-                  return {
-                    ...variant,
-                    alreadyBought: true,
-                    url: `/reader/?order-id=${order.node.id}&line-id=${foundLine.id}`
-                  };
+          const productVariants = variants.map(variant => {
+            const foundVar = orderEdges.reduce((acc, order) => {
+              const foundLine = order.node.lines.find(
+                ({ variant: lineVariant }) => {
+                  return lineVariant.id === variant.id && variant.isDigital;
                 }
-                return acc;
-              }, null);
-              if(currentUserSubscription && ["DIGITAL", "PRINT_AND_DIGITAL"].find(
-                  (it) => it === currentUserSubscription.subscription.variantType
-                )) {
-                return variant.isDigital? {
+              );
+              if (foundLine && !acc) {
+                return {
                   ...variant,
                   alreadyBought: true,
-                  url: `/reader/?user-subscription-id=${currentUserSubscription.id}&variant-id=${variant.id}`
-                }: variant;
+                  url: `/reader/?order-id=${order.node.id}&line-id=${foundLine.id}`
+                };
               }
-              return foundVar ? foundVar : variant;
-            });
-          } else {
-            productVariants = variants;
-          }
+              return acc;
+            }, null);
+            if (currentUserSubscription && ["DIGITAL", "PRINT_AND_DIGITAL"].find(
+              (it) => it === currentUserSubscription.subscription.variantType
+            )) {
+              return variant.isDigital ? {
+                ...variant,
+                alreadyBought: true,
+                url: `/reader/?user-subscription-id=${currentUserSubscription.id}&variant-id=${variant.id}`
+              } : variant;
+            }
+            return foundVar ? foundVar : variant;
+          });
 
           const boughtVar = productVariants.find(
             ({ alreadyBought }) => alreadyBought
