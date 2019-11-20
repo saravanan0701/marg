@@ -301,21 +301,10 @@ const ProductDetails = ({
 
           const { orders: { edges: orderEdges = [] } = {} } = me || {};
 
-          const currentUserSubscription = subscriptions.find((subIt) => {
-            if(subIt.subscription.categoryType.toLowerCase().match(category.name.toLowerCase())) {
-              return false;
-            }
-            if(subIt.subscription.issueType === "ALL_ISSUES") {
-              return true;
-            }
-            if(subIt.subscription.issueType !== "ALL_ISSUES" && !isCurrentIssue) {
-              return false;
-            }
-            return true;
-          });
+          let currentUserSubscription;
 
           const productVariants = variants.map(variant => {
-            const foundVar = orderEdges.reduce((acc, order) => {
+            let foundVar = orderEdges.reduce((acc, order) => {
               const foundLine = order.node.lines.find(
                 ({ variant: lineVariant }) => {
                   return lineVariant.id === variant.id && variant.isDigital;
@@ -330,16 +319,30 @@ const ProductDetails = ({
               }
               return acc;
             }, null);
-            if (currentUserSubscription && ["DIGITAL", "DIGITAL_AND_PRINT"].find(
-              (it) => it === currentUserSubscription.subscription.variantType
-            )) {
-              return variant.isDigital ? {
-                ...variant,
-                alreadyBought: true,
-                url: `/reader/?user-subscription-id=${currentUserSubscription.id}&variant-id=${variant.id}`
-              } : variant;
-            }
-            return foundVar ? foundVar : variant;
+            const subVar = subscriptions.reduce((acc, sub) => {
+              if(!variant.isDigital) {
+                return acc;
+              }
+              if(sub.subscription.issueType === "ALL_ISSUES" && sub.subscription.variantType == ["DIGITAL", "DIGITAL_AND_PRINT"].find(
+                (it) => it === sub.subscription.variantType
+              )) {
+                currentUserSubscription = sub;
+                return {
+                  ...variant,
+                  alreadyBought: true,
+                  url: `/reader/?user-subscription-id=${sub.id}&variant-id=${variant.id}`,
+                }
+              } else if(sub.subscription.issueType !== "ALL_ISSUES" && sub.readableDigitalFiles.find(({id: varId}) => varId === variant.id)) {
+                currentUserSubscription = sub;
+                return {
+                  ...variant,
+                  alreadyBought: true,
+                  url: `/reader/?user-subscription-id=${sub.id}&variant-id=${variant.id}`,
+                }
+              }
+              return acc;
+            }, null)
+            return foundVar ? foundVar : subVar ? subVar: variant;
           });
 
           const boughtVar = productVariants.find(

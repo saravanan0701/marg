@@ -13,6 +13,9 @@ const QUERY_ME = gql`
       email
       subscriptions{
         id
+        readableDigitalFiles{
+          id
+        }
         subscription{
           id
           name
