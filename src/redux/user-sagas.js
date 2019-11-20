@@ -44,6 +44,7 @@ const QUERY_ME = gql`
         id
         quantity
         token
+        discountAmount
         totalPrice{
           net{
             currency

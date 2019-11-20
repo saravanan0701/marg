@@ -12,6 +12,7 @@ const INITIAL_CART_STATE = {
   availableShippingMethods: [],
   shippingMethod: {},
   addressSaved: false,
+  discountAmount: 0
 }
 
 const getTotalQuantity = (lines) => lines.reduce((acc, it) => acc + it.quantity, 0);
@@ -25,6 +26,7 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
         checkoutId: action.checkout.id,
         lines: action.checkout.lines.concat(),
         token: action.checkout.token,
+        discountAmount: action.checkout.discountAmount,
         totalQuantity: getTotalQuantity(action.checkout.lines),
         totalPrice: {...action.checkout.totalPrice},
         subtotalPrice: {...action.checkout.subtotalPrice},
@@ -192,6 +194,14 @@ export const CartReducers = (state = INITIAL_CART_STATE, action) => {
       return {
         ...state,
         addressSaved: action.isSaved,
+      }
+    
+    case "SET_DISCOUNT":
+      return {
+        ...state,
+        discountAmount: action.discountInfo.discountAmount,
+        subtotalPrice: action.discountInfo.subtotalPrice,
+        totalPrice: action.discountInfo.totalPrice,
       }
 
     default:

@@ -115,6 +115,11 @@ const setAddressSaved = (isSaved) => ({
   isSaved,
 })
 
+const setDiscount = (discountInfo) => ({
+  type: "SET_DISCOUNT",
+  discountInfo,
+})
+
 export default {
   saveVariant,
   initCheckout,
@@ -137,4 +142,5 @@ export default {
   guestEditVariantQuantity,
   guestRemoveVariantQuantity,
   setAddressSaved,
+  setDiscount
 }
