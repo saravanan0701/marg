@@ -75,7 +75,8 @@ const CheckoutSidebar = ({
     subtotalPrice: { gross: { localized } = {} } = {},
     totalPrice: { gross: { localized: totalLocalized } = {} } = {},
     shippingMethod,
-    shippingAddress
+    shippingAddress,
+    discountAmount,
   } = {},
   setCheckoutStatus
 }) => {
@@ -115,6 +116,20 @@ const CheckoutSidebar = ({
                   </span>
                 )}
               </p>
+              {
+                discountAmount > 0 && 
+                [
+                  <hr />,
+                  <p>
+                    Discount:
+                    {
+                      <span className="float-right">
+                        -{currency_preference === "INR"? "₹": "$"}{discountAmount? discountAmount: "To be determined"}
+                      </span>
+                    }
+                  </p>
+                ]
+              }
               <hr />
               <p>
                 TOTAL:

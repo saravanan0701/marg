@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { Container, Row, Col } from "reactstrap";
@@ -114,6 +114,38 @@ const DELETE_LINE = gql(`
   }
 `);
 
+const APPLY_DISCOUNT = gql`
+  query getSubscriptionDiscount{
+    getSubscriptionDiscount{
+      discountAmount
+      totalPrice{
+        gross{
+          currency
+          amount
+          localized
+        }
+        net{
+          currency
+          amount
+          localized
+        }
+      }
+      subtotalPrice{
+        gross{
+          currency
+          amount
+          localized
+        }
+        net{
+          currency
+          amount
+          localized
+        }
+      }
+    }
+  }
+`;
+
 const Checkout = ({
   cart: {
     checkoutId,
@@ -130,10 +162,22 @@ const Checkout = ({
   updateCartLineTotalPrice,
   guestEditVariantQuantity,
   guestRemoveVariantQuantity,
+  setDiscount,
   history: {
     push
   } = {},
 }) => {
+
+  useEffect(() => {
+    client.query({
+      query: APPLY_DISCOUNT
+    }).then(({data: { getSubscriptionDiscount }, loading}) => {
+      if(!loading) {
+        setDiscount(getSubscriptionDiscount)
+      }
+    });
+  }, [lines]);
+
   const getQuantityFromLines = lines =>
     lines.reduce((acc, line) => acc + line.quantity, 0);
 
