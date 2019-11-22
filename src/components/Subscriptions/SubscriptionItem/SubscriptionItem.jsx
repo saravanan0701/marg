@@ -85,27 +85,11 @@ const SAVE_SUBSCRIPTION = gql`
   }
 `;
 
-const DURATIONS = [
-  {
-    id: 1,
-    name: "1 Year",
-    val: 1
-  },
-  {
-    id: 2,
-    name: "2 Years",
-    val: 2
-  },
-  {
-    id: 3,
-    name: "3 Years",
-    val: 3,
-  }
-]
 
 const INITIAL_STATE = {
   currency: null,
   amount: null,
+  accessToIssues: 4,
 }
 
 const reducer = (state, action) => {
@@ -121,8 +105,7 @@ export const SubscriptionItem = ({
   id,
   name,
   description,
-  inrPrice: { amount: inrAmount, localized: inrLocalized },
-  usdPrice: { amount: usdAmount, localized: usdLocalized },
+  pricings,
   // User details start
   email,
   firstName,
@@ -140,14 +123,20 @@ export const SubscriptionItem = ({
   className,
 }) => {
 
-  const [ duration, setDuration ] = useState(1);
+  const [ duration, setDuration ] = useState(0);
   const [ priceState, dispatch ] = useReducer(reducer, INITIAL_STATE);
 
   useEffect(() => {
-    dispatch({type: "SET_PRICE", payload: {
-      currency,
-      amount: duration * (currency === "USD"? usdAmount: inrAmount),
-    }});
+    if(pricings.length == 0){
+      return;
+    }
+    const {
+      inrPrice,
+      usdPrice,
+      accessToIssues,
+      period,
+    } = pricings[duration];
+    dispatch({type: "SET_PRICE", payload: { accessToIssues, period, ...(currency === "USD"? usdPrice: inrPrice)} });
   }, [duration])
   
   const RAZORPAY_OPTIONS = {
@@ -159,7 +148,7 @@ export const SubscriptionItem = ({
         client.mutate({
           mutation: SAVE_SUBSCRIPTION,
           variables: {
-            duration,
+            duration: priceState.duration,
             subscriptionId: id,
             margSubscriptionId: "test-321",
             paymentToken: response.razorpay_payment_id,
@@ -185,7 +174,7 @@ export const SubscriptionItem = ({
     }
   };
 
-  const subscriptionClicked = (id, amount) => {
+  const subscriptionClicked = () => {
     if(!isAuthenticated) {
       return push(`/login`, {from: location})
     }
@@ -205,7 +194,7 @@ export const SubscriptionItem = ({
         <div className="desc">{ReactHtmlParser(description)}</div>
         <div className="price">
           {
-            currency === "USD"? usdLocalized: inrLocalized
+            priceState.localized
           }
           &nbsp;
           {
@@ -215,9 +204,10 @@ export const SubscriptionItem = ({
         <div className="container footer">
           <div className="row">
             <DropDown
+              key="year-selector"
               className="col-4 dropdown"
-              loadData={DURATIONS}
-              defaultOption={DURATIONS[0]}
+              loadData={pricings}
+              defaultOption={pricings[0]}
               enableSearch={false}
               showSelectedOption={true}
               onOptionSelect={
@@ -227,7 +217,7 @@ export const SubscriptionItem = ({
             </DropDown>
             <RaisedButton
               className="col-8"
-              onClick={(e) => subscriptionClicked(id, currency === "INR"? inrAmount: usdAmount)}
+              onClick={(e) => subscriptionClicked()}
               >
               Subscribe
             </RaisedButton>

@@ -11,15 +11,19 @@ const LIST_SUBSCRIPTIONS = gql`
       id
       name
       description
-      usdPrice {
-        currency
-        amount
-        localized
-      }
-      inrPrice {
-        currency
-        amount
-        localized
+      pricings{
+        period
+        accessToIssues
+        inrPrice{
+          amount
+          currency
+          localized
+        }
+        usdPrice{
+          amount
+          currency
+          localized
+        }
       }
     }
   }
@@ -63,7 +67,12 @@ export const Subscriptions = ({
                   return <div>Loading, please wait.</div>
                 }
                 return subscriptions.map((subscription) => (
-                  <SubscriptionItem {...subscription} key={subscription.id} className="col-12 col-sm-6 col-md-4 subscription" />
+                  <SubscriptionItem
+                    {...subscription}
+                    key={subscription.id}
+                    className="col-12 col-sm-6 col-md-4 subscription"
+                    pricings={subscription.pricings.map((it, id) => ({ ...it, id: id, val: id, name: `${it.period} ${it.period > 1? 'years': 'year' }`}) )}
+                  />
                 ))
               }
             }
