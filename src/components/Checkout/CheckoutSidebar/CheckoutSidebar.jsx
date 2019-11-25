@@ -57,13 +57,6 @@ const PROCEED_BUTTON_PARAMS = {
       Object.entries(selectedShippingAddress).length === 0 ||
       Object.entries(selectedShippingMethod).length === 0
   },
-  "/checkout/payment": {
-    url: "/checkout/payment",
-    buttonText: "Make Payment",
-    disabled: (selectedShippingAddress, selectedShippingMethod) =>
-      Object.entries(selectedShippingAddress).length === 0 ||
-      Object.entries(selectedShippingMethod).length === 0
-  }
 };
 
 const CheckoutSidebar = ({
