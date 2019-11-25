@@ -90,6 +90,7 @@ const INITIAL_STATE = {
   currency: null,
   amount: null,
   duration: 1,
+  accessToIssues: 4,
 }
 
 const reducer = (state, action) => {
@@ -106,6 +107,7 @@ export const SubscriptionItem = ({
   name,
   description,
   pricings,
+  issueType,
   // User details start
   email,
   firstName,
@@ -190,7 +192,7 @@ export const SubscriptionItem = ({
 
   return (
     <Wrapper className={className}>
-      <div className="header">{name}</div>
+      <div className="header">{name}&nbsp;{issueType !== "ALL_ISSUES"? `${priceState.accessToIssues} issues`:""}</div>
       <div className="body">
         <div className="desc">{ReactHtmlParser(description)}</div>
         <div className="price">

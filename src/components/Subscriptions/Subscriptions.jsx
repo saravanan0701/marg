@@ -11,6 +11,7 @@ const LIST_SUBSCRIPTIONS = gql`
       id
       name
       description
+      issueType
       pricings{
         duration
         accessToIssues
