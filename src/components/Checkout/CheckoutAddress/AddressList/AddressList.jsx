@@ -242,6 +242,12 @@ export const AddressList = ({
   const [billingAddressIsSame, setBillingAddressIsSame] = useState(true);
 
   useEffect(() => {
+    if(addresses && addresses.length > 0) {
+      saveAddressToCart(addresses[0])
+    }
+  }, [checkoutId]);
+
+  useEffect(() => {
     if(addressSaved) {
       setShowAddressForm(false);
       window.scrollTo(0, 0);
