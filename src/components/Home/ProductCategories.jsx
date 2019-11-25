@@ -73,7 +73,6 @@ export const ProductCategories = props => (
             if (publicationCategories && data && data.publicationCategories && data.publicationCategories.edges && data.publicationCategories.edges.length > 0) {
               publicationCategories = data.publicationCategories.edges;
             }
-            console.log("publicationCategories", publicationCategories);
             return publicationCategories
               .sort((a, b) => a.name > b.name ? 1 : -1)
               .map(

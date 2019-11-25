@@ -250,11 +250,9 @@ class AddressEditForm extends Component {
             } else {
               delete errors.state;
             }
-            console.log(errors);
             return errors;
           }}
           onSubmit={(values, { setSubmitting, resetForm, setErrors }) => {
-            console.log("Inside....")
             if (!self.state.state) {
               setSubmitting(false);
               return setErrors({
