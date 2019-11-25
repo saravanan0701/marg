@@ -89,7 +89,7 @@ const SAVE_SUBSCRIPTION = gql`
 const INITIAL_STATE = {
   currency: null,
   amount: null,
-  accessToIssues: 4,
+  duration: 1,
 }
 
 const reducer = (state, action) => {
@@ -123,10 +123,9 @@ export const SubscriptionItem = ({
   className,
 }) => {
 
-  const [ duration, setDuration ] = useState(0);
   const [ priceState, dispatch ] = useReducer(reducer, INITIAL_STATE);
 
-  useEffect(() => {
+  const setDuration = (id) => {
     if(pricings.length == 0){
       return;
     }
@@ -134,10 +133,12 @@ export const SubscriptionItem = ({
       inrPrice,
       usdPrice,
       accessToIssues,
-      period,
-    } = pricings[duration];
-    dispatch({type: "SET_PRICE", payload: { accessToIssues, period, ...(currency === "USD"? usdPrice: inrPrice)} });
-  }, [duration])
+      duration,
+    } = pricings[id];
+    dispatch({type: "SET_PRICE", payload: { accessToIssues, duration, ...(currency === "USD"? usdPrice: inrPrice)} });
+  }
+
+  useEffect(() => (setDuration(0)), []);
   
   const RAZORPAY_OPTIONS = {
     key: `${process.env.REACT_APP_RAZORPAY_KEY}`,

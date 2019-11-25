@@ -12,7 +12,7 @@ const LIST_SUBSCRIPTIONS = gql`
       name
       description
       pricings{
-        period
+        duration
         accessToIssues
         inrPrice{
           amount
@@ -71,7 +71,7 @@ export const Subscriptions = ({
                     {...subscription}
                     key={subscription.id}
                     className="col-12 col-sm-6 col-md-4 subscription"
-                    pricings={subscription.pricings.map((it, id) => ({ ...it, id: id, val: id, name: `${it.period} ${it.period > 1? 'years': 'year' }`}) )}
+                    pricings={subscription.pricings.map((it, id) => ({ ...it, id: id, val: id, name: `${it.duration} ${it.duration > 1? 'years': 'year' }`}) )}
                   />
                 ))
               }
