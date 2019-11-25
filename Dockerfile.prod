@@ -6,4 +6,5 @@ EXPOSE 3000
 
 RUN cp "env/prod.env" ".env"
 
-CMD [ "sh", "prod.sh"]
+CMD [ "npm", "install" ]
+CMD [ "sh", "prod.sh" ]

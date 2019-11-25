@@ -293,6 +293,18 @@ export default class CheckoutPayment extends Component {
     return shippingAddress && Object.entries(shippingAddress).length > 0
   }
 
+  checkIfBagHasPrintAndShippingMethodIsSelected() {
+    const {
+      lines,
+      shippingMethod,
+    } = this.props.cart;
+    const printIsAvailable = lines.find(({variant: {isDigital}}) => !isDigital);
+    if(!printIsAvailable) {
+      return null
+    }
+    return printIsAvailable && Object.keys(shippingMethod).length > 0;
+  }
+
   render() {
     const {
       status,
@@ -308,7 +320,15 @@ export default class CheckoutPayment extends Component {
               onClick={e => {
                 this.initiatePayment();
               }}
-              disabled={!checkoutId || status === "PAYMENT_STARTED" || !this.shippingAddressIsSelected()}
+              disabled={
+                !checkoutId
+                ||
+                status === "PAYMENT_STARTED"
+                ||
+                !this.shippingAddressIsSelected()
+                ||
+                this.checkIfBagHasPrintAndShippingMethodIsSelected() == false
+              }
             >
               {status === "PAYMENT_STARTED"
                 ? "PAYMENT IN PROGRESS..."

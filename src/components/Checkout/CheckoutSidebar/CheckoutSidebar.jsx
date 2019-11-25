@@ -45,27 +45,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const PROCEED_BUTTON_PARAMS = {
-  "/checkout/cart": {
-    url: "/checkout/address",
-    buttonText: "Checkout"
-  },
-  "/checkout/address": {
-    url: "/checkout/payment",
-    buttonText: "Make Payment",
-    disabled: (selectedShippingAddress, selectedShippingMethod) =>
-      Object.entries(selectedShippingAddress).length === 0 ||
-      Object.entries(selectedShippingMethod).length === 0
-  },
-  "/checkout/payment": {
-    url: "/checkout/payment",
-    buttonText: "Make Payment",
-    disabled: (selectedShippingAddress, selectedShippingMethod) =>
-      Object.entries(selectedShippingAddress).length === 0 ||
-      Object.entries(selectedShippingMethod).length === 0
-  }
-};
-
 const CheckoutSidebar = ({
   location,
   currency_preference,
@@ -80,7 +59,6 @@ const CheckoutSidebar = ({
   } = {},
   setCheckoutStatus
 }) => {
-  const buttonParams = PROCEED_BUTTON_PARAMS[location.pathname];
   const [requiresShipping, setRequiresShipping] = useState(false);
 
   useEffect(() => {
@@ -138,16 +116,11 @@ const CheckoutSidebar = ({
                 }
               </p>
               {location.pathname === "/checkout/cart" && (
-                <Link to={buttonParams.url} class="checkout-proceed-button">
+                <Link to={"/checkout/address"} class="checkout-proceed-button">
                   <RaisedButton
-                    disabled={
-                      buttonParams.disabled
-                        ? buttonParams.disabled(shippingAddress, shippingMethod)
-                        : false
-                    }
                     className="w-100"
                   >
-                    {buttonParams.buttonText}
+                    Checkout
                   </RaisedButton>
                 </Link>
               )}
