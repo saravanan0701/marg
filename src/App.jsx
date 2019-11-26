@@ -121,6 +121,11 @@ class App extends Component {
     store.dispatch(actions.rehyderateStateFromCache(client));
     ReactGA.initialize(`${process.env.REACT_APP_GOOGLE_ID}`);
     ReactGA.plugin.require('ecommerce');
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
   }
 
   render() {
