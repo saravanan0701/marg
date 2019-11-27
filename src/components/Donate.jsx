@@ -295,6 +295,10 @@ class Donate extends Component {
               const errors = {};
               if(!values.amount) {
                 errors.amount = 'Required';
+              } else if(!/^[0-9]+$/i.test(values.amount)) {
+                errors.amount = 'Should only contain numbers, eg: 100'
+              } else if(values.amount <= 0) {
+                errors.amount = 'Should be more than 0'
               }
               if(!values.name) {
                 errors.name = 'Required';
@@ -381,7 +385,7 @@ class Donate extends Component {
                         onBlur={handleBlur}
                         value={values.amount}
                       />
-                      <div className="error">{errors.amount && touched.amount && errors.amount}</div>
+                      <div className="error">{errors.amount}</div>
                     </div>
                     <div className="label">First and Last Name</div>
                     <div className="input-container">
@@ -513,7 +517,7 @@ class Donate extends Component {
                     </div>
                     <div className="donate-button">
                       <RaisedButton type="submit" colortype="primary" disabled={Object.keys(errors).length > 0 || isSubmitting}>
-                        { isSubmitting ? 'Saving...' : amount?`Donate Rs. ${amount}`: `Donate`}
+                        { isSubmitting ? 'Saving...' : amount?`Donate Rs. ${values.amount}`: `Donate`}
                       </RaisedButton>
                     </div>
                   </form>
