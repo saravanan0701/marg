@@ -12,7 +12,9 @@ import { RaisedButton, FlatButton, DropDown } from './commons/';
 import logo from "./../images/logo.png";
 
 const Wrapper = styled.div`
-  padding: 50px 100px 100px;
+  @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+    padding: 50px 100px 100px;
+  }
 
   & > .header {
     font-family: ${props => props.theme['$font-secondary-medium']};
@@ -20,7 +22,13 @@ const Wrapper = styled.div`
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 1px;
     line-height: 57px;
-    padding-bottom: 30px;
+    padding: 50px;
+    text-align: center;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      text-align: left;
+      padding: 0px;
+      padding-bottom: 30px;
+    }
   }
 
   & > .description {
@@ -28,7 +36,7 @@ const Wrapper = styled.div`
     font-weight: ${props => props.theme['$weight-regular']};
     letter-spacing: 0.59px;
     line-height: 23px;
-    width: 55%;
+    width: 100%;
 
     & > .email {
       color: ${props => props.theme.primaryColor};
@@ -36,12 +44,15 @@ const Wrapper = styled.div`
   }
 
   & > .price-selector {
-    width: 55%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     padding-top: 50px;
+    width: 100%;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      width: 55%;
+    }
 
     & > .price {
       width: 31%;
@@ -60,7 +71,10 @@ const Wrapper = styled.div`
 
   & > div.horizontal {
 
-    width: 50%;
+    width: 100%;
+    @media (min-width: ${props => props.theme['mobileBreakpoint']}) {
+      width: 55%;
+    }
 
     & > form {
 
@@ -125,6 +139,7 @@ const Wrapper = styled.div`
 
       & > .donate-button {
         margin-top: 30px;
+        margin-bottom: 30px;
       }
     }
   }
