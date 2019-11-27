@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
 import { withApollo } from "react-apollo";
+import { withRouter } from "react-router";
 import gql from "graphql-tag";
 import { getAllCountries } from './../utils/';
 import { connect } from 'react-redux'
@@ -228,6 +229,11 @@ class Donate extends Component {
       firstName,
       lastName,
       client,
+      successNotification,
+      errorNotification,
+      history: {
+        push,
+      },
     } = this.props;
     const RAZORPAY_OPTIONS = this.RAZORPAY_OPTIONS;
 
@@ -280,7 +286,7 @@ class Donate extends Component {
           enableReinitialize={true}
           initialValues={{
             amount,
-            email,          
+            email,
             country,
             name: `${firstName? firstName: ""} ${lastName? lastName: ""}`,
           }}
@@ -336,10 +342,14 @@ class Donate extends Component {
                         amount: values.amount * 100,
                         paymentId: response.razorpay_payment_id
                       }
-                    }).then((data, errors) => {
-
+                    }).then(({data: {makeDonation: { errors } = {} } = {} }) => {
+                      if(errors.length > 0) {
+                        return errorNotification("Something went wrong, please try again later.")
+                      }
+                      successNotification("Thank you for your donation.")
+                      push("categories");
                     }).catch(() => {
-
+                      return errorNotification("Something went wrong, please try again later.")
                     })
                   }
               }
@@ -537,5 +547,9 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(
-  withApollo(Donate)
+  withApollo(
+    withRouter(
+      Donate
+    )
+  )
 );
