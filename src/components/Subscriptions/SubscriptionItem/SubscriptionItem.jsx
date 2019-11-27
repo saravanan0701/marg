@@ -197,6 +197,7 @@ export const SubscriptionItem = ({
         <div className="desc">
           {ReactHtmlParser(description)}
           {issueType !== "ALL_ISSUES"? `- ${priceState.accessToIssues} issues in a year`:""}
+          {name === "Magazine (print) + Archive Access"? `- ${priceState.duration * 4} print issues in a year`:""}
         </div>
         <div className="price">
           {
