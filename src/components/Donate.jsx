@@ -198,6 +198,7 @@ class Donate extends Component {
     this.state = {
       country: DEFAULT_COUNTRY,
       amount: 1000,
+      loading: false,
     }
 
     this.RAZORPAY_OPTIONS = {
@@ -238,6 +239,7 @@ class Donate extends Component {
     const {
       country,
       amount,
+      loading,
     } = this.state;
     const {
       email,
@@ -348,6 +350,9 @@ class Donate extends Component {
           }
           onSubmit={
             (values, { setSubmitting }) => {
+              this.setState({
+                loading: true,
+              });
               RAZORPAY_OPTIONS.prefill.email = values.email;
               RAZORPAY_OPTIONS.prefill.contact = values.phone;
               RAZORPAY_OPTIONS.currency = "INR";
@@ -364,12 +369,18 @@ class Donate extends Component {
                         paymentId: response.razorpay_payment_id
                       }
                     }).then(({data: {makeDonation: { errors } = {} } = {} }) => {
+                      this.setState({
+                        loading: true,
+                      });
                       if(errors.length > 0) {
                         return errorNotification("Something went wrong, please try again later.")
                       }
                       successNotification("Thank you for your donation.")
                       push("categories");
                     }).catch(() => {
+                      this.setState({
+                        loading: true,
+                      });
                       return errorNotification("Something went wrong, please try again later.")
                     })
                   }
@@ -533,8 +544,8 @@ class Donate extends Component {
                       <div className="error">{errors.message && touched.message && errors.message}</div>
                     </div>
                     <div className="donate-button">
-                      <RaisedButton type="submit" colortype="primary" disabled={Object.keys(errors).length > 0 || isSubmitting}>
-                        { isSubmitting ? 'Saving...' : amount?`Donate Rs. ${values.amount}`: `Donate`}
+                      <RaisedButton type="submit" colortype="primary" disabled={Object.keys(errors).length > 0 || isSubmitting || loading}>
+                        { loading ? 'Saving...' : amount?`Donate Rs. ${values.amount}`: `Donate`}
                       </RaisedButton>
                     </div>
                   </form>
