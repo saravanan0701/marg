@@ -252,6 +252,7 @@ class Donate extends Component {
         push,
       },
     } = this.props;
+    const that = this;
     const RAZORPAY_OPTIONS = this.RAZORPAY_OPTIONS;
 
     return (
@@ -369,7 +370,7 @@ class Donate extends Component {
                         paymentId: response.razorpay_payment_id
                       }
                     }).then(({data: {makeDonation: { errors } = {} } = {} }) => {
-                      this.setState({
+                      that.setState({
                         loading: true,
                       });
                       if(errors.length > 0) {
@@ -378,7 +379,7 @@ class Donate extends Component {
                       successNotification("Thank you for your donation.")
                       push("categories");
                     }).catch(() => {
-                      this.setState({
+                      that.setState({
                         loading: true,
                       });
                       return errorNotification("Something went wrong, please try again later.")
