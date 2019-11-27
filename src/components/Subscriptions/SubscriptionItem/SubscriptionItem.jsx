@@ -192,9 +192,12 @@ export const SubscriptionItem = ({
 
   return (
     <Wrapper className={className}>
-      <div className="header">{name}&nbsp;{issueType !== "ALL_ISSUES"? `${priceState.accessToIssues} issues`:""}</div>
+      <div className="header">{name}</div>
       <div className="body">
-        <div className="desc">{ReactHtmlParser(description)}</div>
+        <div className="desc">
+          {ReactHtmlParser(description)}
+          {issueType !== "ALL_ISSUES"? `- ${priceState.accessToIssues} issues in a year`:""}
+        </div>
         <div className="price">
           {
             priceState.localized
