@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Formik } from 'formik';
+import { withApollo } from "react-apollo";
+import { withRouter } from "react-router";
+import gql from "graphql-tag";
 import { getAllCountries } from './../utils/';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import actions from './../actions'
+
 import { RaisedButton, FlatButton, DropDown } from './commons/';
+import logo from "./../images/logo.png";
 
 const Wrapper = styled.div`
   padding: 50px 100px 100px;
@@ -131,8 +137,44 @@ const {
 const DEFAULT_COUNTRY = defaultCountry;
 const COUNTRIES = countries;
 
-//TODO: 
-// 1. Validation
+const MAKE_DONATION = gql`
+  mutation MakeDonation(
+    $amount: Int!,
+    $name: String!,
+    $email: String!,
+    $phone: String!,
+    $address: String!,
+    $city: String!,
+    $state: String!,
+    $zipcode: String!,
+    $country: String!,
+    $panNumber: String!,
+    $paymentId: String!,
+    $message: String
+  ) {
+    makeDonation(input: {
+      amount: $amount,
+      name: $name,
+      email: $email,
+      phone: $phone,
+      address: $address,
+      city: $city,
+      state: $state,
+      country: $country,
+      zipcode: $zipcode,
+      panNumber: $panNumber,
+      paymentId: $paymentId,
+      message: $message
+    }) {
+      errors{
+        message
+        field
+      }
+    }
+  }
+`;
+
+
 class Donate extends Component {
 
   constructor(props) {
@@ -140,8 +182,25 @@ class Donate extends Component {
 
     this.state = {
       country: DEFAULT_COUNTRY,
-      price: 1000,
+      amount: 1000,
     }
+
+    this.RAZORPAY_OPTIONS = {
+      key: `${process.env.REACT_APP_RAZORPAY_KEY}`,
+      name: "Marg",
+      image: logo,
+      prefill: {
+        email: this.props.email,
+        "name": `${this.props.firstName} ${this.props.lastName}`,
+      },
+      theme: {
+        color: "#F37254"
+      },
+      modal: {
+        ondismiss: function() {
+        }
+      }
+    };
   }
 
   selectCountry(country) {
@@ -154,17 +213,29 @@ class Donate extends Component {
     //TODO:
   }
 
-  selectPrice(price) {
+  selectPrice(amount) {
     this.setState({
-      price,
+      amount,
     })
   }
 
   render() {
     const {
       country,
-      price,
+      amount,
     } = this.state;
+    const {
+      email,
+      firstName,
+      lastName,
+      client,
+      successNotification,
+      errorNotification,
+      history: {
+        push,
+      },
+    } = this.props;
+    const RAZORPAY_OPTIONS = this.RAZORPAY_OPTIONS;
 
     return (
       <Wrapper>
@@ -176,46 +247,62 @@ class Donate extends Component {
         </div>
         <div className="price-selector">
           <div
-            className={price == 500? 'active price': 'price'}
+            className={amount == 500? 'active price': 'price'}
             onClick={ (e) => this.selectPrice(500) }
             >
             Rs. 500
           </div>
           <div
-            className={price == 1000? 'active price': 'price'}
+            className={amount == 1000? 'active price': 'price'}
             onClick={ (e) => this.selectPrice(1000) }
             >
             Rs. 1,000
           </div>
           <div
-            className={price == 5000? 'active price': 'price'}
+            className={amount == 5000? 'active price': 'price'}
             onClick={ (e) => this.selectPrice(5000) }
             >
             Rs. 5,000
           </div>
           <div
-            className={price == 10000? 'active price': 'price'}
+            className={amount == 10000? 'active price': 'price'}
             onClick={ (e) => this.selectPrice(10000) }
             >
             Rs. 10,000
           </div>
           <div
-            className={price == 20000? 'active price': 'price'}
+            className={amount == 20000? 'active price': 'price'}
             onClick={ (e) => this.selectPrice(20000) }
             >
             Rs. 20,000
           </div>
           <div
-            className={price == 50000? 'active price': 'price'}
+            className={amount == 50000? 'active price': 'price'}
             onClick={ (e) => this.selectPrice(50000) }>
             Rs. 50,000
           </div>
         </div>
         <Formik
-          initialValues={{email: '', password: ''}}
+          enableReinitialize={true}
+          initialValues={{
+            amount,
+            email,
+            country,
+            name: `${firstName? firstName: ""} ${lastName? lastName: ""}`,
+          }}
           validate={
             values => {
               const errors = {};
+              if(!values.amount) {
+                errors.amount = 'Required';
+              } else if(!/^[0-9]+$/i.test(values.amount)) {
+                errors.amount = 'Should only contain numbers, eg: 100'
+              } else if(values.amount <= 0) {
+                errors.amount = 'Should be more than 0'
+              }
+              if(!values.name) {
+                errors.name = 'Required';
+              }
               if (!values.email) {
                 errors.email = 'Required';
               } else if (
@@ -223,15 +310,57 @@ class Donate extends Component {
               ) {
                 errors.email = 'Invalid email address';
               }
+              if(!values.address) {
+                errors.address = 'Required';
+              }
+              if(!values.city) {
+                errors.city = 'Required';
+              }
+              if(!values.state) {
+                errors.state = 'Required';
+              }
+              if(!values.zipcode) {
+                errors.zipcode = 'Required';
+              }
+              if(!values.country) {
+                errors.country = 'Required';
+              }
+              if(!values.panNumber) {
+                errors.panNumber = 'Required';
+              }
               return errors;
             }
           }
           onSubmit={
-            (values, { setSubmitting }) => (
-              this
-                .loginAttempt(values)
-                .then(() => setSubmitting(false))
-            )
+            (values, { setSubmitting }) => {
+              RAZORPAY_OPTIONS.currency = "INR";
+              RAZORPAY_OPTIONS.amount = values.amount * 100;
+              RAZORPAY_OPTIONS.handler = function(response) {
+                  if (response.razorpay_payment_id) {
+                    client.mutate({
+                      mutation: MAKE_DONATION,
+                      variables: {
+                        ...values,
+                        state: values.state.name,
+                        country: values.country.name,
+                        amount: values.amount * 100,
+                        paymentId: response.razorpay_payment_id
+                      }
+                    }).then(({data: {makeDonation: { errors } = {} } = {} }) => {
+                      if(errors.length > 0) {
+                        return errorNotification("Something went wrong, please try again later.")
+                      }
+                      successNotification("Thank you for your donation.")
+                      push("categories");
+                    }).catch(() => {
+                      return errorNotification("Something went wrong, please try again later.")
+                    })
+                  }
+              }
+              const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
+              razpay.open();
+              return setSubmitting(false);
+            }
           }
         >
           {
@@ -256,7 +385,7 @@ class Donate extends Component {
                         onBlur={handleBlur}
                         value={values.amount}
                       />
-                      <div className="error">{errors.amount && touched.amount && errors.amount}</div>
+                      <div className="error">{errors.amount}</div>
                     </div>
                     <div className="label">First and Last Name</div>
                     <div className="input-container">
@@ -324,9 +453,12 @@ class Donate extends Component {
                           <DropDown
                             enableSearch="true"
                             loadData={country.states}
-                            showSelectedOption="true"
+                            showSelectedOption={false}
                             className="dropdown"
-                            onOptionSelect={(val) => this.selectState(val)} />
+                            onOptionSelect={(val) => {
+                              values.state = val;
+                              this.selectState(val)}
+                            } />
                         </div>
                       </div>
                     </div>
@@ -336,13 +468,13 @@ class Donate extends Component {
                         <div className="input-container">
                           <input
                             rows="3"
-                            type="pincode"
-                            name="pincode"
+                            type="zipcode"
+                            name="zipcode"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.pincode}
+                            value={values.zipcode}
                           />
-                          <div className="error">{errors.pincode && touched.pincode && errors.pincode}</div>
+                          <div className="error">{errors.zipcode && touched.zipcode && errors.zipcode}</div>
                         </div>
                       </div>
                       <div>
@@ -352,22 +484,25 @@ class Donate extends Component {
                             defaultOption={country}
                             enableSearch="true"
                             loadData={COUNTRIES}
-                            showSelectedOption="true"
+                            showSelectedOption={false}
                             className="dropdown"
-                            onOptionSelect={(val) => this.selectCountry(val)} />
+                            onOptionSelect={(val) => {
+                              values.country = val;
+                              this.selectCountry(val)
+                            }} />
                         </div>
                       </div>
                     </div>
                     <div className="label">Pan Number</div>
                     <div className="input-container">
                       <input
-                        type="pan"
-                        name="pan"
+                        type="panNumber"
+                        name="panNumber"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.pan}
+                        value={values.panNumber}
                       />
-                      <div className="error">{errors.pan && touched.pan && errors.pan}</div>
+                      <div className="error">{errors.panNumber && touched.panNumber && errors.panNumber}</div>
                     </div>
                     <div className="label">Message</div>
                     <div className="input-container">
@@ -381,8 +516,8 @@ class Donate extends Component {
                       <div className="error">{errors.message && touched.message && errors.message}</div>
                     </div>
                     <div className="donate-button">
-                      <RaisedButton type="submit" colortype="primary" disabled={isSubmitting}>
-                        { isSubmitting ? 'Saving...' : price?`Donate Rs. ${price}`: `Donate`}
+                      <RaisedButton type="submit" colortype="primary" disabled={Object.keys(errors).length > 0 || isSubmitting}>
+                        { isSubmitting ? 'Saving...' : amount?`Donate Rs. ${values.amount}`: `Donate`}
                       </RaisedButton>
                     </div>
                   </form>
@@ -395,4 +530,30 @@ class Donate extends Component {
   }
 }
 
-export default Donate;
+const mapStateToProps = ({
+  auth: {
+    email,
+    firstName,
+    lastName
+  }
+}, ownProps) => ({
+  email,
+  firstName,
+  lastName,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  successNotification: (message) => dispatch(actions.successNotification(message)),
+  errorNotification: (message) => dispatch(actions.errorNotification(message)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  withApollo(
+    withRouter(
+      Donate
+    )
+  )
+);
