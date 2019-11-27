@@ -348,6 +348,8 @@ class Donate extends Component {
           }
           onSubmit={
             (values, { setSubmitting }) => {
+              RAZORPAY_OPTIONS.prefill.email = values.email;
+              RAZORPAY_OPTIONS.prefill.contact = values.phone;
               RAZORPAY_OPTIONS.currency = "INR";
               RAZORPAY_OPTIONS.amount = values.amount * 100;
               RAZORPAY_OPTIONS.handler = function(response) {
