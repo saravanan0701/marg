@@ -28,6 +28,7 @@ const Wrapper = styled.div`
   & > .body {
     padding: 35px 15px;
     background-color: #f8f8f8;
+    height: 90%;
 
     & > .desc {
       color: #000000;
@@ -196,7 +197,7 @@ export const SubscriptionItem = ({
   return (
     <Wrapper className={className}>
       <div className="header">{name}</div>
-      <div className="body">
+      <div className="body d-flex flex-column justify-content-between">
         <div className="desc">
           {ReactHtmlParser(description)}
           {issueType !== "ALL_ISSUES"? `- ${priceState.accessToIssues} issues in a year`:""}
