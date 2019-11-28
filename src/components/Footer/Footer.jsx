@@ -98,7 +98,7 @@ export const Footer = () => (
         <div id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
             <Link to="/contactus">SUBSCRIBE TO MARG</Link>
             <p className="mx-auto my-3">
-              To mark Marg’s Platinum Jubilee, we have envisioned our magazine in a new light from September 2020―interdisciplinary in nature and drawing on our rich roots even as it introduces a fresh set of ideas, segments and collaborators. Through these, we will be vitally addressing the space of free and critical thinking around the arts, and culture. As we prepare ourselves for this next chapter in our 75-year-old legacy, we bring you four thematic issues for the period between September 2019 and June 2020: <b>Infrastructure as Space, Gandhi and Aesthetics, Art and Ecology</b> and <b>Art and Conflict</b>. We invite your participation and look forward to your support and subscriptions to the Magazine.
+              Founded in 1946, Marg magazine has consistently published original research on Indian art and culture, combining scholarly analysis with high-quality, evocative images.
             </p>
         </div>
         <div className='py-5 full-width bg-gray'>
