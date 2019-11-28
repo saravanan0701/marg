@@ -86,10 +86,10 @@ const Header = ({
           className="d-flex flex-column justify-content-between"
         >
           <Row>
-            <Col xs="12" className="d-flex justify-content-end">
+            <Col xs="12" className="d-flex justify-content-end align-items-center">
               <FlatButton
                 onClick={e => push("/subscriptions")}
-                className="mr-4 mt-1"
+                className="mr-4"
                 colorType="primary"
               >
                 Subscribe to marg

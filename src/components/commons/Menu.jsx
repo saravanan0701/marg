@@ -11,7 +11,6 @@ const MenuWrapper = styled.div`
   text-transform: uppercase;
   border: none;
   position: relative;
-  display: inline-block;
 
   div.header {
     display: flex;
