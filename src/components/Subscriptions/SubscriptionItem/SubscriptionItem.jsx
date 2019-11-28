@@ -18,9 +18,11 @@ const Wrapper = styled.div`
     font-weight: ${props => props.theme['$weight-bold']};
     letter-spacing: 0.66px;
     line-height: 23px;
-    text-align: center;
-    padding-bottom: 14px;
     border-bottom: ${props => props.theme.primaryColor} 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 7px;
   }
 
   & > .body {
