@@ -358,6 +358,7 @@ class Donate extends Component {
               RAZORPAY_OPTIONS.prefill.contact = values.phone;
               RAZORPAY_OPTIONS.currency = "INR";
               RAZORPAY_OPTIONS.amount = values.amount * 100;
+              RAZORPAY_OPTIONS.notes = {type: "Donation"};
               RAZORPAY_OPTIONS.handler = function(response) {
                   if (response.razorpay_payment_id) {
                     client.mutate({

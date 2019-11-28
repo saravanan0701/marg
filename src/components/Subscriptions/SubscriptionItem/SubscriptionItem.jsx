@@ -187,6 +187,7 @@ export const SubscriptionItem = ({
     }
     RAZORPAY_OPTIONS.currency = priceState.currency;
     RAZORPAY_OPTIONS.amount = priceState.amount * 100;
+    RAZORPAY_OPTIONS.notes = {type: "Subscriptions"};
     const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
     razpay.open();
   }
