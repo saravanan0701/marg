@@ -58,7 +58,7 @@ export const Subscriptions = ({
   return (
     <Wrapper className="container">
       <div className="heading">Subscribe to Marg</div>
-      <p className="mx-auto my-3">
+      <p className="mx-auto my-3 col-12 col-md-6 text-center">
         To mark Marg’s Platinum Jubilee, we have envisioned our magazine in a new light from September 2020―interdisciplinary in nature and drawing on our rich roots even as it introduces a fresh set of ideas, segments and collaborators. Through these, we will be vitally addressing the space of free and critical thinking around the arts, and culture. As we prepare ourselves for this next chapter in our 75-year-old legacy, we bring you four thematic issues for the period between September 2019 and June 2020: <b>Infrastructure as Space, Gandhi and Aesthetics, Art and Ecology</b> and <b>Art and Conflict</b>. We invite your participation and look forward to your support and subscriptions to the Magazine.
       </p>
       <div className="row justify-content-center">
