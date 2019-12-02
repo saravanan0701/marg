@@ -516,10 +516,8 @@ class Donate extends Component {
                             loadData={COUNTRIES}
                             showSelectedOption={false}
                             className="dropdown"
-                            onOptionSelect={(val) => {
-                              values.country = val;
-                              this.selectCountry(val)
-                            }} />
+                            disabled={true}
+                            />
                         </div>
                       </div>
                     </div>

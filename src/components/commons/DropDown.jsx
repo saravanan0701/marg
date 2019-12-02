@@ -126,6 +126,7 @@ class DropDown extends Component {
             props.defaultOption? [props.defaultOption]: []
       ),
       loadingOptions: false,
+      disabled: props.disabled? props.disabled: false,
     }
     this.labelClicked = this.labelClicked.bind(this);
     this.labelBlured = this.labelBlured.bind(this);
@@ -138,6 +139,9 @@ class DropDown extends Component {
   }
 
   labelClicked() {
+    if(this.state.disabled) {
+      return;
+    }
     setTimeout(function() {
       if(this.state.dontClose){
         return;
@@ -404,6 +408,9 @@ class DropDown extends Component {
   }
 
   unselectAll(e) {
+    if(this.state.disabled) {
+      return;
+    }
     e.stopPropagation();
     const {
       onUnselectAll,
