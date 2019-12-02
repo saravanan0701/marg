@@ -96,7 +96,7 @@ const FooterContainer = styled.div`
 export const Footer = () => (
     <FooterContainer>
         <div id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
-            <Link to="/subscriptions">SUBSCRIBE TO MARG</Link>
+            <Link >SUBSCRIBE TO MARG</Link>
             <p className="mx-auto my-3">
               Founded in 1946, Marg magazine has consistently published original research on Indian art and culture, combining scholarly analysis with high-quality, evocative images.
             </p>
