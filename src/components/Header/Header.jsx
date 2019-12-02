@@ -87,13 +87,13 @@ const Header = ({
         >
           <Row>
             <Col xs="12" className="d-flex justify-content-end align-items-center">
-              <FlatButton
+              {/* <FlatButton
                 onClick={e => push("/subscriptions")}
                 className="mr-4"
                 colorType="primary"
               >
                 Subscribe to marg
-              </FlatButton>
+              </FlatButton> */}
               <UserMenu />
               <FlatButton
                 onClick={e => cartQuantity > 0 && push("/checkout/cart")}
