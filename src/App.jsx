@@ -166,7 +166,7 @@ class App extends Component {
                           path="/contactus"
                           component={ContactusForm}
                         />
-                        {/* <Route exact path="/donate" component={Donate} /> */}
+                        <Route exact path="/donate" component={Donate} />
                         <Route path="/checkout" component={Checkout} />
                         <ProtectedRoute
                           exact
@@ -184,10 +184,10 @@ class App extends Component {
                           path="/terms-and-conditions"
                           component={TermsAndConditions}
                         />
-                        {/* <Route
+                        <Route
                           path="/subscriptions"
                           component={Subscriptions}
-                        /> */}
+                        />
                         <Route path="*" component={NotFound} />
                       </Switch>
                       <Footer />

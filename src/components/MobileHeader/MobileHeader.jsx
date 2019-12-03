@@ -204,7 +204,7 @@ class MobileHeader extends Component {
           <Link onClick={this.handleHamburgerClick} to="/advertise">
             Advertise
           </Link>
-          {/* <Link onClick={this.handleHamburgerClick} to="/donate">Donate</Link> */}
+          <Link onClick={this.handleHamburgerClick} to="/donate">Donate</Link>
           <Link onClick={this.handleHamburgerClick} to="/contactus">
             Contact
           </Link>
