@@ -133,12 +133,12 @@ const Header = ({
                 >
                   Advertise
                 </Link>
-                <Link
+                {/* <Link
                   className={pathname.match("donate") ? "active" : ""}
                   to="/donate"
                 >
                   Donate
-                </Link>
+                </Link> */}
 
                 <Link
                   className={pathname.match("contactus") ? "active" : ""}
