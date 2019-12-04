@@ -16,9 +16,12 @@ const QUERY_ME = gql`
         readableDigitalFiles{
           id
         }
+        startDate
+        endDate
         subscription{
           id
           name
+          description
           issueType
           categoryType
           variantType
