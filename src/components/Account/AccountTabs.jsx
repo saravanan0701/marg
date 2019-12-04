@@ -60,7 +60,8 @@ function AccountTabs({
   lastName,
   email,
   updateUserName,
-  updateUserEmail
+  updateUserEmail,
+  subscriptions,
 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -91,6 +92,7 @@ function AccountTabs({
         value={value}
         index={2}
         client={client}
+        subscriptions={subscriptions}
         addNewAddress={addNewAddress}
         addresses={addresses}
         firstName={firstName}

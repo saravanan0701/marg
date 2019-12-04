@@ -12,7 +12,8 @@ const mapStateToProps = ({
 		firstName,
 		lastName,
 		email,
-		id
+		id,
+		subscriptions,
 	}
 }, ownProps) => ({
 	isLoading,
@@ -21,7 +22,8 @@ const mapStateToProps = ({
 	firstName,
 	lastName,
 	email,
-	id
+	id,
+	subscriptions,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

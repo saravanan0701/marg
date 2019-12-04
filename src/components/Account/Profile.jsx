@@ -4,6 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 import AddressBox from "../Checkout/CheckoutAddress/AddressBox";
 import FlatButton from "../commons/FlatButton";
 import RaisedButton from "../commons/RaisedButton";
+import { SubscriptionItem } from "../Subscriptions/SubscriptionItem/SubscriptionItem";
 
 const SAVE_NEW_ADDRESS = gql`
   mutation SaveAddress($input: AddressInput!) {
@@ -60,6 +61,7 @@ const Profile = ({
   email,
   updateUserName,
   updateUserEmail,
+  subscriptions,
   ...other
 }) => {
   
@@ -217,6 +219,22 @@ const Profile = ({
                 size="col-12 col-md-3"
                 key={address && address.id}
                 {...address}
+              />
+            ))}
+        </Row>
+        <h4 className="mt-5">MY Subscriptions</h4>
+        <hr />
+        <Row>
+          {subscriptions &&
+            subscriptions.length > 0 &&
+            subscriptions.map(({subscription, startDate, endDate}, id) => (
+              <SubscriptionItem
+                readOnly={true}
+                className="col-12 col-md-4"
+                key={subscription && subscription.id}
+                { ...subscription }
+                startDate = {startDate}
+                endDate = {endDate} 
               />
             ))}
         </Row>
