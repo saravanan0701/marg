@@ -297,7 +297,7 @@ export const SubscriptionItem = ({
               <div className="row">
                 <DropDown
                   key="year-selector"
-                  className="col-4 col-sm-6 col-xl-4 dropdown"
+                  className="col-4 col-sm-6 dropdown"
                   loadData={pricings}
                   defaultOption={pricings[0]}
                   enableSearch={false}
@@ -308,7 +308,7 @@ export const SubscriptionItem = ({
                   >
                 </DropDown>
                 <RaisedButton
-                  className="col-8 col-sm-6 col-xl-8"
+                  className="col-8 col-sm-6"
                   onClick={(e) => subscriptionClicked()}
                   >
                   Subscribe
