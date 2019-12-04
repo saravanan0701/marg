@@ -246,15 +246,15 @@ export const SubscriptionItem = ({
     dispatch({type: "SHOW_ADDRESSES"});
   }
 
-  useEffect(() => {
+  const onPopupClosed = () => {
     if(priceState.showPaymentLink) {
       RAZORPAY_OPTIONS.currency = priceState.currency;
       RAZORPAY_OPTIONS.amount = priceState.amount * 100;
       RAZORPAY_OPTIONS.notes = {type: "Subscriptions"};
       const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
-      razpay.open();
+      setTimeout(() => razpay.open(), 1000);
     }
-  }, [priceState.showPaymentLink])
+  }
 
   useEffect(() => {
     if(addresses && addresses.length > 0) {
@@ -325,6 +325,7 @@ export const SubscriptionItem = ({
         selectAddress={(address) => dispatch({ type: "SET_ADDRESS", payload: address })}
         showPaymentLink={() => dispatch({ type: "SHOW_PAYMENT_LINK"})} 
         addNewAddress={(address) => dispatch({ type: "ADD_NEW_ADDRESS", payload: address })}
+        onClosed={() => onPopupClosed()}
       />
     </Wrapper>
  )

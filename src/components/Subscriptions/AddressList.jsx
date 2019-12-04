@@ -23,13 +23,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const AddressList = ({open, hidePopup, addresses, selectedAddress, selectAddress, showPaymentLink, addNewAddress}) => {
+export const AddressList = ({
+  open,
+  hidePopup,
+  addresses,
+  selectedAddress,
+  selectAddress,
+  showPaymentLink,
+  addNewAddress,
+  onClosed,
+}) => {
 
   const [ showForm, setShowForm ] = useState(false)
   const theme = useTheme();
   const classes = useStyles();
-  console.log(theme.breakpoints.down('md'));
-  console.log(useMediaQuery(theme.breakpoints.down('md')));
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   useEffect(() => {
     if(selectedAddress) {
@@ -50,6 +57,7 @@ export const AddressList = ({open, hidePopup, addresses, selectedAddress, select
       classes={{
         paper: fullScreen? null: classes.paper,
       }}
+      onExited={() => onClosed()}
     >
       <DialogTitle id="responsive-dialog-title">{"Select an address"}</DialogTitle>
       <DialogContent>
