@@ -13,6 +13,7 @@ const mapStateToProps = ({
     firstName,
     lastName,
     subscriptions,
+    addresses,
   }
 }, ownProps) => ({
   currency,
@@ -21,6 +22,7 @@ const mapStateToProps = ({
   lastName,
   isAuthenticated: id? true: false,
   subscriptions,
+  addresses,
 })
 
 const mapDispatchToProps = (dispatch) => ({

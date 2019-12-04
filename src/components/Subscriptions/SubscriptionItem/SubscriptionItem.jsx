@@ -5,6 +5,7 @@ import styled from "styled-components";
 import ReactHtmlParser from "react-html-parser";
 import logo from "./../../../images/logo.png";
 import { DropDown, RaisedButton } from "./../../commons";
+import { AddressList } from "./../AddressList.jsx";
 
 const Wrapper = styled.div`
   padding: 15px;
@@ -71,6 +72,7 @@ const SAVE_SUBSCRIPTION = gql`
     $currency: String!,
     $totalPaid: Int!,
     $duration: Int!,
+    $shippingAddress: AddressInput!
   ) {
     buySubscription(
       input:{
@@ -78,8 +80,9 @@ const SAVE_SUBSCRIPTION = gql`
         margSubscriptionId: $margSubscriptionId,
         paymentToken: $paymentToken,
         currency: $currency,
-        totalPaid: $totalPaid
-        duration: $duration
+        totalPaid: $totalPaid,
+        duration: $duration,
+        address: $shippingAddress,
       }
     ) {
       errors{
@@ -95,16 +98,62 @@ const INITIAL_STATE = {
   amount: null,
   duration: 1,
   accessToIssues: 4,
+  selectedAddress: null,
+  showAddressSelection: false,
+  showPaymentLink: false,
+  addresses: [],//This will be set to redux's auth.addresses in the first load of the component.
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_PRICE':
       return{
+        ...state,
         ...action.payload,
+      };
+    case 'SET_ADDRESS':
+      return{
+        ...state,
+        selectedAddress: {...action.payload},
+      };
+    case 'SHOW_ADDRESSES':
+      return {
+        ...state,
+        showAddressSelection: true,
+      };
+    case 'HIDE_ADDRESSES':
+      return {
+        ...state,
+        showAddressSelection: false,
+      };
+    case 'SHOW_PAYMENT_LINK':
+      return {
+        ...state,
+        showAddressSelection: false,
+        showPaymentLink: true,
+      };
+    case 'HIDE_PAYMENT_LINK':
+      return {
+        ...state,
+        showAddressSelection: false,
+        showPaymentLink: false,
+      };
+    case 'ADD_NEW_ADDRESS':
+      return {
+        ...state,
+        addresses: state.addresses.concat(action.payload),
+      }
+    case 'ADD_USERS_ADDRESSES':
+      return {
+        ...state,
+        addresses: [
+          ...action.payload,
+        ],
       }
   }
 }
+
+
 
 export const SubscriptionItem = ({
   id,
@@ -119,6 +168,7 @@ export const SubscriptionItem = ({
   currency,
   isAuthenticated,
   subscriptions,
+  addresses,
   // User details end
   history: { push },
   location,
@@ -152,11 +202,16 @@ export const SubscriptionItem = ({
     image: logo,
     handler: function(response) {
       if (response.razorpay_payment_id) {
+        const shippingAddress = { ...priceState.selectedAddress };
+        delete shippingAddress.id;
+        delete shippingAddress.__typename;
+        shippingAddress.country = shippingAddress.country.code;
         client.mutate({
           mutation: SAVE_SUBSCRIPTION,
           variables: {
             duration: priceState.duration,
             subscriptionId: id,
+            shippingAddress,
             margSubscriptionId: "test-321",
             paymentToken: response.razorpay_payment_id,
             currency: RAZORPAY_OPTIONS.currency,
@@ -185,12 +240,24 @@ export const SubscriptionItem = ({
     if(!isAuthenticated) {
       return push(`/login`, {from: location})
     }
-    RAZORPAY_OPTIONS.currency = priceState.currency;
-    RAZORPAY_OPTIONS.amount = priceState.amount * 100;
-    RAZORPAY_OPTIONS.notes = {type: "Subscriptions"};
-    const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
-    razpay.open();
+    dispatch({type: "SHOW_ADDRESSES"});
   }
+
+  useEffect(() => {
+    if(priceState.showPaymentLink) {
+      RAZORPAY_OPTIONS.currency = priceState.currency;
+      RAZORPAY_OPTIONS.amount = priceState.amount * 100;
+      RAZORPAY_OPTIONS.notes = {type: "Subscriptions"};
+      const razpay = new window.Razorpay(RAZORPAY_OPTIONS);
+      razpay.open();
+    }
+  }, [priceState.showPaymentLink])
+
+  useEffect(() => {
+    if(addresses.length > 0) {
+      dispatch({type: "ADD_USERS_ADDRESSES", payload: addresses});
+    }
+  }, [addresses])
 
   const checkIfSubscriptionBought = (id) => subscriptions.find(({subscription: {id: sId}}) => sId === id)
 
@@ -234,6 +301,15 @@ export const SubscriptionItem = ({
           </div>
         </div>
       </div>
+      <AddressList
+        selectedAddress={priceState.selectedAddress}
+        addresses={priceState.addresses}
+        open={priceState.showAddressSelection}
+        hidePopup={() => dispatch({ type: "HIDE_ADDRESSES"})}
+        selectAddress={(address) => dispatch({ type: "SET_ADDRESS", payload: address })}
+        showPaymentLink={() => dispatch({ type: "SHOW_PAYMENT_LINK"})} 
+        addNewAddress={(address) => dispatch({ type: "ADD_NEW_ADDRESS", payload: address })}
+      />
     </Wrapper>
  )
 } 
