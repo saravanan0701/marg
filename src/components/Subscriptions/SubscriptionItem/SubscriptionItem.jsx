@@ -170,19 +170,22 @@ export const SubscriptionItem = ({
   subscriptions,
   addresses,
   // User details end
-  history: { push },
+  history: { push }={},
   location,
   reloadAuthenticatedUser,
   client,
   successNotification,
   errorNotification,
   className,
+  readOnly = false,
+  startDate,
+  endDate,
 }) => {
 
   const [ priceState, dispatch ] = useReducer(reducer, INITIAL_STATE);
 
   const setDuration = (id) => {
-    if(pricings.length == 0){
+    if(!pricings || pricings.length == 0){
       return;
     }
     const {
@@ -254,7 +257,7 @@ export const SubscriptionItem = ({
   }, [priceState.showPaymentLink])
 
   useEffect(() => {
-    if(addresses.length > 0) {
+    if(addresses && addresses.length > 0) {
       dispatch({type: "ADD_USERS_ADDRESSES", payload: addresses});
     }
   }, [addresses])
@@ -269,37 +272,50 @@ export const SubscriptionItem = ({
         <div className="desc">
           {ReactHtmlParser(description)}
         </div>
-        <div className="price">
-          {
-            priceState.localized
-          }
-          &nbsp;
-          {
-            checkIfSubscriptionBought(id) && "Subscribed"
-          }
-        </div>
-        <div className="container footer">
-          <div className="row">
-            <DropDown
-              key="year-selector"
-              className="col-4 col-sm-6 col-xl-4 dropdown"
-              loadData={pricings}
-              defaultOption={pricings[0]}
-              enableSearch={false}
-              showSelectedOption={true}
-              onOptionSelect={
-                (newDuration) => setDuration(newDuration.id)
+        {
+          readOnly && 
+            <div className="row">
+              <div className="col-6">From: {startDate}</div>
+              <div className="col-6">To: {endDate}</div>
+            </div>
+        }
+        {
+          !readOnly && 
+            <div className="price">
+              {
+                priceState.localized
               }
-              >
-            </DropDown>
-            <RaisedButton
-              className="col-8 col-sm-6 col-xl-8"
-              onClick={(e) => subscriptionClicked()}
-              >
-              Subscribe
-            </RaisedButton>
-          </div>
-        </div>
+              &nbsp;
+              {
+                checkIfSubscriptionBought(id) && "Subscribed"
+              }
+            </div>
+        }
+        {
+          !readOnly && 
+            <div className="container footer">
+              <div className="row">
+                <DropDown
+                  key="year-selector"
+                  className="col-4 col-sm-6 col-xl-4 dropdown"
+                  loadData={pricings}
+                  defaultOption={pricings[0]}
+                  enableSearch={false}
+                  showSelectedOption={true}
+                  onOptionSelect={
+                    (newDuration) => setDuration(newDuration.id)
+                  }
+                  >
+                </DropDown>
+                <RaisedButton
+                  className="col-8 col-sm-6 col-xl-8"
+                  onClick={(e) => subscriptionClicked()}
+                  >
+                  Subscribe
+                </RaisedButton>
+              </div>
+            </div>
+        }
       </div>
       <AddressList
         selectedAddress={priceState.selectedAddress}
