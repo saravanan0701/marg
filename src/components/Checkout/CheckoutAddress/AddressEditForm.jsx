@@ -203,13 +203,14 @@ class AddressEditForm extends Component {
       saveAddress,
       toggleAddressForm,
       saveLabel = "SAVE ADDRESS",
-      showCancel = true
+      showCancel = true,
+      className,
     } = this.props;
     const { country } = this.state;
     const self = this;
 
     return (
-      <FormWrapper>
+      <FormWrapper className={className}>
         <Formik
           enableReinitialize
           initialValues={{
