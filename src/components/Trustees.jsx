@@ -62,7 +62,6 @@ const TrusteeDetailsWrapper = styled.div`
     font-size: ${props => props.theme['$font-size-xxs']};
     font-weight: ${props => props.theme['$weight-regular']};
     line-height: 23px;
-    text-transform: uppercase;
   }
 `;
 
@@ -72,6 +71,7 @@ const TRUSTEES = [
   {
     name: "Ishaat Hussain",
     image: Issat,
+    designation: "Chairman",
     bio: 'He is a corporate veteran. He joined Tata Sons as Executive Director in 1999 and held key positions in other companies within the group. Prior to Tata Sons, he was Senior Vice President and Executive Director of Finance at Tata Steel for nearly a decade. For most of his tenure in Tata Sons, he was a member of Ratan Tata’s core team, contributing actively to a long period of rapid and sustained growth.  He is Fellow at the Institute of Chartered Accountants in England and Wales and Member of the Securities and Exchange Board of India committees on insider trading and primary capital markets. Till recently he was also a Trustee of India Foundation for the Arts.'
   },
   {
@@ -107,7 +107,7 @@ const TRUSTEES = [
 ];
 
 
-const TrusteeDetails = ({name, bio, image}) => {
+const TrusteeDetails = ({name, bio, image, designation}) => {
   const [ isOpen, setIsOpen ] = useState(false);
 
   return (
@@ -121,10 +121,12 @@ const TrusteeDetails = ({name, bio, image}) => {
       <div className="name">
         {name}
       </div>
+      {
+        designation && <div className="designation">
+          {designation}
+        </div>
+      }
       <FlatButton onClick={(e) => setIsOpen(!isOpen)}>Know More</FlatButton>
-      {/*<div className="designation">
-        Designation, title
-      </div>*/}
       <Modal isOpen={isOpen} style={{marginTop: 100}}>
         <ModalHeader toggle={() => setIsOpen(!isOpen)}>{name}</ModalHeader>
         <ModalBody>
