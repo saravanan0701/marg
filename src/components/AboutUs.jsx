@@ -78,7 +78,7 @@ export const AboutUs = props => (
                 </div>
             </div>
         </div>
-        <div className="history full-width">
+        {/* <div className="history full-width">
           <div className="container">
             <div className="row">
                 <div className="img-container col-12 col-md-6">
@@ -101,6 +101,6 @@ export const AboutUs = props => (
                 </div>
             </div>
           </div>
-        </div>
+        </div> */}
     </Wrapper>
 )
