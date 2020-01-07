@@ -67,7 +67,6 @@ const Wrapper = styled.div`
 const SAVE_SUBSCRIPTION = gql`
   mutation SaveSubscription(
     $subscriptionId: ID!,
-    $margSubscriptionId: String!,
     $paymentToken: String!,
     $currency: String!,
     $totalPaid: Int!,
@@ -77,7 +76,6 @@ const SAVE_SUBSCRIPTION = gql`
     buySubscription(
       input:{
         subscriptionId: $subscriptionId,
-        margSubscriptionId: $margSubscriptionId,
         paymentToken: $paymentToken,
         currency: $currency,
         totalPaid: $totalPaid,
@@ -215,7 +213,6 @@ export const SubscriptionItem = ({
             duration: priceState.duration,
             subscriptionId: id,
             shippingAddress,
-            margSubscriptionId: "test-321",
             paymentToken: response.razorpay_payment_id,
             currency: RAZORPAY_OPTIONS.currency,
             totalPaid: RAZORPAY_OPTIONS.amount,
