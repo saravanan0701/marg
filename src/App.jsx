@@ -45,6 +45,8 @@ import { TermsAndConditions } from "./components/TermsAndConditions.jsx";
 import { NotFound } from "./components/404.jsx";
 import { DiaryProvider } from "./context/DiaryContext";
 import Subscriptions from "./components/Subscriptions";
+import History from './components/History/index';
+
 
 export const history = createBrowserHistory();
 const store = StoreFactory(history);
@@ -188,6 +190,14 @@ class App extends Component {
                           path="/subscriptions"
                           component={Subscriptions}
                         />
+                        {/* BCC CODE */}
+                        <Route 
+                            exact
+                            path="/history"
+                            component={History}
+                        />  
+                        {/* BCC CODE */}
+
                         <Route path="*" component={NotFound} />
                       </Switch>
                       <Footer />
