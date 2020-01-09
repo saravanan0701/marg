@@ -8,7 +8,6 @@ import { Container, Row, Col, Button } from "reactstrap";
 
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { width } from "@material-ui/system";
-import { DiaryContext } from "./../../context/DiaryContext";
 
 const MobileHeaderContainer = styled.div`
 
@@ -97,10 +96,6 @@ const PUBLICATION_LINK_LIST = [
   {
     label: "Articles",
     link: "/categories?product-type=articles"
-  },
-  {
-    label: "Diary",
-    link: "",
   }
 ];
 
@@ -292,7 +287,5 @@ class MobileHeader extends Component {
     );
   }
 }
-
-MobileHeader.contextType = DiaryContext;
 
 export default withRouter(MobileHeader);

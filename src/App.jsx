@@ -43,7 +43,6 @@ import NotificationManager from "./components/NotificationManager/";
 import { PrivacyPolicy } from "./components/PrivacyPolicy.jsx";
 import { TermsAndConditions } from "./components/TermsAndConditions.jsx";
 import { NotFound } from "./components/404.jsx";
-import { DiaryProvider } from "./context/DiaryContext";
 import Subscriptions from "./components/Subscriptions";
 
 export const history = createBrowserHistory();
@@ -135,67 +134,65 @@ class App extends Component {
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <ThemeProvider theme={Theme}>
-              <DiaryProvider>
-                <SnackbarProvider>
-                  <MainContainer>
-                    <div id="app" className="mx-auto position-relative">
-                      <MobileHeader />
-                      <Header />
-                      <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/categories" component={ProductList} />
-                        <Route
-                          exact
-                          path="/product/:id"
-                          component={ProductDetails}
-                        />
-                        <Route exact path="/login" component={LoginForm} />
-                        <Route exact path="/signup" component={SignupForm} />
-                        <Route exact path="/aboutus" component={AboutUs} />
-                        <Route exact path="/team" component={Team} />
-                        <Route exact path="/advertise" component={Advertise} />
-                        <Route
-                          exact
-                          path="/collaborate"
-                          component={Collaborate}
-                        />
-                        <Route exact path="/supporters" component={Supporters} />
-                        <Route exact path="/trustees" component={Trustees} />
-                        <Route
-                          exact
-                          path="/contactus"
-                          component={ContactusForm}
-                        />
-                        <Route exact path="/donate" component={Donate} />
-                        <Route path="/checkout" component={Checkout} />
-                        <ProtectedRoute
-                          exact
-                          path="/myaccount"
-                          component={Account}
-                        />
-                        <Route
-                          exact
-                          path="/search"
-                          component={SearchResultsContainer}
-                        />
-                        <Route path="/reset-password" component={ResetPassword} />
-                        <Route path="/privacy-policy" component={PrivacyPolicy} />
-                        <Route
-                          path="/terms-and-conditions"
-                          component={TermsAndConditions}
-                        />
-                        <Route
-                          path="/subscriptions"
-                          component={Subscriptions}
-                        />
-                        <Route path="*" component={NotFound} />
-                      </Switch>
-                      <Footer />
-                      <NotificationManager />
-                    </div>
-                  </MainContainer>
-                </SnackbarProvider>
-              </DiaryProvider>
+              <SnackbarProvider>
+                <MainContainer>
+                  <div id="app" className="mx-auto position-relative">
+                    <MobileHeader />
+                    <Header />
+                    <Switch>
+                      <Route exact path="/" component={Home} />
+                      <Route exact path="/categories" component={ProductList} />
+                      <Route
+                        exact
+                        path="/product/:id"
+                        component={ProductDetails}
+                      />
+                      <Route exact path="/login" component={LoginForm} />
+                      <Route exact path="/signup" component={SignupForm} />
+                      <Route exact path="/aboutus" component={AboutUs} />
+                      <Route exact path="/team" component={Team} />
+                      <Route exact path="/advertise" component={Advertise} />
+                      <Route
+                        exact
+                        path="/collaborate"
+                        component={Collaborate}
+                      />
+                      <Route exact path="/supporters" component={Supporters} />
+                      <Route exact path="/trustees" component={Trustees} />
+                      <Route
+                        exact
+                        path="/contactus"
+                        component={ContactusForm}
+                      />
+                      <Route exact path="/donate" component={Donate} />
+                      <Route path="/checkout" component={Checkout} />
+                      <ProtectedRoute
+                        exact
+                        path="/myaccount"
+                        component={Account}
+                      />
+                      <Route
+                        exact
+                        path="/search"
+                        component={SearchResultsContainer}
+                      />
+                      <Route path="/reset-password" component={ResetPassword} />
+                      <Route path="/privacy-policy" component={PrivacyPolicy} />
+                      <Route
+                        path="/terms-and-conditions"
+                        component={TermsAndConditions}
+                      />
+                      <Route
+                        path="/subscriptions"
+                        component={Subscriptions}
+                      />
+                      <Route path="*" component={NotFound} />
+                    </Switch>
+                    <Footer />
+                    <NotificationManager />
+                  </div>
+                </MainContainer>
+              </SnackbarProvider>
             </ThemeProvider>
           </ConnectedRouter>
         </Provider>

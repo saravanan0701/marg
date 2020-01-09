@@ -6,7 +6,6 @@ import logo from "./../../images/logo_with_year.svg";
 import { FlatButton, Menu } from "./../commons/";
 import { Container, Row, Col } from "reactstrap";
 import FontAwesome from "react-fontawesome";
-import { DiaryContext } from "./../../context/DiaryContext";
 
 const HeaderContainer = styled.div`
   display: none;
@@ -66,8 +65,6 @@ const Header = ({
   cartQuantity
 }) => {
 
-  const diaryId = useContext(DiaryContext);
-
 
   return <HeaderContainer>
     <Container className="py-4 d-none d-lg-block px-0">
@@ -119,7 +116,6 @@ const Header = ({
                   <Link to="/categories?product-type=magazines">Magazines</Link>
                   <Link to="/categories?product-type=books">Books</Link>
                   <Link to="/categories?product-type=articles">Articles</Link>
-                  <Link to={`/product/${diaryId}`}>Diary</Link>
                 </Menu>
                 {/* <Link
                   className={pathname.match("blog") ? "active" : ""}

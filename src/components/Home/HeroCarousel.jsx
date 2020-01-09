@@ -14,7 +14,6 @@ import {
   Row,
   Col
 } from "reactstrap";
-import { DiaryContext } from "./../../context/DiaryContext";
 
 const CarouselWrapper = styled.div`
   * {
@@ -154,12 +153,6 @@ const items = [
     ctaText: "View This Book",
     ctaUrl: "/product/UHJvZHVjdDo1MjM5",
     textColor: "#FFFFFF"
-  },
-  {
-    position: "3",
-    imageSrc: Hero3,
-    ctaText: "View Diary",
-    textColor: "#FFFFFF"
   }
 ];
 
@@ -284,6 +277,5 @@ class HeroCarousel extends Component {
     );
   }
 }
-HeroCarousel.contextType = DiaryContext;
 
 export default withRouter(HeroCarousel);
