@@ -139,6 +139,7 @@ const PRODUCT_QUERY = `
     volumeInfo
     isAvailable
     isCurrenctIssue
+    editorType
     category{
       name
     }
@@ -296,7 +297,8 @@ const ProductDetails = ({
             variants = [],
             attributes,
             category,
-            thumbnail: { url: thumbnailUrl } = {}
+            thumbnail: { url: thumbnailUrl } = {},
+            editorType,
           } = product || {};
 
           const { orders: { edges: orderEdges = [] } = {} } = me || {};
@@ -398,7 +400,7 @@ const ProductDetails = ({
                   <h1 className="name my-3">{name}</h1>
                   {getEditorName(editors) && (
                     <div className="editor-name">
-                      Edited by:&nbsp;{getEditorName(editors)}
+                      {editorType == "Editor"? "Edited by": "Authored by"}:&nbsp;{getEditorName(editors)}
                     </div>
                   )}
                   {!isAvailable && <OutOfStock>Out of stock</OutOfStock>}
