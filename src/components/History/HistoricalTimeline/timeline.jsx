@@ -1,7 +1,8 @@
-import React,{ Fragment } from 'react'
+import React,{ Component,Fragment } from 'react'
 import {  Row, Col } from "reactstrap";
 import styled from 'styled-components';
-import { Link, animateScroll } from 'react-scroll'
+import { Link, animateScroll } from 'react-scroll';
+import FlatButton from "../../commons/FlatButton";
 import FoundingMagazineBackgroungImg from '../../../images/Ourhistory/Bitmap.png';
 import MulkRajAnand from '../../../images/Ourhistory/0.png';
 import FirstIssue  from '../../../images/Ourhistory/01.png';
@@ -32,7 +33,7 @@ const Wrapper = styled.div`
     padding:0;
     background-image:url(${FoundingMagazineBackgroungImg});
     width:100%;
-    height:100%;  
+    height:100%;
     .layer {
       background-color: rgba(252, 248, 209,0.95);
       width: 100%;
@@ -67,121 +68,159 @@ const Wrapper = styled.div`
 
 `;
 
-const HistoricalTimeline = ( ) => {
-  
-  return(
-      <Fragment>
-        {/* Founded by Mulk Raj Anand */}
-          <Wrapper>
-            <div className="text-center py-5"> 
-              <h6>The Marg Foundation</h6>
-              <h2>A Historical Timeline</h2>
-            </div>
-            <section>
-              <div className="layer">
-                <h1 className="text-center pb-5">Founding the Magazine</h1>
-              <Row className="pb-5">
-                <Col md='6'>
-                  <div className="text-left founded">
-                    <h6>
-                      Founded by Mulk Raj Anand
-                    </h6>
-                    <p>
-                    The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 
-                    to stimulate popular interest in and appreciation of art and architecture in India.
-                    </p>
-                    <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} style={{cursor:'pointer'}}> <b><span className="text-danger">NEXT</span> <span className="text-dark">- Our First Issue</span></b></Link>
-                  </div>
-                </Col>
-                <Col md="6">
-                    <img src={MulkRajAnand} width="85%" height="100%" className="image-fluid" />
-                </Col>
-              </Row>
-              </div>
-            </section>
-          </Wrapper>
-          
-        {/* Our First Issue */}
 
-        <Wrapper>
-            <section name="test1" className="element" >
-              <div className="layer">
-                <h1 className="text-center pb-5">Founding the Magazine</h1>
-              <Row>
-                <Col md='6'>
-                  <div className="text-left founded">
-                    <h6>
-                      Our First Issue
-                    </h6>
-                    <p>
-                    Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to
-                    nurture/ further ideas for nation-building through the prism of culture.
-                    </p>
-                    <Link activeClass="active" className="test2" to="test2" spy={true} smooth={true} duration={500} style={{cursor:'pointer'}}><b><span className="text-danger">NEXT</span> <span className="text-dark">- A Global Marg Community</span></b></Link>
-                  </div>
-                </Col>
-                <Col md="6">
-                    <img src={FirstIssue} width="85%" height="80%" className="image-responsive" />
-                </Col>
-              </Row>
-              </div>
-            </section>
-          </Wrapper>
+class HistoricalTimeline extends Component {
 
-          {/* A Global MARG Community */}
-          <Wrapper>
+  constructor(props){
+    super(props);
+    this.state = {
+      historyTimeline : [
+        [
+          {
+          header : "Founded by Mulk Raj Anand",
+          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
+          imageSource : MulkRajAnand
+          },
+          {
+          header : "Our First Issue",
+          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
+          imageSource : FirstIssue
+          },
+          {
+          header : "A GLOBAL MARG COMMUNITY",
+          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
+          imageSource : MargCommunity
+          },
+          {
+          header : "FOCUS ON ARCHITECTURE",
+          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
+          imageSource : Architecture
+          }
+        ],
+        [
+          {
+          header : "Founded by Mulk Raj Anand",
+          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
+          imageSource : MulkRajAnand
+          },
+          {
+          header : "Our First Issue",
+          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
+          imageSource : FirstIssue
+          },
+          {
+          header : "A GLOBAL MARG COMMUNITY",
+          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
+          imageSource : MargCommunity
+          },
+          {
+          header : "FOCUS ON ARCHITECTURE",
+          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
+          imageSource : Architecture
+          }
+        ],
+        [
+          {
+          header : "Founded by Mulk Raj Anand",
+          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
+          imageSource : MulkRajAnand
+          },
+          {
+          header : "Our First Issue",
+          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
+          imageSource : FirstIssue
+          },
+          {
+          header : "A GLOBAL MARG COMMUNITY",
+          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
+          imageSource : MargCommunity
+          },
+          {
+          header : "FOCUS ON ARCHITECTURE",
+          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
+          imageSource : Architecture
+          }
+        ],
+        [
+          {
+          header : "Founded by Mulk Raj Anand",
+          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
+          imageSource : MulkRajAnand
+          },
+          {
+          header : "Our First Issue",
+          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
+          imageSource : FirstIssue
+          },
+          {
+          header : "A GLOBAL MARG COMMUNITY",
+          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
+          imageSource : MargCommunity
+          },
+          {
+          header : "FOCUS ON ARCHITECTURE",
+          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
+          imageSource : Architecture
+          }
+        ],
+      ],
+      currentIndex : [0,1,2,3],
+    }
+  }
 
-            <section name="test2" className="element">
-              <div className="layer">
-                <h1 className="text-center pb-5">Founding the Magazine</h1>
-              <Row>
-                <Col md='6'>
-                  <div className="text-left founded">
-                    <h6>
-                    A GLOBAL MARG COMMUNITY 
-                    </h6>
-                    <p>
-                    Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, 
-                    it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.
-                    </p>
-                    <Link activeClass="active" className="test3" to="test3" spy={true} smooth={true} duration={500} style={{cursor:'pointer'}}><b><span className="text-danger">NEXT</span> <span className="text-dark">- Pioneering Issues - Focus on Architecture </span></b></Link>
-                  </div>
-                </Col>
-                <Col md="6">
-                    <img src={MargCommunity} width="85%" height="80%" className="image-fluid" />
-                </Col>
-              </Row>
-              </div>
-            </section>
-          </Wrapper>
+  handleToggle = (i) =>{
+    let temp_currentIndex = this.state.currentIndex;
 
-          {/*  Focus On Architecture */}
+    temp_currentIndex[i] = temp_currentIndex[i]+1 < this.state.historyTimeline[i].length ? temp_currentIndex[i]+1 : 0;
 
-          <Wrapper>
-            <section name="test3" className="element">
-              <div className="layer">
-                <h1 className="text-center pb-5">Founding the Magazine</h1>
-              <Row>
-                <Col md='6'>
-                  <div className="text-left founded">
-                    <h6>
-                    FOCUS ON ARCHITECTURE
-                    </h6>
-                    <p>
-                    The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India. 
-                    Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.
-                    </p>
-                    <a href="#"><b><span className="text-danger">NEXT</span> <span className="text-dark"></span></b></a>
-                  </div>
-                </Col>
-                <Col md="6">
-                    <img src={Architecture} width="85%" height="80%" className="image-fluid" />
-                </Col>
-              </Row>
-              </div>
-            </section>
-          </Wrapper>
-      </Fragment>
-  )
+    this.setState({
+      currentIndex : temp_currentIndex
+    })
+  }
+
+  render(){
+    let { historyTimeline , currentIndex } = this.state;
+    return(
+        <Fragment>
+          <div className="text-center py-5">
+            <h6>The Marg Foundation</h6>
+            <h2>A Historical Timeline</h2>
+          </div>
+          {
+            historyTimeline.map((data,i) => {
+              return(
+                <Wrapper>
+                  <section>
+                    <div className="layer">
+                      <h1 className="text-center pb-5">Founding the Magazine</h1>
+                    <Row className="pb-5">
+                      <Col md='6'>
+                        <div className="text-left founded">
+                          <h6>
+                            {data[currentIndex[i]].header}
+                          </h6>
+                          <p>
+                          {
+                            data[currentIndex[i]].description
+                          }
+                          </p>
+                          <FlatButton onClick={()=>{this.handleToggle(i)}}>NEXT<b><span className="text-dark"> - {data[(currentIndex[i]+1)%data.length].header}</span></b></FlatButton>
+                        </div>
+                      </Col>
+                      <Col md="6">
+                          <img src={data[currentIndex[i]].imageSource} width="85%" height="100%" className="image-fluid" style= {{ objectFit : "cover" }} />
+                      </Col>
+                    </Row>
+                    </div>
+                  </section>
+                </Wrapper>
+              )
+            })
+          }
+
+        </Fragment>
+    )
+  }
+
 }
 export default HistoricalTimeline
