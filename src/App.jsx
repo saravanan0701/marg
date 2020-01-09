@@ -166,7 +166,7 @@ class App extends Component {
                           path="/contactus"
                           component={ContactusForm}
                         />
-                        {/* <Route exact path="/donate" component={Donate} /> */}
+                        <Route exact path="/donate" component={Donate} />
                         <Route path="/checkout" component={Checkout} />
                         <ProtectedRoute
                           exact

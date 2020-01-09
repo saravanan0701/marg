@@ -261,7 +261,7 @@ class Donate extends Component {
           Donate to the Marg Foundation
         </div>
         <div className="description">
-          As a not-for-profit organization, Marg looks to institutions and individuals with a stake in the arts to support our projects. If you have valued engaging with Marg, please contribute and be a part of our mission. The Marg Foundation is registered in India under the Societies Registration Act of 1860. As such, any donations made to Marg are eligible for tax benefits under Section 80G of the Income Tax Act. For any queries, comments or feedback please write to us at:&nbsp;<span className="email">contact@marg-art.org</span>
+        Since 1946, Marg has been one of the foremost proponents of the arts and culture in India. To continue our rich legacy, we look to your support to address the shrinking space of free and critical thinking through our publications and activities. Each contribution is a vital step in that direction. Join us now in envisioning a truly inclusive and diverse future. The Marg Foundation is registered in India under the Societies Registration Act of 1860. As such, any donations made to Marg are eligible for tax benefits under Section 80G of the Income Tax Act. For any queries, comments or feedback please write to us at:&nbsp;<span className="email">contact@marg-art.org</span>
         </div>
         <div className="price-selector">
           <div
