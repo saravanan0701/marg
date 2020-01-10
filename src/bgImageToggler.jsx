@@ -3,7 +3,6 @@ import { withRouter } from "react-router";
 import styled, { ThemeProvider } from "styled-components";
 import background from "./images/background4.jpg";
 import historyBackground from "./images/historyBackground.jpg";
-import BlogBackground from './images/blog/blogbackground.png';
 import { Route, Switch } from "react-router";
 import MobileHeader from "./components/MobileHeader";
 import Header from "./components/Header";
@@ -34,6 +33,8 @@ import Subscriptions from "./components/Subscriptions";
 import History from './components/History/index';
 import Blog from './components/Blogs/BlogPost'
 import SingleBlog from './components/Blogs/singleblog'
+import Events from "./components/Events";
+import SingleEvent from "./components/Events/SingleEvent";
 
 const MainContainer = styled.div`
   background-attachment: fixed;
@@ -158,6 +159,15 @@ const BgImageToggler = ({location: {pathname}}) =>{
               exact
               path="/blog/:id"
               component={SingleBlog}
+          />
+          <Route 
+              path="/event"
+              component={Events}
+          />
+          <Route
+              exact
+              path="/event/:id"
+              component={SingleEvent}
           />
           <Route path="*" component={NotFound} />
         </Switch>

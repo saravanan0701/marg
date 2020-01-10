@@ -2,6 +2,7 @@ import authActions from './auth';
 import productListActions from './products';
 import cartActions from './cart';
 import notificationActions from './notifications';
+import event from './event';
 
 const rehyderateStateFromCache = (client) => ({
   type: 'REHYDERATE_STATE_FROM_CACHE',
@@ -9,6 +10,7 @@ const rehyderateStateFromCache = (client) => ({
 })
 
 export default {
+  ...event,
 	...authActions,
 	...productListActions,
 	...cartActions,
