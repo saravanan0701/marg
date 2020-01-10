@@ -160,7 +160,8 @@ const BgImageToggler = ({location: {pathname}}) =>{
               path="/blog/:id"
               component={SingleBlog}
           />
-          <Route 
+          <Route
+              exact
               path="/event"
               component={Events}
           />
@@ -169,6 +170,8 @@ const BgImageToggler = ({location: {pathname}}) =>{
               path="/event/:id"
               component={SingleEvent}
           />
+
+
           <Route path="*" component={NotFound} />
         </Switch>
         <Footer applyBackGroundColor = { pathname !== "/history" ? true : false } />
