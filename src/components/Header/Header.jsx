@@ -121,12 +121,12 @@ const Header = ({
                   <Link to="/categories?product-type=articles">Articles</Link>
                   <Link to={`/product/${diaryId}`}>Diary</Link>
                 </Menu>
-                {/* <Link
+                <Link
                   className={pathname.match("blog") ? "active" : ""}
-                  to="/categories"
+                  to="/blog"
                 >
                   Blog
-                </Link> */}
+                </Link>
                 <Link
                   className={pathname.match("advertise") ? "active" : ""}
                   to="/advertise"

@@ -46,6 +46,7 @@ import { NotFound } from "./components/404.jsx";
 import { DiaryProvider } from "./context/DiaryContext";
 import Subscriptions from "./components/Subscriptions";
 import History from './components/History/index';
+import Blog from './components/Blogs/blog';
 
 
 export const history = createBrowserHistory();
@@ -196,6 +197,11 @@ class App extends Component {
                             path="/history"
                             component={History}
                         />  
+                        <Route 
+                            exact 
+                            path="/blog"
+                            component={Blog}
+                        />
                         {/* BCC CODE */}
 
                         <Route path="*" component={NotFound} />
