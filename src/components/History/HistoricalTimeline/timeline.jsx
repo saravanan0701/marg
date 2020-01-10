@@ -97,74 +97,8 @@ class HistoricalTimeline extends Component {
           imageSource : Architecture
           }
         ],
-        [
-          {
-          header : "Founded by Mulk Raj Anand",
-          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
-          imageSource : MulkRajAnand
-          },
-          {
-          header : "Our First Issue",
-          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
-          imageSource : FirstIssue
-          },
-          {
-          header : "A GLOBAL MARG COMMUNITY",
-          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
-          imageSource : MargCommunity
-          },
-          {
-          header : "FOCUS ON ARCHITECTURE",
-          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
-          imageSource : Architecture
-          }
-        ],
-        [
-          {
-          header : "Founded by Mulk Raj Anand",
-          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
-          imageSource : MulkRajAnand
-          },
-          {
-          header : "Our First Issue",
-          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
-          imageSource : FirstIssue
-          },
-          {
-          header : "A GLOBAL MARG COMMUNITY",
-          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
-          imageSource : MargCommunity
-          },
-          {
-          header : "FOCUS ON ARCHITECTURE",
-          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
-          imageSource : Architecture
-          }
-        ],
-        [
-          {
-          header : "Founded by Mulk Raj Anand",
-          description : "The beginnings of Marg are inextricably linked with the inception of free India—writer-activist Mulk Raj Anand founded Marg magazine in 1946 to stimulate popular interest in and appreciation of art and architecture in India.",
-          imageSource : MulkRajAnand
-          },
-          {
-          header : "Our First Issue",
-          description : "Marg in Sanskrit translates as “pathway”. The magazine’s early issues were a radical forum to nurture/ further ideas for nation-building through the prism of culture.",
-          imageSource : FirstIssue
-          },
-          {
-          header : "A GLOBAL MARG COMMUNITY",
-          description : "Fourteen visionaries joined Mulk in founding Marg, they not only came from different countries and cultures but represented varied fields. Most notably, it was the patronage of leading industrialist J.R.D. Tata that cemented the foundations of Marg.",
-          imageSource : MargCommunity
-          },
-          {
-          header : "FOCUS ON ARCHITECTURE",
-          description : "The leading architects of the world wrote significant texts in Marg’s issues that set forth the agenda for architecture in India.Marg championed two of India’s landmark urban projects—the formation of the cities of Chandigarh and New Bombay.",
-          imageSource : Architecture
-          }
-        ],
       ],
-      currentIndex : [0,1,2,3],
+      currentIndex : [0],
     }
   }
 
