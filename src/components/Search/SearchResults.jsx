@@ -11,6 +11,7 @@ import { Container, Row, Col } from 'reactstrap';
 import Article from './../Article';
 
 function TabPanel(props) {
+  console.log(props)
   const { children, value, index, ...other } = props;
 
   return (
@@ -115,7 +116,6 @@ function SearchResults({ resultsArr }) {
                 } else if (resultType.name == 'Books') {
                   return <ProductCard key={item.id} className="col-6 col-lg-3" {...item} />
                 }
-                
               })}
             </Row>
           </TabPanel>

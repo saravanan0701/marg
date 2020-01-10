@@ -23,7 +23,6 @@ import { ScrollTop } from "./components/ScrollTop";
 import { DiaryProvider } from "./context/DiaryContext";
 import Subscriptions from "./components/Subscriptions";
 import History from './components/History/index';
-import Blog from './components/Blogs/blog';
 
 import BgImageToggler from "./bgImageToggler.jsx";
 

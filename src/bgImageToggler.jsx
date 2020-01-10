@@ -32,7 +32,8 @@ import { NotFound } from "./components/404.jsx";
 import Footer from "./components/Footer";
 import Subscriptions from "./components/Subscriptions";
 import History from './components/History/index';
-import Blog from './components/Blogs/blog'
+import Blog from './components/Blogs/BlogPost'
+import SingleBlog from './components/Blogs/singleblog'
 
 const MainContainer = styled.div`
   background-attachment: fixed;
@@ -89,7 +90,7 @@ const MainContainer = styled.div`
   }
 `;
 const BgImageToggler = ({location: {pathname}}) =>{
-  const backGround = pathname === "/history"? { backgroundImage : `url(${historyBackground})` } : (pathname === "/blog"? { backgroundImage : `url(${BlogBackground})` }: { backgroundImage : `url(${background})` });
+  const backGround = pathname === "/history"? { backgroundImage : `url(${historyBackground})` } :  { backgroundImage : `url(${background})` };
   const backGroundColor = pathname !== "/history"? { backgroundColor : "white" } : { backgroundColor : "initial" };
   return(
     <MainContainer style = { backGround }>
@@ -152,6 +153,11 @@ const BgImageToggler = ({location: {pathname}}) =>{
               exact
               path="/blog"
               component={Blog}
+          />
+          <Route
+              exact
+              path="/blog/:id"
+              component={SingleBlog}
           />
           <Route path="*" component={NotFound} />
         </Switch>
