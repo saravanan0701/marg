@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import FlatButton from "../commons/FlatButton";
 
 const Blog = styled.div`
-
+  padding : 0rem 6rem;
   .CategoryText{
     color: #ec1d24;
     font-family: Lato;
@@ -40,7 +40,8 @@ h6{
 }
 .MobileAdjust{
   float:right;
-  width:60%
+  display : flex;
+  flex-direction : row;
 }
 @media (max-width: 768px) {
   .tab-content{
@@ -49,7 +50,9 @@ h6{
   .MobileAdjust{
     width:100% !important;
   }
+  padding : 0rem 2rem;
   }
+}
 
 `;
 
@@ -62,22 +65,23 @@ const data = {
 };
 
 const SingleBlog = () => {
-  
+
 
   return(
     <>
       <Blog>
         <Row>
           <Col md="12" className="mt-5">
-            <img src="http://localhost:3000/static/media/timeline.96d45f64.jpg"  className="img-fluid"/>
+            <img src="http://localhost:3000/static/media/timeline.96d45f64.jpg" style= {{ objectFit : "cover" }}  className="img-fluid"/>
             <div className="my-4">
-              <div style={{float:'left',width:"40%",display:'flex',flexDirection:"column" }}>
-              <h6 className="float-left">{data.postedAt}<span> | </span>{data.writtenBy}</h6>
-              <FlatButton style={{paddingLeft:"0"}}>{data.category}</FlatButton>
-            <h3>{data.title}</h3>
-            </div>
-            <div  className="MobileAdjust">
-              <p className="mb-0">{data.description}</p> 
+              <div style={{float:'left',width:"50%",display:'flex',flexDirection:"column" }}>
+                <h6 className="float-left">{data.postedAt}<span> | </span>{data.writtenBy}</h6>
+                <FlatButton style={{paddingLeft:"0"}}>{data.category}</FlatButton>
+                <h3>{data.title}</h3>
+              </div>
+            <br/>
+            <div  className="MobileAdjust py-5">
+              <p className="mb-0">{data.description}</p>
             </div>
             </div>
             <br/>

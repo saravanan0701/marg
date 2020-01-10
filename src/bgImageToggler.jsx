@@ -31,7 +31,7 @@ import { NotFound } from "./components/404.jsx";
 import Footer from "./components/Footer";
 import Subscriptions from "./components/Subscriptions";
 import History from './components/History/index';
-import Blog from './components/Blogs/BlogPost'
+import Blog from './components/Blogs'
 import SingleBlog from './components/Blogs/singleblog'
 import Events from "./components/Events";
 import SingleEvent from "./components/Events/SingleEvent";

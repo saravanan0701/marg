@@ -1,5 +1,4 @@
 export const BlogData = [
-
   {
     id:0,
     category:"Cartegory 1",

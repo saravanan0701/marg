@@ -50,7 +50,7 @@ const SingleEvent = () =>{
       <Row>
         <Col md="12" className="mt-5">
           <div>
-          <img src={EventImage} width="100%" height="100%"  className="img-fluid"/>
+          <img style= {{ objectFit : "cover" }} src={EventImage} width="100%" height="100%"  className="img-fluid"/>
           <div className="my-4">
             <p className="EventTitle">{data.type} | {data.title}</p>
             <span className="EventInfo">{data.venue} : {data.date}</span><br/>

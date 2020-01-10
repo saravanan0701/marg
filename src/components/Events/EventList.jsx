@@ -43,7 +43,7 @@ const EventList = ({ data }) =>{
       <Row>
       {data.map((events,index) =>
         <Col md="6" className="mt-5">
-          <img src={EventImage} width="100%" height="100%" className="img-fluid"/>
+          <img style= {{ objectFit : "cover" }} src={EventImage} width="100%" height="100%" className="img-fluid"/>
           <div className="my-4">
           <p className="EventTitle">{events.type} | {events.title}</p>
           <span className="EventInfo">{events.venue} : {events.date}</span><br/>
