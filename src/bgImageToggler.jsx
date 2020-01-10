@@ -3,7 +3,6 @@ import { withRouter } from "react-router";
 import styled, { ThemeProvider } from "styled-components";
 import background from "./images/background4.jpg";
 import historyBackground from "./images/historyBackground.jpg";
-import BlogBackground from './images/blog/blogbackground.png';
 import { Route, Switch } from "react-router";
 import MobileHeader from "./components/MobileHeader";
 import Header from "./components/Header";
@@ -32,7 +31,9 @@ import { NotFound } from "./components/404.jsx";
 import Footer from "./components/Footer";
 import Subscriptions from "./components/Subscriptions";
 import History from './components/History/index';
-import Blog from './components/Blogs/blog'
+import Blog from './components/Blogs/blog';
+import Events from "./components/Events";
+import SingleEvent from "./components/Events/SingleEvent";
 
 const MainContainer = styled.div`
   background-attachment: fixed;
@@ -89,7 +90,7 @@ const MainContainer = styled.div`
   }
 `;
 const BgImageToggler = ({location: {pathname}}) =>{
-  const backGround = pathname === "/history"? { backgroundImage : `url(${historyBackground})` } : (pathname === "/blog"? { backgroundImage : `url(${BlogBackground})` }: { backgroundImage : `url(${background})` });
+  const backGround = pathname === "/history"? { backgroundImage : `url(${historyBackground})` } :  { backgroundImage : `url(${background})` };
   const backGroundColor = pathname !== "/history"? { backgroundColor : "white" } : { backgroundColor : "initial" };
   return(
     <MainContainer style = { backGround }>
@@ -152,6 +153,16 @@ const BgImageToggler = ({location: {pathname}}) =>{
               exact
               path="/blog"
               component={Blog}
+          />
+          <Route
+              exact
+              path="/event"
+              component={Events}
+          />
+          <Route
+              exact
+              path="/event/:id"
+              component={SingleEvent}
           />
           <Route path="*" component={NotFound} />
         </Switch>
