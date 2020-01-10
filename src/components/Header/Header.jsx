@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import styled from "styled-components";
@@ -36,9 +36,9 @@ const HeaderContainer = styled.div`
   }
 
   .menu {
-  
+
     z-index:12;
-    
+
     & > * {
       color: #000000;
       font-size: 14px;
@@ -67,6 +67,10 @@ const Header = ({
 }) => {
 
   const diaryId = useContext(DiaryContext);
+
+  useEffect(() => {
+  
+  });
 
 
   return <HeaderContainer>

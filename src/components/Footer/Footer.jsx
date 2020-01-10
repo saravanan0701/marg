@@ -93,15 +93,15 @@ const FooterContainer = styled.div`
   }
 `
 
-export const Footer = () => (
+export const Footer = (props) => (
     <FooterContainer>
-        <div id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
+        <div style={{backgroundColor: props.applyBackGroundColor ? "#fcf8d1" : "initial"}} id="magazineSubscribe" className='text-center py-5 px-3 full-width'>
             <Link to="/subscriptions">SUBSCRIBE TO MARG</Link>
             <p className="mx-auto my-3">
               Founded in 1946, Marg magazine has consistently published original research on Indian art and culture, combining scholarly analysis with high-quality, evocative images.
             </p>
         </div>
-        <div className='py-5 full-width bg-gray'>
+        <div style={{backgroundColor: props.applyBackGroundColor ? "#F8F8F8" : "initial"}} className='py-5 full-width bg-gray'>
             <Container className="px-4 px-lg-5">
                 <Row>
                     <Col lg='6' className="mb-5 mb-lg-0">
