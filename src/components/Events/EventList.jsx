@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useReducer , useEffect } from "react";
 import { Row,Col } from 'reactstrap';
 import styled from 'styled-components'
 import FlatButton from "../commons/FlatButton";
+import RaisedButton from "../commons/RaisedButton";
 import EventImage from "../../images/events.png";
 import { Link } from "react-router-dom";
 
@@ -31,31 +32,74 @@ padding : 0rem 6rem;
   letter-spacing: 0.59px;
   line-height: 23px;
 }
+.EventType{
+  margin-bottom : -30px;
+  color: #37312f;
+  font-family: Lato;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 @media (max-width: 768px) {
   padding : 0rem 2rem;
   }
 `;
 
-const EventList = ({ data }) =>{
+const INITIAL_STATE = {
+  show_counter: 4,
+};
+
+const reducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+
+    case 'HANDLE_VIEW_MORE':
+      return {
+        ...state,
+        show_counter : state.show_counter + 4
+      }
+
+    default:
+      return state
+  }
+};
+
+const EventList = ({ events , event_type }) =>{
+  console.log(events);
+  const [ eventState , dispatch ] = useReducer(reducer, INITIAL_STATE);
 
   return(
-    <SingleEvent>
-      <Row>
-      {data.map((events,index) =>
-        <Col md="6" className="mt-5">
-          <img style= {{ objectFit : "cover" }} src={EventImage} width="100%" height="100%" className="img-fluid"/>
-          <div className="my-4">
-          <p className="EventTitle">{events.type} | {events.title}</p>
-          <span className="EventInfo">{events.venue} : {events.date}</span><br/>
-          <span className="EventInfo">{events.time}</span>
-          <p className="EventDesc pt-4">{events.description}</p>
-          <Link to="/event/1"><FlatButton>VIEW DETAILS</FlatButton></Link>
-          </div>
-          <br/>
-       </Col>
-        )}
-      </Row>
-    </SingleEvent>
+    <>
+      <SingleEvent>
+        <p className = "EventType">{event_type}</p>
+        <Row>
+        {
+          events.map((event,index) =>
+          index < eventState.show_counter ?
+          <Col md="6" className="mt-5">
+            <img style= {{ objectFit : "cover" }} src={EventImage} width="100%" height="100%" className="img-fluid"/>
+            <div className="my-4">
+            <p className="EventTitle">{event.type} | {event.title}</p>
+            <span className="EventInfo">{event.venue} : {event.date}</span><br/>
+            <span className="EventInfo">{event.time}</span>
+            <p className="EventDesc pt-4">{event.description}</p>
+            <Link to="/event/1"><FlatButton>VIEW DETAILS</FlatButton></Link>
+            </div>
+            <br/>
+         </Col>:
+          null
+          )
+        }
+        </Row>
+      </SingleEvent>
+      {
+        eventState.show_counter < events.length  ?
+        <center><RaisedButton onClick={()=>{ dispatch({ type : "HANDLE_VIEW_MORE" })}}>VIEW MORE</RaisedButton></center>
+        :
+        null
+      }
+      <br/>
+    </>
   );
 }
 

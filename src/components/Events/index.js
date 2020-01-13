@@ -1,3 +1,3 @@
-import Events from "./EventContainer.jsx";
+import Events from "./Events.jsx";
 
 export default Events;

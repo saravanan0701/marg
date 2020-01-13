@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from 'react'
+import React,{ useEffect , useReducer } from 'react'
 import { Row,Col } from 'reactstrap'
 import styled from 'styled-components';
 
@@ -64,8 +64,33 @@ const data = {
   writtenBy:'Subhash Benny',
 };
 
+const INITIAL_STATE = {
+  blog : {}
+};
+
+const reducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+
+    case 'HANDLE_BLOG_DATA':
+    return {
+      ...state,
+      blog : action.data
+    }
+
+    default:
+      return state
+  }
+};
+
 const SingleBlog = () => {
 
+  const [ singleBlog , dispatch ] = useReducer(reducer, INITIAL_STATE);
+
+  useEffect(() => {
+
+    dispatch({ type : "HANDLE_BLOG_DATA", data })
+
+  },[])
 
   return(
     <>
@@ -75,13 +100,13 @@ const SingleBlog = () => {
             <img src="http://localhost:3000/static/media/timeline.96d45f64.jpg" style= {{ objectFit : "cover" }}  className="img-fluid"/>
             <div className="my-4">
               <div style={{float:'left',width:"50%",display:'flex',flexDirection:"column" }}>
-                <h6 className="float-left">{data.postedAt}<span> | </span>{data.writtenBy}</h6>
-                <FlatButton style={{paddingLeft:"0"}}>{data.category}</FlatButton>
-                <h3>{data.title}</h3>
+                <h6 className="float-left">{singleBlog.blog.postedAt}<span> | </span>{singleBlog.blog.writtenBy}</h6>
+                <FlatButton style={{paddingLeft:"0"}}>{singleBlog.blog.category}</FlatButton>
+                <h3>{singleBlog.blog.title}</h3>
               </div>
             <br/>
             <div  className="MobileAdjust py-5">
-              <p className="mb-0">{data.description}</p>
+              <p className="mb-0">{singleBlog.blog.description}</p>
             </div>
             </div>
             <br/>

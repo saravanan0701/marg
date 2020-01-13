@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect , useState } from "react";
 import EventList from "./EventList.jsx";
 import styled from 'styled-components';
-import RaisedButton from "../commons/RaisedButton";
-
+import { eventData } from "./data";
 const Event = styled.div`
 
 .Title{
@@ -15,68 +14,37 @@ const Event = styled.div`
   margin-top : 75px;
   text-align : center;
 }
-.EventType{
-  padding : 0rem 6rem;
-  margin-bottom : -30px;
-  color: #37312f;
-  font-family: Lato;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-@media (max-width: 768px) {
-  .EventType{
-    padding : 0rem 2rem;
-  }
-  }
 
 `;
 
-const Events = ({
-  data,
-  next_event,
-  past_event,
-  next_view_more,
-  past_view_more,
-  toggleNext,
-  togglePast,
-  onNext,
-  onPast
-}) =>{
+
+
+const Events = () =>{
+
+  const [ next_event , handle_next_event ] = useState([]);
+  const [ past_event , handle_past_event ] = useState([]);
+
 
   useEffect(()=>{
-    if( data.next_event.length > next_event.length )
-    {
-      onNext();
-    }
-    if( data.past_event.length > past_event.length )
-    {
-      onPast();
-    }
-  });
+    let { next_event , past_event } = eventData;
+
+    handle_next_event(next_event);
+    handle_past_event(past_event);
+
+  },[]);
   return(
     <Event>
       <p className = "Title">Marg Events</p>
       <br/><br/>
-      <p className = "EventType">next event</p>
-      <EventList data = {next_event} />
-      {
-        next_view_more ?
-        <center><RaisedButton onClick={toggleNext}>VIEW MORE</RaisedButton></center>
-        :
-        null
-      }
+      <EventList
+        events = {next_event}
+        event_type = "next event"
+      />
       <br/><br/>
-      <p className = "EventType">past event</p>
-      <EventList data = {past_event} />
-      {
-        past_view_more ?
-        <center><RaisedButton onClick={togglePast}>VIEW MORE</RaisedButton></center>
-        :
-        null
-      }
-      <br/>
+      <EventList
+        events = {past_event}
+        event_type = "past event"
+      />
     </Event>
   );
 };

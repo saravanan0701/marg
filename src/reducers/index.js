@@ -3,8 +3,6 @@ import { AuthReducers } from './auth'
 import { ProductListReducers } from './products'
 import { CartReducers } from './cart'
 import { NotificationReducer } from './notifications'
-import { EventReducers } from './events'
-import { BlogReducers } from './blog'
 import { connectRouter } from 'connected-react-router'
 
 export default (history) => combineReducers({
@@ -12,7 +10,5 @@ export default (history) => combineReducers({
   productList: ProductListReducers,
   cart: CartReducers,
   notifications: NotificationReducer,
-  events:EventReducers,
-  blog:BlogReducers,
   router: connectRouter(history),
 });

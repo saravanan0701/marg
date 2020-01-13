@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react'
+import React,{ useEffect , useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -6,9 +6,9 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { Container, Row, Col } from 'reactstrap';
-import BlogCategory from './blogcategory'
-import { BlogData } from './data';
-import RaisedButton from "../commons/RaisedButton";
+import BlogCategory from './blogcategory';
+import axios from 'axios';
+import { blogData , categoryData } from './data';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,6 +46,53 @@ const useStyles = makeStyles(theme => ({
     }
   }
 }));
+
+const INITIAL_STATE = {
+  current_category : 0,
+  showCounter : 5,
+  categories : [],
+  blogs : [],
+};
+
+const reducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+
+    case 'HANDLE_CHANGE_CATEGORY':
+      console.log(action);
+      if(action.selected_category !== state.current_category)
+      {
+        return {
+          ...state,
+          current_category : action.selected_category,
+          showCounter : 5,
+        };
+      }
+
+    case 'HANDLE_VIEW_MORE':
+
+      return {
+        ...state,
+        showCounter : state.showCounter + 4,
+      };
+
+    case 'HANDLE_BLOG_DATA' :
+      return {
+        ...state,
+        blogs : action.blogs
+      };
+
+    case 'HANDLE_CATEGORY_DATA' :
+      return {
+        ...state,
+        categories : action.categories
+      };
+
+    default:
+      return state
+  }
+};
+
+
 function a11yProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
@@ -70,52 +117,61 @@ function TabPanel(props) {
   );
 }
 
-function BlogPost({
-  tab,
-  currentIndex,
-  handleCurrentIndex,
-  data,
-  view_more
-}) {
+function BlogPost() {
 
 
   const classes = useStyles();
 
+  const [ blogState, dispatch ] = useReducer(reducer, INITIAL_STATE);
 
   useEffect( () => {
-    handleCurrentIndex( { currentIndex : 0 ,toggle : false })
+    {/*axios.get("/src/components/Blogs/data.json")
+    .then((response) => {
+      console.log("response",response);
+    })*/}
+    let blogs = blogData;
+    let categories = categoryData;
+
+    dispatch({ type: 'HANDLE_BLOG_DATA', blogs });
+    dispatch({ type: 'HANDLE_CATEGORY_DATA', categories });
+
   },[])
 
-  console.log(data,"data");
+  console.log(blogState.data,"data");
 
   return (
     <div className={classes.root}>
       <div className="text-center py-5">
-        <h4 className={classes.Heading}>The Mark Blog</h4>
+        <h4 className={classes.Heading}>The Marg Blog</h4>
       </div>
     <Tabs
-      value={currentIndex}
-      onChange={(e,currentIndex)=>{ handleCurrentIndex( { currentIndex , toggle : false }) }}
+      value={blogState.current_category}
+      onChange={(e,selected_category)=> { dispatch({ type: 'HANDLE_CHANGE_CATEGORY', selected_category }) } }
       indicatorColor="primary"
       textColor="primary"
       variant="scrollable"
       scrollButtons="auto"
       className={classes.tabPanel}
     >
-      {tab.map((blogType, index) => <Tab key={index} label={blogType.name} {...a11yProps(index)} />)}
+      {blogState.categories.map((blogType, index) => <Tab key={index} label={blogType.name} {...a11yProps(index)} />)}
     </Tabs>
 
-    {tab.map((blogType, index) => {
+    {blogState.categories.map((blogType, index) => {
       return (
-        <TabPanel value={currentIndex} index={index} key={index}>
-             <BlogCategory data = {data} handleCurrentIndex = {handleCurrentIndex} tab = {tab} />
-             <br/><br/>
-             {
-               view_more ?
-               <center><RaisedButton onClick={()=>{handleCurrentIndex( { currentIndex ,toggle : true })}}>VIEW MORE</RaisedButton></center>
-               :
-               null
-             }
+        <TabPanel value={blogState.current_category} index={index} key={index}>
+             <BlogCategory
+              blogs =
+              {
+                blogState.current_category == 0?
+                blogState.blogs
+                :
+                blogState.blogs.filter(blog => blog.category === blogState.categories[blogState.current_category].name)
+              }
+              handle_selected_category = { (selected_category)=>{ dispatch({ type: 'HANDLE_CHANGE_CATEGORY', selected_category }) } }
+              categories = {blogState.categories}
+              showCounter = {blogState.showCounter}
+              handle_view_more = { () => {dispatch({ type : "HANDLE_VIEW_MORE"})} }
+              />
         </TabPanel>
       )
     })}
@@ -124,8 +180,5 @@ function BlogPost({
   )
 }
 
-BlogPost.propTypes = {
-
-}
 
 export default BlogPost

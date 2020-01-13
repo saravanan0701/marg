@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useReducer , useEffect } from "react";
 import { Row,Col } from 'reactstrap';
 import styled from 'styled-components'
 import EventImage from "../../../images/events.png";
@@ -43,7 +43,34 @@ const data = {
   "description": "A lecture by Divyabhanusinh, Asok Kumar Das, and Shibani Bose to celebrate the release of The Story of India's Unicorns",
 };
 
+const INITIAL_STATE = {
+  event : {}
+};
+
+const reducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+
+    case 'HANDLE_EVENT_DATA':
+    return {
+      ...state,
+      event : action.data
+    }
+
+    default:
+      return state
+  }
+};
+
+
 const SingleEvent = () =>{
+
+  const [ singleEvent , dispatch ] = useReducer(reducer, INITIAL_STATE);
+
+  useEffect(() => {
+
+    dispatch({ type : "HANDLE_EVENT_DATA", data })
+
+  },[])
 
   return(
     <Event>
@@ -52,10 +79,10 @@ const SingleEvent = () =>{
           <div>
           <img style= {{ objectFit : "cover" }} src={EventImage} width="100%" height="100%"  className="img-fluid"/>
           <div className="my-4">
-            <p className="EventTitle">{data.type} | {data.title}</p>
-            <span className="EventInfo">{data.venue} : {data.date}</span><br/>
-            <span className="EventInfo">{data.time}</span>
-            <p className="EventDesc pt-4">{data.description}</p>
+            <p className="EventTitle">{singleEvent.event.type} | {singleEvent.event.title}</p>
+            <span className="EventInfo">{singleEvent.event.venue} : {singleEvent.event.date}</span><br/>
+            <span className="EventInfo">{singleEvent.event.time}</span>
+            <p className="EventDesc pt-4">{singleEvent.event.description}</p>
           </div>
           <br/>
           </div>
