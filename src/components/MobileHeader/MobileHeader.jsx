@@ -190,9 +190,9 @@ class MobileHeader extends Component {
             body={() => this.collapseBodyPublications(this.context)}
           />
           <Link
-            hidden={true}
+            // hidden={true}
             onClick={this.handleHamburgerClick}
-            to="/categories"
+            to="/blog"
           >
             Blog
           </Link>

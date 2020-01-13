@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import UserMenu from "./UserMenu";
 import styled from "styled-components";
@@ -35,9 +35,9 @@ const HeaderContainer = styled.div`
   }
 
   .menu {
-  
+
     z-index:12;
-    
+
     & > * {
       color: #000000;
       font-size: 14px;
@@ -117,12 +117,12 @@ const Header = ({
                   <Link to="/categories?product-type=books">Books</Link>
                   <Link to="/categories?product-type=articles">Articles</Link>
                 </Menu>
-                {/* <Link
+                <Link
                   className={pathname.match("blog") ? "active" : ""}
-                  to="/categories"
+                  to="/blog"
                 >
                   Blog
-                </Link> */}
+                </Link>
                 <Link
                   className={pathname.match("advertise") ? "active" : ""}
                   to="/advertise"
